@@ -20,7 +20,7 @@
                     </ul>
                     <img :src="images.raka" class="decore-left" alt="card-img-left">
                     <img :src="images.leona" class="decore-right" alt="card-img-right">
-                    <h1 class="mb-6 text-white">Congratulations,</h1>
+                    <h1 class="mb-6 text-white">{{ $t("demoText") }},</h1>
                     <p class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white">You have done <strong></strong> more sales today. Check your new badge in your profile.</p>
                 </vx-card>
             </div>
