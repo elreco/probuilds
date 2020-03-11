@@ -11,6 +11,8 @@
 |
 */
 //
-Route::domain('probuilds.test')->group(function () {
+
+
+Route::domain(env('APP_WEB_URL'))->group(function () {
     Route::get('/{any}', 'ApplicationController')->where('any', '.*');
 });

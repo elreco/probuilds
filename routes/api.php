@@ -16,6 +16,9 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::domain('api.probuilds.test')->group(function () {
-    Route::get('/api/{any}', 'ApplicationController')->where('any', '.*');
+
+
+Route::domain(env('APP_API_URL'))->group(function () {
+    // SUMMONER CONTROLLER
+    Route::get('/', 'API\SummonerController@index');
 });
