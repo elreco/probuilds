@@ -34,7 +34,8 @@ export default {
   },
   methods: {
     updateLocale (locale) {
-      this.$i18n.locale = locale
+      this.$i18n.locale = locale;
+      return window.location.href = "/" + locale;
     }
   }
 }

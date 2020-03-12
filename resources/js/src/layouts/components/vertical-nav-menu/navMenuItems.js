@@ -6,17 +6,17 @@
   Author: Pixinvent
   Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
-
+import i18n from '../../../i18n/i18n'
 
 export default [
   {
-    url: '/',
+    url: '/' + i18n.locale,
     name: 'Home',
     slug: 'home',
     icon: 'HomeIcon'
   },
   {
-    url: '/page2',
+    url: '/' + i18n.locale + '/page2',
     name: 'Page 2',
     slug: 'page2',
     icon: 'FileIcon'

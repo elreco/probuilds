@@ -47,7 +47,7 @@ class SummonerController extends Controller
             return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
         }
         // // DataDragon
-        $return->dragon = DataDragonAPI::getChampionSplashO($s);
+        $return->dragon = DataDragonAPI::getProfileIcon($id);
         dd($return);
         //
 

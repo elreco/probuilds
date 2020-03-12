@@ -10,6 +10,7 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
+import i18n from './i18n/i18n'
 
 Vue.use(Router)
 
@@ -20,24 +21,27 @@ const router = new Router({
     return { x: 0, y: 0 }
   },
   routes: [
-
+    {
+      path: "/",
+      redirect: `/${i18n.locale}`
+    },
     {
     // =============================================================================
     // MAIN LAYOUT ROUTES
     // =============================================================================
-      path: '',
+      path: '/',
       component: () => import('./layouts/main/Main.vue'),
       children: [
         // =============================================================================
         // Theme Routes
         // =============================================================================
         {
-          path: '/',
+          path: '/:lang',
           name: 'home',
           component: () => import('./views/Home.vue')
         },
         {
-          path: '/page2',
+          path: '/:lang/page2',
           name: 'page-2',
           component: () => import('./views/Page2.vue')
         }
@@ -47,14 +51,14 @@ const router = new Router({
     // FULL PAGE LAYOUTS
     // =============================================================================
     {
-      path: '',
+      path: '/',
       component: () => import('@/layouts/full-page/FullPage.vue'),
       children: [
         // =============================================================================
         // PAGES
         // =============================================================================
         {
-          path: '/pages/login',
+          path: '/:lang/pages/login',
           name: 'page-login',
           component: () => import('@/views/pages/Login.vue')
         },
@@ -65,14 +69,30 @@ const router = new Router({
         }
       ]
     },
-    // Redirect to 404 page, if no match found
+    //Redirect to 404 page, if no match found
     {
       path: '*',
       redirect: '/pages/error-404'
     }
   ]
 })
+// use beforeEach route guard to set the language
+router.beforeEach((to, from, next) => {
 
+  // use the language from the routing param or default language
+  let language = to.params.lang;
+  if (!language) {
+    language = 'fr';
+  }
+  if(!['en', 'fr'].includes(language)) return next('fr')
+  // set the current language for vuex-i18n. note that translation data
+  // for the language might need to be loaded first
+  if(i18n.locale !== language){
+      i18n.locale = language
+  }
+  return next();
+
+});
 router.afterEach(() => {
   // Remove initial loading
   const appLoading = document.getElementById('loading-bg')
