@@ -26,11 +26,16 @@
                 </vx-card>
             </div>
         </div>
-
+        <live-feed />
     </section>
+
 </template>
+
 <script>
+import LiveFeed from './partials/LiveFeed'
+
 export default {
+
     data() {
         return {
             images: {
@@ -38,7 +43,10 @@ export default {
                 leona: require("@assets/images/home/home_leona.png"),
             }
         }
-    }
+    },
+    components: {
+        LiveFeed
+    },
 }
 </script>
 <style lang="scss">
