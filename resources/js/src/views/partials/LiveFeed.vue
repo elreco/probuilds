@@ -18,8 +18,8 @@
                         <vs-td :data="data[indextr].email">
                             {{ data[indextr].email }}
                         </vs-td>
-                        <vs-td :data="data[indextr].username">
-                            {{ data[indextr].username }}
+                        <vs-td :data="data[indextr].src">
+                            <vs-avatar :src="data[indextr].src"/>
                         </vs-td>
                         <vs-td :data="data[indextr].username">
                             {{ data[indextr].username }}
@@ -47,7 +47,7 @@ export default {
         users: [
             {
                 "id": 1,
-                "src": "http://ddragon.leagueoflegends.com/cdn/10.5.1/img/champion/Aatrox.png"
+                "src": "http://ddragon.leagueoflegends.com/cdn/10.5.1/img/champion/Aatrox.png",
                 "name": "Leanne Graham",
                 "username": "Bret",
                 "email": "Sincere@april.biz",
@@ -55,5 +55,20 @@ export default {
             }
         ]
     }),
+    methods:{
+    handleSelected(tr) {
+    this.$vs.notify({
+    title:`Selected ${tr.username}`,
+    text:`Email: ${tr.email}`
+    })
+    },
+    doubleSelection(tr) {
+    this.$vs.notify({
+    title:`Double Selection ${tr.username}`,
+    text:`Email: ${tr.email}`,
+    color: 'success'
+    })
+    }
+    }
 }
 </script>
