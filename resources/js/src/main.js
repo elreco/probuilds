@@ -38,6 +38,9 @@ import store from './store/store'
 // i18n
 import i18n from './i18n/i18n'
 
+// vue tooltip
+import VTooltip from 'v-tooltip'
+Vue.use(VTooltip)
 
 // Vuejs - Vue wrapper for hammerjs
 import { VueHammer } from 'vue2-hammer'

@@ -42,19 +42,26 @@
                         <vs-avatar :src="data[indextr].keystone" />
                     </vs-td>
                     <vs-td :data="data[indextr].slots">
-                        <vs-dropdown vs-custom-content v-for="slot in data[indextr].slots" :data="slot" :key="indexslot">
+                        <!-- <vs-dropdown>
                             <a class="flex items-center" href="#">
-                                <vs-avatar :src="slot" />
+
                             </a>
 
                             <vs-dropdown-menu>
-                                <h3 class="mb-0">Login</h3>
+                                <h3>Test</h3>
                             </vs-dropdown-menu>
-                        </vs-dropdown>
+                        </vs-dropdown> -->
+                        <div v-for="slot in data[indextr].slots" :key="slot" :data="slot" class="inline" v-tooltip="">
+                            <vs-avatar :src="slot" />
+                        </div>
+
+
+
+
 
                     </vs-td>
                     <vs-td :data="data[indextr].spells">
-                        <vs-avatar v-for="spell in data[indextr].spells" :data="spell" :key="indexspell" :src="spell" />
+                        <vs-avatar v-for="spell in data[indextr].spells" :key="key" :data="spell" :src="spell" />
                     </vs-td>
                 </vs-tr>
             </template>
