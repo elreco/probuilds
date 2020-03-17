@@ -51,17 +51,13 @@
                                 <h3>Test</h3>
                             </vs-dropdown-menu>
                         </vs-dropdown> -->
-                        <div v-for="slot in data[indextr].slots" :key="slot" :data="slot" class="inline" v-tooltip="">
-                            <vs-avatar :src="slot" />
+                        <div class="inline" v-for="(slot, index) in data[indextr].slots" :key="index" :data="slot">
+                            <vs-avatar :src="slot" icon="fiber_manual_record" v-tooltip="'dfhd'" />
                         </div>
-
-
-
-
 
                     </vs-td>
                     <vs-td :data="data[indextr].spells">
-                        <vs-avatar v-for="spell in data[indextr].spells" :key="key" :data="spell" :src="spell" />
+                        <vs-avatar v-for="(spell, index) in data[indextr].spells" :key="index" :data="spell" :src="spell" />
                     </vs-td>
                 </vs-tr>
             </template>
@@ -90,9 +86,9 @@ export default {
                         'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3179.png',
                         'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/2055.png',
                         'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3814.png',
-                        '',
-                        '',
-                        '',
+                        'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3814.png',
+                        null,
+                        null,
                     ],
                     'spells': [
                         'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerBarrier.png',
