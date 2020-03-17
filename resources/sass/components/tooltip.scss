@@ -82,7 +82,7 @@
 
   &.popover {
     $color: #f9f9f9;
-
+    position:absolute;
     .popover-inner {
       background: $color;
       color: black;
