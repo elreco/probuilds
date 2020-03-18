@@ -71,7 +71,7 @@
 
                             </template>
                         </v-popover>
-                        <vs-avatar v-for="n in 6-data[indextr].slots.length" :key="n" :data="data[indextr].slots.length" class="tooltip-target" icon="fiber_manual_record" />
+                        <vs-avatar v-for="n in 6-data[indextr].slots.length" :key="n" :data="data[indextr].slots.length" class="tooltip-target" text="A" />
                     </vs-td>
                     <vs-td :data="data[indextr].spells">
                         <v-popover delay="300" container="body" trigger="hover" placement="auto" class="inline" v-for="(spell, index) in data[indextr].spells" :key="index" :data="spell">
