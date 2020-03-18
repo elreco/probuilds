@@ -12,7 +12,8 @@
 */
 //
 
-
-Route::domain(env('APP_WEB_URL'))->group(function () {
+$appRoutes = function() {
     Route::get('/{any}', 'ApplicationController')->where('any', '.*');
-});
+};
+Route::group(['domain' => env('APP_WEB_URL_PROD')], $appRoutes);
+Route::group(['domain' => env('APP_WEB_URL_LOCAL')], $appRoutes);

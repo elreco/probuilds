@@ -39,35 +39,66 @@
                         {{ data[indextr].gold }}
                     </vs-td>
                     <vs-td :data="data[indextr].keystone">
-                        <vs-avatar :src="data[indextr].keystone" />
+                        <div class="relative inline">
+                            <vs-avatar :src="data[indextr].keystone" />
+                            <img class="supperposed-avatar rounded" :src="data[indextr].subkeystone" />
+                        </div>
+
                     </vs-td>
                     <vs-td :data="data[indextr].slots">
                         <v-popover delay="300" container="body" trigger="hover" placement="auto" class="inline" v-for="(slot, index) in data[indextr].slots" :key="index" :data="slot">
-                            <vs-avatar class="tooltip-target" :src="slot.src" icon="fiber_manual_record" />
+                            <vs-avatar class="tooltip-target" :src="slot.src" />
                             <template slot="popover">
-                                <vs-card class="cardx">
+                                <vs-card>
                                     <div slot="header">
                                         <h3>
                                             {{slot.title}}
                                         </h3>
                                     </div>
-                                    <div>
-                                        <vs-row>
-                                            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
-                                            100%
-                                            </vs-col>
-                                            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
-                                            100%
-                                            </vs-col>
-                                        </vs-row>
-                                    </div>
+                                    <vs-row>
+                                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
+                                            <div class="img-container">
+                                                <img :src="slot.src" class="rounded w-full">
+                                            </div>
+                                        </vs-col>
+                                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
+                                            <p>
+                                                {{slot.description}}
+                                            </p>
+                                        </vs-col>
+                                    </vs-row>
                                 </vs-card>
 
                             </template>
                         </v-popover>
+                        <vs-avatar v-for="n in 6-data[indextr].slots.length" :key="n" :data="data[indextr].slots.length" class="tooltip-target" icon="fiber_manual_record" />
                     </vs-td>
                     <vs-td :data="data[indextr].spells">
-                        <vs-avatar v-for="(spell, index) in data[indextr].spells" :key="index" :data="spell" :src="spell" />
+                        <v-popover delay="300" container="body" trigger="hover" placement="auto" class="inline" v-for="(spell, index) in data[indextr].spells" :key="index" :data="spell">
+                            <vs-avatar class="tooltip-target" :src="spell.src" icon="fiber_manual_record" />
+                            <template slot="popover">
+                                <vs-card>
+                                    <div slot="header">
+                                        <h3>
+                                            {{spell.title}}
+                                        </h3>
+                                    </div>
+                                    <vs-row>
+                                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
+                                            <div class="img-container">
+                                                <img :src="spell.src" class="rounded w-full">
+                                            </div>
+                                        </vs-col>
+                                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
+                                            <p>
+                                                {{spell.description}}
+                                            </p>
+                                        </vs-col>
+                                    </vs-row>
+                                </vs-card>
+
+                            </template>
+                        </v-popover>
                     </vs-td>
                 </vs-tr>
             </template>
@@ -75,7 +106,6 @@
     </div>
 </vx-card>
 </template>
-
 <script>
 export default {
     data() {
@@ -93,32 +123,40 @@ export default {
                     'subkeystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7201_Precision.png',
                     'slots': [{
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                            'id': 1,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         },
                         {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3814.png',
-                            'id': 2,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         },
                         {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                            'id': 3,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         },
                         {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/2055.png',
-                            'id': 4,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         },
                         {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3179.png',
-                            'id': 5,
-                        },
-                        {
-                            'src': null,
-                            'id': 1,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         }
                     ],
-                    'spells': [
-                        'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerBarrier.png',
-                        'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerFlash.png',
+                    'spells': [{
+                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerHeal.png',
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
+                        },
+                        {
+                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerFlash.png',
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
+                        }
                     ]
                 },
                 {
@@ -133,32 +171,40 @@ export default {
                     'subkeystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7201_Precision.png',
                     'slots': [{
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                            'id': 1,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         },
                         {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3814.png',
-                            'id': 2,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         },
                         {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                            'id': 3,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         },
                         {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/2055.png',
-                            'id': 4,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         },
                         {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3179.png',
-                            'id': 5,
-                        },
-                        {
-                            'src': null,
-                            'id': 1,
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         }
                     ],
-                    'spells': [
-                        'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerHeal.png',
-                        'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerFlash.png',
+                    'spells': [{
+                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerHeal.png',
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
+                        },
+                        {
+                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerFlash.png',
+                            'title': 'Summoner Flash',
+                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
+                        }
                     ]
                 },
             ]
@@ -174,3 +220,7 @@ export default {
     }
 }
 </script>
+
+<style lang="scss">
+@import "@sass/views/partials/livefeed.scss";
+</style>
