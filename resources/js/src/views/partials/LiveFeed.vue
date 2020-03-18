@@ -42,45 +42,29 @@
                         <vs-avatar :src="data[indextr].keystone" />
                     </vs-td>
                     <vs-td :data="data[indextr].slots">
-                        <!-- <vs-dropdown>
-                            <a class="flex items-center" href="#">
+                        <v-popover delay="300" container="body" trigger="hover" placement="auto" class="inline" v-for="(slot, index) in data[indextr].slots" :key="index" :data="slot">
+                            <vs-avatar class="tooltip-target" :src="slot.src" icon="fiber_manual_record" />
+                            <template slot="popover">
+                                <vs-card class="cardx">
+                                    <div slot="header">
+                                        <h3>
+                                            {{slot.title}}
+                                        </h3>
+                                    </div>
+                                    <div>
+                                        <vs-row>
+                                            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
+                                            100%
+                                            </vs-col>
+                                            <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
+                                            100%
+                                            </vs-col>
+                                        </vs-row>
+                                    </div>
+                                </vs-card>
 
-                            </a>
-
-                            <vs-dropdown-menu>
-                                <h3>Test</h3>
-                            </vs-dropdown-menu>
-                        </vs-dropdown> -->
-                        <div>
-
-                            <v-popover delay="300" container="body" trigger="hover" placement="auto" class="inline" v-for="(slot, index) in data[indextr].slots" :key="index" :data="slot">
-                                <vs-avatar class="tooltip-target" :src="slot.src" icon="fiber_manual_record" />
-                                <template slot="popover">
-                                    <vs-card class="cardx">
-                                        <div slot="header">
-                                            <h3>
-                                                Hello world !
-                                            </h3>
-                                        </div>
-                                        <div slot="media">
-                                            <img :src="src">
-                                        </div>
-                                        <div>
-                                            <span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                                                nisi ut aliquip ex ea commodo consequat.</span>
-                                        </div>
-                                        <div slot="footer">
-                                            <vs-row vs-justify="flex-end">
-                                                <vs-button type="gradient" color="danger" icon="favorite"></vs-button>
-                                                <vs-button color="primary" icon="turned_in_not"></vs-button>
-                                                <vs-button color="rgb(230,230,230)" color-text="rgb(50,50,50)" icon="settings"></vs-button>
-                                            </vs-row>
-                                        </div>
-                                    </vs-card>
-
-                                </template>
-                            </v-popover>
-                        </div>
+                            </template>
+                        </v-popover>
                     </vs-td>
                     <vs-td :data="data[indextr].spells">
                         <vs-avatar v-for="(spell, index) in data[indextr].spells" :key="index" :data="spell" :src="spell" />
