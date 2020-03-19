@@ -6,6 +6,7 @@ export default {
             welcomeText: "League of Legends professional player's <strong class='text-warning'>builds</strong> across all regions"
         },
         LiveFeed: {
+            title: 'Live Feed',
             player: "Player",
             vs: "VS.",
             kda: 'KDA',
@@ -21,6 +22,7 @@ export default {
             welcomeText: "<strong class='text-warning'>Builds</strong> des joueurs professionnels sur League of Legends dans toutes les régions"
         },
         LiveFeed: {
+            title: "Flux en direct",
             player: "Joueur",
             vs: "VS.",
             kda: 'KDA',

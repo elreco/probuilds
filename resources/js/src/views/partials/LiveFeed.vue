@@ -1,7 +1,29 @@
 <template>
 <vx-card>
     <div class="vx-col w-full">
-        <h4 class="mb-base">Live Feed</h4>
+        <vs-navbar v-model="activeItem" class="nabarx mb-base" type="flat">
+            <div slot="title">
+                <vs-navbar-title>
+                    {{ $t("LiveFeed.title") }}
+                </vs-navbar-title>
+            </div>
+
+            <vs-navbar-item index="0">
+                <a href="#" autofocus>Top</a>
+            </vs-navbar-item>
+            <vs-navbar-item index="1">
+                <a href="#" autofocus>Jungle</a>
+            </vs-navbar-item>
+            <vs-navbar-item index="2">
+                <a href="#" autofocus>Mid</a>
+            </vs-navbar-item>
+            <vs-navbar-item index="3">
+                <a href="#" autofocus>Bot</a>
+            </vs-navbar-item>
+            <vs-navbar-item index="4">
+                <a href="#" autofocus>Support</a>
+            </vs-navbar-item>
+        </vs-navbar>
         <vs-table max-items="3" pagination v-model="selected" :data="users" @selected="handleSelected">
 
             <template slot="thead">
@@ -22,19 +44,17 @@
                         {{ data[indextr].date }}
                     </vs-td>
                     <vs-td :data="data[indextr].champion">
-                        <vs-avatar :src="data[indextr].champion" />
+                        <popover-avatar :src="data[indextr].champion.src" :title="data[indextr].champion.title" :description="data[indextr].champion.description" />
                     </vs-td>
                     <vs-td :data="data[indextr].player">
                         {{ data[indextr].player }}
                     </vs-td>
                     <vs-td :data="data[indextr].vs">
-                        <vs-avatar :src="data[indextr].vs" />
+                        <popover-avatar :src="data[indextr].vs.src" :title="data[indextr].vs.title" :description="data[indextr].vs.description" />
                     </vs-td>
-
                     <vs-td :data="data[indextr].kda">
                         {{ data[indextr].kda }}
                     </vs-td>
-
                     <vs-td :data="data[indextr].gold">
                         {{ data[indextr].gold }}
                     </vs-td>
@@ -43,62 +63,15 @@
                             <vs-avatar :src="data[indextr].keystone" />
                             <img class="supperposed-avatar rounded" :src="data[indextr].subkeystone" />
                         </div>
-
                     </vs-td>
                     <vs-td :data="data[indextr].slots">
-                        <v-popover delay="300" container="body" trigger="hover" placement="auto" class="inline" v-for="(slot, index) in data[indextr].slots" :key="index" :data="slot">
-                            <vs-avatar class="tooltip-target" :src="slot.src" />
-                            <template slot="popover">
-                                <vs-card>
-                                    <div slot="header">
-                                        <h3>
-                                            {{slot.title}}
-                                        </h3>
-                                    </div>
-                                    <vs-row>
-                                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
-                                            <div class="img-container">
-                                                <img :src="slot.src" class="rounded w-full">
-                                            </div>
-                                        </vs-col>
-                                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
-                                            <p>
-                                                {{slot.description}}
-                                            </p>
-                                        </vs-col>
-                                    </vs-row>
-                                </vs-card>
-
-                            </template>
-                        </v-popover>
-                        <vs-avatar v-for="n in 6-data[indextr].slots.length" :key="n" :data="data[indextr].slots.length" class="tooltip-target" text="A" />
+                        <popover-avatar v-for="(slot, index) in data[indextr].slots" :key="index" :data="slot" :src="slot.src" :title="slot.title" :description="slot.description" />
+                        <div class="con-vs-avatar" v-for="n in 6-data[indextr].slots.length" :key="n" :data="data[indextr].slots.length">
+                            <span class="con-img vs-avatar--con-img bg-theme-dark"></span>
+                        </div>
                     </vs-td>
                     <vs-td :data="data[indextr].spells">
-                        <v-popover delay="300" container="body" trigger="hover" placement="auto" class="inline" v-for="(spell, index) in data[indextr].spells" :key="index" :data="spell">
-                            <vs-avatar class="tooltip-target" :src="spell.src" icon="fiber_manual_record" />
-                            <template slot="popover">
-                                <vs-card>
-                                    <div slot="header">
-                                        <h3>
-                                            {{spell.title}}
-                                        </h3>
-                                    </div>
-                                    <vs-row>
-                                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="4">
-                                            <div class="img-container">
-                                                <img :src="spell.src" class="rounded w-full">
-                                            </div>
-                                        </vs-col>
-                                        <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
-                                            <p>
-                                                {{spell.description}}
-                                            </p>
-                                        </vs-col>
-                                    </vs-row>
-                                </vs-card>
-
-                            </template>
-                        </v-popover>
+                        <popover-avatar v-for="(spell, index) in data[indextr].spells" :key="index" :data="slot" :src="spell.src" :title="spell.title" :description="spell.description" />
                     </vs-td>
                 </vs-tr>
             </template>
@@ -107,16 +80,25 @@
 </vx-card>
 </template>
 <script>
+import PopoverAvatar from '../../components/popovers/PopoverAvatar'
 export default {
     data() {
         return {
-            selected: [],
+            activeItem: 0,
             users: [{
                     'id': 1,
-                    'champion': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Senna.png',
+                    'champion': {
+                        'title': 'Senna',
+                        'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Senna.png',
+                        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
+                    },
                     'date': 'Il y a 10 minutes',
                     'player': 'Ruler',
-                    'vs': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Pyke.png',
+                    'vs': {
+                        'title': 'Pyke',
+                        'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Pyke.png',
+                        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
+                    },
                     'kda': "7/8/22",
                     'gold': '35k',
                     'keystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/GlacialAugment/GlacialAugment.png',
@@ -130,11 +112,6 @@ export default {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3814.png',
                             'title': 'Summoner Flash',
                             'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
                         },
                         {
                             'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/2055.png',
@@ -161,10 +138,19 @@ export default {
                 },
                 {
                     'id': 2,
-                    'champion': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Pantheon.png',
+                    'champion': {
+                        'title': 'Pantheon',
+                        'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Pantheon.png',
+                        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
+                    },
+
                     'date': 'Il y a 10 minutes',
                     'player': 'Ruler',
-                    'vs': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Annie.png',
+                    'vs': {
+                        'title': 'Annie',
+                        'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Annie.png',
+                        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
+                    },
                     'kda': "7/8/22",
                     'gold': '35k',
                     'keystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/GlacialAugment/GlacialAugment.png',
@@ -210,6 +196,9 @@ export default {
             ]
         }
     },
+    components: {
+        PopoverAvatar
+    },
     methods: {
         handleSelected(tr) {
             this.$vs.notify({
@@ -220,7 +209,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss">
-@import "@sass/views/partials/livefeed.scss";
-</style>
