@@ -1,7 +1,7 @@
 <template>
 <vx-card>
     <div class="vx-col w-full">
-        <vs-navbar v-model="activeItem" class="nabarx mb-base" type="flat">
+        <vs-navbar v-model="activeItem" class="nabarx mb-base lane-selection p-2" type="flat">
             <div slot="title">
                 <vs-navbar-title>
                     {{ $t("LiveFeed.title") }}
@@ -9,20 +9,24 @@
             </div>
 
             <vs-navbar-item index="0">
-                <a href="#" autofocus>Top</a>
+                <a href="#" class="all">{{ $t("LiveFeed.all") }}</a>
+            </vs-navbar-item>
+            <vs-navbar-item index="0">
+                <a href="#" class="top">Top</a>
             </vs-navbar-item>
             <vs-navbar-item index="1">
-                <a href="#" autofocus>Jungle</a>
+                <a href="#" class="jungle">Jungle</a>
             </vs-navbar-item>
             <vs-navbar-item index="2">
-                <a href="#" autofocus>Mid</a>
+                <a href="#" class="mid">Mid</a>
             </vs-navbar-item>
             <vs-navbar-item index="3">
-                <a href="#" autofocus>Bot</a>
+                <a href="#" class="bot">Bot</a>
             </vs-navbar-item>
             <vs-navbar-item index="4">
-                <a href="#" autofocus>Support</a>
+                <a href="#" class="support">Support</a>
             </vs-navbar-item>
+            <v-select style="width:150px" :options="['Canada','United States']" />
         </vs-navbar>
         <vs-table max-items="3" pagination v-model="selected" :data="users" @selected="handleSelected">
 
@@ -66,12 +70,12 @@
                     </vs-td>
                     <vs-td :data="data[indextr].slots">
                         <popover-avatar v-for="(slot, index) in data[indextr].slots" :key="index" :data="slot" :src="slot.src" :title="slot.title" :description="slot.description" />
-                        <div class="con-vs-avatar" v-for="n in 6-data[indextr].slots.length" :key="n" :data="data[indextr].slots.length">
+                        <div class="con-vs-avatar" v-for="n in 6-data[indextr].slots.length" :key="n" :data="6-data[indextr].slots.length">
                             <span class="con-img vs-avatar--con-img bg-theme-dark"></span>
                         </div>
                     </vs-td>
                     <vs-td :data="data[indextr].spells">
-                        <popover-avatar v-for="(spell, index) in data[indextr].spells" :key="index" :data="slot" :src="spell.src" :title="spell.title" :description="spell.description" />
+                        <popover-avatar v-for="(spell, index) in data[indextr].spells" :key="index" :data="spell" :src="spell.src" :title="spell.title" :description="spell.description" />
                     </vs-td>
                 </vs-tr>
             </template>
@@ -85,6 +89,8 @@ export default {
     data() {
         return {
             activeItem: 0,
+            selected: [],
+            cityOptions: 1,
             users: [{
                     'id': 1,
                     'champion': {
@@ -209,3 +215,24 @@ export default {
     }
 }
 </script>
+<style lang="css">
+.selectExample {
+  margin: 10px;
+}
+.con-select-example {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.con-select .vs-select {
+  width: 100%
+}
+@media (max-width: 550px) {
+  .con-select {
+    flex-direction: column;
+  }
+  .con-select .vs-select {
+    width: 100%
+  }
+}
+</style>

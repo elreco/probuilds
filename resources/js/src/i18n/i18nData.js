@@ -12,7 +12,8 @@ export default {
             kda: 'KDA',
             gold: 'Gold',
             keystone: 'Keystone',
-            build: 'Build'
+            build: 'Build',
+            all: 'All'
         }
     },
     de: {},
@@ -28,7 +29,8 @@ export default {
             kda: 'KDA',
             gold: 'Gold',
             keystone: 'Keystone',
-            build: 'Build'
+            build: 'Build',
+            all: 'Tout'
         }
 
     },

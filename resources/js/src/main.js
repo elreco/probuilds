@@ -42,6 +42,10 @@ import i18n from './i18n/i18n'
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
 
+// vue select
+import vSelect from "vue-select";
+Vue.component("v-select", vSelect);
+
 // Vuejs - Vue wrapper for hammerjs
 import { VueHammer } from 'vue2-hammer'
 Vue.use(VueHammer)

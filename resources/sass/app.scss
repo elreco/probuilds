@@ -23,3 +23,36 @@
 .bg-theme-dark {
   background-color: $theme-dark-bg;
 }
+
+// LANE SELECTION
+
+.lane-selection .all:before {
+    background-image: url("../assets/images/dragon/positions/allIcon.png");
+}
+.lane-selection .top:before {
+    background-image: url("../assets/images/dragon/positions/topLane.png");
+}
+.lane-selection .mid:before {
+    background-image: url("../assets/images/dragon/positions/midLane.png");
+}
+.lane-selection .jungle:before {
+    background-image: url("../assets/images/dragon/positions/jungle.png");
+}
+.lane-selection .bot:before {
+    background-image: url("../assets/images/dragon/positions/botLane.png");
+}
+.lane-selection .support:before {
+    background-image: url("../assets/images/dragon/positions/support.png");
+}
+.lane-selection a {
+    padding-left:25px;
+}
+.lane-selection a:before {
+    content: '';
+    width: 15px;
+    height: 15px;
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    position: absolute;
+    left: 8px;
+}
