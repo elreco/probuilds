@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios'
 
-const domain = 'https://probuilds.test/api'
+const domain = 'https://moi.elreco.fr/api'
 
 export default axios.create({
   domain

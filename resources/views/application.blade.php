@@ -7,7 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
 
-    <title>Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template</title>
+    <title></title>
     <!-- Styles -->
     <link rel="stylesheet" href="{{ asset(mix('css/main.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/iconfont.css')) }}">
@@ -16,7 +16,13 @@
     <link rel="stylesheet" href="{{ asset(mix('css/prism-tomorrow.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/app.css')) }}">
     <!-- Favicon -->
-    <link rel="shortcut icon" href="{{ asset('images/logo/favicon.png') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('images/favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ asset('images/favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ asset('images/favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ asset('images/favicon/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ asset('images/favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
   </head>
   <body>
     <noscript>

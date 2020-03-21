@@ -50,6 +50,9 @@ Vue.component("v-select", vSelect);
 import { VueHammer } from 'vue2-hammer'
 Vue.use(VueHammer)
 
+// Vue Meta
+import VueMeta from 'vue-meta'
+Vue.use(VueMeta)
 
 // PrismJS
 import 'prismjs'

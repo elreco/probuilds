@@ -84,6 +84,7 @@
         "xlsx": "^0.15.6"
     },
     "dependencies": {
-        "v-tooltip": "^2.0.3"
+        "v-tooltip": "^2.0.3",
+        "vue-meta": "^2.3.3"
     }
 }
