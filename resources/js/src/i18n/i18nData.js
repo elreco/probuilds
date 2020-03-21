@@ -13,7 +13,8 @@ export default {
             gold: 'Gold',
             keystone: 'Keystone',
             build: 'Build',
-            all: 'All'
+            all: 'All',
+            allRegion: 'All Region'
         }
     },
     de: {},
@@ -30,7 +31,8 @@ export default {
             gold: 'Gold',
             keystone: 'Keystone',
             build: 'Build',
-            all: 'Tout'
+            all: 'Tout',
+            allRegion: 'Toutes les régions'
         }
 
     },

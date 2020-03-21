@@ -97,3 +97,43 @@
     }
 
 }
+
+#dashboard-analytics {
+    .greet-user{
+        position: relative;
+        .decore-left{
+            height: 100%;
+            width: auto;
+            position: absolute;
+            bottom: 0;
+            border-radius: .5rem;
+            z-index: 0;
+            left:0;
+        }
+        .decore-right{
+            height: 100%;
+            width: auto;
+            position: absolute;
+            bottom: 0;
+            border-radius: .5rem;
+            z-index: 0;
+            right:0;
+        }
+    }
+    input{
+        background:#10163a;
+    }
+	.v-select .vs__dropdown-toggle{
+		background:#10163a;
+	}
+    @media(max-width: 576px) {
+        .decore-left, .decore-right{
+            width: 140px;
+        }
+    }
+    @media only screen and (max-width: 768px){
+        .decore-left, .decore-right {
+            display: none;
+        }
+    }
+}

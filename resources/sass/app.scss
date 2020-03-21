@@ -56,3 +56,10 @@
     position: absolute;
     left: 8px;
 }
+
+.theme-dark .vs-navbar li.vs-navbar--item.is-active-item a{
+    color:rgba(var(--vs-primary), 1);
+}
+.theme-dark .vs-navbar--item:hover a{
+    color:rgba(var(--vs-primary), 1)!important;
+}
