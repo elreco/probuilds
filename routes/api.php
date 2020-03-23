@@ -19,6 +19,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::domain(env('APP_API_URL'))->group(function () {
-    // SUMMONER CONTROLLER
-    Route::get('/', 'API\SummonerController@index');
+    // LIVEFEED CONTROLLER
+    Route::get('/livefeed', 'API\LiveFeedController@index');
 });

@@ -10,9 +10,15 @@ use RiotAPI\LeagueAPI\Definitions\Region;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
 use HttpException;
+// COLLECTION
+use Illuminate\Support\Collection;
+use App\Http\Traits\CommonTrait;
+// CARBON
+use Carbon\Carbon;
 
 class LiveFeedController extends Controller
 {
+    use CommonTrait;
 
     public $riot;
 
@@ -30,8 +36,9 @@ class LiveFeedController extends Controller
         	LeagueAPI::SET_INTERIM          => true,
         	LeagueAPI::SET_CACHE_RATELIMIT  => true,
         	LeagueAPI::SET_CACHE_CALLS      => true,
+            LeagueAPI::SET_CACHE_CALLS_LENGTH=> 9999
         ]);
-        DataDragonAPI::initByApi($this->riot);
+        DataDragonAPI::initByVersion("10.4.1");
     }
     /**
      * Display a listing of the resource.
@@ -40,21 +47,136 @@ class LiveFeedController extends Controller
      */
     public function index()
     {
+        // GET CHALLENGERS
         try {
-            $summoner = $this->riot->getSummonerByName("Leeonel Messin"); // summonerIds are unique per API key, getByName first is necessary
-            $s = $this->riot->getSummoner($summoner->id);
+            $league = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->slice(3, 3);
         } catch (\Exception $e) {
             return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
         }
-        // // DataDragon
-        $return->dragon = DataDragonAPI::getProfileIcon($id);
-        dd($return);
-        //
+        // GET CHALLENGERS
+        foreach($league as $l){
+            try {
+                $summoner = $this->riot->getSummoner($l->summonerId);
+            } catch (\Exception $e) {
+                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+            }
 
-        return response()->json([
-            'error' => false,
-            'data'  => $return,
-        ], 200);
+            try {
+                $matchs[$l->summonerId] = collect($this->riot->getMatchlistByAccount($summoner->accountId, null, null, null,null,null, 0, 1));
+                $matchs[$l->summonerId]['summoner'] = $summoner;
+            } catch (\Exception $e) {
+                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+            }
+        }
+
+        return $this->formatMatchs(collect($matchs));
+    }
+
+    private function formatMatchs($matchs){
+        $response = [];
+        $i=0;
+        foreach($matchs as $summonerId=>$m){
+
+            // GAME ID
+            $response[$i]['id'] = $m{0}->gameId;
+
+            // CHAMPION
+            $response[$i]['champion'] = [
+                'title' => $m{0}->staticData->name,
+                'src' => DataDragonAPI::getChampionIconUrl($m{0}->staticData->name),
+                'description' =>"<h3>{$m{0}->staticData->title}</h3><p>{$m{0}->staticData->lore}</p>"
+            ];
+
+            // DATE
+            $response[$i]['date'] = $m{0}->timestamp;
+
+            // PLAYER
+            $response[$i]['player']['name'] = $m['summoner']->name;
+            $response[$i]['player']['icon'] = DataDragonAPI::getProfileIconO($m['summoner'])->src;
+
+            ////////////////////////
+            /// SEARCH VS PLAYER ///
+            ////////////////////////
+
+            //Identité des joueurs
+            $participantIdentities = [];
+
+            try {
+                $participantIdentitiesAPI = $this->riot->getMatch($m{0}->gameId)->participantIdentities;
+            } catch (\Exception $e) {
+                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+            }
+
+            foreach($participantIdentitiesAPI as $participantIdentity){
+                $participantIdentities[$participantIdentity->participantId] = $participantIdentity;
+                if($summonerId == $participantIdentity->player->summonerId){
+                    $playerParticipantId = $participantIdentity->participantId;
+                }
+            }
+
+            // Joueurs
+            try {
+                $participantsAPI = $this->riot->getMatch($m{0}->gameId)->participants;
+            } catch (\Exception $e) {
+                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+            }
+
+            foreach($participantsAPI as $participant){
+                // GET VS CHAMPION
+                if($participant->timeline->role == $m{0}->role){
+                    // $summonerVS = $this->riot->getSummoner($participantIdentities[$participant->participantId]->player->summonerId);
+                    $response[$i]['vs'] = [
+                        'title' => $participant->staticData->name,
+                        'src' => DataDragonAPI::getChampionIconUrl($participant->staticData->name),
+                        'description' =>"<h3>{$participant->staticData->title}</h3><p>{$participant->staticData->lore}</p>"
+                    ];
+                }
+                // GET PLAYER
+                if($participant->participantId == $playerParticipantId){
+                    // KDA
+                    $response[$i]['kda'] = $participant->stats->kills."/" . $participant->stats->deaths . "/". $participant->stats->assists;
+
+                    // GOLDS
+                    $response[$i]['gold'] = $this->thousandsCurrencyFormat($participant->stats->goldEarned);
+
+                    // KEYSTONES
+
+                    $runes = $this->riot->getStaticReforgedRunes()->runes;
+                    $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths;
+                    $player_stats = $participant->stats;
+                    $response[$i]['keystone'] = DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src;
+                    $response[$i]['subkeystone'] = DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src;
+
+                    // SLOTS
+                    $items = DataDragonAPI::getStaticItems();
+                    for ($u = 1; $u <= 6; $u++) {
+                        $item_name = "item" . $u;
+                        if(!empty($participant->stats->$item_name)){
+                            $response[$i]['slots'][$u]['src'] = DataDragonAPI::getItemIconUrl($participant->stats->$item_name);
+                            $response[$i]['slots'][$u]['title'] = $items['data'][$participant->stats->$item_name]['name'];
+                            $response[$i]['slots'][$u]['description'] = $items['data'][$participant->stats->$item_name]['name'];
+                        }
+                    }
+                    // SPELLS
+                    $spells = DataDragonAPI::getStaticSummonerSpells();
+
+                    for ($u = 1; $u <= 2; $u++) {
+                        $spell_name = "spell" . $u . "Id";
+
+                        if(!empty($participant->$spell_name)){
+                            $spell = DataDragonAPI::getStaticSummonerSpellById($participant->$spell_name);
+                            $response[$i]['spells'][$u]['src'] = DataDragonAPI::getSpellIconUrl("Summoner" . $spell['name']);
+                            $response[$i]['spells'][$u]['title'] = $spell['name'];
+                            $response[$i]['spells'][$u]['description'] = $spell['description'];
+                        }
+                    }
+                }
+
+            }
+            $i++;
+        }
+
+        return response()->json($response, 200);
     }
 
     /**

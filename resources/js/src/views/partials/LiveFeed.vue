@@ -51,7 +51,10 @@
                         <popover-avatar :src="data[indextr].champion.src" :title="data[indextr].champion.title" :description="data[indextr].champion.description" />
                     </vs-td>
                     <vs-td :data="data[indextr].player">
-                        {{ data[indextr].player }}
+                        <vs-chip color="#FFC107">
+                            <vs-avatar :src="data[indextr].player.icon" />
+                            {{ data[indextr].player.name }}
+                        </vs-chip>
                     </vs-td>
                     <vs-td :data="data[indextr].vs">
                         <popover-avatar :src="data[indextr].vs.src" :title="data[indextr].vs.title" :description="data[indextr].vs.description" />
@@ -70,7 +73,7 @@
                     </vs-td>
                     <vs-td :data="data[indextr].slots">
                         <popover-avatar v-for="(slot, index) in data[indextr].slots" :key="index" :data="slot" :src="slot.src" :title="slot.title" :description="slot.description" />
-                        <div class="con-vs-avatar" v-for="n in 6-data[indextr].slots.length">
+                        <div class="con-vs-avatar" v-for="n in 6-Object.keys(data[indextr].slots).length">
                             <span class="con-img vs-avatar--con-img bg-theme-dark"></span>
                         </div>
                     </vs-td>
@@ -90,122 +93,14 @@ export default {
         return {
             selectedLane: 0,
             selectedRegion: 0,
-            test: null,
+            test: [],
             activeLoading: false,
             regions: ['EUW', 'NA', 'EUNE'],
-            users: [{
-                    'id': 1,
-                    'champion': {
-                        'title': 'Senna',
-                        'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Senna.png',
-                        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
-                    },
-                    'date': 'Il y a 10 minutes',
-                    'player': 'Ruler',
-                    'vs': {
-                        'title': 'Pyke',
-                        'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Pyke.png',
-                        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
-                    },
-                    'kda': "7/8/22",
-                    'gold': '35k',
-                    'keystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/GlacialAugment/GlacialAugment.png',
-                    'subkeystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7201_Precision.png',
-                    'slots': [{
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3814.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/2055.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3179.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        }
-                    ],
-                    'spells': [{
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerHeal.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerFlash.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        }
-                    ]
-                },
-                {
-                    'id': 2,
-                    'champion': {
-                        'title': 'Pantheon',
-                        'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Pantheon.png',
-                        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
-                    },
-
-                    'date': 'Il y a 10 minutes',
-                    'player': 'Ruler',
-                    'vs': {
-                        'title': 'Annie',
-                        'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Annie.png',
-                        'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
-                    },
-                    'kda': "7/8/22",
-                    'gold': '35k',
-                    'keystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/GlacialAugment/GlacialAugment.png',
-                    'subkeystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7201_Precision.png',
-                    'slots': [{
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3814.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/2055.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3179.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        }
-                    ],
-                    'spells': [{
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerHeal.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        },
-                        {
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerFlash.png',
-                            'title': 'Summoner Flash',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                        }
-                    ]
-                },
-            ]
+            users: []
         }
     },
     mounted() {
-        //this.getFeed()
+        this.getFeed()
     },
     methods: {
         handleSelected(tr) {
@@ -220,118 +115,12 @@ export default {
                 type: 'material',
                 container: '#loadingFeed',
             })
-            setTimeout(() => {
-                this.users = [{
-                        'id': 1,
-                        'champion': {
-                            'title': 'Senna',
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Vayne.png',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
-                        },
-                        'date': 'Il y a 10 minutes',
-                        'player': 'Ruler',
-                        'vs': {
-                            'title': 'Pyke',
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Pyke.png',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
-                        },
-                        'kda': "7/8/22",
-                        'gold': '35k',
-                        'keystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/GlacialAugment/GlacialAugment.png',
-                        'subkeystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7201_Precision.png',
-                        'slots': [{
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            },
-                            {
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3814.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            },
-                            {
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/2055.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            },
-                            {
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3179.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            }
-                        ],
-                        'spells': [{
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerHeal.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            },
-                            {
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerFlash.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            }
-                        ]
-                    },
-                    {
-                        'id': 2,
-                        'champion': {
-                            'title': 'Pantheon',
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Pantheon.png',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
-                        },
 
-                        'date': 'Il y a 10 minutes',
-                        'player': 'Ruler',
-                        'vs': {
-                            'title': 'Annie',
-                            'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/champion/Annie.png',
-                            'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.'
-                        },
-                        'kda': "7/8/22",
-                        'gold': '35k',
-                        'keystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/Inspiration/GlacialAugment/GlacialAugment.png',
-                        'subkeystone': 'https://ddragon.leagueoflegends.com/cdn/img/perk-images/Styles/7201_Precision.png',
-                        'slots': [{
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            },
-                            {
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3814.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum.Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            },
-                            {
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3864.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            },
-                            {
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/2055.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            },
-                            {
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/item/3179.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            }
-                        ],
-                        'spells': [{
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerHeal.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            },
-                            {
-                                'src': 'https://ddragon.leagueoflegends.com/cdn/10.4.1/img/spell/SummonerFlash.png',
-                                'title': 'Summoner Flash',
-                                'description': 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi dignissim egestas enim non interdum. Vestibulum non quam vitae mauris mollis accumsan.Maecenas non justo quis ante fermentum eleifend.',
-                            }
-                        ]
-                    },
-                ]
-                this.$vs.loading.close('#loadingFeed > .con-vs-loading')
-            }, 3000);
+            this.$http.get('https://moi.elreco.fr/api/livefeed')
+                .then(response => (this.users = response.data))
+                .then(() => {
+                    this.$vs.loading.close('#loadingFeed > .con-vs-loading')
+                })
             // UPDATE this.users après avoir fait la requête axios
         }
     },
