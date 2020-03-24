@@ -72,9 +72,8 @@
                     </vs-td>
                     <vs-td :data="data[indextr].slots">
                         <popover-avatar v-for="(slot, index) in data[indextr].slots" :key="index" :data="slot" :src="slot.src" :title="slot.title" :description="slot.description" />
-                        <div class="con-vs-avatar" v-for="n in 6-Object.keys(data[indextr].slots).length">
-                            <span class="con-img vs-avatar--con-img bg-theme-dark"></span>
-                        </div>
+                        <span class="w-10 h-10 rounded bg-theme-dark" v-for="n in 6-Object.keys(data[indextr].slots).length">
+                        </span>
                     </vs-td>
                     <vs-td :data="data[indextr].spells">
                         <popover-avatar v-for="(spell, index) in data[indextr].spells" :key="index" :data="spell" :src="spell.src" :title="spell.title" :description="spell.description" />

@@ -14,6 +14,8 @@ use Illuminate\Support\Collection;
 use App\Http\Traits\CommonTrait;
 // CARBON
 use Carbon\Carbon;
+// STRING
+use Illuminate\Support\Str;
 
 class LiveFeed extends Model
 {
@@ -44,7 +46,7 @@ class LiveFeed extends Model
     public function getMatchs(){
         // GET CHALLENGERS
         try {
-            $league = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->slice(1, 10);
+            $league = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->slice(1, 5);
         } catch (\Exception $e) {
             return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
         }
@@ -74,11 +76,11 @@ class LiveFeed extends Model
 
             // GAME ID
             $response[$i]['id'] = $m{0}->gameId;
-
+            $src = DataDragonAPI::getChampionIconO($m{0}->staticData);
             // CHAMPION
             $response[$i]['champion'] = [
                 'title' => $m{0}->staticData->name,
-                'src' => DataDragonAPI::getChampionIconUrl($m{0}->staticData->name),
+                'src' => $src->src,
                 'description' =>"<h3>{$m{0}->staticData->title}</h3><p>{$m{0}->staticData->lore}</p>"
             ];
 
@@ -120,9 +122,10 @@ class LiveFeed extends Model
                 // GET VS CHAMPION
                 if($participant->timeline->role == $m{0}->role){
                     // $summonerVS = $this->riot->getSummoner($participantIdentities[$participant->participantId]->player->summonerId);
+                    $src = DataDragonAPI::getChampionIconO($participant->staticData);
                     $response[$i]['vs'] = [
                         'title' => $participant->staticData->name,
-                        'src' => DataDragonAPI::getChampionIconUrl($participant->staticData->name),
+                        'src' => $src->src,
                         'description' =>"<h3>{$participant->staticData->title}</h3><p>{$participant->staticData->lore}</p>"
                     ];
                 }
