@@ -31,7 +31,6 @@ import './globalComponents.js'
 // Vue Router
 import router from './router'
 
-
 // Vuex Store
 import store from './store/store'
 
@@ -53,6 +52,10 @@ Vue.use(VueHammer)
 // Vue Meta
 import VueMeta from 'vue-meta'
 Vue.use(VueMeta)
+
+// Vue Moment
+import VueMoment from 'vue-moment'
+Vue.use(VueMoment)
 
 // PrismJS
 import 'prismjs'

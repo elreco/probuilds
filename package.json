@@ -85,6 +85,7 @@
     },
     "dependencies": {
         "v-tooltip": "^2.0.3",
-        "vue-meta": "^2.3.3"
+        "vue-meta": "^2.3.3",
+        "vue-moment": "^4.1.0"
     }
 }

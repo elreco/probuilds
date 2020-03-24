@@ -1,6 +1,6 @@
 <template>
 <v-popover container="body" trigger="hover" placement="auto" class="inline">
-    <vs-avatar class="tooltip-target" :src="src" icon="fiber_manual_record" />
+    <img class="tooltip-target w-10 h-10 rounded" :src="src" />
     <template slot="popover">
         <vs-card>
             <div slot="header">
@@ -15,8 +15,7 @@
                     </div>
                 </vs-col>
                 <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="8">
-                    <p>
-                        {{description}}
+                    <p v-html="description">
                     </p>
                 </vs-col>
             </vs-row>

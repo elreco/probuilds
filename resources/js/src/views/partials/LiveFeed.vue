@@ -1,6 +1,5 @@
 <template>
 <vx-card>
-    {{test}}
     <div class="vx-col w-full">
         <vs-navbar active-text-color="rgba(255,255,255,1)" text-color v-model="selectedLane" class="nabarx mb-base lane-selection p-2" type="flat">
             <div slot="title">
@@ -28,7 +27,8 @@
             </vs-navbar-item>
             <v-select :value="0" :placeholder="$t('LiveFeed.allRegion')" class="w-48" :options="regions" v-model="selectedRegion" />
         </vs-navbar>
-        <vs-table max-items="3" pagination :data="users" @selected="handleSelected" id="loadingFeed">
+
+        <vs-table max-items="10" pagination :data="users" @selected="handleSelected" id="loadingFeed">
 
             <template slot="thead">
                 <vs-th></vs-th>
@@ -41,11 +41,10 @@
                 <vs-th>{{ $t("LiveFeed.build") }}</vs-th>
                 <vs-th></vs-th>
             </template>
-
             <template slot-scope="{data}">
                 <vs-tr :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                     <vs-td :data="data[indextr].date">
-                        {{ data[indextr].date }}
+                        {{ data[indextr].date | moment("from", "now") }}
                     </vs-td>
                     <vs-td :data="data[indextr].champion">
                         <popover-avatar :src="data[indextr].champion.src" :title="data[indextr].champion.title" :description="data[indextr].champion.description" />
@@ -93,7 +92,6 @@ export default {
         return {
             selectedLane: 0,
             selectedRegion: 0,
-            test: [],
             activeLoading: false,
             regions: ['EUW', 'NA', 'EUNE'],
             users: []
