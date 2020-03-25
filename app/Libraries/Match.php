@@ -1,75 +1,28 @@
 <?php
 
-namespace App\Models;
+namespace App\Libraries;
 
-use Illuminate\Database\Eloquent\Model;
-//RIOT API
-use RiotAPI\LeagueAPI\LeagueAPI;
-use RiotAPI\LeagueAPI\Definitions\Region;
-// DATADRAGON
-use RiotAPI\DataDragonAPI\DataDragonAPI;
 use HttpException;
 // COLLECTION
 use Illuminate\Support\Collection;
 use App\Http\Traits\CommonTrait;
-// CARBON
-use Carbon\Carbon;
-// STRING
-use Illuminate\Support\Str;
+// DATADRAGON
+use RiotAPI\DataDragonAPI\DataDragonAPI;
 
-class LiveFeed extends Model
+class Match
 {
     //
     use CommonTrait;
+    protected $riot;
 
-    private $riot;
-
-    public function __construct(){
-        // INITALISATION DE L'API
-        if (empty(env('RIOT_API_KEY')))
-        	die("Please change API key in the configuration file (.env) to your own.");
-        $this->riot = new LeagueAPI([
-        	LeagueAPI::SET_KEY              => env('RIOT_API_KEY'),
-        	LeagueAPI::SET_TOURNAMENT_KEY   => "",
-        	LeagueAPI::SET_REGION           => Region::EUROPE_WEST,
-        	LeagueAPI::SET_VERIFY_SSL       => false,
-        	LeagueAPI::SET_DATADRAGON_INIT  => true,
-            LeagueAPI::SET_STATICDATA_LINKING => true,
-        	LeagueAPI::SET_INTERIM          => true,
-        	LeagueAPI::SET_CACHE_RATELIMIT  => true,
-        	LeagueAPI::SET_CACHE_CALLS      => true,
-            LeagueAPI::SET_CACHE_CALLS_LENGTH=> 9999
-        ]);
+    public function __construct($riot){
+        // MATCH
+        $this->riot = $riot;
         DataDragonAPI::initByVersion("10.4.1");
     }
 
-    public function getMatchs(){
-        // GET CHALLENGERS
-        try {
-            $league = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->slice(1, 5);
-        } catch (\Exception $e) {
-            return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
-        }
-        // GET CHALLENGERS
-        foreach($league as $l){
-            try {
-                $summoner = $this->riot->getSummoner($l->summonerId);
-            } catch (\Exception $e) {
-                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
-            }
-
-            try {
-                $matchs[$l->summonerId] = collect($this->riot->getMatchlistByAccount($summoner->accountId, null, null, null,null,null, 0, 1));
-                $matchs[$l->summonerId]['summoner'] = $summoner;
-            } catch (\Exception $e) {
-                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
-            }
-        }
-
-        return $this->formatMatchs(collect($matchs));
-    }
-
-    private function formatMatchs($matchs){
+    public function formatMatchs($matchs){
+        // $matchs = collection of matchs
         $response = [];
         $i=0;
         foreach($matchs as $summonerId=>$m){
@@ -94,12 +47,13 @@ class LiveFeed extends Model
             ////////////////////////
             /// SEARCH VS PLAYER ///
             ////////////////////////
-
+            // MATCH FROM API
+            $matchApi = $this->riot->getMatch($m{0}->gameId);
             //Identité des joueurs
             $participantIdentities = [];
 
             try {
-                $participantIdentitiesAPI = $this->riot->getMatch($m{0}->gameId)->participantIdentities;
+                $participantIdentitiesAPI = $matchApi->participantIdentities;
             } catch (\Exception $e) {
                 return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
             }
@@ -110,10 +64,9 @@ class LiveFeed extends Model
                     $playerParticipantId = $participantIdentity->participantId;
                 }
             }
-
             // Joueurs
             try {
-                $participantsAPI = $this->riot->getMatch($m{0}->gameId)->participants;
+                $participantsAPI = $matchApi->participants;
             } catch (\Exception $e) {
                 return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
             }
@@ -175,6 +128,7 @@ class LiveFeed extends Model
             $i++;
         }
 
+        $response = collect($response)->sortByDesc('date')->values();
         return response()->json($response, 200);
     }
 }

@@ -1,6 +1,6 @@
 <template>
 <v-popover container="body" trigger="hover" placement="auto" class="inline">
-    <img class="tooltip-target w-10 h-10 rounded" :src="src" />
+    <img class="tooltip-target w-10 h-10 rounded border-solid border border-primary" :src="src" />
     <template slot="popover">
         <vs-card>
             <div slot="header">
