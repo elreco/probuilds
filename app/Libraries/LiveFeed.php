@@ -21,13 +21,13 @@ class LiveFeed
         $this->Match = new Match($riot);
     }
 
-    public function getMatchs(){
+    public function getMatchs($pageNumber, $itemsNumber){
         // Get Challengers
         $challengers = $this->getChallengers();
         // Get last matchs for each challenger
         $matchs = $this->Match->getChallengersLastMatch($challengers);
         // Return formated matchs
-        return $this->Match->formatMatchs($matchs);
+        return $this->Match->formatMatchs($matchs, $pageNumber, $itemsNumber);
     }
 
     public function getChallengers(){

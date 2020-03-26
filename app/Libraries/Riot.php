@@ -5,14 +5,15 @@ namespace App\Libraries;
 //RIOT API
 use RiotAPI\LeagueAPI\LeagueAPI;
 use RiotAPI\LeagueAPI\Definitions\Region;
+use Illuminate\Foundation\Application;
 
 class Riot
 {
     public static function initApi(){
-        if (empty(env('RIOT_API_KEY')))
-        	die("Please change API key in the configuration file (.env) to your own.");
+        // if (empty(env('RIOT_API_KEY')))
+        // 	die("Please change API key in the configuration file (.env) to your own." . env('RIOT_API_KEY'));
         $api = new LeagueAPI([
-        	LeagueAPI::SET_KEY              => env('RIOT_API_KEY'),
+        	LeagueAPI::SET_KEY              => config('app.riot_api_key'),
         	LeagueAPI::SET_TOURNAMENT_KEY   => "",
         	LeagueAPI::SET_REGION           => Region::EUROPE_WEST,
         	LeagueAPI::SET_VERIFY_SSL       => false,

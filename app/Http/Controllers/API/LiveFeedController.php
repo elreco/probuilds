@@ -24,8 +24,11 @@ class LiveFeedController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return $this->LiveFeed->getMatchs();
+        $request->validate([
+            'page' => 'integer|max:3'
+        ]);
+        return $this->LiveFeed->getMatchs($request->page,5);
     }
 }

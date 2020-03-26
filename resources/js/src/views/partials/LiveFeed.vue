@@ -27,8 +27,7 @@
             </vs-navbar-item>
             <v-select :value="0" :placeholder="$t('LiveFeed.allRegion')" class="w-48" :options="regions" v-model="selectedRegion" />
         </vs-navbar>
-
-        <vs-table max-items="10" pagination :data="users" @selected="handleSelected" id="loadingFeed">
+        <vs-table :sst="true" @change-page="handleChangePage" :max-items="users.maxItems" :total="users.totalItems" pagination :data="users.data" @selected="handleSelected" id="loadingFeed">
 
             <template slot="thead">
                 <vs-th></vs-th>
@@ -95,8 +94,13 @@ export default {
             selectedLane: 0,
             selectedRegion: 0,
             activeLoading: false,
+            totalItems: 0,
             regions: ['EUW', 'NA', 'EUNE'],
-            users: []
+            users: {
+                'data': [],
+                'totalItems': 1,
+                'maxItems': 1
+            },
         }
     },
     mounted() {
@@ -109,19 +113,25 @@ export default {
                 text: `Email: ${tr.email}`
             })
         },
-        getFeed() {
+        getFeed(page) {
             // loading
             this.$vs.loading({
                 type: 'material',
                 container: '#loadingFeed',
             })
-
-            this.$http.get('https://moi.elreco.fr/api/livefeed')
+            this.$http.get('/api/livefeed', {
+                    params: {
+                        page: page
+                    }
+                })
                 .then(response => (this.users = response.data))
                 .then(() => {
                     this.$vs.loading.close('#loadingFeed > .con-vs-loading')
                 })
             // UPDATE this.users après avoir fait la requête axios
+        },
+        handleChangePage(page) {
+            this.getFeed(page);
         }
     },
     computed: {

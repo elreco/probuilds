@@ -1,6 +1,6 @@
 <template>
 <v-popover container="body" trigger="hover" placement="auto" class="inline">
-    <LazyLoading :alt="title" :class="classImg" class="tooltip-target w-10 h-10 rounded" :src="src" />
+    <img loading="lazy" width="32" height="32" :alt="title" :class="classImg" class="tooltip-target w-10 h-10 rounded" :src="src" />
 
     <template slot="popover">
         <vs-card class="mb-0">
@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import LazyLoading from "../images/LazyLoading.vue";
 export default {
     name: 'popover-avatar',
     props: {

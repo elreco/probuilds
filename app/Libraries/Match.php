@@ -21,7 +21,7 @@ class Match
         DataDragonAPI::initByVersion("10.4.1");
     }
 
-    public function formatMatchs($matchs){
+    public function formatMatchs(Collection $matchs, ?Int $pageNumber = 1, Int $itemsNumber = 5){
         // $matchs = collection of matchs
         $response = [];
         $i=0;
@@ -131,11 +131,18 @@ class Match
             $i++;
         }
 
-        $response = collect($response)->sortByDesc('date')->values();
-        return response()->json($response, 200);
+        $response = collect($response)->sortByDesc('date');
+
+        $return['data'] = $response->forPage($pageNumber, $itemsNumber)->values();
+        // total éléments
+        $return['totalItems'] =  $response->count();
+        // nombre d'items par page
+        $return['maxItems'] =  $itemsNumber;
+
+        return response()->json($return, 200);
     }
 
-    public function getChallengersLastMatch($challengers){
+    public function getChallengersLastMatch(Collection $challengers){
         foreach($challengers as $c){
             try {
                 $summoner = $this->riot->getSummoner($c->summonerId);

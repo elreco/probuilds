@@ -1,7 +1,7 @@
 // axios
 import axios from 'axios'
 
-const domain = 'https://moi.elreco.fr/api'
+const domain = 'https://moi.elreco.fr'
 
 export default axios.create({
   domain
