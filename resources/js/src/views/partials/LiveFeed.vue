@@ -40,6 +40,7 @@
                 <vs-th>{{ $t("LiveFeed.build") }}</vs-th>
                 <vs-th></vs-th>
             </template>
+
             <template slot-scope="{data}">
 
                 <vs-tr class="whitespace-no-wrap" :data="tr" :key="indextr" v-for="(tr, indextr) in data">
