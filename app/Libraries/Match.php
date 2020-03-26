@@ -34,7 +34,7 @@ class Match
             $response[$i]['champion'] = [
                 'title' => $m{0}->staticData->name,
                 'src' => $src->src,
-                'description' =>"<h3>{$m{0}->staticData->title}</h3><p>{$m{0}->staticData->lore}</p>"
+                'description' =>"<h4 class='text-gold mb-2'>{$m{0}->staticData->title}</h4><p>{$m{0}->staticData->lore}</p>"
             ];
 
             // DATE
@@ -43,12 +43,12 @@ class Match
             // PLAYER
             $response[$i]['player']['name'] = $m['summoner']->name;
             $response[$i]['player']['icon'] = DataDragonAPI::getProfileIconO($m['summoner'])->src;
-
             ////////////////////////
             /// SEARCH VS PLAYER ///
             ////////////////////////
             // MATCH FROM API
             $matchApi = $this->riot->getMatch($m{0}->gameId);
+
             //Identité des joueurs
             $participantIdentities = [];
 
@@ -79,11 +79,14 @@ class Match
                     $response[$i]['vs'] = [
                         'title' => $participant->staticData->name,
                         'src' => $src->src,
-                        'description' =>"<h3>{$participant->staticData->title}</h3><p>{$participant->staticData->lore}</p>"
+                        'description' =>"<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
                     ];
                 }
                 // GET PLAYER
                 if($participant->participantId == $playerParticipantId){
+                    // WIN OR LOSE
+                    $response[$i]['win'] = $participant->stats->win;
+
                     // KDA
                     $response[$i]['kda'] = $participant->stats->kills."/" . $participant->stats->deaths . "/". $participant->stats->assists;
 
@@ -105,7 +108,7 @@ class Match
                         if(!empty($participant->stats->$item_name)){
                             $response[$i]['slots'][$u]['src'] = DataDragonAPI::getItemIconUrl($participant->stats->$item_name);
                             $response[$i]['slots'][$u]['title'] = $items['data'][$participant->stats->$item_name]['name'];
-                            $response[$i]['slots'][$u]['description'] = $items['data'][$participant->stats->$item_name]['name'];
+                            $response[$i]['slots'][$u]['description'] = $items['data'][$participant->stats->$item_name]['description'];
                         }
                     }
                     // SPELLS
@@ -130,5 +133,24 @@ class Match
 
         $response = collect($response)->sortByDesc('date')->values();
         return response()->json($response, 200);
+    }
+
+    public function getChallengersLastMatch($challengers){
+        foreach($challengers as $c){
+            try {
+                $summoner = $this->riot->getSummoner($c->summonerId);
+            } catch (\Exception $e) {
+                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+            }
+
+            try {
+                $matchs[$c->summonerId] = collect($this->riot->getMatchlistByAccount($summoner->accountId, null, null, null,null,null, 0, 1));
+                $matchs[$c->summonerId]['summoner'] = $summoner;
+            } catch (\Exception $e) {
+                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+            }
+        }
+
+        return collect($matchs);
     }
 }

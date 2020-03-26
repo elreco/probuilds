@@ -1,8 +1,9 @@
 <template>
 <v-popover container="body" trigger="hover" placement="auto" class="inline">
-    <img class="tooltip-target w-10 h-10 rounded border-solid border border-primary" :src="src" />
+    <img :class="classObject" class="tooltip-target w-10 h-10 rounded" :src="src" />
+
     <template slot="popover">
-        <vs-card>
+        <vs-card class="mb-0">
             <div slot="header">
                 <h3>
                     {{title}}
@@ -40,8 +41,31 @@ export default {
         description: {
             type: String,
             default: ''
+        },
+        default: {
+            type: Boolean,
+            default: true,
+            required: false
+        },
+        win: {
+            type: Boolean,
+            default: false,
+            required: false
         }
     },
+    computed: {
+        classObject: function() {
+            if (this.default) {
+                return 'border-solid border-2 border-theme-dark';
+            } else {
+                if (this.win) {
+                    return 'border-solid border-2 win-border win-shadow';
+                } else {
+                    return 'border-solid border-2 lose-border lose-shadow';
+                }
+            }
+        }
+    }
 
 }
 </script>

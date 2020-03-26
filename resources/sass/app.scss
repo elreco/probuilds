@@ -27,6 +27,11 @@
   background-color: $theme-dark-bg;
 }
 
+// DOT CIRCLE
+.border-theme-dark {
+  border-color: $theme-dark-bg;
+}
+
 // LANE SELECTION
 
 .lane-selection .all:before {
@@ -71,4 +76,21 @@
 
 .rounded{
     border-radius: 0.50rem!important;
+}
+
+// WIN LOSE BORDER WITH SHADOW
+
+.win-border{
+    border-color:$light-green!important;
+}
+.win-shadow{
+    box-shadow: 0 0 5px 0 $shadow-green;
+}
+
+
+.lose-border{
+    border-color:$dark-red!important;
+}
+.lose-shadow{
+    box-shadow: 0 0 5px 0 $shadow-red;
 }
