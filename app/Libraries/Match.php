@@ -19,14 +19,42 @@ class Match
         // MATCH
         $this->riot = $riot;
         DataDragonAPI::initByVersion("10.4.1");
+
     }
 
-    public function formatMatchs(Collection $matchs, ?Int $pageNumber = 1, Int $itemsNumber = 5){
+    public function formatMatchs(Collection $matchs, ?Int $pageNumber = 1, Int $itemsNumber = 5, ?String $lane, String $region){
         // $matchs = collection of matchs
         $response = [];
         $i=0;
         foreach($matchs as $summonerId=>$m){
+            // LANE FILTER
 
+            if(!empty($lane)){
+
+                if($lane == "support"){
+                    if($m{0}->role != "DUO_SUPPORT"){
+                        continue;
+                    }
+                }elseif($lane == "adc"){
+                    if($m{0}->role != "DUO_CARRY"){
+                        continue;
+                    }
+                }elseif($lane == "mid"){
+                    if($m{0}->lane != "MID"){
+                        continue;
+                    }
+                }elseif($lane == "top"){
+                    if($m{0}->lane != "TOP"){
+                        continue;
+                    }
+                }elseif($lane == "jungle"){
+
+                    if($m{0}->lane != "JUNGLE"){
+
+                        continue;
+                    }
+                }
+            }
             // GAME ID
             $response[$i]['id'] = $m{0}->gameId;
             $src = DataDragonAPI::getChampionIconO($m{0}->staticData);
@@ -55,7 +83,7 @@ class Match
             try {
                 $participantIdentitiesAPI = $matchApi->participantIdentities;
             } catch (\Exception $e) {
-                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+                return $e->getMessage();
             }
 
             foreach($participantIdentitiesAPI as $participantIdentity){
@@ -68,7 +96,7 @@ class Match
             try {
                 $participantsAPI = $matchApi->participants;
             } catch (\Exception $e) {
-                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+                return $e->getMessage();
             }
 
             foreach($participantsAPI as $participant){
@@ -86,7 +114,6 @@ class Match
                 if($participant->participantId == $playerParticipantId){
                     // WIN OR LOSE
                     $response[$i]['win'] = $participant->stats->win;
-
                     // KDA
                     $response[$i]['kda'] = $participant->stats->kills."/" . $participant->stats->deaths . "/". $participant->stats->assists;
 
@@ -139,7 +166,7 @@ class Match
         // nombre d'items par page
         $return['maxItems'] =  $itemsNumber;
 
-        return response()->json($return, 200);
+        return $return;
     }
 
     public function getChallengersLastMatch(Collection $challengers){
@@ -147,14 +174,14 @@ class Match
             try {
                 $summoner = $this->riot->getSummoner($c->summonerId);
             } catch (\Exception $e) {
-                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+                return $e->getMessage();
             }
 
             try {
                 $matchs[$c->summonerId] = collect($this->riot->getMatchlistByAccount($summoner->accountId, null, null, null,null,null, 0, 1));
                 $matchs[$c->summonerId]['summoner'] = $summoner;
             } catch (\Exception $e) {
-                return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+                return $e->getMessage();
             }
         }
 

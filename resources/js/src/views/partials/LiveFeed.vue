@@ -10,22 +10,22 @@
             <vs-navbar-item index="0">
                 <a href="#" class="all">{{ $t("LiveFeed.all") }}</a>
             </vs-navbar-item>
-            <vs-navbar-item index="1">
+            <vs-navbar-item index="top">
                 <a href="#" class="top">Top</a>
             </vs-navbar-item>
-            <vs-navbar-item index="2">
+            <vs-navbar-item index="jungle">
                 <a href="#" class="jungle">Jungle</a>
             </vs-navbar-item>
-            <vs-navbar-item index="3">
+            <vs-navbar-item index="mid">
                 <a href="#" class="mid">Mid</a>
             </vs-navbar-item>
-            <vs-navbar-item index="4">
+            <vs-navbar-item index="adc">
                 <a href="#" class="bot">Bot</a>
             </vs-navbar-item>
-            <vs-navbar-item index="5">
+            <vs-navbar-item index="support">
                 <a href="#" class="support">Support</a>
             </vs-navbar-item>
-            <v-select :value="0" :placeholder="$t('LiveFeed.allRegion')" class="w-48" :options="regions" v-model="selectedRegion" />
+            <v-select id="loadingSelect" :clearable="false" :value="selectedRegion" :options="regions" :placeholder="selectedRegion" class="w-48" v-model="selectedRegion" />
         </vs-navbar>
         <vs-table :sst="true" @change-page="handleChangePage" :max-items="users.maxItems" :total="users.totalItems" pagination :data="users.data" @selected="handleSelected" id="loadingFeed">
 
@@ -51,7 +51,7 @@
                         <popover-avatar :win="data[indextr].win" :default="false" :src="data[indextr].champion.src" :title="data[indextr].champion.title" :description="data[indextr].champion.description" />
                     </vs-td>
                     <vs-td :data="data[indextr].player">
-                        <vs-chip color="#FFC107">
+                        <vs-chip color="primary">
                             <vs-avatar :src="data[indextr].player.icon" />
                             {{ data[indextr].player.name }}
                         </vs-chip>
@@ -93,10 +93,11 @@ export default {
     data() {
         return {
             selectedLane: 0,
-            selectedRegion: 0,
+            selectedRegion: "EUW",
+            page: 1,
+            regions: [],
             activeLoading: false,
             totalItems: 0,
-            regions: ['EUW', 'NA', 'EUNE'],
             users: {
                 'data': [],
                 'totalItems': 1,
@@ -106,6 +107,7 @@ export default {
     },
     mounted() {
         this.getFeed()
+        this.getRegions()
     },
     methods: {
         handleSelected(tr) {
@@ -114,7 +116,11 @@ export default {
                 text: `Email: ${tr.email}`
             })
         },
-        getFeed(page) {
+        handleChangePage(page) {
+            this.page = page
+            this.getFeed()
+        },
+        getFeed() {
             // loading
             this.$vs.loading({
                 type: 'material',
@@ -122,7 +128,9 @@ export default {
             })
             this.$http.get('/api/livefeed', {
                     params: {
-                        page: page
+                        page: this.page,
+                        lane: this.selectedLane,
+                        region: this.selectedRegion,
                     }
                 })
                 .then(response => (this.users = response.data))
@@ -131,9 +139,11 @@ export default {
                 })
             // UPDATE this.users après avoir fait la requête axios
         },
-        handleChangePage(page) {
-            this.getFeed(page);
+        getRegions() {
+            this.$http.get('/api/regions')
+                .then(response => (this.regions = response.data))
         }
+
     },
     computed: {
         filterTable: function() {
@@ -148,7 +158,7 @@ export default {
     },
     watch: {
         filterTable: function() {
-            this.getFeed();
+            this.getFeed()
         },
     },
     components: {

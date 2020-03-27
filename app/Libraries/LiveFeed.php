@@ -21,21 +21,21 @@ class LiveFeed
         $this->Match = new Match($riot);
     }
 
-    public function getMatchs($pageNumber, $itemsNumber){
+    public function getMatchs(?Int $pageNumber = 1, Int $itemsNumber, ?String $lane, ?String $region){
         // Get Challengers
-        $challengers = $this->getChallengers();
+        $challengers = $this->getChallengers(10);
         // Get last matchs for each challenger
         $matchs = $this->Match->getChallengersLastMatch($challengers);
         // Return formated matchs
-        return $this->Match->formatMatchs($matchs, $pageNumber, $itemsNumber);
+        return $this->Match->formatMatchs($matchs, $pageNumber, $itemsNumber, $lane, $region);
     }
 
-    public function getChallengers(){
+    public function getChallengers(Int $numbers){
         // GET CHALLENGERS
         try {
-            $challengers = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->slice(1, 10);
+            $challengers = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->slice(1, $numbers);
         } catch (\Exception $e) {
-            return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+            return $e->getMessage();
         }
 
         return $challengers;
