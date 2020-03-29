@@ -27,7 +27,7 @@
             </vs-navbar-item>
             <v-select id="loadingSelect" :clearable="false" :value="selectedRegion" :options="regions" :placeholder="selectedRegion" class="w-48" v-model="selectedRegion" />
         </vs-navbar>
-        <vs-table :sst="true" @change-page="handleChangePage" :max-items="users.maxItems" :total="users.totalItems" pagination :data="users.data" @selected="handleSelected" id="loadingFeed">
+        <vs-table noDataText="" :sst="true" @change-page="handleChangePage" :max-items="users.maxItems" :total="users.totalItems" pagination :data="users.data" @selected="handleSelected" id="loadingFeed">
 
             <template slot="thead">
                 <vs-th></vs-th>
@@ -114,6 +114,13 @@ export default {
             this.$vs.notify({
                 title: `Selected ${tr.username}`,
                 text: `Email: ${tr.email}`
+            })
+            this.$router.push({
+                name: 'show',
+                params: {
+                    'region': tr.date,
+                    'match_id': tr.date
+                }
             })
         },
         handleChangePage(page) {

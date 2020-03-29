@@ -16,9 +16,9 @@ export default [
     icon: 'HomeIcon'
   },
   {
-    url: '/' + i18n.locale + '/page2',
+    url: '/' + i18n.locale + '/show',
     name: 'Page 2',
-    slug: 'page2',
+    slug: 'show',
     icon: 'FileIcon'
   }
 ]

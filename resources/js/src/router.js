@@ -41,9 +41,9 @@ const router = new Router({
           component: () => import('./views/Home.vue')
         },
         {
-          path: '/:lang/page2',
-          name: 'page-2',
-          component: () => import('./views/Page2.vue')
+          path: '/:lang/show/:region/:match_id',
+          name: 'show',
+          component: () => import('./views/Show.vue')
         }
       ]
     },
