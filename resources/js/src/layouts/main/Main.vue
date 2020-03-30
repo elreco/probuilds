@@ -101,7 +101,7 @@
         <the-footer />
 
     </div>
-    <twitch-live />
+    <!-- <twitch-live /> -->
 </div>
 </template>
 
