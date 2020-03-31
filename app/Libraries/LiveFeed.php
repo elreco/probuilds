@@ -12,32 +12,58 @@ use App\Http\Traits\CommonTrait;
 
 class LiveFeed
 {
-    private $Match;
 
-    protected $riot;
+    protected $riots = [];
 
-    public function __construct($riot){
-        $this->riot = $riot;
-        $this->Match = new Match($riot);
+    public function __construct($regions){
+        foreach($regions as $r){
+            $this->riots[] = Riot::initApi($r);
+        }
     }
 
-    public function getMatchs(?Int $pageNumber = 1, Int $itemsNumber, ?String $lane, ?String $region){
-        // Get Challengers
-        $challengers = $this->getChallengers(5);
-        // Get last matchs for each challenger
-        $matchs = $this->Match->getChallengersLastMatch($challengers);
+    public function getMatchs(?String $lane, ?Int $pageNumber, ?Int $itemsNumber){
+
+        $data = [];
+        $response = [
+            'data' => [],
+            'totalItems' => 0,
+            'maxItems' => 0,
+        ];
+
+        foreach($this->riots as $r){
+            $Match = new Match($r);
+            // Get Challengers
+            $challengers = $this->getChallengers(1, $r);
+            // Get last matchs for each challenger
+            if(is_string($challengers)){
+                dd($challengers);
+            }
+            $matchs = $Match->getChallengersLastMatch($challengers);
+            // get formatted matchs
+            $formattedMatchs = $Match->formatMatchs($matchs, $lane);
+            foreach($formattedMatchs as $fm){
+                $data[] = $fm;
+            }
+        }
+
+        // COLLECTION
+        $data = collect($data)->sortByDesc('date');
+        $response['data'] = $data->forPage($pageNumber, $itemsNumber)->values();
+        // total éléments
+        $response['totalItems'] =  $data->count();
+        // nombre d'items par page
+        $response['maxItems'] =  $itemsNumber;
         // Return formated matchs
-        return $this->Match->formatMatchs($matchs, $pageNumber, $itemsNumber, $lane, $region);
+        return $response;
     }
 
-    public function getChallengers(Int $numbers){
+    public function getChallengers(Int $numbers, $riot){
         // GET CHALLENGERS
         try {
-            $challengers = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->slice(1, $numbers);
+            $challengers = collect($riot->getLeagueChallenger("RANKED_SOLO_5x5"))->slice(1, $numbers);
         } catch (\Exception $e) {
             return $e->getMessage();
         }
-
         return $challengers;
     }
 }

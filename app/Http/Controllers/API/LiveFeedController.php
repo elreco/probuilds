@@ -8,9 +8,11 @@ use Illuminate\Http\Request;
 use App\Libraries\Riot;
 use App\Libraries\LiveFeed;
 // REGION
-use RiotAPI\LeagueAPI\Definitions\Region;
+use App\Libraries\Region;
 // RULE
 use Illuminate\Validation\Rule;
+// COLLECTION
+use Illuminate\Support\Collection;
 
 class LiveFeedController extends Controller
 {
@@ -31,11 +33,7 @@ class LiveFeedController extends Controller
      */
     public function index(Request $request)
     {
-        if(empty($request->region)){
-            $regions = ['EUW', 'NA'];
-        }else{
-            $regions = [$request->region];
-        }
+
         // $validateData = $request->validate([
         //     'page' => 'integer|max:3',
         //     'lane' =>  [
@@ -47,19 +45,17 @@ class LiveFeedController extends Controller
         //         Rule::in($this->regions)
         //     ],
         // ]);
-        foreach($regions as $r){
-            if($r != "europe"){
-                $riot = Riot::initApi($r);
-                $this->LiveFeed = new LiveFeed($riot);
-                $matchs[] = $this->LiveFeed->getMatchs($request->page,5,$request->lane,$r);
-            }
-        }
-        $return['data'] = $response->forPage($pageNumber, $itemsNumber)->values();
-        // total éléments
-        $return['totalItems'] =  $response->count();
-        // nombre d'items par page
-        $return['maxItems'] =  $itemsNumber;
 
-        return $matchs;
+        $itemsNumber = 5;
+        $matchs = [];
+        // si une region n'est pas sélectionnée
+        if(empty($request->region)){
+            $regions = $this->regions;
+        }else{
+            $regions = [$request->region];
+        }
+
+        $this->LiveFeed = new LiveFeed($regions);
+        return $this->LiveFeed->getMatchs($request->lane, $request->page, $itemsNumber);
     }
 }

@@ -22,7 +22,7 @@ class Match
 
     }
 
-    public function formatMatchs(Collection $matchs, ?Int $pageNumber = 1, Int $itemsNumber = 5, ?String $lane, ?String $region){
+    public function formatMatchs(Collection $matchs, ?String $lane){
         // $matchs = collection of matchs
         $response = [];
         $i=0;
@@ -157,11 +157,7 @@ class Match
             }
             $i++;
         }
-
-        $response = collect($response)->sortByDesc('date');
-
-
-
+        
         return $response;
     }
 

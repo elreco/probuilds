@@ -25,9 +25,9 @@
             <vs-navbar-item index="support">
                 <a href="#" class="support">Support</a>
             </vs-navbar-item>
-            <v-select id="loadingSelect" :clearable="false" :value="selectedRegion" :options="regions" :placeholder="selectedRegion" class="w-48" v-model="selectedRegion" />
+            <v-select id="loadingSelect" :clearable="true" :options="regions" :placeholder="$t('LiveFeed.allRegion')" class="w-48" v-model="selectedRegion" />
         </vs-navbar>
-        <vs-table noDataText="" :sst="true" @change-page="handleChangePage" :max-items="users.maxItems" :total="users.totalItems" pagination :data="users.data" @selected="handleSelected" id="loadingFeed">
+        <vs-table noDataText="" :currentPage="page" :sst="true" @change-page="handleChangePage" :max-items="users.maxItems" :total="users.totalItems" pagination :data="users.data" @selected="handleSelected" id="loadingFeed">
 
             <template slot="thead">
                 <vs-th></vs-th>
@@ -93,7 +93,7 @@ export default {
     data() {
         return {
             selectedLane: 0,
-            selectedRegion: "EUW",
+            selectedRegion: null,
             page: 1,
             regions: [],
             activeLoading: false,
@@ -165,7 +165,7 @@ export default {
     },
     watch: {
         filterTable: function() {
-            this.getFeed()
+            this.handleChangePage(1);
         },
     },
     components: {
