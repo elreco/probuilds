@@ -32,7 +32,9 @@ class LiveFeedController extends Controller
     public function index(Request $request)
     {
         if(empty($request->region)){
-            $request->region = "euw";
+            $regions = ['EUW', 'NA'];
+        }else{
+            $regions = [$request->region];
         }
         // $validateData = $request->validate([
         //     'page' => 'integer|max:3',
@@ -45,9 +47,19 @@ class LiveFeedController extends Controller
         //         Rule::in($this->regions)
         //     ],
         // ]);
-        $riot = Riot::initApi($request->region);
-        $this->LiveFeed = new LiveFeed($riot);
+        foreach($regions as $r){
+            if($r != "europe"){
+                $riot = Riot::initApi($r);
+                $this->LiveFeed = new LiveFeed($riot);
+                $matchs[] = $this->LiveFeed->getMatchs($request->page,5,$request->lane,$r);
+            }
+        }
+        $return['data'] = $response->forPage($pageNumber, $itemsNumber)->values();
+        // total éléments
+        $return['totalItems'] =  $response->count();
+        // nombre d'items par page
+        $return['maxItems'] =  $itemsNumber;
 
-        return $this->LiveFeed->getMatchs($request->page,5,$request->lane,$request->region);
+        return $matchs;
     }
 }

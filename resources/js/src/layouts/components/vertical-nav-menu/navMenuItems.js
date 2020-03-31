@@ -14,11 +14,5 @@ export default [
     name: 'Home',
     slug: 'home',
     icon: 'HomeIcon'
-  },
-  {
-    url: '/' + i18n.locale + '/show',
-    name: 'Page 2',
-    slug: 'show',
-    icon: 'FileIcon'
   }
 ]

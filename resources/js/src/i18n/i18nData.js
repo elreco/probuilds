@@ -3,10 +3,12 @@ export default {
     en: {
         meta: {
             title: {
-                home: 'League of Legends pro players builds and spectate them'
+                home: 'League of Legends pro players builds and spectate them',
+                showMatch: ''
             },
             description: {
-                description: ''
+                home: '',
+                showMatch: ''
             }
         },
         home: {

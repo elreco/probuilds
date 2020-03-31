@@ -23,7 +23,7 @@ class LiveFeed
 
     public function getMatchs(?Int $pageNumber = 1, Int $itemsNumber, ?String $lane, ?String $region){
         // Get Challengers
-        $challengers = $this->getChallengers(10);
+        $challengers = $this->getChallengers(5);
         // Get last matchs for each challenger
         $matchs = $this->Match->getChallengersLastMatch($challengers);
         // Return formated matchs

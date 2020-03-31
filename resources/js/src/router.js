@@ -41,9 +41,9 @@ const router = new Router({
           component: () => import('./views/Home.vue')
         },
         {
-          path: '/:lang/show/:region/:match_id',
-          name: 'show',
-          component: () => import('./views/Show.vue')
+          path: '/:lang/show-match/:region/:match_id',
+          name: 'show-match',
+          component: () => import('./views/ShowMatch.vue')
         }
       ]
     },

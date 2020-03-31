@@ -22,7 +22,7 @@ class Match
 
     }
 
-    public function formatMatchs(Collection $matchs, ?Int $pageNumber = 1, Int $itemsNumber = 5, ?String $lane, String $region){
+    public function formatMatchs(Collection $matchs, ?Int $pageNumber = 1, Int $itemsNumber = 5, ?String $lane, ?String $region){
         // $matchs = collection of matchs
         $response = [];
         $i=0;
@@ -160,13 +160,9 @@ class Match
 
         $response = collect($response)->sortByDesc('date');
 
-        $return['data'] = $response->forPage($pageNumber, $itemsNumber)->values();
-        // total éléments
-        $return['totalItems'] =  $response->count();
-        // nombre d'items par page
-        $return['maxItems'] =  $itemsNumber;
 
-        return $return;
+
+        return $response;
     }
 
     public function getChallengersLastMatch(Collection $challengers){

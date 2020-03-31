@@ -116,7 +116,7 @@ export default {
                 text: `Email: ${tr.email}`
             })
             this.$router.push({
-                name: 'show',
+                name: 'show-match',
                 params: {
                     'region': tr.date,
                     'match_id': tr.date
