@@ -105,6 +105,13 @@ export default {
             },
         }
     },
+    props: {
+        champion: {
+            type: String,
+            default: null,
+            required: false
+        }
+    },
     mounted() {
         this.getFeed()
         this.getRegions()
@@ -138,6 +145,7 @@ export default {
                         page: this.page,
                         lane: this.selectedLane,
                         region: this.selectedRegion,
+                        champion: this.$props.champion
                     }
                 })
                 .then(response => (this.users = response.data))

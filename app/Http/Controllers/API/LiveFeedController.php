@@ -33,7 +33,7 @@ class LiveFeedController extends Controller
      */
     public function index(Request $request)
     {
-
+        // A FAIRE - Validation des données
         // $validateData = $request->validate([
         //     'page' => 'integer|max:3',
         //     'lane' =>  [

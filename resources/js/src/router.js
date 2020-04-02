@@ -41,10 +41,15 @@ const router = new Router({
           component: () => import('./views/Home.vue')
         },
         {
-          path: '/:lang/show-match/:region/:match_id',
-          name: 'show-match',
-          component: () => import('./views/ShowMatch.vue')
-        }
+          path: '/:langshow-match/:region/:match_id',
+          name: 'match',
+          component: () => import('./views/Match.vue')
+      },
+      {
+        path: '/:lang/champion/:champion',
+        name: 'champion',
+        component: () => import('./views/Champion.vue')
+      }
       ]
     },
     // =============================================================================

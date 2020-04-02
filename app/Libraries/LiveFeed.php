@@ -35,9 +35,6 @@ class LiveFeed
             // Get Challengers
             $challengers = $this->getChallengers(1, $r);
             // Get last matchs for each challenger
-            if(is_string($challengers)){
-                dd($challengers);
-            }
             $matchs = $Match->getChallengersLastMatch($challengers);
             // get formatted matchs
             $formattedMatchs = $Match->formatMatchs($matchs, $lane);
