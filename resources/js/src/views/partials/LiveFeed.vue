@@ -7,7 +7,7 @@
                     {{ $t("LiveFeed.title") }}
                 </vs-navbar-title>
             </div>
-            <vs-navbar-item index="0">
+            <vs-navbar-item index="all">
                 <a href="#" class="all">{{ $t("LiveFeed.all") }}</a>
             </vs-navbar-item>
             <vs-navbar-item index="top">
@@ -92,7 +92,7 @@ import PopoverAvatar from '../../components/popovers/PopoverAvatar'
 export default {
     data() {
         return {
-            selectedLane: 0,
+            selectedLane: 'all',
             selectedRegion: null,
             page: 1,
             regions: [],

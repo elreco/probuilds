@@ -34,17 +34,19 @@ class LiveFeedController extends Controller
     public function index(Request $request)
     {
         // A FAIRE - Validation des données
-        // $validateData = $request->validate([
-        //     'page' => 'integer|max:3',
-        //     'lane' =>  [
-        //         'nullable',
-        //         Rule::in($this->lanes)
-        //     ],
-        //     'region' => [
-        //         'nullable',
-        //         Rule::in($this->regions)
-        //     ],
-        // ]);
+        $validateData = $request->validate([
+            'page' => 'integer|max:3',
+            'lane' =>  [
+                'nullable',
+                Rule::in($this->lanes)
+            ],
+            'region' => [
+                'nullable',
+                Rule::in(array_map('strtoupper', $this->regions))
+            ],
+        ]);
+        //dd($this->lanes);
+
 
         $itemsNumber = 5;
         $matchs = [];
