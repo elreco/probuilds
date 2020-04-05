@@ -90,6 +90,7 @@
 <script>
 import PopoverAvatar from '../../components/popovers/PopoverAvatar'
 export default {
+    name: 'live-feed',
     data() {
         return {
             selectedLane: 'all',
@@ -123,9 +124,10 @@ export default {
                 text: `Email: ${tr.email}`
             })
             this.$router.push({
-                name: 'show-match',
+                name: 'match',
                 params: {
-                    'region': tr.date,
+                    'region': tr.gold,
+                    'summoner_id': tr.gold,
                     'match_id': tr.date
                 }
             })

@@ -41,7 +41,7 @@ const router = new Router({
           component: () => import('./views/Home.vue')
         },
         {
-          path: '/:langshow-match/:region/:match_id',
+          path: '/:lang/match/:region/:summoner_id/:match_id',
           name: 'match',
           component: () => import('./views/Match.vue')
       },

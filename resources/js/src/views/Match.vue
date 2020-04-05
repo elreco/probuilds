@@ -1,11 +1,16 @@
 <template>
 <section id="dashboard-analytics">
     <search-banner />
+    <match-details />
+    <build-details />
 </section>
 </template>
 
 <script>
 import SearchBanner from './partials/SearchBanner'
+import MatchDetails from './partials/MatchDetails'
+import BuildDetails from './partials/BuildDetails'
+
 export default {
     data() {
         return {
@@ -13,7 +18,9 @@ export default {
         }
     },
     components: {
-        SearchBanner
+        SearchBanner,
+        MatchDetails,
+        BuildDetails
     },
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used
