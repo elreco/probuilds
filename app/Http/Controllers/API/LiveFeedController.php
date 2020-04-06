@@ -46,8 +46,6 @@ class LiveFeedController extends Controller
             ],
         ]);
         //dd($this->lanes);
-
-
         $itemsNumber = 5;
         $matchs = [];
         // si une region n'est pas sélectionnée
@@ -58,6 +56,6 @@ class LiveFeedController extends Controller
         }
 
         $this->LiveFeed = new LiveFeed($regions);
-        return $this->LiveFeed->getMatchs($request->lane, $request->page, $itemsNumber);
+        return $this->LiveFeed->getMatchs($request->lane, $request->page, $itemsNumber, $request->champion);
     }
 }

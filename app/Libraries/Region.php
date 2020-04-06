@@ -59,7 +59,7 @@ class Region
 		self::NORTH_AMERICA   => self::NORTH_AMERICA,
 		// self::EUROPE          => self::EUROPE,
 		self::EUROPE_WEST     => self::EUROPE_WEST,
-		self::EUROPE_EAST     => self::EUROPE_EAST,
+		// self::EUROPE_EAST     => self::EUROPE_EAST,
 		self::LAMERICA_SOUTH  => self::LAMERICA_SOUTH,
 		self::LAMERICA_NORTH  => self::LAMERICA_NORTH,
 		self::BRASIL          => self::BRASIL,

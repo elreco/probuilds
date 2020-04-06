@@ -21,7 +21,7 @@ class LiveFeed
         }
     }
 
-    public function getMatchs(?String $lane, ?Int $pageNumber, ?Int $itemsNumber){
+    public function getMatchs(?String $lane, ?Int $pageNumber, ?Int $itemsNumber, ?String $champion){
 
         $data = [];
         $response = [
@@ -35,9 +35,11 @@ class LiveFeed
             // Get Challengers
             $challengers = $this->getChallengers(1, $r);
             // Get last matchs for each challenger
-            $matchs = $Match->getChallengersLastMatch($challengers);
+            $matchs = $Match->getChallengersLastMatch($challengers, $champion);
             // get formatted matchs
             $formattedMatchs = $Match->formatMatchs($matchs, $lane);
+
+
             foreach($formattedMatchs as $fm){
                 $data[] = $fm;
             }
