@@ -181,6 +181,10 @@ class Match
                         $champion = intval($champ['key']);
                     }
                 }
+                // il n'y a pas de champion
+                if(empty($champion)){
+                    return [];
+                }
             }
             try {
                 $matchs[$c->summonerId] = collect($this->riot->getMatchlistByAccount($summoner->accountId, null, null, $champion,null,null, 0, 1));
