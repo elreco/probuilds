@@ -136,8 +136,8 @@ class Match
                             $item_name = "item" . $u;
                             if(!empty($participant->stats->$item_name)){
                                 $response[$i]['slots'][$u]['src'] = DataDragonAPI::getItemIconUrl($participant->stats->$item_name);
-                                $response[$i]['slots'][$u]['title'] = $items['data'][$participant->stats->$item_name]['name'];
-                                $response[$i]['slots'][$u]['description'] = $items['data'][$participant->stats->$item_name]['description'];
+                                $response[$i]['slots'][$u]['title'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['name'] : '';
+                                $response[$i]['slots'][$u]['description'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['description'] : '';
                             }
                         }
                         // SPELLS
@@ -164,27 +164,32 @@ class Match
     }
 
     public function getChallengersLastMatch(Collection $challengers, ?String $champion){
+
         foreach($challengers as $c){
+
             try {
                 $summoner = $this->riot->getSummoner($c->summonerId);
             } catch (\Exception $e) {
                 return $e->getMessage();
             }
+
             // GET CHAMPION KEY
             if(!empty($champion)){
                 $champions = DataDragonAPI::getStaticChampions();
-                foreach($champions['data'] as $c){
-                    if(strcasecmp($c['name'], $champion) == 0){
-                        $champion = intval($c['key']);
+                foreach($champions['data'] as $champ){
+                    if(strcasecmp($champ['name'], $champion) == 0){
+                        $champion = intval($champ['key']);
                     }
                 }
             }
             try {
                 $matchs[$c->summonerId] = collect($this->riot->getMatchlistByAccount($summoner->accountId, null, null, $champion,null,null, 0, 1));
                 $matchs[$c->summonerId]['summoner'] = $summoner;
+
             } catch (\Exception $e) {
                 return $e->getMessage();
             }
+
         }
 
         return collect($matchs);

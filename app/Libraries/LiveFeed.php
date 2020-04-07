@@ -33,12 +33,11 @@ class LiveFeed
         foreach($this->riots as $r){
             $Match = new Match($r);
             // Get Challengers
-            $challengers = $this->getChallengers(1, $r);
+            $challengers = $this->getChallengers(2, $r);
             // Get last matchs for each challenger
             $matchs = $Match->getChallengersLastMatch($challengers, $champion);
             // get formatted matchs
             $formattedMatchs = $Match->formatMatchs($matchs, $lane);
-
 
             foreach($formattedMatchs as $fm){
                 $data[] = $fm;

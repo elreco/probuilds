@@ -1,6 +1,7 @@
 <template>
 <section id="dashboard-analytics">
-    <search-banner />
+    {{championInput}}
+    <search-banner v-model="championInput" />
     <live-feed />
 </section>
 </template>
@@ -14,6 +15,7 @@ export default {
     data() {
         return {
             title: this.$i18n.t('meta.title.home'),
+            championInput: 'fgjfgjfgj',
         }
     },
     components: {
@@ -28,6 +30,11 @@ export default {
             titleTemplate: 'Probuilds.eu – %s'
         }
 
+    },
+    methods: {
+        championInput(champion) {
+            console.log(champion)
+        }
     }
 }
 </script>
