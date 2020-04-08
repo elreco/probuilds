@@ -4,8 +4,6 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-// MODEL
-use App\Libraries\Riot;
 // REGION
 use App\Libraries\Region;
 

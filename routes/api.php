@@ -21,6 +21,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::domain(env('APP_API_URL'))->group(function () {
     // LIVEFEED CONTROLLER
     Route::get('/livefeed', 'API\LiveFeedController@index');
-    // REGION CONTROLLER
+    // REGIONS CONTROLLER
     Route::get('/regions', 'API\RegionController');
+    // CHAMPIONS CONTROLLER
+    Route::get('/champions', 'API\ChampionController');
 });

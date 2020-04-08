@@ -25,6 +25,9 @@ export default {
             build: 'Build',
             all: 'All',
             allRegion: 'All Region'
+        },
+        SearchBanner: {
+            loading: 'Chargement'
         }
     },
     de: {},

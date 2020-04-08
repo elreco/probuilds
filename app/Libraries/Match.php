@@ -18,7 +18,7 @@ class Match
     public function __construct($riot){
         // MATCH
         $this->riot = $riot;
-        DataDragonAPI::initByVersion("10.4.1");
+        DataDragonAPI::initByCdn();
 
     }
 
