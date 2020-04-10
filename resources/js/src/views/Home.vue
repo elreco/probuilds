@@ -1,7 +1,8 @@
 <template>
 <section id="dashboard-analytics">
     {{championInput}}
-    <search-banner v-model="championInput" />
+    <!-- <search-banner v-model="championInput" /> -->
+    <search-banner />
     <live-feed />
 </section>
 </template>
