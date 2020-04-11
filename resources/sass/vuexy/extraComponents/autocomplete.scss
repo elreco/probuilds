@@ -32,6 +32,7 @@ pre.selected.hljs {
   }
   .suggestions{
     border-radius: 5px;
+    z-index:9999!important;
     .suggest-item{
       padding: .8rem 1rem;
       &.hover, &.selected{
@@ -49,6 +50,7 @@ pre.selected.hljs {
       }
 
       .suggestions {
+          z-index:9999!important;
         background: $theme-light-dark-bg !important;
       }
 
@@ -65,6 +67,7 @@ pre.selected.hljs {
     }
 
     .suggestions {
+          z-index:9999!important;
       background: $theme-dark-bg !important;
     }
 

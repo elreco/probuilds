@@ -12,6 +12,7 @@ export default {
             }
         },
         home: {
+            nav: 'Home',
             welcome: 'Welcome to Probuilds',
             welcomeText: "League of Legends professional player's <strong class='text-gold'>builds</strong> across all regions"
         },
@@ -41,6 +42,7 @@ export default {
             }
         },
         home: {
+            nav: 'Accueil',
             welcome: 'Bienvenue sur Probuilds',
             welcomeText: "<strong class='text-gold'>Builds</strong> des joueurs professionnels sur League of Legends dans toutes les régions"
         },

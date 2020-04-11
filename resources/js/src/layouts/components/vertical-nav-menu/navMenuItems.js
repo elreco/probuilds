@@ -11,7 +11,7 @@ import i18n from '../../../i18n/i18n'
 export default [
   {
     url: '/' + i18n.locale,
-    name: 'Home',
+    name: i18n.t('home.nav'),
     slug: 'home',
     icon: 'HomeIcon'
   }
