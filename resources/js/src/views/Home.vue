@@ -1,6 +1,5 @@
 <template>
 <section id="dashboard-analytics">
-    {{championInput}}
     <!-- <search-banner v-model="championInput" /> -->
     <search-banner />
     <live-feed />
@@ -31,11 +30,6 @@ export default {
             titleTemplate: 'Probuilds.eu – %s'
         }
 
-    },
-    methods: {
-        championInput(champion) {
-            console.log(champion)
-        }
     }
 }
 </script>

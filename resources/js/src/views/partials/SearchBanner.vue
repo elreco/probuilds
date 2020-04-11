@@ -62,7 +62,7 @@ export default {
     methods: {
         simpleSuggestionList() {
             return [
-                'Vue.js',
+                'Vayne',
                 'React.js',
                 'Angular.js'
             ]
