@@ -28,7 +28,8 @@ export default {
             allRegion: 'All Region'
         },
         SearchBanner: {
-            loading: 'Chargement'
+            loading: 'Loading',
+            searchInput: 'Search champion...'
         }
     },
     de: {},
@@ -56,6 +57,10 @@ export default {
             build: 'Build',
             all: 'Tout',
             allRegion: 'Toutes les régions'
+        },
+        SearchBanner: {
+            loading: 'Chargement',
+            searchInput: 'Rechercher un champion...'
         }
 
     },

@@ -1,7 +1,7 @@
 <template>
 <section id="dashboard-analytics">
-    <!-- <search-banner v-model="championInput" /> -->
-    <search-banner />
+    <search-banner v-model="championInput" />
+    <!-- <search-banner /> -->
     <live-feed />
 </section>
 </template>
@@ -15,7 +15,7 @@ export default {
     data() {
         return {
             title: this.$i18n.t('meta.title.home'),
-            championInput: 'fgjfgjfgj',
+            championInput: 'Bite',
         }
     },
     components: {
