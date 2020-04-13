@@ -20,11 +20,12 @@
             <img :src="images.leona" class="decore-right" alt="card-img-right">
             <h1 class="mb-4 text-white">{{ $t("home.welcome") }}</h1>
             <p class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white mb-5" v-html="$t('home.welcomeText')"></p>
-            <vue-simple-suggest :list="simpleSuggestionList" :filter-by-query="true">
-                <!-- Filter by input text to only show the matching results -->
-                <input v-model="inputVal" :placeholder="$t('SearchBanner.searchInput')" class="is-label-placeholder xl:w-2/5 lg:w-2/5 md:w-2/3 w-3/5 mx-auto text-white" />
-            </vue-simple-suggest>
-
+            <div class="xl:w-2/5 lg:w-2/5 md:w-2/3 w-3/5 mx-auto">
+                <vue-simple-suggest :list="simpleSuggestionList" :filter-by-query="true">
+                    <!-- Filter by input text to only show the matching results -->
+                    <input v-model="inputVal" :placeholder="$t('SearchBanner.searchInput')" class="is-label-placeholder   text-white" />
+                </vue-simple-suggest>
+            </div>
 
         </vx-card>
     </div>
