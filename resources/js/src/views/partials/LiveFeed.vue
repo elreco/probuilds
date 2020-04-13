@@ -1,5 +1,5 @@
 <template>
-<vx-card>
+<vx-card class="z-0">
     <div class="vx-col w-full">
         <vs-navbar active-text-color="rgba(255,255,255,1)" text-color v-model="selectedLane" class="nabarx mb-base lane-selection p-2" type="flat">
             <div slot="title">

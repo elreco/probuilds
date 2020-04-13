@@ -32,13 +32,17 @@ pre.selected.hljs {
   }
   .suggestions{
     border-radius: 5px;
-    z-index:9999!important;
-    position:absolute;
-    width:50%;
+    width:60%;
     text-align:center;
-    left:0;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    z-index:99999!important;
+    border: 1px solid rgba(var(--vs-primary),1)!important;
     .suggest-item{
       cursor:pointer;
+      z-index:9999!important;
       padding: .8rem 1rem;
       &.hover, &.selected{
         background-color: rgba(var(--vs-primary),1)!important;
