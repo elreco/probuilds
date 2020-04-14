@@ -21,23 +21,18 @@
             <h1 class="mb-4 text-white">{{ $t("home.welcome") }}</h1>
             <p class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white mb-5" v-html="$t('home.welcomeText')"></p>
             <div class="xl:w-2/5 lg:w-2/5 md:w-2/3 w-3/5 mx-auto">
-                <vue-simple-suggest :list="simpleSuggestionList" :filter-by-query="true">
+                <vue-simple-suggest :list="simpleSuggestionList" :filter-by-query="true" placeholder="Search information..." value-attribute="id" display-attribute="name">
                     <!-- Filter by input text to only show the matching results -->
                     <input v-model="inputVal" :placeholder="$t('SearchBanner.searchInput')" class="is-label-placeholder   text-white" />
-                    <div slot="suggestion-item" slot-scope="scope" :title="inputVal">
-                        <div class="flex items-center px-2 pt-4 pb-2">
-                            <div class="contact__avatar mr-1">
-                                <vs-avatar class="border-2 border-solid border-white" src="https://ddragon.leagueoflegends.com/cdn/10.7.1/img/champion/Taliyah.png" size="42px" />
+                    <div slot="suggestion-item" slot-scope="scope" :title="inputVal" class="suggest-item">
+                        <div class="flex items-center px-1 pt-1 pb-1">
+                            <div class="contact__avatar mr-3">
+                                <vs-avatar class="border-2 border-solid border-white" :src="scope.suggestion.src" size="42px" />
                             </div>
-                            <div class="contact__container w-full flex items-center justify-between overflow-hidden">
-                                <div class="contact__info flex flex-col truncate w-5/6">
-                                    <h5 class="font-semibold text-white">sdgsdg</h5>
-                                    <span class="truncate">sdgsdg</span>
-                                </div>
-
-                                <div class="chat__contact__meta flex self-start flex-col items-end w-1/6">
-                                    <span class="whitespace-no-wrap">sdgsdg</span>
-                                    <vs-chip class="number" color="primary">sdsdgsdg</vs-chip>
+                            <div class="contact__container w-full flex justify-between overflow-hidden">
+                                <div class="contact__info flex flex-col truncate w-4/6 text-left">
+                                    <h5 class="font-semibold text-white">{{scope.suggestion.name}}</h5>
+                                    <span class="truncate">{{scope.suggestion.title}}</span>
                                 </div>
                             </div>
                         </div>
@@ -79,12 +74,31 @@ export default {
         loading: false
     }),
     methods: {
-        simpleSuggestionList() {
-            return [
-                'Vayne',
-                'React.js',
-                'Angular.js'
-            ]
+        simpleSuggestionList(q) {
+
+            return this.$http.get('/api/champions?name=' + q).then(response => {
+                console.log(response.data);
+                return response.data
+            });
+            // return [{
+            //         'id': 1,
+            //         'title': 'Vayne',
+            //         'img': 'Vayne'
+            //
+            //     },
+            //     {
+            //         'id': 2,
+            //         'title': 'React',
+            //         'img': 'React'
+            //
+            //     },
+            //     {
+            //         'id': 3,
+            //         'title': 'R2',
+            //         'img': 'R2'
+            //
+            //     }
+            // ]
         },
 
     }
