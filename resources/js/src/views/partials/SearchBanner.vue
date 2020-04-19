@@ -21,7 +21,12 @@
             <h1 class="mb-4 text-white">{{ $t("home.welcome") }}</h1>
             <p class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white mb-5" v-html="$t('home.welcomeText')"></p>
             <div class="xl:w-2/5 lg:w-2/5 md:w-2/3 w-3/5 mx-auto">
-                <vue-simple-suggest :list="simpleSuggestionList" :filter-by-query="true" placeholder="Search information..." value-attribute="id" display-attribute="name">
+                <vue-simple-suggest :controls="{
+      selectionUp: [38, 33],
+      selectionDown: [40, 34],
+      select: [13, 36],
+      hideList: [27, 35]
+    }" :list="simpleSuggestionList" :filter-by-query="true" value-attribute="id" display-attribute="name" @select="onSuggestSelect">
                     <!-- Filter by input text to only show the matching results -->
                     <input v-model="inputVal" :placeholder="$t('SearchBanner.searchInput')" class="is-label-placeholder   text-white" />
                     <div slot="suggestion-item" slot-scope="scope" :title="inputVal" class="suggest-item">
@@ -75,31 +80,13 @@ export default {
     }),
     methods: {
         simpleSuggestionList(q) {
-
             return this.$http.get('/api/champions?name=' + q).then(response => {
-                console.log(response.data);
                 return response.data
             });
-            // return [{
-            //         'id': 1,
-            //         'title': 'Vayne',
-            //         'img': 'Vayne'
-            //
-            //     },
-            //     {
-            //         'id': 2,
-            //         'title': 'React',
-            //         'img': 'React'
-            //
-            //     },
-            //     {
-            //         'id': 3,
-            //         'title': 'R2',
-            //         'img': 'R2'
-            //
-            //     }
-            // ]
         },
+        onSuggestSelect(suggest) {
+            this.$emit('selected', suggest)
+        }
 
     }
 

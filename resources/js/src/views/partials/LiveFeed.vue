@@ -171,7 +171,7 @@ export default {
                 selectedLane,
                 selectedRegion
             }
-        }
+        },
     },
     watch: {
         filterTable: function() {

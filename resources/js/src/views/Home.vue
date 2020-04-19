@@ -1,8 +1,8 @@
 <template>
 <section id="dashboard-analytics">
-    <search-banner v-model="championInput" />
+    <search-banner v-model="championName" @selected="onSelectChampion" />
     <!-- <search-banner /> -->
-    <live-feed />
+    <live-feed :champion="championName" />
 </section>
 </template>
 
@@ -15,12 +15,17 @@ export default {
     data() {
         return {
             title: this.$i18n.t('meta.title.home'),
-            championInput: 'Bite',
+            championName: '',
         }
     },
     components: {
         LiveFeed,
         SearchBanner
+    },
+    methods: {
+        onSelectChampion(value) {
+            this.championName = value.name
+        }
     },
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used
