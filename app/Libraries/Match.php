@@ -127,8 +127,8 @@ class Match
                         $runes = $this->riot->getStaticReforgedRunes()->runes;
                         $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths;
                         $player_stats = $participant->stats;
-                        $response[$i]['keystone'] = DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src;
-                        $response[$i]['subkeystone'] = DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src;
+                        $response[$i]['keystone'] = !empty($runes[$player_stats->perk0]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src : '';
+                        $response[$i]['subkeystone'] = !empty($runes[$player_stats->perk4]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src : '';
 
                         // SLOTS
                         $items = DataDragonAPI::getStaticItems();

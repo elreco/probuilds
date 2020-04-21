@@ -80,7 +80,7 @@ export default {
     }),
     methods: {
         simpleSuggestionList(q) {
-            return this.$http.get('/api/champions?name=' + q).then(response => {
+            return this.$http.get('champions?name=' + q).then(response => {
                 return response.data
             });
         },

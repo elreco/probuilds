@@ -105,6 +105,8 @@ export default {
                 'totalItems': 1,
                 'maxItems': 1
             },
+            requests: [],
+            request: null
         }
     },
     props: {
@@ -138,38 +140,52 @@ export default {
             this.getFeed()
         },
         getFeed() {
-            // CHECK LOADING LOGIC
-            // exit if function is already running
-            if (this.get_feed_is_running) return;
-            // set running to true
-            this.get_feed_is_running = true;
-
+            if (this.request) this.cancel();
+            const axiosSource = this.$http.CancelToken.source();
+            this.request = {
+                cancel: axiosSource.cancel,
+                msg: "Loading..."
+            };
             // loading
             this.$vs.loading({
                 type: 'material',
                 container: '#loadingFeed',
             })
 
-            this.$http.get('/api/livefeed', {
+            this.$http.get('livefeed', {
                     params: {
                         page: this.page,
                         lane: this.selectedLane,
                         region: this.selectedRegion,
                         champion: this.$props.champion
-                    }
+                    },
+                    cancelToken: axiosSource.token
                 })
                 .then(response => (this.users = response.data))
                 .then(() => {
                     this.$vs.loading.close('#loadingFeed > .con-vs-loading')
+                    this.clearOldRequest("Success")
                 })
+                .catch(this.logResponseErrors)
             // UPDATE this.users après avoir fait la requête axios
-
-            // END OF FUNCTION
-            // set running to false before exiting
-            this.get_feed_is_running = false;
+        },
+        cancel() {
+            this.request.cancel()
+            this.$vs.loading.close('#loadingFeed > .con-vs-loading')
+            this.clearOldRequest("Cancelled")
+        },
+        logResponseErrors(err) {
+            if (this.$http.isCancel(err)) {
+                console.log("Request cancelled");
+            }
+        },
+        clearOldRequest(msg) {
+            this.request.msg = msg;
+            this.requests.push(this.request);
+            this.request = null;
         },
         getRegions() {
-            this.$http.get('/api/regions')
+            this.$http.get('regions')
                 .then(response => (this.regions = response.data))
         },
         setChampionName(name) {
