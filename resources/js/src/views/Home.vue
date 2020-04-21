@@ -2,7 +2,7 @@
 <section id="dashboard-analytics">
     <search-banner v-model="championName" @selected="onSelectChampion" />
     <!-- <search-banner /> -->
-    <live-feed :champion="championName" />
+    <live-feed ref="championRef" />
 </section>
 </template>
 
@@ -25,6 +25,7 @@ export default {
     methods: {
         onSelectChampion(value) {
             this.championName = value.name
+            this.$refs.championRef.setChampionName(this.championName)
         }
     },
     metaInfo() {

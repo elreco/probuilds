@@ -99,6 +99,7 @@ export default {
             regions: [],
             activeLoading: false,
             totalItems: 0,
+            get_feed_is_running: false,
             users: {
                 'data': [],
                 'totalItems': 1,
@@ -137,11 +138,18 @@ export default {
             this.getFeed()
         },
         getFeed() {
+            // CHECK LOADING LOGIC
+            // exit if function is already running
+            if (this.get_feed_is_running) return;
+            // set running to true
+            this.get_feed_is_running = true;
+
             // loading
             this.$vs.loading({
                 type: 'material',
                 container: '#loadingFeed',
             })
+
             this.$http.get('/api/livefeed', {
                     params: {
                         page: this.page,
@@ -155,10 +163,18 @@ export default {
                     this.$vs.loading.close('#loadingFeed > .con-vs-loading')
                 })
             // UPDATE this.users après avoir fait la requête axios
+
+            // END OF FUNCTION
+            // set running to false before exiting
+            this.get_feed_is_running = false;
         },
         getRegions() {
             this.$http.get('/api/regions')
                 .then(response => (this.regions = response.data))
+        },
+        setChampionName(name) {
+            this.$props.champion = name
+            this.getFeed()
         }
 
     },
@@ -172,6 +188,16 @@ export default {
                 selectedRegion
             }
         },
+        inputVal: {
+            get() {
+                return this.value;
+            },
+            set(val) {
+
+                this.$emit('champion', val);
+                alert(val);
+            }
+        }
     },
     watch: {
         filterTable: function() {
