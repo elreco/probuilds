@@ -106,14 +106,8 @@ export default {
                 'maxItems': 1
             },
             requests: [],
-            request: null
-        }
-    },
-    props: {
-        champion: {
-            type: String,
-            default: null,
-            required: false
+            request: null,
+            champion: null
         }
     },
     mounted() {
@@ -157,7 +151,7 @@ export default {
                         page: this.page,
                         lane: this.selectedLane,
                         region: this.selectedRegion,
-                        champion: this.$props.champion
+                        champion: this.champion
                     },
                     cancelToken: axiosSource.token
                 })
@@ -189,7 +183,7 @@ export default {
                 .then(response => (this.regions = response.data))
         },
         setChampionName(name) {
-            this.$props.champion = name
+            this.champion = name
             this.getFeed()
         }
 

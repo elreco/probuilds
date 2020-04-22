@@ -60,6 +60,7 @@ class Match
                 // GAME ID
                 $response[$i]['id'] = $m{0}->gameId;
                 $src = DataDragonAPI::getChampionIconO($m{0}->staticData);
+
                 // CHAMPION
                 $response[$i]['champion'] = [
                     'title' => $m{0}->staticData->name,
@@ -77,7 +78,11 @@ class Match
                 /// SEARCH VS PLAYER ///
                 ////////////////////////
                 // MATCH FROM API
-                $matchApi = $this->riot->getMatch($m{0}->gameId);
+                try {
+                    $matchApi = $this->riot->getMatch($m{0}->gameId);
+                } catch (\Exception $e) {
+                    return null;
+                }
 
                 //Identité des joueurs
                 $participantIdentities = [];
@@ -85,7 +90,7 @@ class Match
                 try {
                     $participantIdentitiesAPI = $matchApi->participantIdentities;
                 } catch (\Exception $e) {
-                    return $e->getMessage();
+                    return null;
                 }
 
                 foreach($participantIdentitiesAPI as $participantIdentity){
@@ -94,11 +99,12 @@ class Match
                         $playerParticipantId = $participantIdentity->participantId;
                     }
                 }
+
                 // Joueurs
                 try {
                     $participantsAPI = $matchApi->participants;
                 } catch (\Exception $e) {
-                    return $e->getMessage();
+                    return null;
                 }
 
                 foreach($participantsAPI as $participant){
@@ -172,7 +178,6 @@ class Match
             } catch (\Exception $e) {
                 return $e->getMessage();
             }
-
             // GET CHAMPION KEY
             if(!empty($champion)){
                 $champions = DataDragonAPI::getStaticChampions();
@@ -191,11 +196,9 @@ class Match
                 $matchs[$c->summonerId]['summoner'] = $summoner;
 
             } catch (\Exception $e) {
-                return $e->getMessage();
+                //return $e->getMessage();
             }
-
         }
-
         return collect($matchs);
     }
 }
