@@ -7,7 +7,7 @@ use RiotAPI\LeagueAPI\LeagueAPI;
 use RiotAPI\LeagueAPI\Definitions\Region;
 use Illuminate\Foundation\Application;
 
-class Riot
+class RiotEntity
 {
     public static $lanes = array(
 		'all',

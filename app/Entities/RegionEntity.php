@@ -27,7 +27,7 @@ use RiotAPI\LeagueAPI\Exceptions\GeneralException;
  *
  * @package RiotAPI\LeagueAPI\Definitions
  */
-class Region
+class RegionEntity
 {
 	// ==================================================================dd=
 	//     Standard game regions (servers)

@@ -9,11 +9,11 @@ use App\Http\Traits\CommonTrait;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
 
-class Match
+class MatchEntity
 {
     //
     use CommonTrait;
-    protected $riot;
+    protected $matchs;
 
     public function __construct($riot){
         // MATCH
@@ -22,6 +22,24 @@ class Match
 
     }
 
+    public function get($request){
+        //dd($this->lanes);
+        $itemsNumber = 5;
+        $matchs = [];
+        // si une region n'est pas sélectionnée
+        if(empty($request->region)){
+            $regions = $this->regions;
+        }else{
+            $regions = [$request->region];
+        }
+
+        $this->LiveFeed = new LiveFeed($regions);
+    }
+
+    public function take($number){
+        return $this->take(5);
+    }
+    
     public function formatMatchs($matchs, ?String $lane){
         // $matchs = collection of matchs
         $response = [];
