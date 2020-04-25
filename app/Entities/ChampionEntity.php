@@ -15,15 +15,19 @@ class ChampionEntity{
 
     public function getChampionKey($championName = null){
 
-        if(!empty($champion)){
+        if(!empty($championName)){
             $champions = DataDragonAPI::getStaticChampions();
             foreach($champions['data'] as $champ){
-                if(strcasecmp($champ['name'], $champion) == 0){
+                if(strcasecmp($champ['name'], $championName) == 0){
                     $champion = intval($champ['key']);
                 }
             }
             // il n'y a pas de champion
-            if(empty($champion)){ return null; }
+            if(empty($champion)){
+                return null;
+            }else{
+                return $champion;
+            }
         }else{
             return null;
         }

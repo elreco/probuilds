@@ -35,22 +35,22 @@ class MatchEntity
         // Get Challengers
         $challengerEntity = new ChallengerEntity($this->riot);
         $challengers = $challengerEntity->getChallengers(2);
-
         // Get last matchs for each challenger
         $challengersLastMatch = $this->getChallengersLastMatch($challengers, $request);
-
+        // return an array of matches
         return $this->formatMatchesOutput($challengersLastMatch, $request);
     }
 
     /**
      * Format the matches from riot api return.
      *
-     * @return \Illuminate\Http\Response
+     * @return Array
      */
     private function formatMatchesOutput($matches, $request){
 
         $i=0;
         $lane = $request->lane;
+        $response = [];
         // equivalent de if !empty
         foreach($matches as $summonerId => $m){
             // LANE FILTER
@@ -129,10 +129,9 @@ class MatchEntity
             } catch (\Exception $e) {
                 return null;
             }
-
             foreach($participantsAPI as $participant){
                 // GET VS CHAMPION
-                if($participant->timeline->role == $m{0}->role){
+                if($playerParticipantId != $participant->participantId && $participant->timeline->role == $m{0}->role){
                     // $summonerVS = $this->riot->getSummoner($participantIdentities[$participant->participantId]->player->summonerId);
                     $src = DataDragonAPI::getChampionIconO($participant->staticData);
                     $response[$i]['vs'] = [
@@ -199,47 +198,51 @@ class MatchEntity
      * @return \Illuminate\Support\Collection
      */
 
-    public function getChallengersLastMatch(Collection $challengers, $request){
+    public function getChallengersLastMatch(?Collection $challengers, $request){
 
         $matches = [];
+        if(!$challengers->isEmpty()){
+            foreach($challengers as $c){
 
-        foreach($challengers as $c){
+                $summonerEntity = new SummonerEntity($this->riot);
+                $summoner = $summonerEntity->getSummoner($c->summonerId);
+                // get account Id
+                !empty($summoner) ? $accountId = $summoner->accountId : null;
 
-            $summonerEntity = new SummonerEntity($this->riot);
-            $summoner = $summonerEntity->getSummoner($c->summonerId);
-            // get account Id
-            !empty($summoner) ? $accountId = $summoner->accountId : null;
+                // GET CHAMPION KEY
+                $championEntity = new ChampionEntity();
+                $championKey = $championEntity->getChampionKey($request->champion);
 
-            // GET CHAMPION KEY
-            $championEntity = new ChampionEntity();
-            $champion = $championEntity->getChampionKey($request->champion);
+                // get last match
+                $lastMatch = $this->getLastMatch($accountId, $championKey);
 
-            // get last match
-            $matches[$c->summonerId] = $this->getLastMatch($accountId, $request->champion);
+                if(!empty($lastMatch)){
 
-            if(!empty($matches[$c->summonerId])){
-                $matches[$c->summonerId]['summoner'] = $summoner;
+                    $matches[$c->summonerId] = $lastMatch;
+                    $matches[$c->summonerId]['summoner'] = $summoner;
+
+                }
+
             }
-
         }
+
         // to collection
         return collect($matches);
     }
 
     /**
-     * Display last match for a given account Id, champion is not required.
+     * Display last match for a given account Id, champion key is not required.
      *
      * @return \Illuminate\Support\Collection
      */
 
-    public function getLastMatch($accountId, $champion = null){
+    public function getLastMatch($accountId, $championKey = null){
 
         try{
-            $match = collect($this->riot->getMatchlistByAccount($accountId, null, null, $champion,null,null, 0, 1));
+            $match = collect($this->riot->getMatchlistByAccount($accountId, 420, null, $championKey,null,null, 0, 1));
         }catch(\Exception $e){
             return null;
         }
-
         return $match;
 
     }
