@@ -131,7 +131,7 @@ return [
     */
 
     // 'riot_api_key' => env('RIOT_API_KEY', "RGAPI-f09ce477-11c8-4651-992e-caee44fb1c99"),
-    'riot_api_key' => "RGAPI-07dda223-5719-4e71-b690-c2071eb20006",
+    'riot_api_key' => "RGAPI-4fc924f0-49be-4883-aad3-beb58fa95f22",
 
     /*
     |--------------------------------------------------------------------------
@@ -184,7 +184,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-
     ],
 
     /*

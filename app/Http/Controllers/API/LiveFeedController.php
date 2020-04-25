@@ -4,58 +4,55 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-// MODEL
-use App\Libraries\Riot;
-use App\Libraries\LiveFeed;
-// REGION
-use App\Libraries\Region;
-// RULE
-use Illuminate\Validation\Rule;
 // COLLECTION
 use Illuminate\Support\Collection;
+// REQUEST
+use App\Http\Requests\LiveFeed;
+// ENTITY
+use App\Entities\MatchEntity;
+use App\Entities\RegionEntity;
+use App\Entities\Riot\RiotEntity;
 
 class LiveFeedController extends Controller
 {
 
-    private $LiveFeed;
-    private $regions;
-    private $lanes;
-
-    public function __construct()
-    {
-        $this->regions = Region::$list;
-        $this->lanes = Riot::$lanes;
-    }
     /**
-     * Display a listing of the resource.
+     * route : /api/livefeed.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(LiveFeed $request)
     {
-        // A FAIRE - Validation des données
-        $validateData = $request->validate([
-            'page' => 'integer|max:3',
-            'lane' =>  [
-                'nullable',
-                Rule::in($this->lanes)
-            ],
-            'region' => [
-                'nullable',
-                Rule::in(array_map('strtoupper', $this->regions))
-            ],
-        ]);
-        //dd($this->lanes);
+        return $this->getLiveFeed($request);
+    }
+
+    private function getLiveFeed($request){
+
+        $regions = empty($request->region) ? RegionEntity::$list : [$request->region];
+        $riots = RiotEntity::initApi($regions);
+
+        $response = [
+            'data' => [],
+            'totalItems' => 0,
+            'maxItems' => 0,
+        ];
+
         $itemsNumber = 5;
-        $matchs = [];
-        // si une region n'est pas sélectionnée
-        if(empty($request->region)){
-            $regions = $this->regions;
-        }else{
-            $regions = [$request->region];
+
+        foreach($riots as $region => $riot){
+            $matchEntity = new MatchEntity($riot);
+            $matches = $matchEntity->getMatchesTopElo($request);
+            $response['data'] = !empty($matches) ? array_merge($response['data'], $matches) : $response['data'];
         }
 
-        $this->LiveFeed = new LiveFeed($regions);
-        return $this->LiveFeed->getMatchs($request->lane, $request->page, $itemsNumber, $request->champion);
+        $collectionResponse = collect($response['data']);
+
+        $response['data'] = $collectionResponse->sortByDesc('date')->forPage($request->page, $itemsNumber)->values();
+        // total éléments
+        $response['totalItems'] =  $collectionResponse->count();
+        // nombre d'items par page
+        $response['maxItems'] =  $itemsNumber;
+
+        return $response;
     }
 }

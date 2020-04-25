@@ -17,7 +17,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace App\Libraries;
+namespace App\Entities;
 
 use RiotAPI\LeagueAPI\Exceptions\GeneralException;
 
@@ -27,7 +27,7 @@ use RiotAPI\LeagueAPI\Exceptions\GeneralException;
  *
  * @package RiotAPI\LeagueAPI\Definitions
  */
-class Region
+class RegionEntity
 {
 	// ==================================================================dd=
 	//     Standard game regions (servers)
