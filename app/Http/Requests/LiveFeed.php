@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
+use App\Entities\RegionEntity;
+use App\Entities\Riot\RiotEntity;
+
 
 class LiveFeed extends FormRequest
 {
@@ -14,7 +17,7 @@ class LiveFeed extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -26,13 +29,14 @@ class LiveFeed extends FormRequest
     {
         return [
             'page' => 'integer|max:3',
+            'champion' => 'string|max:30',
             'lane' =>  [
                 'nullable',
-                Rule::in($this->lanes)
+                Rule::in(RiotEntity::$lanes)
             ],
             'region' => [
                 'nullable',
-                Rule::in(array_map('strtoupper', $this->regions))
+                Rule::in(array_map('strtoupper', RegionEntity::$list))
             ],
         ];
     }
