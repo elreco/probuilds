@@ -32,6 +32,7 @@ export default {
         checkChampion() {
             // check if champion exists
             // if exists
+
             this.setChampionRef();
             // else if not exist
             // 404

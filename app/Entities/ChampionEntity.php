@@ -42,7 +42,6 @@ class ChampionEntity{
      */
     public function getChampionsByName($request){
         $return = [];
-        $i=0;
         // init data dragon
         DataDragonAPI::initByCdn();
         $champions = DataDragonAPI::getStaticChampions();
@@ -64,23 +63,16 @@ class ChampionEntity{
      *
      * @return boolean or string
      */
-    public function checkIfChampionExists($champion){
-        $return = [];
-        $i=0;
+    public function checkIfChampionExists($request){
         // init data dragon
         DataDragonAPI::initByCdn();
         $champions = DataDragonAPI::getStaticChampions();
         foreach($champions['data'] as $c){
-            if(empty($request->query('name')) OR Str::startsWith(strtoupper($c['id']), strtoupper($request->query('name'))) OR Str::startsWith(strtoupper($c['name']), strtoupper($request->query('name')))){
-                $return[intval($c['key'])] = [
-                    'id' => intval($c['key']),
-                    'name' => $c['name'],
-                    'title' => Str::ucfirst($c['title']),
-                    'src' => DataDragonAPI::getChampionIconUrl($c['id'])
-                ];
+            if( strtoupper( $c['name']) == strtoupper($request->query('name')) ){
+                return $c['name'];
             }
         }
-        return array_slice($return, 0, 5);
+        return abort(404);
     }
 
 }
