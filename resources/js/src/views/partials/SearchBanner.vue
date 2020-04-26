@@ -83,11 +83,7 @@ export default {
             return this.$http.get('champions?name=' + q).then(response => {
                 return response.data
             });
-        },
-        onSuggestSelect(suggest) {
-            this.$emit('selected', suggest)
         }
-
     }
 
 }

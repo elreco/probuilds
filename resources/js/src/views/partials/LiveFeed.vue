@@ -138,7 +138,7 @@ export default {
             const axiosSource = this.$http.CancelToken.source();
             this.request = {
                 cancel: axiosSource.cancel,
-                msg: "Loading..."
+                msg: $t('SearchBanner.loading')
             };
             // loading
             this.$vs.loading({

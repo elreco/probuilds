@@ -1,7 +1,6 @@
 <template>
 <section id="dashboard-analytics">
     <search-banner v-model="championName" @selected="onSelectChampion" />
-    <!-- <search-banner /> -->
     <live-feed ref="championRef" />
 </section>
 </template>
