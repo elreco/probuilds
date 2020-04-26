@@ -83,7 +83,16 @@ export default {
             return this.$http.get('champions?name=' + q).then(response => {
                 return response.data
             });
+        },
+        onSuggestSelect(suggest) {
+            this.$router.push({
+                name: 'champion',
+                params: {
+                    'champion': suggest.name,
+                }
+            })
         }
+
     }
 
 }

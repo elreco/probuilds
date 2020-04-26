@@ -24,5 +24,6 @@ Route::domain(env('APP_API_URL'))->group(function () {
     // REGIONS CONTROLLER
     Route::get('/regions', 'API\RegionController');
     // CHAMPIONS CONTROLLER
-    Route::get('/champions', 'API\ChampionController');
+    Route::get('/champions', 'API\ChampionController@index');
+    Route::get('/champions/check', 'API\ChampionController@checkIfChampionExists');
 });

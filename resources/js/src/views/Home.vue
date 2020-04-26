@@ -1,6 +1,6 @@
 <template>
 <section id="dashboard-analytics">
-    <search-banner v-model="championName" @selected="onSelectChampion" />
+    <search-banner v-model="championName" />
     <live-feed ref="championRef" />
 </section>
 </template>
@@ -20,12 +20,6 @@ export default {
     components: {
         LiveFeed,
         SearchBanner
-    },
-    methods: {
-        onSelectChampion(value) {
-            this.championName = value.name
-            this.$refs.championRef.setChampionName(this.championName)
-        }
     },
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used

@@ -4,6 +4,8 @@ namespace App\Entities;
 
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
+// STRING
+use Illuminate\Support\Str;
 
 class ChampionEntity{
 
@@ -39,6 +41,30 @@ class ChampionEntity{
      * @return Array
      */
     public function getChampionsByName($request){
+        $return = [];
+        $i=0;
+        // init data dragon
+        DataDragonAPI::initByCdn();
+        $champions = DataDragonAPI::getStaticChampions();
+        foreach($champions['data'] as $c){
+            if(Str::startsWith(strtoupper($c['id']), strtoupper($request->query('name'))) OR Str::startsWith(strtoupper($c['name']), strtoupper($request->query('name')))){
+                $return[intval($c['key'])] = [
+                    'id' => intval($c['key']),
+                    'name' => $c['name'],
+                    'title' => Str::ucfirst($c['title']),
+                    'src' => DataDragonAPI::getChampionIconUrl($c['id'])
+                ];
+            }
+        }
+        return array_slice($return, 0, 5);
+    }
+
+    /**
+     * Check if champion exists and returns his well formatted name.
+     *
+     * @return boolean or string
+     */
+    public function checkIfChampionExists($champion){
         $return = [];
         $i=0;
         // init data dragon

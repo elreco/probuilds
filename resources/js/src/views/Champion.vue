@@ -1,6 +1,6 @@
 <template>
 <section id="dashboard-analytics">
-    <search-banner v-model="championName" @selected="onSelectChampion" />
+    <search-banner v-model="championName" />
     <live-feed ref="championRef" />
 </section>
 </template>
@@ -18,29 +18,21 @@ export default {
         }
     },
     mounted() {
-        checkChampion(this.$router.params.baseaccount);
+        this.checkChampion(this.$route.params.champion);
     },
     components: {
         LiveFeed,
         SearchBanner
     },
     methods: {
-        onSelectChampion(value) {
-            this.$router.push({
-                name: 'champion',
-                params: {
-                    'champion': value.name,
-                }
-            })
-        },
         setChampionRef() {
-            this.championName = this.$router.params.champion
+            this.championName = this.$route.params.champion
             this.$refs.championRef.setChampionName(this.championName)
         },
         checkChampion() {
             // check if champion exists
             // if exists
-            setChampionRef();
+            this.setChampionRef();
             // else if not exist
             // 404
         }
