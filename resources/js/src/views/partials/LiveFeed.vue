@@ -91,6 +91,7 @@
 import PopoverAvatar from '../../components/popovers/PopoverAvatar'
 export default {
     name: 'live-feed',
+    props: ['champion'],
     data() {
         return {
             selectedLane: 'all',
@@ -106,13 +107,13 @@ export default {
                 'maxItems': 1
             },
             requests: [],
-            request: null,
-            champion: null
+            request: null
         }
     },
+
     mounted() {
-        this.getFeed()
         this.getRegions()
+        this.getFeed()
     },
     methods: {
         handleSelected(tr) {
@@ -134,57 +135,28 @@ export default {
             this.getFeed()
         },
         getFeed() {
-            if (this.request) this.cancel();
-            const axiosSource = this.$http.CancelToken.source();
-            this.request = {
-                cancel: axiosSource.cancel,
-                msg: "Loading..."
-            };
             // loading
             this.$vs.loading({
                 type: 'material',
                 container: '#loadingFeed',
             })
-
             this.$http.get('livefeed', {
                     params: {
                         page: this.page,
                         lane: this.selectedLane,
                         region: this.selectedRegion,
                         champion: this.champion
-                    },
-                    cancelToken: axiosSource.token
+                    }
                 })
                 .then(response => (this.users = response.data))
                 .then(() => {
                     this.$vs.loading.close('#loadingFeed > .con-vs-loading')
-                    this.clearOldRequest("Success")
                 })
-                .catch(this.logResponseErrors)
             // UPDATE this.users après avoir fait la requête axios
-        },
-        cancel() {
-            this.request.cancel()
-            this.$vs.loading.close('#loadingFeed > .con-vs-loading')
-            this.clearOldRequest("Cancelled")
-        },
-        logResponseErrors(err) {
-            if (this.$http.isCancel(err)) {
-                console.log("Request cancelled");
-            }
-        },
-        clearOldRequest(msg) {
-            this.request.msg = msg;
-            this.requests.push(this.request);
-            this.request = null;
         },
         getRegions() {
             this.$http.get('regions')
                 .then(response => (this.regions = response.data))
-        },
-        setChampionName(name) {
-            this.champion = name
-            this.getFeed()
         }
 
     },

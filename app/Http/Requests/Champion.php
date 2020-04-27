@@ -24,7 +24,7 @@ class Champion extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'string|max:30',
+            'name' => 'nullable|string|max:30',
         ];
     }
 }

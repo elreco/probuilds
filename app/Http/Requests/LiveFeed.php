@@ -7,7 +7,6 @@ use Illuminate\Validation\Rule;
 use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
 
-
 class LiveFeed extends FormRequest
 {
     /**
@@ -29,7 +28,7 @@ class LiveFeed extends FormRequest
     {
         return [
             'page' => 'integer|max:3',
-            'champion' => 'string|max:30',
+            'champion' => 'nullable|string|max:30',
             'lane' =>  [
                 'nullable',
                 Rule::in(RiotEntity::$lanes)

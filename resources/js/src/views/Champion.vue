@@ -1,7 +1,7 @@
 <template>
 <section id="dashboard-analytics">
-    <search-banner v-model="championName" />
-    <live-feed ref="championRef" />
+    <search-banner v-model="champion" />
+    <live-feed :champion="champion" />
 </section>
 </template>
 
@@ -14,28 +14,28 @@ export default {
     data() {
         return {
             title: this.$i18n.t('meta.title.home'),
-            championName: '',
+            champion: '',
         }
     },
-    mounted() {
-        this.checkChampion(this.$route.params.champion);
+    created() {
+        this.checkChampion()
     },
     components: {
         LiveFeed,
         SearchBanner
     },
     methods: {
-        setChampionRef() {
-            this.championName = this.$route.params.champion
-            this.$refs.championRef.setChampionName(this.championName)
-        },
         checkChampion() {
             // check if champion exists
             // if exists
 
-            this.setChampionRef();
+            this.setChampion();
             // else if not exist
             // 404
+        },
+        setChampion() {
+            this.champion = this.$route.params.champion
+            console.log("champion.vue:" + this.champion)
         }
     },
     metaInfo() {
