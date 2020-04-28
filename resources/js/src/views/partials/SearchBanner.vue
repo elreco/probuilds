@@ -28,8 +28,8 @@
       hideList: [27, 35]
     }" :list="simpleSuggestionList" :filter-by-query="true" value-attribute="id" display-attribute="name" @select="onSuggestSelect">
                     <!-- Filter by input text to only show the matching results -->
-                    <input v-model="inputVal" :placeholder="$t('SearchBanner.searchInput')" class="is-label-placeholder   text-white" />
-                    <div slot="suggestion-item" slot-scope="scope" :title="inputVal" class="suggest-item">
+                    <input v-model="championInput" :placeholder="$t('SearchBanner.searchInput')" class="is-label-placeholder   text-white" />
+                    <div slot="suggestion-item" slot-scope="scope" :title="championInput" class="suggest-item">
                         <div class="flex items-center px-1 pt-1 pb-1">
                             <div class="contact__avatar mr-3">
                                 <vs-avatar class="border-2 border-solid border-white" :src="scope.suggestion.src" size="42px" />
@@ -56,19 +56,9 @@ import VueSimpleSuggest from 'vue-simple-suggest'
 
 export default {
     name: 'search-banner',
-    props: ['value'],
+    props: ['value', 'champion'],
     components: {
         VueSimpleSuggest
-    },
-    computed: {
-        inputVal: {
-            get() {
-                return this.value;
-            },
-            set(val) {
-                this.$emit('input', val);
-            }
-        }
     },
     data: () => ({
         images: {
@@ -76,8 +66,12 @@ export default {
             leona: require("@assets/images/home/home_leona.png"),
         },
         mode: null,
-        loading: false
+        loading: false,
+        championInput: null
     }),
+    created() {
+        this.championInput = this.champion
+    },
     methods: {
         simpleSuggestionList(q) {
             return this.$http.get('champions?name=' + q).then(response => {
@@ -85,12 +79,13 @@ export default {
             });
         },
         onSuggestSelect(suggest) {
-            this.$router.push({
-                name: 'champion',
-                params: {
-                    'champion': suggest.name,
-                }
-            })
+            if (suggest.name != this.champion)
+                return this.$router.push({
+                    name: 'champion',
+                    params: {
+                        'champion': suggest.name,
+                    }
+                })
         }
     }
 }

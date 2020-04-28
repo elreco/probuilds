@@ -2,7 +2,7 @@
 <v-popover container="body" trigger="hover" placement="auto" class="inline">
     <img loading="lazy" width="32" height="32" :alt="title" :class="classImg" class="tooltip-target w-10 h-10 rounded" :src="src" />
 
-    <template slot="popover">
+    <template slot="popover" v-if="title">
         <vs-card class="mb-0">
             <div slot="header">
                 <h3>
@@ -32,14 +32,16 @@ export default {
     props: {
         title: {
             type: String,
-            required: true
+            required: false
         },
         src: {
             type: String,
-            default: ''
+            required: false,
+            default: require("@assets/images/livefeed/unknown.png")
         },
         description: {
             type: String,
+            required: false,
             default: ''
         },
         default: {

@@ -58,6 +58,7 @@
                     </vs-td>
                     <vs-td :data="data[indextr].vs">
                         <popover-avatar :src="data[indextr].vs.src" :title="data[indextr].vs.title" :description="data[indextr].vs.description" />
+
                     </vs-td>
                     <vs-td :data="data[indextr].kda">
                         {{ data[indextr].kda }}
@@ -136,10 +137,7 @@ export default {
         },
         getFeed() {
             // loading
-            this.$vs.loading({
-                type: 'material',
-                container: '#loadingFeed',
-            })
+            this.loadingData(true)
             this.$http.get('livefeed', {
                     params: {
                         page: this.page,
@@ -150,13 +148,25 @@ export default {
                 })
                 .then(response => (this.users = response.data))
                 .then(() => {
-                    this.$vs.loading.close('#loadingFeed > .con-vs-loading')
+                    console.log(this.users)
+                    this.loadingData(false)
                 })
+
             // UPDATE this.users après avoir fait la requête axios
         },
         getRegions() {
             this.$http.get('regions')
                 .then(response => (this.regions = response.data))
+        },
+        loadingData(boolean) {
+            if (boolean) {
+                this.$vs.loading({
+                    type: 'material',
+                    container: '#loadingFeed',
+                })
+            } else {
+                this.$vs.loading.close('#loadingFeed > .con-vs-loading')
+            }
         }
 
     },
@@ -170,16 +180,6 @@ export default {
                 selectedRegion
             }
         },
-        inputVal: {
-            get() {
-                return this.value;
-            },
-            set(val) {
-
-                this.$emit('champion', val);
-                alert(val);
-            }
-        }
     },
     watch: {
         filterTable: function() {
