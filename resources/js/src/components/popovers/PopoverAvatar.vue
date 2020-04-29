@@ -57,15 +57,22 @@ export default {
     },
     computed: {
         classImg: function() {
+            var classImg = ""
+
+            if (this.title) {
+                classImg = 'tooltip-target'
+            }
+
             if (this.default) {
-                return 'border-solid border-2 border-theme-dark';
+                classImg += ' border-solid border-2 border-theme-dark'
             } else {
                 if (this.win) {
-                    return 'border-solid border-2 win-border win-shadow';
+                    classImg += ' border-solid border-2 win-border win-shadow'
                 } else {
-                    return 'border-solid border-2 lose-border lose-shadow';
+                    classImg += ' border-solid border-2 lose-border lose-shadow'
                 }
             }
+            return classImg
         }
     }
 

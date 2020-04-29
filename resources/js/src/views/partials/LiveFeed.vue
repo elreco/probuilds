@@ -57,7 +57,7 @@
                         </vs-chip>
                     </vs-td>
                     <vs-td :data="data[indextr].vs">
-                        <popover-avatar :src="data[indextr].vs.src" :title="data[indextr].vs.title" :description="data[indextr].vs.description" />
+                        <popover-avatar :title="data[indextr].vs.title" :description="data[indextr].vs.description" />
 
                     </vs-td>
                     <vs-td :data="data[indextr].kda">
@@ -148,7 +148,6 @@ export default {
                 })
                 .then(response => (this.users = response.data))
                 .then(() => {
-                    console.log(this.users)
                     this.loadingData(false)
                 })
 
