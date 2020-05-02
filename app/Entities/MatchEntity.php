@@ -50,7 +50,7 @@ class MatchEntity
      */
     private function formatMatchesOutput($matches, $request)
     {
-        $i=0;
+        $i = 0;
         $lane = $request->lane;
         $response = [];
         // equivalent de if !empty
@@ -60,40 +60,51 @@ class MatchEntity
             // LANE FILTER
             if (!empty($lane)) {
                 if ($lane == "support") {
-                    if ($m{0}->role != "DUO_SUPPORT") {
+                    if ($m{
+                        0}->role != "DUO_SUPPORT") {
                         continue;
                     }
                 } elseif ($lane == "adc") {
-                    if ($m{0}->role != "DUO_CARRY") {
+                    if ($m{
+                        0}->role != "DUO_CARRY") {
                         continue;
                     }
                 } elseif ($lane == "mid") {
-                    if ($m{0}->lane != "MID") {
+                    if ($m{
+                        0}->lane != "MID") {
                         continue;
                     }
                 } elseif ($lane == "top") {
-                    if ($m{0}->lane != "TOP") {
+                    if ($m{
+                        0}->lane != "TOP") {
                         continue;
                     }
                 } elseif ($lane == "jungle") {
-                    if ($m{0}->lane != "JUNGLE") {
+                    if ($m{
+                        0}->lane != "JUNGLE") {
                         continue;
                     }
                 }
             }
             // GAME ID
-            $response[$i]['id'] = $m{0}->gameId;
-            $src = DataDragonAPI::getChampionIconO($m{0}->staticData);
+            $response[$i]['id'] = $m{
+                0}->gameId;
+            $src = DataDragonAPI::getChampionIconO($m{
+                0}->staticData);
 
             // CHAMPION
             $response[$i]['champion'] = [
-                'title' => $m{0}->staticData->name,
+                'title' => $m{
+                    0}->staticData->name,
                 'src' => $src->src,
-                'description' =>"<h4 class='text-gold mb-2'>{$m{0}->staticData->title}</h4><p>{$m{0}->staticData->lore}</p>"
+                'description' => "<h4 class='text-gold mb-2'>{$m{
+                    0}->staticData->title}</h4><p>{$m{
+                    0}->staticData->lore}</p>"
             ];
 
             // DATE
-            $response[$i]['date'] = $m{0}->timestamp;
+            $response[$i]['date'] = $m{
+                0}->timestamp;
 
             // PLAYER
             $response[$i]['player']['name'] = $m['summoner']->name;
@@ -103,7 +114,8 @@ class MatchEntity
             ////////////////////////
             // MATCH FROM API
             try {
-                $matchApi = $this->riot->getMatch($m{0}->gameId);
+                $matchApi = $this->riot->getMatch($m{
+                    0}->gameId);
             } catch (\Exception $e) {
                 return null;
             }
@@ -138,7 +150,7 @@ class MatchEntity
                     // WIN OR LOSE
                     $response[$i]['win'] = $participant->stats->win;
                     // KDA
-                    $response[$i]['kda'] = $participant->stats->kills."/" . $participant->stats->deaths . "/". $participant->stats->assists;
+                    $response[$i]['kda'] = $participant->stats->kills . "/" . $participant->stats->deaths . "/" . $participant->stats->assists;
 
                     // GOLDS
                     $response[$i]['gold'] = $this->thousandsCurrencyFormat($participant->stats->goldEarned);
@@ -178,19 +190,23 @@ class MatchEntity
             }
             //https://riot-api-libraries.readthedocs.io/en/latest/roleid.html#a-simple-mapping
             // position REF
-            $positionRef = $this->getRiotPosition($m{0}->lane, $m{0}->role);
+            $positionRef = $this->getRiotPosition($m{
+                0}->lane, $m{
+                0}->role);
             foreach ($participantsAPI as $participant) {
                 // GET VS CHAMPION
                 $participantPosition = $this->getRiotPosition($participant->timeline->lane, $participant->timeline->role);
-                if ($playerParticipantId != $participant->participantId
-                &&  $playerParticipant->teamId != $participant->teamId
-                && $positionRef == $participantPosition) {
+                if (
+                    $playerParticipantId != $participant->participantId
+                    &&  $playerParticipant->teamId != $participant->teamId
+                    && $positionRef == $participantPosition
+                ) {
                     // $summonerVS = $this->riot->getSummoner($participantIdentities[$participant->participantId]->player->summonerId);
                     $src = DataDragonAPI::getChampionIconO($participant->staticData);
                     $response[$i]['vs'] = [
                         'title' => $participant->staticData->name,
                         'src' => $src->src,
-                        'description' =>"<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
+                        'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
                     ];
                 }
             }
@@ -243,9 +259,7 @@ class MatchEntity
             'gold' => null,
             'keystone' => null,
             'subkeystone' => null,
-            'slots' => [
-
-            ],
+            'slots' => [],
             'spells' => [
                 1 => [
                     'src' => null,

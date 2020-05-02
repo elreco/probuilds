@@ -26,10 +26,11 @@ class LiveFeedController extends Controller
         return $this->getLiveFeed($request);
     }
 
-    private function getLiveFeed($request){
+    private function getLiveFeed($request)
+    {
 
         $regions = empty($request->region) ? RegionEntity::$list : [$request->region];
-        $riots = RiotEntity::initApi($regions);
+        $riots = RiotEntity::initApi($regions, "fr_FR");
 
         $response = [
             'data' => [],
@@ -39,7 +40,7 @@ class LiveFeedController extends Controller
 
         $itemsNumber = 5;
 
-        foreach($riots as $region => $riot){
+        foreach ($riots as $region => $riot) {
             $matchEntity = new MatchEntity($riot);
             $matches = $matchEntity->getMatchesTopElo($request);
             $response['data'] = !empty($matches) ? array_merge($response['data'], $matches) : $response['data'];
