@@ -3,9 +3,6 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-// COLLECTION
-use Illuminate\Support\Collection;
 // REQUEST
 use App\Http\Requests\LiveFeed;
 // ENTITY
@@ -30,7 +27,9 @@ class LiveFeedController extends Controller
     {
 
         $regions = empty($request->region) ? RegionEntity::$list : [$request->region];
-        $riots = RiotEntity::initApi($regions, "fr_FR");
+
+        $riotEntity = new RiotEntity($request->locale);
+        $riots = $riotEntity->initApi($regions);
 
         $response = [
             'data' => [],

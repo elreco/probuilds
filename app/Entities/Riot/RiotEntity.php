@@ -5,10 +5,20 @@ namespace App\Entities\Riot;
 //RIOT API
 use RiotAPI\LeagueAPI\LeagueAPI;
 use RiotAPI\LeagueAPI\Definitions\Region;
+// DATADRAGON
+use RiotAPI\DataDragonAPI\DataDragonAPI;
 use Illuminate\Support\Facades\App;
 
 class RiotEntity
 {
+
+    public $locale;
+
+    public function __construct($locale)
+    {
+        $this->locale = $locale;
+    }
+
     public static $lanes = array(
         'all',
         'top',
@@ -18,7 +28,7 @@ class RiotEntity
         'support'
     );
 
-    public static function initApi($regions, $locale)
+    public function initApi($regions)
     {
         // if (empty(env('RIOT_API_KEY')))
         // 	die("Please change API key in the configuration file (.env) to your own." . env('RIOT_API_KEY'));
@@ -30,7 +40,7 @@ class RiotEntity
                 LeagueAPI::SET_VERIFY_SSL       => false,
                 LeagueAPI::SET_DATADRAGON_INIT  => true,
                 LeagueAPI::SET_STATICDATA_LINKING => true,
-                LeagueAPI::SET_STATICDATA_LOCALE => $locale,
+                LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
                 LeagueAPI::SET_INTERIM          => true,
                 LeagueAPI::SET_CACHE_RATELIMIT  => true,
                 LeagueAPI::SET_CACHE_CALLS      => true,
@@ -39,5 +49,21 @@ class RiotEntity
         }
 
         return $api;
+    }
+
+
+    // locale normal to locale for riot api (by territory)
+    public function localeMutator()
+    {
+
+        $localesData = DataDragonAPI::getStaticLanguages();
+
+        foreach ($localesData as $l) {
+            if (strtolower(substr($l, 0, 2)) == strtolower($this->locale)) {
+                return $l;
+            }
+        }
+
+        return null;
     }
 }
