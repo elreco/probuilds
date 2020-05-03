@@ -11,6 +11,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import i18n from './i18n/i18n'
+import {
+    languages
+} from './i18n/i18n'
 
 Vue.use(Router)
 
@@ -89,13 +92,14 @@ router.beforeEach((to, from, next) => {
     // use the language from the routing param or default language
     let language = to.params.locale;
 
-    if (!['en', 'fr'].includes(language)) return next('en')
+    if (!languages.includes(language)) return next('en')
     // set the current language for vuex-i18n. note that translation data
     // for the language might need to be loaded first
     if (i18n.locale !== language) {
         localStorage.locale = language
         i18n.locale = language
     }
+
     return next();
 
 });

@@ -69,9 +69,7 @@
                         :key="indextr"
                         v-for="(tr, indextr) in data"
                     >
-                        <vs-td
-                            :data="data[indextr].date"
-                        >{{ data[indextr].date | moment("from", "now") }}</vs-td>
+                        <vs-td :data="data[indextr].date">{{ data[indextr].ago }}</vs-td>
                         <vs-td :data="data[indextr].champion">
                             <popover-avatar
                                 :win="data[indextr].win"
@@ -139,6 +137,8 @@
 </template>
 <script>
 import PopoverAvatar from "../../components/popovers/PopoverAvatar";
+import moment from "moment";
+
 export default {
     name: "live-feed",
     props: ["champion"],
@@ -199,6 +199,14 @@ export default {
                     }
                 })
                 .then(response => (this.users = response.data))
+                .then(() => {
+                    setInterval(() => {
+                        this.users.data = this.users.data.map(m => {
+                            m.ago = moment(m.date).fromNow();
+                            return m;
+                        });
+                    }, 1000);
+                })
                 .then(() => {
                     this.loadingData(false);
                 });

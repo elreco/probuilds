@@ -49,6 +49,8 @@ export const selectedLocale = localStorage.locale
 
 export const languages = Object.getOwnPropertyNames(i18nData)
 
+
+
 export default new VueI18n({
     locale: selectedLocale, // set default locale
     fallbackLocale: process.env.VUE_APP_I18N_FALLBACK_LOCALE || 'fr',

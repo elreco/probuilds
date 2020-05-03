@@ -10,12 +10,12 @@
 
 import Vue from 'vue'
 import App from './App.vue'
+import moment from 'moment'
 
 // Vuesax Component Framework
 import Vuesax from 'vuesax'
 
 Vue.use(Vuesax)
-
 
 // axios
 import axios from './axios.js'
@@ -46,7 +46,9 @@ import vSelect from "vue-select";
 Vue.component("v-select", vSelect);
 
 // Vuejs - Vue wrapper for hammerjs
-import { VueHammer } from 'vue2-hammer'
+import {
+    VueHammer
+} from 'vue2-hammer'
 Vue.use(VueHammer)
 
 // Vue Meta
@@ -55,7 +57,9 @@ Vue.use(VueMeta)
 
 // Vue Moment
 import VueMoment from 'vue-moment'
-Vue.use(VueMoment)
+Vue.use(VueMoment, {
+    moment
+})
 
 // PrismJS
 import 'prismjs'
@@ -65,8 +69,8 @@ import 'prismjs/themes/prism-tomorrow.css'
 Vue.config.productionTip = false
 
 new Vue({
-  router,
-  store,
-  i18n,
-  render: h => h(App)
+    router,
+    store,
+    i18n,
+    render: h => h(App)
 }).$mount('#app')
