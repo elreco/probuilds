@@ -15,7 +15,13 @@ import moment from 'moment'
 // Vuesax Component Framework
 import Vuesax from 'vuesax'
 
-Vue.use(Vuesax)
+Vue.use(Vuesax, {
+    theme: {
+        colors: {
+            gold: 'rgb(255, 193, 7)',
+        }
+    }
+})
 
 // axios
 import axios from './axios.js'
