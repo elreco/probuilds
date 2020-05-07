@@ -198,13 +198,13 @@ export default {
                         locale: this.$route.params.locale
                     }
                 })
-                .then(response => (this.users = response.data))
+                .then(response => {
+                    this.users = response.data;
+                    this.formatDate();
+                })
                 .then(() => {
                     setInterval(() => {
-                        this.users.data = this.users.data.map(m => {
-                            m.ago = moment(m.date).fromNow();
-                            return m;
-                        });
+                        this.formatDate();
                     }, 1000);
                 })
                 .then(() => {
@@ -212,6 +212,12 @@ export default {
                 });
 
             // UPDATE this.users après avoir fait la requête axios
+        },
+        formatDate() {
+            this.users.data = this.users.data.map(m => {
+                m.ago = moment(m.date).fromNow();
+                return m;
+            });
         },
         getRegions() {
             this.$http

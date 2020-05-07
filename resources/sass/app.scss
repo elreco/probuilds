@@ -8,12 +8,18 @@
 ==========================================================================================*/
 
 @import 'main';
+
 // CUSTOM TEXT COLOR
-.text-gold{
-    color:#FFC107!important;
+.text-gold {
+    color: $gold;
 }
+
+.bg-gold {
+    background: $gold;
+}
+
 // AVATAR SUPPERPOSE
-.supperposed-avatar{
+.supperposed-avatar {
     position: absolute;
     bottom: 10px;
     right: 5px;
@@ -24,12 +30,12 @@
 
 // DOT CIRCLE
 .bg-theme-dark {
-  background-color: $theme-dark-bg;
+    background-color: $theme-dark-bg;
 }
 
 // DOT CIRCLE
 .border-theme-dark {
-  border-color: $theme-dark-bg;
+    border-color: $theme-dark-bg;
 }
 
 // LANE SELECTION
@@ -37,24 +43,31 @@
 .lane-selection .all:before {
     background-image: url("../assets/images/dragon/positions/allIcon.png");
 }
+
 .lane-selection .top:before {
     background-image: url("../assets/images/dragon/positions/topLane.png");
 }
+
 .lane-selection .mid:before {
     background-image: url("../assets/images/dragon/positions/midLane.png");
 }
+
 .lane-selection .jungle:before {
     background-image: url("../assets/images/dragon/positions/jungle.png");
 }
+
 .lane-selection .bot:before {
     background-image: url("../assets/images/dragon/positions/botLane.png");
 }
+
 .lane-selection .support:before {
     background-image: url("../assets/images/dragon/positions/support.png");
 }
+
 .lane-selection a {
-    padding-left:25px;
+    padding-left: 25px;
 }
+
 .lane-selection a:before {
     content: '';
     width: 15px;
@@ -65,32 +78,35 @@
     left: 8px;
 }
 
-.theme-dark .vs-navbar li.vs-navbar--item.is-active-item a{
-    color:rgba(var(--vs-primary), 1);
+.theme-dark .vs-navbar li.vs-navbar--item.is-active-item a {
+    color: rgba(var(--vs-primary), 1);
 }
-.theme-dark .vs-navbar--item:hover a{
-    color:rgba(var(--vs-primary), 1)!important;
+
+.theme-dark .vs-navbar--item:hover a {
+    color: rgba(var(--vs-primary), 1) !important;
 }
 
 // ROUNDED
 
-.rounded{
-    border-radius: 0.50rem!important;
+.rounded {
+    border-radius: 0.50rem !important;
 }
 
 // WIN LOSE BORDER WITH SHADOW
 
-.win-border{
-    border-color:$light-green!important;
+.win-border {
+    border-color: $light-green !important;
 }
-.win-shadow{
+
+.win-shadow {
     box-shadow: 0 0 5px 0 $shadow-green;
 }
 
 
-.lose-border{
-    border-color:$dark-red!important;
+.lose-border {
+    border-color: $dark-red !important;
 }
-.lose-shadow{
+
+.lose-shadow {
     box-shadow: 0 0 5px 0 $shadow-red;
 }

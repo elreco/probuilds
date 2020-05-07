@@ -1,6 +1,6 @@
-<template id="loaderContainer">
+<template>
     <section id="dashboard-analytics" v-if="!isFetching">
-        <search-banner v-model="champion" :champion="champion" />
+        <search-banner />
         <live-feed :champion="champion" />
     </section>
 </template>
@@ -17,6 +17,7 @@ export default {
             isFetching: true
         };
     },
+    props: ["champion", "isFetching"],
     created() {
         this.checkChampion();
     },
