@@ -18,7 +18,7 @@
                 <img :src="images.raka" class="decore-left" alt="card-img-left" />
                 <img :src="images.leona" class="decore-right" alt="card-img-right" />
 
-                <logo class="w-10 fill-current text-primary" />
+                <logo-white class="w-16 fill-current text-primary z-50" />
 
                 <h1 class="mb-4 text-white">{{ $t("home.welcome") }}</h1>
                 <p
@@ -34,14 +34,14 @@
 <script>
 // Search Input
 import SearchInput from "./SearchInput";
-import Logo from "@/layouts/components/Logo.vue";
+import LogoWhite from "@/layouts/components/LogoWhite.vue";
 
 export default {
     name: "search-banner",
     props: ["champion"],
     components: {
         SearchInput,
-        Logo
+        LogoWhite
     },
     data: () => ({
         images: {
