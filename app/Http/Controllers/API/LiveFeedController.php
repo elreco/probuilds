@@ -45,6 +45,7 @@ class LiveFeedController extends Controller
             $response['data'] = !empty($matches) ? array_merge($response['data'], $matches) : $response['data'];
         }
 
+
         $collectionResponse = collect($response['data']);
 
         $response['data'] = $collectionResponse->sortByDesc('date')->forPage($request->page, $itemsNumber)->values();
