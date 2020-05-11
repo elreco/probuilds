@@ -167,6 +167,7 @@ export default {
     },
     methods: {
         handleSelected(tr) {
+            console.log(tr);
             this.$vs.notify({
                 title: `Selected ${tr.username}`,
                 text: `Email: ${tr.email}`
@@ -174,9 +175,9 @@ export default {
             this.$router.push({
                 name: "match",
                 params: {
-                    region: tr.gold,
-                    summoner_id: tr.gold,
-                    match_id: tr.date
+                    region: tr.region,
+                    summonerId: tr.summonerId,
+                    matchId: tr.id
                 }
             });
         },

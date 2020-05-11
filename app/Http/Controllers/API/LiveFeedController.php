@@ -41,10 +41,9 @@ class LiveFeedController extends Controller
 
         foreach ($riots as $region => $riot) {
             $matchEntity = new MatchEntity($riot);
-            $matches = $matchEntity->getMatchesTopElo($request);
+            $matches = $matchEntity->getMatchesTopElo($request, $region);
             $response['data'] = !empty($matches) ? array_merge($response['data'], $matches) : $response['data'];
         }
-
 
         $collectionResponse = collect($response['data']);
 

@@ -1,7 +1,7 @@
 <template>
-    <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer">
+    <vs-dropdown vs-custom-content vs-trigger-click class="cursor-pointer mr-2">
         <span class="cursor-pointer flex items-center i18n-locale">
-            <img class="h-4 w-5" :src="i18n_locale_img" :alt="$i18n.locale" />
+            <img class="h-4 w-5 mr-2" :src="i18n_locale_img" :alt="$i18n.locale" />
             <span class="hidden sm:block mr-2">{{ getCurrentLocaleData.lang }}</span>
         </span>
         <vs-dropdown-menu class="w-48 i18n-dropdown vx-navbar-dropdown">

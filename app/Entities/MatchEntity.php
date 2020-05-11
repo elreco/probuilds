@@ -31,7 +31,7 @@ class MatchEntity
      * @return \Illuminate\Support\Collection
      */
 
-    public function getMatchesTopElo($request)
+    public function getMatchesTopElo($request, $region)
     {
 
         // Get Challengers
@@ -40,7 +40,7 @@ class MatchEntity
         // Get last matchs for each challenger
         $challengersLastMatch = $this->getChallengersLastMatch($challengers, $request);
         // return an array of matches
-        return $this->formatMatchesOutput($challengersLastMatch, $request);
+        return $this->formatMatchesOutput($challengersLastMatch, $request, $region);
     }
 
     /**
@@ -48,7 +48,7 @@ class MatchEntity
      *
      * @return Array
      */
-    private function formatMatchesOutput($matches, $request)
+    private function formatMatchesOutput($matches, $request, $region)
     {
         $i = 0;
         $lane = $request->lane;
@@ -83,6 +83,10 @@ class MatchEntity
             }
             // GAME ID
             $response[$i]['id'] = $m[0]->gameId;
+            // region
+            $response[$i]['region'] = $region;
+            // summonerId
+            $response[$i]['summonerId'] = $summonerId;
             $src = DataDragonAPI::getChampionIconO($m[0]->staticData);
 
             // CHAMPION
@@ -146,7 +150,7 @@ class MatchEntity
                     // KEYSTONES
 
                     $runes = $this->riot->getStaticReforgedRunes()->runes;
-                    $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths;
+                    /* $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths; */
                     $player_stats = $participant->stats;
                     $response[$i]['keystone'] = !empty($runes[$player_stats->perk0]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src : '';
                     $response[$i]['subkeystone'] = !empty($runes[$player_stats->perk4]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src : '';
@@ -230,6 +234,8 @@ class MatchEntity
     {
         return [
             'id' => null,
+            'region' => null,
+            'summonerId' => null,
             'champion' => [
                 'title' => null,
                 'src' => null,
