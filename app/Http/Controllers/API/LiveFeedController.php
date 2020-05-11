@@ -4,9 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 // REQUEST
-use App\Http\Requests\LiveFeed;
+use App\Http\Requests\LiveFeed\LiveFeed;
 // ENTITY
-use App\Entities\MatchEntity;
+use App\Entities\Match\MatchEntity;
 use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
 
@@ -26,7 +26,7 @@ class LiveFeedController extends Controller
     private function getLiveFeed($request)
     {
 
-        $regions = empty($request->region) ? RegionEntity::$list : [$request->region];
+        $regions = RegionEntity::getSelectedRegions($request);
 
         $riotEntity = new RiotEntity($request->locale);
         $riots = $riotEntity->initApi($regions);

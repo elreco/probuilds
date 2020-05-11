@@ -9,27 +9,27 @@ use RiotAPI\LeagueAPI\LeagueAPI;
 use RiotAPI\LeagueAPI\Definitions\Region;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
-use HttpException;
 
 class SummonerController extends Controller
 {
 
     public $riot;
 
-    public function __construct(){
+    public function __construct()
+    {
         // INITALISATION DE L'API
         if (empty(env('RIOT_API_KEY')))
-        	die("Please change API key in the configuration file (.env) to your own.");
+            die("Please change API key in the configuration file (.env) to your own.");
         $this->riot = new LeagueAPI([
-        	LeagueAPI::SET_KEY              => env('RIOT_API_KEY'),
-        	LeagueAPI::SET_TOURNAMENT_KEY   => "",
-        	LeagueAPI::SET_REGION           => Region::EUROPE_WEST,
-        	LeagueAPI::SET_VERIFY_SSL       => false,
-        	LeagueAPI::SET_DATADRAGON_INIT  => true,
+            LeagueAPI::SET_KEY              => env('RIOT_API_KEY'),
+            LeagueAPI::SET_TOURNAMENT_KEY   => "",
+            LeagueAPI::SET_REGION           => Region::EUROPE_WEST,
+            LeagueAPI::SET_VERIFY_SSL       => false,
+            LeagueAPI::SET_DATADRAGON_INIT  => true,
             LeagueAPI::SET_STATICDATA_LINKING => true,
-        	LeagueAPI::SET_INTERIM          => true,
-        	LeagueAPI::SET_CACHE_RATELIMIT  => true,
-        	LeagueAPI::SET_CACHE_CALLS      => true,
+            LeagueAPI::SET_INTERIM          => true,
+            LeagueAPI::SET_CACHE_RATELIMIT  => true,
+            LeagueAPI::SET_CACHE_CALLS      => true,
         ]);
         DataDragonAPI::initByApi($this->riot);
     }
@@ -44,7 +44,7 @@ class SummonerController extends Controller
             $summoner = $this->riot->getSummonerByName("Leeonel Messin"); // summonerIds are unique per API key, getByName first is necessary
             $s = $this->riot->getSummoner($summoner->id);
         } catch (\Exception $e) {
-            return response()->json([ 'code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
+            return response()->json(['code' => $e->getCode(), 'message' => $e->getMessage()], $e->getCode());
         }
         // // DataDragon
         $return->dragon = DataDragonAPI::getProfileIcon($id);

@@ -175,8 +175,8 @@ export default {
                 name: "match",
                 params: {
                     region: tr.region,
-                    summoner_id: tr.summonerId,
-                    match_id: tr.id
+                    summonerId: tr.summonerId,
+                    matchId: tr.matchId
                 }
             });
         },

@@ -3,9 +3,8 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 // REQUEST
-use App\Http\Requests\Champion;
+use App\Http\Requests\Champion\Champion;
 // ENTITY
 use App\Entities\ChampionEntity;
 
@@ -14,7 +13,8 @@ class ChampionController extends Controller
     protected $championEntity;
 
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->championEntity = new ChampionEntity;
     }
 

@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Entities;
+namespace App\Entities\Match;
 
-use HttpException;
 // COLLECTION
 use Illuminate\Support\Collection;
 use App\Http\Traits\CommonTrait;
@@ -13,7 +12,7 @@ use App\Entities\SummonerEntity;
 use App\Entities\ChampionEntity;
 use App\Entities\ChallengerEntity;
 
-class MatchEntity
+class MatchDetailsEntity
 {
     //
     use CommonTrait;
@@ -31,7 +30,7 @@ class MatchEntity
      * @return \Illuminate\Support\Collection
      */
 
-    public function getMatchesTopElo($request, $region)
+    public function getMatchDetails($request, $region)
     {
 
         // Get Challengers
@@ -82,7 +81,7 @@ class MatchEntity
                 }
             }
             // GAME ID
-            $response[$i]['id'] = $m[0]->gameId;
+            $response[$i]['matchId'] = $m[0]->gameId;
             // region
             $response[$i]['region'] = $region;
             // summonerId
@@ -233,7 +232,7 @@ class MatchEntity
     private function initMatchArray()
     {
         return [
-            'id' => null,
+            'matchId' => null,
             'region' => null,
             'summonerId' => null,
             'champion' => [

@@ -82,12 +82,17 @@ class RegionEntity
 		return self::$list;
 	}
 
-	public function getRegionName( string $region ): string
+	public function getRegionName(string $region): string
 	{
 		$region = strtolower($region);
 		if (!isset(self::$list[$region]))
 			throw new GeneralException('Invalid region provided. Can not find requested region.');
 
 		return self::$list[$region];
+	}
+
+	public static function getSelectedRegions($request)
+	{
+		return empty($request->region) ? RegionEntity::$list : [$request->region];
 	}
 }

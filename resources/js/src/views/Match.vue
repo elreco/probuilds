@@ -1,6 +1,6 @@
 <template>
     <section id="dashboard-analytics">
-        <match-details />
+        <match-details :region="region" :summonerId="summonerId" :matchId="matchId" />
         <build-details />
     </section>
 </template>
@@ -13,7 +13,10 @@ import BuildDetails from "./partials/BuildDetails";
 export default {
     data() {
         return {
-            title: this.$i18n.t("meta.title.show")
+            title: this.$i18n.t("meta.title.show"),
+            region: this.$route.params.region,
+            summonerId: this.$route.params.summonerId,
+            matchId: this.$route.params.matchId
         };
     },
     components: {
