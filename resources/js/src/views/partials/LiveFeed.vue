@@ -167,17 +167,16 @@ export default {
     },
     methods: {
         handleSelected(tr) {
-            console.log(tr);
-            this.$vs.notify({
+            /* this.$vs.notify({
                 title: `Selected ${tr.username}`,
                 text: `Email: ${tr.email}`
-            });
+            }); */
             this.$router.push({
                 name: "match",
                 params: {
                     region: tr.region,
-                    summonerId: tr.summonerId,
-                    matchId: tr.id
+                    summoner_id: tr.summonerId,
+                    match_id: tr.id
                 }
             });
         },
