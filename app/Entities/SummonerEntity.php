@@ -2,11 +2,13 @@
 
 namespace App\Entities;
 
-class SummonerEntity{
+class SummonerEntity
+{
 
-    protected $riot = [];
+    protected $riot;
 
-    public function __construct($riot){
+    public function __construct($riot)
+    {
         $this->riot = $riot;
     }
 
@@ -15,7 +17,8 @@ class SummonerEntity{
      *
      * @return \Illuminate\Http\Response
      */
-    public function getSummoner($summonerId){
+    public function getSummoner($summonerId)
+    {
 
         try {
             $summoner = $this->riot->getSummoner($summonerId);
@@ -24,7 +27,5 @@ class SummonerEntity{
         }
 
         return $summoner;
-
     }
-
 }

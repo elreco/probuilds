@@ -18,7 +18,16 @@ class LiveFeedRequest extends FormRequest
     {
         return true;
     }
+    public function validationData()
+    {
+        $all = parent::validationData();
+        //Convert request value to lowercase
+        if (!empty($all['region'])) {
+            $all['region'] = strtolower($all['region']);
+        }
 
+        return $all;
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -27,6 +36,7 @@ class LiveFeedRequest extends FormRequest
     public function rules()
     {
         return [
+            'locale' => 'required|string',
             'page' => 'integer|max:3',
             'champion' => 'nullable|string|max:30',
             'lane' =>  [
@@ -35,7 +45,7 @@ class LiveFeedRequest extends FormRequest
             ],
             'region' => [
                 'nullable',
-                Rule::in(array_map('strtoupper', RegionEntity::$list))
+                Rule::in(array_map('strtolower', RegionEntity::$list))
             ],
         ];
     }

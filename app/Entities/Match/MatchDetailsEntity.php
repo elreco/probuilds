@@ -11,13 +11,14 @@ use RiotAPI\DataDragonAPI\DataDragonAPI;
 use App\Entities\SummonerEntity;
 use App\Entities\ChampionEntity;
 use App\Entities\ChallengerEntity;
+use App\Entities\Match\MatchEntity;
 
 class MatchDetailsEntity
 {
     //
     use CommonTrait;
 
-    protected $riot = [];
+    protected $riot;
 
     public function __construct($riot)
     {
@@ -32,48 +33,62 @@ class MatchDetailsEntity
 
     public function getMatchDetails($request)
     {
-        return [];
+        $matchEntity = new MatchEntity($this->riot);
+        $match = $matchEntity->getMatch($request->matchId);
+        dd($this->initParticipantArray());
+        // must returns and array of 10 participants
+        // array
+        //
+        // each participant ==> champion, name, runes, stuff etc...
+        /*  $matchOutput = $this->formatMatchesDetails($match); */
+        return $match;
     }
 
-    private function initMatchArray()
+    private function initParticipantArray()
     {
         return [
             'matchId' => null,
             'region' => null,
             'summonerId' => null,
-            'champion' => [
-                'title' => null,
-                'src' => null,
-                'description' => null
-            ],
-            'date' => null,
-            'player' => [
-                'name' => null,
-                'icon' => null
-            ],
-            'win' => null,
-            'kda' => null,
-            'gold' => null,
-            'keystone' => null,
-            'subkeystone' => null,
-            'slots' => [],
-            'spells' => [
-                1 => [
-                    'src' => null,
-                    'title' => null,
-                    'description' => null
-                ],
-                2 => [
-                    'src' => null,
-                    'title' => null,
-                    'description' => null
-                ],
-            ],
-            'vs' => [
-                'title' => null,
-                'src' => null,
-                'description' => null
+            'participants' => [
+                [
+                    'summonerId' => null,
+                    'champion' => [
+                        'title' => null,
+                        'src' => null,
+                        'description' => null
+                    ],
+                    'date' => null,
+                    'player' => [
+                        'name' => null,
+                        'icon' => null
+                    ],
+                    'win' => null,
+                    'kda' => null,
+                    'gold' => null,
+                    'keystone' => null,
+                    'subkeystone' => null,
+                    'slots' => [],
+                    'spells' => [
+                        1 => [
+                            'src' => null,
+                            'title' => null,
+                            'description' => null
+                        ],
+                        2 => [
+                            'src' => null,
+                            'title' => null,
+                            'description' => null
+                        ],
+                    ],
+                    'vs' => [
+                        'title' => null,
+                        'src' => null,
+                        'description' => null
+                    ]
+                ]
             ]
+
         ];
     }
 }

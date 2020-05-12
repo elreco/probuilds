@@ -39,7 +39,7 @@ class MatchEntity
         // Get last matchs for each challenger
         $challengersLastMatch = $this->getChallengersLastMatch($challengers, $request);
         // return an array of matches
-        return $this->formatMatchesOutput($challengersLastMatch, $request, $region);
+        return $this->formatMatches($challengersLastMatch, $request, $region);
     }
 
     /**
@@ -47,7 +47,7 @@ class MatchEntity
      *
      * @return Array
      */
-    private function formatMatchesOutput($matches, $request, $region)
+    public function formatMatches($matches, $request, $region)
     {
         $i = 0;
         $lane = $request->lane;
@@ -105,11 +105,8 @@ class MatchEntity
             /// SEARCH VS PLAYER ///
             ////////////////////////
             // MATCH FROM API
-            try {
-                $matchApi = $this->riot->getMatch($m[0]->gameId);
-            } catch (\Exception $e) {
-                return null;
-            }
+
+            $matchApi = $this->getMatch($m[0]->gameId);
 
             //Identité des joueurs
             $participantIdentities = [];
@@ -208,7 +205,7 @@ class MatchEntity
         return $response;
     }
 
-    private function getRiotPosition($laneFilter, $roleFilter)
+    public function getRiotPosition($laneFilter, $roleFilter)
     {
         $position = null;
         if ($laneFilter == 'MID' && $roleFilter == 'SOLO') {
@@ -229,7 +226,7 @@ class MatchEntity
         return $position;
     }
 
-    private function initMatchArray()
+    public function initMatchArray()
     {
         return [
             'matchId' => null,
@@ -316,6 +313,17 @@ class MatchEntity
         } catch (\Exception $e) {
             return null;
         }
+        return $match;
+    }
+
+    public function getMatch($matchId)
+    {
+        try {
+            $match = $this->riot->getMatch($matchId);
+        } catch (\Exception $e) {
+            return null;
+        }
+
         return $match;
     }
 }

@@ -18,6 +18,16 @@ class MatchRequest extends FormRequest
         return true;
     }
 
+    public function validationData()
+    {
+        $all = parent::validationData();
+        //Convert request value to lowercase
+        if (!empty($all['region'])) {
+            $all['region'] = strtolower($all['region']);
+        }
+
+        return $all;
+    }
     /**
      * Get the validation rules that apply to the request.
      *
@@ -26,11 +36,12 @@ class MatchRequest extends FormRequest
     public function rules()
     {
         return [
-            'summonerId' => 'required|string|max:60',
-            'matchId' =>  'required|string|max:60',
+            'locale' => 'required|string',
+            'summonerId' => 'required|string|max:150',
+            'matchId' =>  'required|string|max:150',
             'region' => [
                 'required',
-                Rule::in(array_map('strtoupper', RegionEntity::$list))
+                Rule::in(array_map('strtolower', RegionEntity::$list))
             ],
         ];
     }
