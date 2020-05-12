@@ -1,7 +1,7 @@
 <template>
     <!-- Two columns -->
     <vx-card>
-        <div class="flex flex-wrap">
+        <div class="flex flex-wrap" id="loadingFeed">
             <div class="w-1/3 ml-auto bg-grid-color h-12">dfh</div>
             <div class="w-1/3 mr-auto bg-grid-color-secondary h-12">dgsg</div>
         </div>
@@ -21,7 +21,7 @@ export default {
 
             this.loadingData(true);
             this.$http
-                .get("match", {
+                .get("match/show-details", {
                     params: {
                         summonerId: this.summonerId,
                         region: this.region,

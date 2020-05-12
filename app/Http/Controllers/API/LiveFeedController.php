@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 // REQUEST
-use App\Http\Requests\LiveFeed\LiveFeed;
+use App\Http\Requests\LiveFeed\LiveFeedRequest;
 // ENTITY
 use App\Entities\Match\MatchEntity;
 use App\Entities\RegionEntity;
@@ -18,7 +18,7 @@ class LiveFeedController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(LiveFeed $request)
+    public function index(LiveFeedRequest $request)
     {
         return $this->getLiveFeed($request);
     }

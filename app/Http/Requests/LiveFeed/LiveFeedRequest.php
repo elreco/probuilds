@@ -7,7 +7,7 @@ use Illuminate\Validation\Rule;
 use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
 
-class LiveFeed extends FormRequest
+class LiveFeedRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

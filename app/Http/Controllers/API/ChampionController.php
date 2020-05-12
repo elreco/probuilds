@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 // REQUEST
-use App\Http\Requests\Champion\Champion;
+use App\Http\Requests\Champion\ChampionRequest;
 // ENTITY
 use App\Entities\ChampionEntity;
 
@@ -24,7 +24,7 @@ class ChampionController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index(Champion $request)
+    public function index(ChampionRequest $request)
     {
         return $this->championEntity->getChampionsByName($request);
     }

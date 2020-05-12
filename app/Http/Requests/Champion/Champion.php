@@ -4,7 +4,7 @@ namespace App\Http\Requests\Champion;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class Champion extends FormRequest
+class ChampionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
