@@ -33,7 +33,7 @@ class ChampionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function checkIfChampionExists(Champion $request)
+    public function checkIfChampionExists(ChampionRequest $request)
     {
         return $this->championEntity->checkIfChampionExists($request);
     }
