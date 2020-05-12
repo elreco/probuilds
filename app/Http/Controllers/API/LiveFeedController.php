@@ -29,7 +29,7 @@ class LiveFeedController extends Controller
         $regions = RegionEntity::getSelectedRegions($request);
 
         $riotEntity = new RiotEntity($request->locale);
-        $riots = $riotEntity->initApi($regions);
+        $riots = $riotEntity->initApiMulti($regions);
 
         $response = [
             'data' => [],

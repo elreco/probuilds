@@ -16,12 +16,10 @@ class MatchController extends Controller
     //
     public function showDetails(MatchRequest $request)
     {
-        $regions = RegionEntity::getSelectedRegions($request);
-
         $riotEntity = new RiotEntity($request->locale);
-        $riot = $riotEntity->initApi($regions);
+        $riot = $riotEntity->initApi($request->region);
 
-        $matchDetailsEntity = new MatchDetailsEntity($riot[$request->region]);
+        $matchDetailsEntity = new MatchDetailsEntity($riot);
         return $matchDetailsEntity->getMatchDetails($request);
     }
 }
