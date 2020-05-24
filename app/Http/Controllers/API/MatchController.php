@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 // REQUEST
-use App\Http\Requests\Match\MatchRequest;
+use App\Http\Requests\Match\ShowDetailsRequest;
 // ENTITY
 use App\Entities\Match\MatchDetailsEntity;
 use App\Entities\RegionEntity;
@@ -14,7 +14,7 @@ class MatchController extends Controller
 {
 
     //
-    public function showDetails(MatchRequest $request)
+    public function showDetails(ShowDetailsRequest $request)
     {
         $riotEntity = new RiotEntity($request->locale);
         $riot = $riotEntity->initApi($request->region);

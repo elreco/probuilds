@@ -35,7 +35,7 @@ class MatchDetailsEntity
     {
         $matchEntity = new MatchEntity($this->riot);
         $match = $matchEntity->getMatch($request->matchId);
-        dd($this->initParticipantArray());
+        dd($match);
         // must returns and array of 10 participants
         // array
         //
@@ -44,7 +44,7 @@ class MatchDetailsEntity
         return $match;
     }
 
-    private function initParticipantArray()
+    private function initParticipantsArray()
     {
         return [
             'matchId' => null,
