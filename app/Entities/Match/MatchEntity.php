@@ -11,6 +11,7 @@ use RiotAPI\DataDragonAPI\DataDragonAPI;
 use App\Entities\SummonerEntity;
 use App\Entities\ChampionEntity;
 use App\Entities\ChallengerEntity;
+use App\Entities\Riot\RiotEntity;
 
 class MatchEntity
 {
@@ -22,6 +23,7 @@ class MatchEntity
     public function __construct($riot)
     {
         $this->riot = $riot;
+        RiotEntity::initDataDragonAPI();
     }
 
     /**
@@ -111,11 +113,7 @@ class MatchEntity
             //Identité des joueurs
             $participantIdentities = [];
 
-            try {
-                $participantIdentitiesAPI = $matchApi->participantIdentities;
-            } catch (\Exception $e) {
-                return null;
-            }
+            $participantIdentitiesAPI = $matchApi->participantIdentities;
 
             foreach ($participantIdentitiesAPI as $participantIdentity) {
                 $participantIdentities[$participantIdentity->participantId] = $participantIdentity;
@@ -125,11 +123,7 @@ class MatchEntity
             }
 
             // Joueurs
-            try {
-                $participantsAPI = $matchApi->participants;
-            } catch (\Exception $e) {
-                return null;
-            }
+            $participantsAPI = $matchApi->participants;
 
             foreach ($participantsAPI as $participant) {
                 // GET PLAYER

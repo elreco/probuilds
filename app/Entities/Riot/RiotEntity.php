@@ -7,12 +7,12 @@ use RiotAPI\LeagueAPI\LeagueAPI;
 use RiotAPI\LeagueAPI\Definitions\Region;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
-use Illuminate\Support\Facades\App;
 
 class RiotEntity
 {
 
     public $locale;
+    public $dataDragonVersion = '10.10.3216176';
 
     public function __construct($locale)
     {
@@ -27,6 +27,12 @@ class RiotEntity
         'adc',
         'support'
     );
+
+    public static function initDataDragonAPI()
+    {
+        DataDragonAPI::initByCdn();
+    }
+
     public function initApi($region)
     {
         // if (empty(env('RIOT_API_KEY')))
@@ -39,6 +45,7 @@ class RiotEntity
             LeagueAPI::SET_VERIFY_SSL       => false,
             LeagueAPI::SET_DATADRAGON_INIT  => true,
             LeagueAPI::SET_STATICDATA_LINKING => true,
+            LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176',
             LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
             LeagueAPI::SET_INTERIM          => true,
             LeagueAPI::SET_CACHE_RATELIMIT  => true,
@@ -62,6 +69,7 @@ class RiotEntity
                 LeagueAPI::SET_VERIFY_SSL       => false,
                 LeagueAPI::SET_DATADRAGON_INIT  => true,
                 LeagueAPI::SET_STATICDATA_LINKING => true,
+                LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176',
                 LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
                 LeagueAPI::SET_INTERIM          => true,
                 LeagueAPI::SET_CACHE_RATELIMIT  => true,

@@ -7,8 +7,15 @@ use RiotAPI\DataDragonAPI\DataDragonAPI;
 // STRING
 use Illuminate\Support\Str;
 
+use App\Entities\Riot\RiotEntity;
+
 class ChampionEntity
 {
+
+    public function __construct()
+    {
+        RiotEntity::initDataDragonAPI();
+    }
 
     /**
      * Display champion key for a given champion name.
@@ -44,7 +51,6 @@ class ChampionEntity
     {
         $return = [];
         // init data dragon
-        DataDragonAPI::initByCdn();
         $champions = DataDragonAPI::getStaticChampions();
         foreach ($champions['data'] as $c) {
             if (Str::startsWith(strtoupper($c['id']), strtoupper($request->query('name'))) or Str::startsWith(strtoupper($c['name']), strtoupper($request->query('name')))) {

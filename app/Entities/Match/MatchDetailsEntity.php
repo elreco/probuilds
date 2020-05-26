@@ -12,6 +12,7 @@ use App\Entities\SummonerEntity;
 use App\Entities\ChampionEntity;
 use App\Entities\ChallengerEntity;
 use App\Entities\Match\MatchEntity;
+use App\Entities\Riot\RiotEntity;
 
 class MatchDetailsEntity
 {
@@ -23,6 +24,7 @@ class MatchDetailsEntity
     public function __construct($riot)
     {
         $this->riot = $riot;
+        RiotEntity::initDataDragonAPI();
     }
 
     /**
@@ -35,13 +37,45 @@ class MatchDetailsEntity
     {
         $matchEntity = new MatchEntity($this->riot);
         $match = $matchEntity->getMatch($request->matchId);
-        dd($match);
+
+        $response = $this->initParticipantsArray();
+        $response['matchId'] = $request->matchId;
+        $response['region'] = $request->region;
+        $response['summonerId'] = $request->summonerId;
+
+        $response['date'] = $match->gameCreation ?? null;
+
+        // construction de l'array pour les participants
+        $participantIdentities = [];
+        foreach ($match->participantIdentities as $participantIdentity) {
+            $participantIdentities[$participantIdentity->participantId] = $participantIdentity->player;
+        }
+
+        $i = 0;
+
+        foreach ($match->participants as $participant) {
+            $response['participants'][$i]['summonerId'] = $participantIdentities[$participant->participantId]->summonerId;
+
+            $src = DataDragonAPI::getChampionIconO($participant->staticData);
+            $response['participants'][$i]['champion'] = [
+                'title' => $participant->staticData->name,
+                'src' => $src->src,
+                'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
+            ];
+            $response['participants'][$i]['player'] = [
+                'title' => $participant->staticData->name,
+                'src' => $src->src,
+                'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
+            ];
+            $i++;
+        }
+        dd($response);
         // must returns and array of 10 participants
         // array
         //
         // each participant ==> champion, name, runes, stuff etc...
         /*  $matchOutput = $this->formatMatchesDetails($match); */
-        return $match;
+        return $response;
     }
 
     private function initParticipantsArray()
@@ -50,6 +84,7 @@ class MatchDetailsEntity
             'matchId' => null,
             'region' => null,
             'summonerId' => null,
+            'date' => null,
             'participants' => [
                 [
                     'summonerId' => null,
@@ -58,7 +93,6 @@ class MatchDetailsEntity
                         'src' => null,
                         'description' => null
                     ],
-                    'date' => null,
                     'player' => [
                         'name' => null,
                         'icon' => null
