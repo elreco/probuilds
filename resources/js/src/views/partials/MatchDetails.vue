@@ -1,17 +1,35 @@
 <template>
     <!-- Two columns -->
-    <vx-card>
-        <div class="flex flex-wrap" id="loadingFeed">
-            <div class="w-1/3 ml-auto bg-grid-color h-12">dfh</div>
-            <div class="w-1/3 mr-auto bg-grid-color-secondary h-12">dgsg</div>
-        </div>
-    </vx-card>
+    <div id="loadingFeed">
+        <vx-card>
+            <div class="vx-col w-full">
+                <match :data="winners"></match>
+            </div>
+        </vx-card>
+        <hr />
+        <vx-card>
+            <div class="vx-col w-full">
+                <match :data="losers"></match>
+            </div>
+        </vx-card>
+    </div>
 </template>
 
 <script>
+import Match from "./Match";
+
 export default {
     name: "match-details",
+    components: {
+        Match
+    },
     props: ["region", "summonerId", "matchId"],
+    data() {
+        return {
+            winners: [],
+            losers: []
+        };
+    },
     mounted() {
         this.getMatch();
     },
@@ -30,18 +48,23 @@ export default {
                     }
                 })
                 .then(response => {
-                    console.log(response.data);
+                    this.losers = response.data.participants.filter(function(
+                        value
+                    ) {
+                        return value.win == false;
+                    });
+
+                    this.winners = response.data.participants.filter(function(
+                        value
+                    ) {
+                        return value.win == true;
+                    });
                 })
                 .then(() => {
                     this.loadingData(false);
                 });
 
             // UPDATE this.users après avoir fait la requête axios
-        },
-        getRegions() {
-            this.$http
-                .get("regions")
-                .then(response => (this.regions = response.data));
         },
         loadingData(boolean) {
             if (boolean) {

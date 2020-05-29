@@ -54,7 +54,15 @@ class MatchDetailsEntity
         $i = 0;
 
         foreach ($match->participants as $participant) {
-            $response['participants'][$i]['summonerId'] = $participantIdentities[$participant->participantId]->summonerId;
+
+            if ($participant->stats->win) {
+                $win = 1;
+            } else {
+                $win = 0;
+            }
+
+            $summonerId = $participantIdentities[$participant->participantId]->summonerId;
+            $response['participants'][$i]['summonerId'] = $summonerId;
 
             $src = DataDragonAPI::getChampionIconO($participant->staticData);
             $response['participants'][$i]['champion'] = [
@@ -62,19 +70,17 @@ class MatchDetailsEntity
                 'src' => $src->src,
                 'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
             ];
+
+            $summonerEntity = new SummonerEntity($this->riot);
+            $summoner = $summonerEntity->getSummoner($summonerId);
+
             $response['participants'][$i]['player'] = [
-                'title' => $participant->staticData->name,
-                'src' => $src->src,
-                'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
+                'name' => $summoner->name,
+                'icon' => DataDragonAPI::getProfileIconO($summoner)->src,
             ];
+            $response['participants'][$i] = $matchEntity->addMatchStats($participant, $response['participants'][$i]);
             $i++;
         }
-        dd($response);
-        // must returns and array of 10 participants
-        // array
-        //
-        // each participant ==> champion, name, runes, stuff etc...
-        /*  $matchOutput = $this->formatMatchesDetails($match); */
         return $response;
     }
 
@@ -85,6 +91,7 @@ class MatchDetailsEntity
             'region' => null,
             'summonerId' => null,
             'date' => null,
+            'winner' => null,
             'participants' => [
                 [
                     'summonerId' => null,
@@ -114,13 +121,9 @@ class MatchDetailsEntity
                             'title' => null,
                             'description' => null
                         ],
-                    ],
-                    'vs' => [
-                        'title' => null,
-                        'src' => null,
-                        'description' => null
                     ]
-                ]
+                ],
+
             ]
 
         ];
