@@ -1,5 +1,5 @@
 <template>
-    <vs-table noDataText :sst="true" :data="data" id="loadingFeed">
+    <vs-table class="w-full" noDataText :sst="true" :data="data">
         <template slot="thead">
             <vs-th></vs-th>
             <vs-th>{{ $t("LiveFeed.player") }}</vs-th>

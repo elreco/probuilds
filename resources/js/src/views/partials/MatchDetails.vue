@@ -1,17 +1,21 @@
 <template>
     <!-- Two columns -->
-    <div id="loadingFeed">
-        <vx-card>
-            <div class="vx-col w-full">
-                <match :data="winners"></match>
-            </div>
-        </vx-card>
-        <hr />
-        <vx-card>
-            <div class="vx-col w-full">
-                <match :data="losers"></match>
-            </div>
-        </vx-card>
+    <div class="loading">
+        <vs-row vs-type="flex" vs-justify="space-between">
+            <vs-col vs-w="6" vs-type="flex" vs-justify="center" vs-align="center">
+                <vs-card class="m-2">
+                    <div slot="header">
+                        <h3>Hello world !</h3>
+                    </div>
+                    <match :data="winners"></match>
+                </vs-card>
+            </vs-col>
+            <vs-col vs-w="6" vs-type="flex" vs-justify="center" vs-align="center">
+                <vs-card class="m-2">
+                    <match :data="losers"></match>
+                </vs-card>
+            </vs-col>
+        </vs-row>
     </div>
 </template>
 
@@ -69,11 +73,11 @@ export default {
         loadingData(boolean) {
             if (boolean) {
                 this.$vs.loading({
-                    type: "material",
-                    container: "#loadingFeed"
+                    type: "default",
+                    container: ".loading"
                 });
             } else {
-                this.$vs.loading.close("#loadingFeed > .con-vs-loading");
+                this.$vs.loading.close(".loading > .con-vs-loading");
             }
         }
     }
