@@ -1,4 +1,4 @@
-<template>
+<template  slot="no-body">
     <vs-table class="w-full" noDataText :sst="true" :data="data">
         <template slot="thead">
             <vs-th></vs-th>
@@ -74,9 +74,9 @@
 
 <script>
 // Search Input
-import PopoverAvatar from "../../components/popovers/PopoverAvatar";
+import PopoverAvatar from "@/components/popovers/PopoverAvatar";
 export default {
-    name: "match",
+    name: "team",
     components: {
         PopoverAvatar
     },

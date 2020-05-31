@@ -27,6 +27,10 @@ export default {
             all: 'All',
             allRegion: 'All Region'
         },
+        Match: {
+            winningTeam: "Winning Team",
+            losingTeam: "Losing Team"
+        },
         SearchBanner: {
             loading: 'Loading',
             searchInput: 'Search champion...'
@@ -57,6 +61,10 @@ export default {
             build: 'Build',
             all: 'Tout',
             allRegion: 'Toutes les régions'
+        },
+        Match: {
+            winningTeam: "Équipe Gagnante",
+            losingTeam: "Équipe Perdante"
         },
         SearchBanner: {
             loading: 'Chargement',

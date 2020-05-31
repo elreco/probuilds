@@ -227,7 +227,7 @@ export default {
         loadingData(boolean) {
             if (boolean) {
                 this.$vs.loading({
-                    type: "material",
+                    type: "default",
                     container: "#loadingFeed"
                 });
             } else {

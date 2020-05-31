@@ -32,15 +32,12 @@
 </template>
 
 <script>
-// Search Input
-import SearchInput from "./SearchInput";
 import LogoWhite from "@/layouts/components/LogoWhite.vue";
 
 export default {
     name: "search-banner",
     props: ["champion"],
     components: {
-        SearchInput,
         LogoWhite
     },
     data: () => ({

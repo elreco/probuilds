@@ -1,37 +1,52 @@
 <template>
     <!-- Two columns -->
     <div class="loading">
-        <vs-row vs-type="flex" vs-justify="space-between">
-            <vs-col vs-w="6" vs-type="flex" vs-justify="center" vs-align="center">
-                <vs-card class="m-2">
-                    <div slot="header">
-                        <h3>Hello world !</h3>
-                    </div>
-                    <match :data="winners"></match>
-                </vs-card>
-            </vs-col>
-            <vs-col vs-w="6" vs-type="flex" vs-justify="center" vs-align="center">
-                <vs-card class="m-2">
-                    <match :data="losers"></match>
-                </vs-card>
-            </vs-col>
-        </vs-row>
+        <div class="vx-row mb-base">
+            <div class="vx-col w-full md:w-1/2">
+                <vx-card
+                    class="mb-base"
+                    :title="$t('Match.winningTeam')"
+                    title-color="#7ed321"
+                    content-color="#fff"
+                >
+                    <team :data="winners"></team>
+                </vx-card>
+                <bans></bans>
+            </div>
+            <div class="vx-col w-full md:w-1/2">
+                <vx-card
+                    class="mb-base"
+                    :title="$t('Match.losingTeam')"
+                    title-color="#a12b17"
+                    content-color="#fff"
+                >
+                    <team :data="losers"></team>
+                    <bans></bans>
+                </vx-card>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
-import Match from "./Match";
+import Team from "./match/Team";
+import Bans from "./match/Bans";
 
 export default {
     name: "match-details",
     components: {
-        Match
+        Team,
+        Bans
     },
     props: ["region", "summonerId", "matchId"],
     data() {
         return {
             winners: [],
-            losers: []
+            losers: [],
+            images: {
+                background1: require("@assets/images/match/background1.jpg"),
+                background2: require("@assets/images/match/background2.jpg")
+            }
         };
     },
     mounted() {

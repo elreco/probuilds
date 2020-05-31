@@ -53,7 +53,7 @@ export default {
             this.isFetching = boolean;
             if (this.isFetching) {
                 this.$vs.loading({
-                    type: "material",
+                    type: "default",
                     container: "body"
                 });
             } else {
