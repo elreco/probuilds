@@ -1,5 +1,5 @@
 <template >
-    <ul class="users-voted user-list mt-2">
+    <ul class="users-voted user-list mt-2 mr-2">
         <li>
             <vx-tooltip text position="bottom">
                 <vs-avatar

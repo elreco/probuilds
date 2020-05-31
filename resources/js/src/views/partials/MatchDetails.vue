@@ -11,7 +11,12 @@
                 >
                     <team :data="winners"></team>
                 </vx-card>
-                <bans></bans>
+                <vx-card>
+                    <div class="ml-4">
+                        <h6>Test</h6>
+                    </div>
+                    <bans></bans>
+                </vx-card>
             </div>
             <div class="vx-col w-full md:w-1/2">
                 <vx-card
@@ -20,8 +25,10 @@
                     title-color="#a12b17"
                     content-color="#fff"
                 >
+                    <template slot="actions">
+                        <bans></bans>
+                    </template>
                     <team :data="losers"></team>
-                    <bans></bans>
                 </vx-card>
             </div>
         </div>
