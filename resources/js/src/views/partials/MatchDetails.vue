@@ -12,9 +12,9 @@
                     <team :data="winners"></team>
                 </vx-card>
                 <vx-card>
-                    <div class="ml-4">
-                        <h6>Test</h6>
-                    </div>
+                    <template slot="actions">
+                        <bans></bans>
+                    </template>
                     <bans></bans>
                 </vx-card>
             </div>

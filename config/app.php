@@ -131,7 +131,7 @@ return [
     */
 
     // 'riot_api_key' => env('RIOT_API_KEY', "RGAPI-f09ce477-11c8-4651-992e-caee44fb1c99"),
-    'riot_api_key' => "RGAPI-6d6874e2-8680-4ece-bb00-be499ea45927",
+    'riot_api_key' => "RGAPI-eb89fd8d-1d30-4d20-9d5a-d7c4e8240f76",
 
     /*
     |--------------------------------------------------------------------------
