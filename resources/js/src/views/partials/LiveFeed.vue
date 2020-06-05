@@ -1,5 +1,5 @@
 <template>
-    <vx-card class="z-0">
+    <vx-card class="z-0 vs-con-loading__container" id="loadingFeed">
         <div class="vx-col w-full">
             <vs-navbar
                 active-text-color="rgba(255,255,255,1)"
@@ -48,7 +48,6 @@
                 pagination
                 :data="users.data"
                 @selected="handleSelected"
-                id="loadingFeed"
             >
                 <template slot="thead">
                     <vs-th></vs-th>

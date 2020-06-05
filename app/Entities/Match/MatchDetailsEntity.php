@@ -53,13 +53,26 @@ class MatchDetailsEntity
 
         $i = 0;
 
-        foreach ($match->participants as $participant) {
-
-            if ($participant->stats->win) {
-                $win = 1;
+        foreach ($match->teams as $team) {
+            if ($team->win == "Win") {
+                $i2 = 0;
+                foreach ($team->bans as $ban) {
+                    $src = DataDragonAPI::getChampionIconO($ban->staticData);
+                    $response['winnersBans'][$i2]['title'] =  $ban->staticData->name;
+                    $response['winnersBans'][$i2]['src'] =  $src->src;
+                    $i2++;
+                }
             } else {
-                $win = 0;
+                $i2 = 0;
+                foreach ($team->bans as $ban) {
+                    $src = DataDragonAPI::getChampionIconO($ban->staticData);
+                    $response['losersBans'][$i2]['title'] =  $ban->staticData->name;
+                    $response['losersBans'][$i2]['src'] =  $src->src;
+                    $i2++;
+                }
             }
+        }
+        foreach ($match->participants as $participant) {
 
             $summonerId = $participantIdentities[$participant->participantId]->summonerId;
             $response['participants'][$i]['summonerId'] = $summonerId;
@@ -91,7 +104,18 @@ class MatchDetailsEntity
             'region' => null,
             'summonerId' => null,
             'date' => null,
-            'winner' => null,
+            'winnersBans' => [
+                [
+                    'title' => null,
+                    'src' => null
+                ]
+            ],
+            'losersBans' => [
+                [
+                    'title' => null,
+                    'src' => null
+                ]
+            ],
             'participants' => [
                 [
                     'summonerId' => null,

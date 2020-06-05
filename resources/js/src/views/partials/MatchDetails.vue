@@ -1,57 +1,55 @@
 <template>
     <!-- Two columns -->
-    <div class="loading">
-        <div class="vx-row mb-base">
-            <div class="vx-col w-full md:w-1/2">
-                <vx-card
-                    class="mb-base"
-                    :title="$t('Match.winningTeam')"
-                    title-color="#7ed321"
-                    content-color="#fff"
-                >
-                    <team :data="winners" :summonerId="summonerId"></team>
-                </vx-card>
-                <vx-card>
-                    <template slot="actions">
-                        <bans></bans>
-                    </template>
-                    <bans></bans>
-                </vx-card>
-            </div>
-            <div class="vx-col w-full md:w-1/2">
-                <vx-card
-                    class="mb-base"
-                    :title="$t('Match.losingTeam')"
-                    title-color="#a12b17"
-                    content-color="#fff"
-                >
-                    <template slot="actions">
-                        <bans></bans>
-                    </template>
-                    <team :data="losers" :summonerId="summonerId"></team>
-                    <!-- DATA -->
-                    <div class="flex justify-between text-center mt-6" slot="no-body-bottom">
-                        <div
-                            class="w-1/3 border border-solid d-theme-border-grey-light border-r-0 border-b-0 border-l-0"
-                        >
-                            <p class="mt-4">Completed</p>
-                            <p class="mb-4 text-3xl font-semibold">786,617</p>
-                        </div>
-                        <div
-                            class="w-1/3 border border-solid d-theme-border-grey-light border-r-0 border-b-0"
-                        >
-                            <p class="mt-4">In Progress</p>
-                            <p class="mb-4 text-3xl font-semibold">13,561</p>
-                        </div>
-                        <div
-                            class="w-1/3 border border-solid d-theme-border-grey-light border-r-0 border-b-0"
-                        >
-                            <p class="mt-4">In Progress</p>
-                            <p class="mb-4 text-3xl font-semibold">13,561</p>
-                        </div>
+
+    <div class="vx-row mb-base">
+        <div class="vx-col w-full md:w-1/2">
+            <vx-card
+                class="vs-con-loading__container"
+                id="loadingMatch1"
+                :title="$t('Match.winningTeam')"
+                title-color="#7ed321"
+                content-color="#fff"
+            >
+                <template slot="actions">
+                    <bans :data="winnersBans"></bans>
+                </template>
+                <team :data="winners" :summonerId="summonerId"></team>
+            </vx-card>
+        </div>
+        <div class="vx-col w-full md:w-1/2">
+            <vx-card
+                class="vs-con-loading__container"
+                id="loadingMatch2"
+                :title="$t('Match.losingTeam')"
+                title-color="#a12b17"
+                content-color="#fff"
+            >
+                <template slot="actions">
+                    <bans :data="losersBans"></bans>
+                </template>
+                <team :data="losers" :summonerId="summonerId"></team>
+                <!-- DATA -->
+                <div class="flex justify-between text-center" slot="no-body-bottom">
+                    <div
+                        class="w-1/3 border border-solid d-theme-border-grey-light border-r-0 border-b-0 border-l-0"
+                    >
+                        <p class="mt-4">Completed</p>
+                        <p class="mb-4 text-3xl font-semibold">786,617</p>
                     </div>
-                </vx-card>
-            </div>
+                    <div
+                        class="w-1/3 border border-solid d-theme-border-grey-light border-r-0 border-b-0"
+                    >
+                        <p class="mt-4">In Progress</p>
+                        <p class="mb-4 text-3xl font-semibold">13,561</p>
+                    </div>
+                    <div
+                        class="w-1/3 border border-solid d-theme-border-grey-light border-r-0 border-b-0"
+                    >
+                        <p class="mt-4">In Progress</p>
+                        <p class="mb-4 text-3xl font-semibold">13,561</p>
+                    </div>
+                </div>
+            </vx-card>
         </div>
     </div>
 </template>
@@ -71,6 +69,8 @@ export default {
         return {
             winners: [],
             losers: [],
+            winnersBans: [],
+            losersBans: [],
             images: {
                 background1: require("@assets/images/match/background1.jpg"),
                 background2: require("@assets/images/match/background2.jpg")
@@ -106,6 +106,8 @@ export default {
                     ) {
                         return value.win == true;
                     });
+                    this.winnersBans = response.data.winnersBans;
+                    this.losersBans = response.data.losersBans;
                 })
                 .then(() => {
                     this.loadingData(false);
@@ -117,10 +119,15 @@ export default {
             if (boolean) {
                 this.$vs.loading({
                     type: "default",
-                    container: ".loading"
+                    container: "#loadingMatch1"
+                });
+                this.$vs.loading({
+                    type: "default",
+                    container: "#loadingMatch2"
                 });
             } else {
-                this.$vs.loading.close(".loading > .con-vs-loading");
+                this.$vs.loading.close("#loadingMatch1 > .con-vs-loading");
+                this.$vs.loading.close("#loadingMatch2 > .con-vs-loading");
             }
         }
     }
