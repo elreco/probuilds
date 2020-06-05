@@ -16,6 +16,7 @@
                 :data="tr"
                 :key="indextr"
                 v-for="(tr, indextr) in data"
+                :state="data[indextr].summonerId == summonerId?'primary':null"
             >
                 <vs-td :data="data[indextr].champion">
                     <popover-avatar
@@ -80,6 +81,6 @@ export default {
     components: {
         PopoverAvatar
     },
-    props: ["data"]
+    props: ["data", "summonerId"]
 };
 </script>

@@ -9,7 +9,7 @@
                     title-color="#7ed321"
                     content-color="#fff"
                 >
-                    <team :data="winners"></team>
+                    <team :data="winners" :summonerId="summonerId"></team>
                 </vx-card>
                 <vx-card>
                     <template slot="actions">
@@ -28,7 +28,28 @@
                     <template slot="actions">
                         <bans></bans>
                     </template>
-                    <team :data="losers"></team>
+                    <team :data="losers" :summonerId="summonerId"></team>
+                    <!-- DATA -->
+                    <div class="flex justify-between text-center mt-6" slot="no-body-bottom">
+                        <div
+                            class="w-1/3 border border-solid d-theme-border-grey-light border-r-0 border-b-0 border-l-0"
+                        >
+                            <p class="mt-4">Completed</p>
+                            <p class="mb-4 text-3xl font-semibold">786,617</p>
+                        </div>
+                        <div
+                            class="w-1/3 border border-solid d-theme-border-grey-light border-r-0 border-b-0"
+                        >
+                            <p class="mt-4">In Progress</p>
+                            <p class="mb-4 text-3xl font-semibold">13,561</p>
+                        </div>
+                        <div
+                            class="w-1/3 border border-solid d-theme-border-grey-light border-r-0 border-b-0"
+                        >
+                            <p class="mt-4">In Progress</p>
+                            <p class="mb-4 text-3xl font-semibold">13,561</p>
+                        </div>
+                    </div>
                 </vx-card>
             </div>
         </div>
