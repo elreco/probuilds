@@ -37,8 +37,7 @@ class MatchDetailsEntity
     {
         $matchEntity = new MatchEntity($this->riot);
         $match = $matchEntity->getMatch($request->matchId);
-
-        $response = $this->initParticipantsArray();
+        $response = $this->initMatchArray();
         $response['matchId'] = $request->matchId;
         $response['region'] = $request->region;
         $response['summonerId'] = $request->summonerId;
@@ -51,34 +50,58 @@ class MatchDetailsEntity
             $participantIdentities[$participantIdentity->participantId] = $participantIdentity->player;
         }
 
-        $i = 0;
-
+        // build winners and losers
         foreach ($match->teams as $team) {
             if ($team->win == "Win") {
-                $i2 = 0;
-                foreach ($team->bans as $ban) {
-                    $src = DataDragonAPI::getChampionIconO($ban->staticData);
-                    $response['winnersBans'][$i2]['title'] =  $ban->staticData->name;
-                    $response['winnersBans'][$i2]['src'] =  $src->src;
-                    $i2++;
-                }
+
+                $response['winners']['bans'] = $this->bans($team);
+
+                // winners participants
+                $winners = array_filter($match->participants, function ($var) use ($team) {
+                    return ($var->teamId == $team->teamId);
+                });
+
+                $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity);
             } else {
-                $i2 = 0;
-                foreach ($team->bans as $ban) {
-                    $src = DataDragonAPI::getChampionIconO($ban->staticData);
-                    $response['losersBans'][$i2]['title'] =  $ban->staticData->name;
-                    $response['losersBans'][$i2]['src'] =  $src->src;
-                    $i2++;
-                }
+
+                $response['losers']['bans'] = $this->bans($team);
+
+                // losers participants
+                $losers = array_filter($match->participants, function ($var) use ($team) {
+                    return ($var->teamId == $team->teamId);
+                });
+
+                $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity);
             }
         }
-        foreach ($match->participants as $participant) {
+
+        return $response;
+    }
+
+    public function bans($team)
+    {
+        $i = 0;
+        $response = [];
+        foreach ($team->bans as $ban) {
+            $src = DataDragonAPI::getChampionIconO($ban->staticData);
+            $response[$i]['title'] =  $ban->staticData->name;
+            $response[$i]['src'] =  $src->src;
+            $i++;
+        }
+        return $response;
+    }
+
+    public function participants($participants, $participantIdentities, $matchEntity)
+    {
+        $i = 0;
+        $response = [];
+        foreach ($participants as $participant) {
 
             $summonerId = $participantIdentities[$participant->participantId]->summonerId;
-            $response['participants'][$i]['summonerId'] = $summonerId;
+            $response[$i]['summonerId'] = $summonerId;
 
             $src = DataDragonAPI::getChampionIconO($participant->staticData);
-            $response['participants'][$i]['champion'] = [
+            $response[$i]['champion'] = [
                 'title' => $participant->staticData->name,
                 'src' => $src->src,
                 'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
@@ -87,69 +110,71 @@ class MatchDetailsEntity
             $summonerEntity = new SummonerEntity($this->riot);
             $summoner = $summonerEntity->getSummoner($summonerId);
 
-            $response['participants'][$i]['player'] = [
+            $response[$i]['player'] = [
                 'name' => $summoner->name,
                 'icon' => DataDragonAPI::getProfileIconO($summoner)->src,
             ];
-            $response['participants'][$i] = $matchEntity->addMatchStats($participant, $response['participants'][$i]);
+            $response[$i] = $matchEntity->addMatchStats($participant, $response[$i]);
             $i++;
         }
         return $response;
     }
 
-    private function initParticipantsArray()
+    private function initMatchArray()
     {
         return [
             'matchId' => null,
             'region' => null,
             'summonerId' => null,
             'date' => null,
-            'winnersBans' => [
-                [
-                    'title' => null,
-                    'src' => null
-                ]
+            'winners' =>
+            [
+                'bans' => [],
+                'stats' => [],
+                'participants' => $this->initParticipantsArray(5)
             ],
-            'losersBans' => [
-                [
+            'losers' => [
+                'bans' => [],
+                'stats' => [],
+                'participants' => $this->initParticipantsArray(5)
+            ]
+        ];
+    }
+
+    private function initParticipantsArray($numbers)
+    {
+        for ($i = 0; $i < $numbers; $i++) {
+            $array[$i] = [
+                'summonerId' => null,
+                'champion' => [
                     'title' => null,
-                    'src' => null
-                ]
-            ],
-            'participants' => [
-                [
-                    'summonerId' => null,
-                    'champion' => [
-                        'title' => null,
+                    'src' => null,
+                    'description' => null
+                ],
+                'player' => [
+                    'name' => null,
+                    'icon' => null
+                ],
+                'win' => null,
+                'kda' => null,
+                'gold' => null,
+                'keystone' => null,
+                'subkeystone' => null,
+                'slots' => [],
+                'spells' => [
+                    1 => [
                         'src' => null,
+                        'title' => null,
                         'description' => null
                     ],
-                    'player' => [
-                        'name' => null,
-                        'icon' => null
+                    2 => [
+                        'src' => null,
+                        'title' => null,
+                        'description' => null
                     ],
-                    'win' => null,
-                    'kda' => null,
-                    'gold' => null,
-                    'keystone' => null,
-                    'subkeystone' => null,
-                    'slots' => [],
-                    'spells' => [
-                        1 => [
-                            'src' => null,
-                            'title' => null,
-                            'description' => null
-                        ],
-                        2 => [
-                            'src' => null,
-                            'title' => null,
-                            'description' => null
-                        ],
-                    ]
-                ],
-
-            ]
-
-        ];
+                ]
+            ];
+        }
+        return $array;
     }
 }

@@ -7,7 +7,7 @@
             <li :data="tr" :key="indextr" v-for="(tr, indextr) in data">
                 <vx-tooltip :text="tr.title" position="bottom">
                     <vs-avatar
-                        :src="tr.src"
+                        :src="tr.src ? tr.src : srcIfNull"
                         size="30px"
                         class="border-2 border-white border-solid -m-1"
                     ></vs-avatar>
@@ -21,6 +21,11 @@
 <script>
 export default {
     name: "bans",
-    props: ["data"]
+    props: ["data"],
+    data() {
+        return {
+            srcIfNull: require("@assets/images/match/none_ban.png")
+        };
+    }
 };
 </script>

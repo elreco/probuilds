@@ -284,32 +284,32 @@ class MatchEntity
         return $match;
     }
 
-    public function addMatchStats($participant, $return)
+    public function addMatchStats($participant, $response)
     {
         // WIN OR LOSE
-        $return['win'] = $participant->stats->win;
+        $response['win'] = $participant->stats->win;
         // KDA
-        $return['kda'] = $participant->stats->kills . "/" . $participant->stats->deaths . "/" . $participant->stats->assists;
+        $response['kda'] = $participant->stats->kills . "/" . $participant->stats->deaths . "/" . $participant->stats->assists;
 
         // GOLDS
-        $return['gold'] = $this->thousandsCurrencyFormat($participant->stats->goldEarned);
+        $response['gold'] = $this->thousandsCurrencyFormat($participant->stats->goldEarned);
 
         // KEYSTONES
 
         $runes = $this->riot->getStaticReforgedRunes()->runes;
         /* $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths; */
         $player_stats = $participant->stats;
-        $return['keystone'] = !empty($runes[$player_stats->perk0]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src : '';
-        $return['subkeystone'] = !empty($runes[$player_stats->perk4]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src : '';
+        $response['keystone'] = !empty($runes[$player_stats->perk0]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src : '';
+        $response['subkeystone'] = !empty($runes[$player_stats->perk4]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src : '';
 
         // SLOTS
         $items = DataDragonAPI::getStaticItems();
         for ($u = 1; $u <= 6; $u++) {
             $item_name = "item" . $u;
             if (!empty($participant->stats->$item_name)) {
-                $return['slots'][$u]['src'] = DataDragonAPI::getItemIconUrl($participant->stats->$item_name);
-                $return['slots'][$u]['title'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['name'] : '';
-                $return['slots'][$u]['description'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['description'] : '';
+                $response['slots'][$u]['src'] = DataDragonAPI::getItemIconUrl($participant->stats->$item_name);
+                $response['slots'][$u]['title'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['name'] : '';
+                $response['slots'][$u]['description'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['description'] : '';
             }
         }
 
@@ -318,12 +318,12 @@ class MatchEntity
 
             if (!empty($participant->$spell_name)) {
                 $spell = DataDragonAPI::getStaticSummonerSpellById($participant->$spell_name);
-                $return['spells'][$u]['src'] = DataDragonAPI::getSpellIconUrl($spell['id']);
-                $return['spells'][$u]['title'] = $spell['name'];
-                $return['spells'][$u]['description'] = $spell['description'];
+                $response['spells'][$u]['src'] = DataDragonAPI::getSpellIconUrl($spell['id']);
+                $response['spells'][$u]['title'] = $spell['name'];
+                $response['spells'][$u]['description'] = $spell['description'];
             }
         }
 
-        return $return;
+        return $response;
     }
 }

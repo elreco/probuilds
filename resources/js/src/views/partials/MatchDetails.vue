@@ -11,9 +11,9 @@
                 content-color="#fff"
             >
                 <template slot="actions">
-                    <bans :data="winnersBans"></bans>
+                    <bans :data="winners.bans"></bans>
                 </template>
-                <team :data="winners" :summonerId="summonerId"></team>
+                <team :data="winners.participants" :summonerId="summonerId"></team>
             </vx-card>
         </div>
         <div class="vx-col w-full md:w-1/2">
@@ -25,9 +25,9 @@
                 content-color="#fff"
             >
                 <template slot="actions">
-                    <bans :data="losersBans"></bans>
+                    <bans :data="losers.bans"></bans>
                 </template>
-                <team :data="losers" :summonerId="summonerId"></team>
+                <team :data="losers.participants" :summonerId="summonerId"></team>
                 <!-- DATA -->
                 <div class="flex justify-between text-center" slot="no-body-bottom">
                     <div
@@ -69,8 +69,6 @@ export default {
         return {
             winners: [],
             losers: [],
-            winnersBans: [],
-            losersBans: [],
             images: {
                 background1: require("@assets/images/match/background1.jpg"),
                 background2: require("@assets/images/match/background2.jpg")
@@ -95,7 +93,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.losers = response.data.participants.filter(function(
+                    /* this.losers = response.data.participants.filter(function(
                         value
                     ) {
                         return value.win == false;
@@ -105,9 +103,10 @@ export default {
                         value
                     ) {
                         return value.win == true;
-                    });
-                    this.winnersBans = response.data.winnersBans;
-                    this.losersBans = response.data.losersBans;
+                    }); */
+                    console.log(response.data.winners.participants);
+                    this.winners = response.data.winners;
+                    this.losers = response.data.losers;
                 })
                 .then(() => {
                     this.loadingData(false);
