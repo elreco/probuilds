@@ -1,5 +1,5 @@
 <template>
-    <div class="m-auto pl-5 pr-5 items-center router-link-active w-2/5 md:w-full">
+    <div class="m-auto pl-5 pr-5 items-center router-link-active xl:w-2/5 w-full">
         <search-input />
     </div>
 </template>

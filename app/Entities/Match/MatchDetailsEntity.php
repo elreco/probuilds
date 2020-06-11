@@ -130,12 +130,10 @@ class MatchDetailsEntity
             'winners' =>
             [
                 'bans' => [],
-                'stats' => [],
                 'participants' => $this->initParticipantsArray(5)
             ],
             'losers' => [
                 'bans' => [],
-                'stats' => [],
                 'participants' => $this->initParticipantsArray(5)
             ]
         ];
