@@ -1,8 +1,9 @@
 <template  slot="no-body">
-    <vs-table class="w-full" noDataText :sst="true" :data="data">
+    <vs-table class="w-full" noDataText :sst="true" :data="data" @selected="handleSelected">
         <template slot="thead">
             <vs-th></vs-th>
             <vs-th>{{ $t("LiveFeed.player") }}</vs-th>
+            <vs-th>{{ $t("LiveFeed.level") }}</vs-th>
             <vs-th>{{ $t("LiveFeed.kda") }}</vs-th>
             <vs-th>{{ $t("LiveFeed.gold") }}</vs-th>
             <vs-th>{{ $t("LiveFeed.keystone") }}</vs-th>
@@ -33,6 +34,7 @@
                         {{ data[indextr].player.name }}
                     </vs-chip>
                 </vs-td>
+                <vs-td :data="data[indextr].level">{{ data[indextr].level }}</vs-td>
                 <vs-td :data="data[indextr].kda">{{ data[indextr].kda }}</vs-td>
                 <vs-td :data="data[indextr].gold">{{ data[indextr].gold }}</vs-td>
                 <vs-td :data="data[indextr].keystone">
@@ -81,6 +83,18 @@ export default {
     components: {
         PopoverAvatar
     },
-    props: ["data", "summonerId"]
+    props: ["data", "summonerId", "region", "matchId"],
+    methods: {
+        handleSelected(tr) {
+            this.$router.push({
+                name: "match",
+                params: {
+                    region: this.region,
+                    summonerId: tr.summonerId,
+                    matchId: this.matchId
+                }
+            });
+        }
+    }
 };
 </script>

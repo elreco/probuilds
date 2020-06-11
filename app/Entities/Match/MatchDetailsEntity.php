@@ -35,14 +35,26 @@ class MatchDetailsEntity
 
     public function getMatchDetails($request)
     {
+        // init entities
+        $summonerEntity = new SummonerEntity($this->riot);
         $matchEntity = new MatchEntity($this->riot);
+
+        // get match
         $match = $matchEntity->getMatch($request->matchId);
+
+        // init match array
         $response = $this->initMatchArray();
+
+        // global array data
         $response['matchId'] = $request->matchId;
         $response['region'] = $request->region;
-        $response['summonerId'] = $request->summonerId;
-
         $response['date'] = $match->gameCreation ?? null;
+        //
+        // Selected Summoner
+        //
+        $summoner = $summonerEntity->getSummoner($request->summonerId);
+        $response['summonerName'] = $summoner->name;
+        $response['summonerId'] = $request->summonerId;
 
         // construction de l'array pour les participants
         $participantIdentities = [];
@@ -50,10 +62,21 @@ class MatchDetailsEntity
             $participantIdentities[$participantIdentity->participantId] = $participantIdentity->player;
         }
 
+        // selected summoner champion data
+        foreach ($match->participants as $participant) {
+            if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
+                $src = DataDragonAPI::getChampionIconO($participant->staticData);
+                $response['champion'] = [
+                    'title' => $participant->staticData->name,
+                    'src' => $src->src,
+                    'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
+                ];
+            }
+        }
+
         // build winners and losers
         foreach ($match->teams as $team) {
             if ($team->win == "Win") {
-
                 $response['winners']['bans'] = $this->bans($team);
 
                 // winners participants
@@ -61,9 +84,8 @@ class MatchDetailsEntity
                     return ($var->teamId == $team->teamId);
                 });
 
-                $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity);
+                $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity, $summonerEntity);
             } else {
-
                 $response['losers']['bans'] = $this->bans($team);
 
                 // losers participants
@@ -71,7 +93,7 @@ class MatchDetailsEntity
                     return ($var->teamId == $team->teamId);
                 });
 
-                $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity);
+                $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity, $summonerEntity);
             }
         }
 
@@ -91,7 +113,7 @@ class MatchDetailsEntity
         return $response;
     }
 
-    public function participants($participants, $participantIdentities, $matchEntity)
+    public function participants($participants, $participantIdentities, $matchEntity, $summonerEntity)
     {
         $i = 0;
         $response = [];
@@ -107,13 +129,15 @@ class MatchDetailsEntity
                 'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
             ];
 
-            $summonerEntity = new SummonerEntity($this->riot);
             $summoner = $summonerEntity->getSummoner($summonerId);
 
             $response[$i]['player'] = [
                 'name' => $summoner->name,
                 'icon' => DataDragonAPI::getProfileIconO($summoner)->src,
             ];
+
+            $response[$i]['level'] = $participant->stats->champLevel;
+
             $response[$i] = $matchEntity->addMatchStats($participant, $response[$i]);
             $i++;
         }
@@ -126,6 +150,12 @@ class MatchDetailsEntity
             'matchId' => null,
             'region' => null,
             'summonerId' => null,
+            'summonerName' => null,
+            'champion' => [
+                'title' => null,
+                'src' => null,
+                'description' => null
+            ],
             'date' => null,
             'winners' =>
             [
@@ -144,6 +174,7 @@ class MatchDetailsEntity
         for ($i = 0; $i < $numbers; $i++) {
             $array[$i] = [
                 'summonerId' => null,
+                'level' => null,
                 'champion' => [
                     'title' => null,
                     'src' => null,

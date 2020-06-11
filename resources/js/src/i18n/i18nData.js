@@ -19,6 +19,7 @@ export default {
         LiveFeed: {
             title: 'Live Feed',
             player: "Player",
+            level: 'Level',
             vs: "VS.",
             kda: 'KDA',
             gold: 'Gold',
@@ -55,6 +56,7 @@ export default {
         LiveFeed: {
             title: "Flux en direct",
             player: "Joueur",
+            level: 'Niveau',
             vs: "VS.",
             kda: 'KDA',
             gold: 'Gold',

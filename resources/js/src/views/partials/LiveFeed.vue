@@ -166,10 +166,6 @@ export default {
     },
     methods: {
         handleSelected(tr) {
-            /* this.$vs.notify({
-                title: `Selected ${tr.username}`,
-                text: `Email: ${tr.email}`
-            }); */
             this.$router.push({
                 name: "match",
                 params: {
