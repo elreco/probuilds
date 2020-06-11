@@ -31,7 +31,8 @@ export default {
         Match: {
             winningTeam: "Winning Team",
             losingTeam: "Losing Team",
-            bans: "Bans"
+            bans: "Bans",
+            titleIfNull: "None"
         },
         SearchBanner: {
             loading: 'Loading',
@@ -68,7 +69,8 @@ export default {
         Match: {
             winningTeam: "Équipe Gagnante",
             losingTeam: "Équipe Perdante",
-            bans: "Bans"
+            bans: "Bans",
+            titleIfNull: "Aucun"
         },
         SearchBanner: {
             loading: 'Chargement',

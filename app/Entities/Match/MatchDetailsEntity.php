@@ -105,9 +105,14 @@ class MatchDetailsEntity
         $i = 0;
         $response = [];
         foreach ($team->bans as $ban) {
-            $src = DataDragonAPI::getChampionIconO($ban->staticData);
-            $response[$i]['title'] =  $ban->staticData->name;
-            $response[$i]['src'] =  $src->src;
+            if ($ban->championId > 0) {
+                $src = DataDragonAPI::getChampionIconO($ban->staticData);
+                $response[$i]['title'] =  $ban->staticData->name;
+                $response[$i]['src'] =  $src->src;
+            } else {
+                $response[$i]['title'] =  null;
+                $response[$i]['src'] =  null;
+            }
             $i++;
         }
         return $response;
