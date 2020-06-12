@@ -1,8 +1,8 @@
 <template>
     <section id="dashboard-analytics">
         <summoner-details :data="data" />
+        <build-details :data="data" />
         <match-details :data="data" />
-        <build-details />
     </section>
 </template>
 
@@ -43,9 +43,9 @@ export default {
             this.$http
                 .get("match/show-details", {
                     params: {
-                        summonerId: this.summonerId,
-                        region: this.region,
-                        matchId: this.matchId,
+                        summonerId: this.$route.params.summonerId,
+                        region: this.$route.params.region,
+                        matchId: this.$route.params.matchId,
                         locale: this.$route.params.locale
                     }
                 })
