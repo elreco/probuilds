@@ -1,14 +1,14 @@
 <template>
     <div class="vx-row mb-base" id="page-user-view">
         <div class="vx-col w-full">
-            <vx-card :title="champion.title">
+            <vx-card :title="data.champion.title">
                 <!-- Avatar -->
                 <div class="vx-row">
                     <!-- Avatar Col -->
                     <div class="vx-col" id="avatar-col">
                         <div class="img-container mb-4">
                             <img
-                                :src="champion.src ? champion.src : srcIfNull"
+                                :src="data.champion.src ? data.champion.src : srcIfNull"
                                 class="rounded w-full"
                             />
                         </div>
@@ -19,15 +19,16 @@
                         <table>
                             <tr>
                                 <td class="font-semibold">Player</td>
-                                <td>{{summonerName}}</td>
+                                <td>{{data.summonerName}}</td>
+                            </tr>
+
+                            <tr>
+                                <td class="font-semibold">Ligue</td>
+                                <td>{{data.summonerLeague}}</td>
                             </tr>
                             <tr>
-                                <td class="font-semibold">Name</td>
-                                <td>sdgdsgsdg</td>
-                            </tr>
-                            <tr>
-                                <td class="font-semibold">Email</td>
-                                <td>sdgsdgdsg</td>
+                                <td class="font-semibold">League Points</td>
+                                <td>{{data.summonerLeaguePoints}}</td>
                             </tr>
                         </table>
                     </div>
@@ -37,7 +38,7 @@
                     <div class="vx-col flex-1" id="account-info-col-2">
                         <table>
                             <tr>
-                                <td class="font-semibold">Status</td>
+                                <td class="font-semibold">Level</td>
                                 <td></td>
                             </tr>
                             <tr>
@@ -75,7 +76,7 @@
 <script>
 export default {
     name: "summoner-details",
-    props: ["champion", "summonerName"],
+    props: ["data"],
     data() {
         return {
             srcIfNull: require("@assets/images/match/none_ban.png")

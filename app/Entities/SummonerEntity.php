@@ -28,4 +28,24 @@ class SummonerEntity
 
         return $summoner;
     }
+
+    /**
+     * Get a summoner by a given summoner id.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getLeague($summonerId, $league)
+    {
+        $return = null;
+        $leagues = [];
+        $leagues = $this->riot->getLeagueEntriesForSummoner($summonerId);
+        if (!empty($leagues)) {
+            foreach ($leagues as $l) {
+                if ($l->queueType == $league) {
+                    $return = $l;
+                }
+            }
+        }
+        return $return;
+    }
 }

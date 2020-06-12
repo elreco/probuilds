@@ -1,13 +1,7 @@
 <template>
     <section id="dashboard-analytics">
-        <summoner-details :champion="champion" :summonerName="summonerName" />
-        <match-details
-            :winners="winners"
-            :losers="losers"
-            :region="region"
-            :summonerId="summonerId"
-            :matchId="matchId"
-        />
+        <summoner-details :data="data" />
+        <match-details :data="data" />
         <build-details />
     </section>
 </template>
@@ -21,18 +15,16 @@ export default {
     data() {
         return {
             title: this.$i18n.t("meta.title.show"),
-            region: this.$route.params.region,
-            summonerId: this.$route.params.summonerId,
-            matchId: this.$route.params.matchId,
-            champion: [],
-            summonerName: null,
-            winners: {
-                bans: [],
-                participants: []
-            },
-            losers: {
-                bans: [],
-                participants: []
+            data: {
+                champion: {},
+                losers: {
+                    bans: [],
+                    participants: []
+                },
+                winners: {
+                    bans: [],
+                    participants: []
+                }
             }
         };
     },
@@ -58,10 +50,7 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.champion = response.data.champion;
-                    this.summonerName = response.data.summonerName;
-                    this.winners = response.data.winners;
-                    this.losers = response.data.losers;
+                    this.data = response.data;
                 })
                 .then(() => {
                     this.loadingData(false);

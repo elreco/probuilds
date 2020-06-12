@@ -4,26 +4,26 @@
         <div class="vx-col w-full xl:w-1/2 mb-base">
             <vx-card :title="$t('Match.winningTeam')" title-color="#7ed321" content-color="#fff">
                 <template slot="actions">
-                    <bans :data="winners.bans"></bans>
+                    <bans :data="data.winners.bans"></bans>
                 </template>
                 <team
-                    :data="winners.participants"
-                    :region="region"
-                    :matchId="matchId"
-                    :summonerId="summonerId"
+                    :data="data.winners.participants"
+                    :region="data.region"
+                    :matchId="data.matchId"
+                    :summonerId="data.summonerId"
                 ></team>
             </vx-card>
         </div>
         <div class="vx-col xl:w-1/2 w-full">
             <vx-card :title="$t('Match.losingTeam')" title-color="#a12b17" content-color="#fff">
                 <template slot="actions">
-                    <bans :data="losers.bans"></bans>
+                    <bans :data="data.losers.bans"></bans>
                 </template>
                 <team
-                    :data="losers.participants"
-                    :region="region"
-                    :matchId="matchId"
-                    :summonerId="summonerId"
+                    :data="data.losers.participants"
+                    :region="data.region"
+                    :matchId="data.matchId"
+                    :summonerId="data.summonerId"
                 ></team>
             </vx-card>
         </div>
@@ -40,7 +40,7 @@ export default {
         Team,
         Bans
     },
-    props: ["region", "summonerId", "matchId", "winners", "losers"],
+    props: ["data"],
     data() {
         return {
             images: {

@@ -9,9 +9,8 @@ use App\Http\Traits\CommonTrait;
 use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
 use App\Entities\SummonerEntity;
-use App\Entities\ChampionEntity;
-use App\Entities\ChallengerEntity;
 use App\Entities\Match\MatchEntity;
+use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
 
 class MatchDetailsEntity
@@ -49,12 +48,28 @@ class MatchDetailsEntity
         $response['matchId'] = $request->matchId;
         $response['region'] = $request->region;
         $response['date'] = $match->gameCreation ?? null;
+
+        // get region name
+        $regionEntity = new RegionEntity();
+        $response['regionName'] = $regionEntity->getRegionName($request->region);
         //
         // Selected Summoner
         //
         $summoner = $summonerEntity->getSummoner($request->summonerId);
-        $response['summonerName'] = $summoner->name;
         $response['summonerId'] = $request->summonerId;
+        $response['summonerName'] = $summoner->name;
+
+        // summoner rank and points
+        $summonerLeague = $summonerEntity->getLeague($request->summonerId, "RANKED_SOLO_5x5");
+
+        if (!empty($summonerLeague)) {
+            $leagueRank = "";
+            if (!in_array($summonerLeague->tier, ["MASTER", "GRANDMASTER", "CHALLENGER"])) {
+                $leagueRank = $summonerLeague->rank;
+            }
+            $response['summonerLeague'] = $summonerLeague->tier . " " . $leagueRank;
+            $response['summonerLeaguePoints'] = $summonerLeague->leaguePoints;
+        }
 
         // construction de l'array pour les participants
         $participantIdentities = [];
@@ -154,8 +169,11 @@ class MatchDetailsEntity
         return [
             'matchId' => null,
             'region' => null,
+            'regionName' => null,
             'summonerId' => null,
             'summonerName' => null,
+            'summonerLeague' => null,
+            'summonerLeaguePoints' => null,
             'champion' => [
                 'title' => null,
                 'src' => null,
