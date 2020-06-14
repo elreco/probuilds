@@ -32,7 +32,10 @@ export default {
             winningTeam: "Winning Team",
             losingTeam: "Losing Team",
             bans: "Bans",
-            titleIfNull: "None"
+            titleIfNull: "None",
+            player: "Player",
+            league: "League",
+            leaguePoints: "Points"
         },
         SearchBanner: {
             loading: 'Loading',
@@ -70,7 +73,10 @@ export default {
             winningTeam: "Équipe Gagnante",
             losingTeam: "Équipe Perdante",
             bans: "Bans",
-            titleIfNull: "Aucun"
+            titleIfNull: "Aucun",
+            player: "Joueur",
+            league: "Ligue",
+            leaguePoints: "Points"
         },
         SearchBanner: {
             loading: 'Chargement',
