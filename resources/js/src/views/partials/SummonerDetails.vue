@@ -35,11 +35,11 @@
                     <!-- /Information - Col 1 -->
 
                     <!-- Information - Col 2 -->
-                    <!-- <div class="vx-col flex-1" id="account-info-col-2">
+                    <div class="vx-col flex-1" id="account-info-col-2">
                         <table>
                             <tr>
-                                <td class="font-semibold">Level</td>
-                                <td></td>
+                                <td class="font-semibold">Region Name</td>
+                                <td>{{data.regionName}}</td>
                             </tr>
                             <tr>
                                 <td class="font-semibold">Role</td>
@@ -50,7 +50,7 @@
                                 <td></td>
                             </tr>
                         </table>
-                    </div>-->
+                    </div>
                     <!-- /Information - Col 2 -->
                     <div class="vx-col w-full flex" id="account-manage-buttons">
                         <!--  <vs-button

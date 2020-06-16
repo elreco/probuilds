@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 
+$api = app('Dingo\Api\Routing\Router');
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -17,17 +18,29 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
-Route::domain(env('APP_API_URL'))->group(function () {
+$api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => ['cors', 'api.throttle']], function ($api) {
     // LIVEFEED CONTROLLER
-    Route::get('/livefeed', 'API\LiveFeedController@index');
+    $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER
-    Route::get('/match/show-details', 'API\MatchController@showDetails');
+    $api->get('/match/show-details', 'MatchController@showDetails');
     // BUILD CONTROLLER
-    Route::get('/build', 'API\BuildController@index');
+    $api->get('/build', 'BuildController@index');
     // REGIONS CONTROLLER
-    Route::get('/regions', 'API\RegionController');
+    $api->get('/regions', 'RegionController@index');
     // CHAMPIONS CONTROLLER
-    Route::get('/champions', 'API\ChampionController@index');
-    Route::get('/champions/check', 'API\ChampionController@checkIfChampionExists');
+    $api->get('/champions', 'ChampionController@index');
+    $api->get('/champions/check', 'ChampionController@checkIfChampionExists');
 });
+/* Route::domain(env('APP_API_URL'))->group(function () {
+    // LIVEFEED CONTROLLER
+    Route::get('/livefeed', 'LiveFeedController@index');
+    // MATCH CONTROLLER
+    Route::get('/match/show-details', 'MatchController@showDetails');
+    // BUILD CONTROLLER
+    Route::get('/build', 'BuildController@index');
+    // REGIONS CONTROLLER
+    Route::get('/regions', 'RegionController');
+    // CHAMPIONS CONTROLLER
+    Route::get('/champions', 'ChampionController@index');
+    Route::get('/champions/check', 'ChampionController@checkIfChampionExists');
+}); */

@@ -43,6 +43,7 @@ class MatchDetailsEntity
 
         // init match array
         $response = $this->initMatchArray();
+        $response += $summonerEntity->initSummonerArray();
 
         // global array data
         $response['matchId'] = $request->matchId;
@@ -169,11 +170,7 @@ class MatchDetailsEntity
         return [
             'matchId' => null,
             'region' => null,
-            'regionName' => null,
             'summonerId' => null,
-            'summonerName' => null,
-            'summonerLeague' => null,
-            'summonerLeaguePoints' => null,
             'champion' => [
                 'title' => null,
                 'src' => null,

@@ -48,4 +48,14 @@ class SummonerEntity
         }
         return $return;
     }
+
+    public function initSummonerArray()
+    {
+        return [
+            'regionName' => null,
+            'summonerName' => null,
+            'summonerLeague' => null,
+            'summonerLeaguePoints' => null,
+        ];
+    }
 }
