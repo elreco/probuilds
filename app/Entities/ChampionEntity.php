@@ -82,4 +82,32 @@ class ChampionEntity
         }
         return response()->json(['message' => 'Not Found!'], 404);
     }
+
+    /**
+     * Check if champion exists and returns his well formatted name.
+     *
+     * @return boolean or string
+     */
+    public function getChampionDetails($staticData)
+    {
+        $response = $this->initChampionArray();
+
+        $src = DataDragonAPI::getChampionIconO($staticData);
+
+        // CHAMPION
+        $response['title'] = $staticData->name;
+        $response['src'] =  $src->src;
+        $response['description'] = "<h4 class='text-gold mb-2'>{$staticData->title}</h4><p>{$staticData->lore}</p>";
+
+        return $response;
+    }
+
+    public function initChampionArray()
+    {
+        return [
+            'title' => null,
+            'src' => null,
+            'description' => null,
+        ];
+    }
 }

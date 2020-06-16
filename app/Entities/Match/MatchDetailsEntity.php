@@ -10,6 +10,7 @@ use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
 use App\Entities\SummonerEntity;
 use App\Entities\Match\MatchEntity;
+use App\Entities\ChampionEntity;
 use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
 
@@ -35,7 +36,6 @@ class MatchDetailsEntity
     public function getMatchDetails($request)
     {
         // init entities
-        $summonerEntity = new SummonerEntity($this->riot);
         $matchEntity = new MatchEntity($this->riot);
 
         // get match
@@ -43,7 +43,6 @@ class MatchDetailsEntity
 
         // init match array
         $response = $this->initMatchArray();
-        $response += $summonerEntity->initSummonerArray();
 
         // global array data
         $response['matchId'] = $request->matchId;
@@ -53,24 +52,6 @@ class MatchDetailsEntity
         // get region name
         $regionEntity = new RegionEntity();
         $response['regionName'] = $regionEntity->getRegionName($request->region);
-        //
-        // Selected Summoner
-        //
-        $summoner = $summonerEntity->getSummoner($request->summonerId);
-        $response['summonerId'] = $request->summonerId;
-        $response['summonerName'] = $summoner->name;
-
-        // summoner rank and points
-        $summonerLeague = $summonerEntity->getLeague($request->summonerId, "RANKED_SOLO_5x5");
-
-        if (!empty($summonerLeague)) {
-            $leagueRank = "";
-            if (!in_array($summonerLeague->tier, ["MASTER", "GRANDMASTER", "CHALLENGER"])) {
-                $leagueRank = $summonerLeague->rank;
-            }
-            $response['summonerLeague'] = $summonerLeague->tier . " " . $leagueRank;
-            $response['summonerLeaguePoints'] = $summonerLeague->leaguePoints;
-        }
 
         // construction de l'array pour les participants
         $participantIdentities = [];
@@ -81,12 +62,7 @@ class MatchDetailsEntity
         // selected summoner champion data
         foreach ($match->participants as $participant) {
             if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
-                $src = DataDragonAPI::getChampionIconO($participant->staticData);
-                $response['champion'] = [
-                    'title' => $participant->staticData->name,
-                    'src' => $src->src,
-                    'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
-                ];
+                $response['champion'] = $participant->staticData->name;
             }
         }
 
@@ -100,7 +76,7 @@ class MatchDetailsEntity
                     return ($var->teamId == $team->teamId);
                 });
 
-                $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity, $summonerEntity);
+                $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity);
             } else {
                 $response['losers']['bans'] = $this->bans($team);
 
@@ -109,7 +85,7 @@ class MatchDetailsEntity
                     return ($var->teamId == $team->teamId);
                 });
 
-                $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity, $summonerEntity);
+                $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity);
             }
         }
 
@@ -134,7 +110,7 @@ class MatchDetailsEntity
         return $response;
     }
 
-    public function participants($participants, $participantIdentities, $matchEntity, $summonerEntity)
+    public function participants($participants, $participantIdentities, $matchEntity)
     {
         $i = 0;
         $response = [];
@@ -143,19 +119,12 @@ class MatchDetailsEntity
             $summonerId = $participantIdentities[$participant->participantId]->summonerId;
             $response[$i]['summonerId'] = $summonerId;
 
-            $src = DataDragonAPI::getChampionIconO($participant->staticData);
-            $response[$i]['champion'] = [
-                'title' => $participant->staticData->name,
-                'src' => $src->src,
-                'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
-            ];
+            $championEntity = new ChampionEntity();
+            $response[$i]['champion'] = $championEntity->getChampionDetails($participant->staticData);
 
-            $summoner = $summonerEntity->getSummoner($summonerId);
-
-            $response[$i]['player'] = [
-                'name' => $summoner->name,
-                'icon' => DataDragonAPI::getProfileIconO($summoner)->src,
-            ];
+            // player
+            $summonerEntity = new SummonerEntity($this->riot);
+            $response[$i]['player'] = $summonerEntity->getSummonerDetails($summonerId);
 
             $response[$i]['level'] = $participant->stats->champLevel;
 
@@ -170,12 +139,7 @@ class MatchDetailsEntity
         return [
             'matchId' => null,
             'region' => null,
-            'summonerId' => null,
-            'champion' => [
-                'title' => null,
-                'src' => null,
-                'description' => null
-            ],
+            'champion' => null,
             'date' => null,
             'winners' =>
             [

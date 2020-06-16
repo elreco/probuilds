@@ -1,37 +1,63 @@
 <template>
     <section id="dashboard-analytics">
-        <summoner-details :data="data" />
-        <build-details :data="data" />
-        <match-details :data="data" />
+        <summoner-details :summonerId="summonerId" :region="region" />
+        <champion-details :champion="champion" />
+
+        <!-- Two columns -->
+        <div class="vx-row mb-base">
+            <div class="vx-col w-full xl:w-1/2 mb-base">
+                <match-details
+                    :data="winners"
+                    :winners="true"
+                    :summonerId="summonerId"
+                    :region="region"
+                    :matchId="matchId"
+                    id="winnersLoading"
+                    class="vs-con-loading__container"
+                />
+            </div>
+            <div class="vx-col xl:w-1/2 w-full">
+                <match-details
+                    :data="losers"
+                    :winners="false"
+                    :summonerId="summonerId"
+                    :region="region"
+                    :matchId="matchId"
+                    id="losersLoading"
+                    class="vs-con-loading__container"
+                />
+            </div>
+        </div>
     </section>
 </template>
 
 <script>
 import MatchDetails from "./partials/MatchDetails";
-import BuildDetails from "./partials/BuildDetails";
+import ChampionDetails from "./partials/ChampionDetails";
 import SummonerDetails from "./partials/SummonerDetails";
 
 export default {
     data() {
         return {
             title: this.$i18n.t("meta.title.show"),
-            data: {
-                champion: {},
-                losers: {
-                    bans: [],
-                    participants: []
-                },
-                winners: {
-                    bans: [],
-                    participants: []
-                }
+            summonerId: this.$route.params.summonerId,
+            region: this.$route.params.region,
+            matchId: this.$route.params.matchId,
+            champion: null,
+            losers: {
+                bans: [],
+                participants: []
+            },
+            winners: {
+                bans: [],
+                participants: []
             }
         };
     },
     components: {
-        MatchDetails,
-        BuildDetails,
-        SummonerDetails
+        /* ChampionDetails, */
+        SummonerDetails,
+        MatchDetails
     },
     mounted() {
         this.getMatch();
@@ -41,16 +67,17 @@ export default {
             // loading
             this.loadingData(true);
             this.$http
-                .get("match/show-details", {
+                .get("matchs", {
                     params: {
-                        summonerId: this.$route.params.summonerId,
-                        region: this.$route.params.region,
-                        matchId: this.$route.params.matchId,
+                        summonerId: this.summonerId,
+                        region: this.region,
+                        matchId: this.matchId,
                         locale: this.$route.params.locale
                     }
                 })
                 .then(response => {
-                    this.data = response.data;
+                    this.losers = response.data.losers;
+                    this.winners = response.data.winners;
                 })
                 .then(() => {
                     this.loadingData(false);
@@ -61,10 +88,16 @@ export default {
         loadingData(boolean) {
             if (boolean) {
                 this.$vs.loading({
-                    type: "default"
+                    type: "default",
+                    container: "#losersLoading"
+                });
+                this.$vs.loading({
+                    type: "default",
+                    container: "#winnersLoading"
                 });
             } else {
-                this.$vs.loading.close();
+                this.$vs.loading.close("#losersLoading > .con-vs-loading");
+                this.$vs.loading.close("#winnersLoading > .con-vs-loading");
             }
         }
     },

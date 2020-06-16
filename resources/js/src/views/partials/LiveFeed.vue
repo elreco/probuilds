@@ -68,43 +68,40 @@
                         :key="indextr"
                         v-for="(tr, indextr) in data"
                     >
-                        <vs-td :data="data[indextr].date">{{ data[indextr].ago }}</vs-td>
-                        <vs-td :data="data[indextr].champion">
+                        <vs-td :data="tr.date">{{ tr.ago }}</vs-td>
+                        <vs-td :data="tr.champion">
                             <popover-avatar
-                                :win="data[indextr].win"
+                                :win="tr.win"
                                 :default="false"
-                                :src="data[indextr].champion.src"
-                                :title="data[indextr].champion.title"
-                                :description="data[indextr].champion.description"
+                                :src="tr.champion.src"
+                                :title="tr.champion.title"
+                                :description="tr.champion.description"
                             />
                         </vs-td>
-                        <vs-td :data="data[indextr].player">
+                        <vs-td :data="tr.player">
                             <vs-chip color="primary">
-                                <vs-avatar :src="data[indextr].player.icon" />
-                                {{ data[indextr].player.name }}
+                                <vs-avatar :src="tr.player.icon" />
+                                {{ tr.player.name }}
                             </vs-chip>
                         </vs-td>
-                        <vs-td :data="data[indextr].vs">
+                        <vs-td :data="tr.vs">
                             <popover-avatar
-                                :src="data[indextr].vs.src"
-                                :title="data[indextr].vs.title"
-                                :description="data[indextr].vs.description"
+                                :src="tr.vs.src"
+                                :title="tr.vs.title"
+                                :description="tr.vs.description"
                             />
                         </vs-td>
-                        <vs-td :data="data[indextr].kda">{{ data[indextr].kda }}</vs-td>
-                        <vs-td :data="data[indextr].gold">{{ data[indextr].gold }}</vs-td>
-                        <vs-td :data="data[indextr].keystone">
+                        <vs-td :data="tr.kda">{{ tr.kda }}</vs-td>
+                        <vs-td :data="tr.gold">{{ tr.gold }}</vs-td>
+                        <vs-td :data="tr.keystone">
                             <div class="relative inline">
-                                <vs-avatar :src="data[indextr].keystone" />
-                                <img
-                                    class="supperposed-avatar rounded"
-                                    :src="data[indextr].subkeystone"
-                                />
+                                <vs-avatar :src="tr.keystone" />
+                                <img class="supperposed-avatar rounded" :src="tr.subkeystone" />
                             </div>
                         </vs-td>
-                        <vs-td :data="data[indextr].slots">
+                        <vs-td :data="tr.slots">
                             <popover-avatar
-                                v-for="(slot, index) in data[indextr].slots"
+                                v-for="(slot, index) in tr.slots"
                                 :key="index"
                                 :data="slot"
                                 :src="slot.src"
@@ -113,14 +110,14 @@
                             />
 
                             <div
-                                v-for="n in 6-Object.keys(data[indextr].slots).length"
+                                v-for="n in 6-Object.keys(tr.slots).length"
                                 :key="n + 100"
                                 class="inline-block w-10 h-10 rounded bg-theme-dark mr-1"
                             ></div>
                         </vs-td>
-                        <vs-td :data="data[indextr].spells">
+                        <vs-td :data="tr.spells">
                             <popover-avatar
-                                v-for="(spell, index) in data[indextr].spells"
+                                v-for="(spell, index) in tr.spells"
                                 :key="index"
                                 :data="spell"
                                 :src="spell.src"
@@ -167,7 +164,7 @@ export default {
     methods: {
         handleSelected(tr) {
             this.$router.push({
-                name: "match",
+                name: "matchs",
                 params: {
                     region: tr.region,
                     summonerId: tr.summonerId,

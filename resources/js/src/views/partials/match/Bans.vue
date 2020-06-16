@@ -4,7 +4,12 @@
             <span>{{$t('Match.bans')}}</span>
         </div>
         <ul class="user-list mt-2 mr-2 ml-3 sm:ml-6">
-            <li :data="tr" :key="indextr" v-for="(tr, indextr) in data">
+            <li
+                :data="tr"
+                :key="indextr"
+                v-for="(tr, indextr) in data"
+                v-on:click="redirectToChampion(tr.title)"
+            >
                 <vx-tooltip :text="tr.title ? tr.title : titleIfNull" position="bottom">
                     <vs-avatar
                         :src="tr.src ? tr.src : srcIfNull"
@@ -27,6 +32,18 @@ export default {
             srcIfNull: require("@assets/images/match/none_ban.png"),
             titleIfNull: this.$i18n.t("Match.titleIfNull")
         };
+    },
+    methods: {
+        redirectToChampion(champion) {
+            if (champion) {
+                this.$router.push({
+                    name: "champions",
+                    params: {
+                        champion: champion
+                    }
+                });
+            }
+        }
     }
 };
 </script>

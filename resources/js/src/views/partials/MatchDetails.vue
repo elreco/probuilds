@@ -1,33 +1,19 @@
 <template>
-    <!-- Two columns -->
-    <div class="vx-row mb-base">
-        <div class="vx-col w-full xl:w-1/2 mb-base">
-            <vx-card :title="$t('Match.winningTeam')" title-color="#7ed321" content-color="#fff">
-                <template slot="actions">
-                    <bans :data="data.winners.bans"></bans>
-                </template>
-                <team
-                    :data="data.winners.participants"
-                    :region="data.region"
-                    :matchId="data.matchId"
-                    :summonerId="data.summonerId"
-                ></team>
-            </vx-card>
-        </div>
-        <div class="vx-col xl:w-1/2 w-full">
-            <vx-card :title="$t('Match.losingTeam')" title-color="#a12b17" content-color="#fff">
-                <template slot="actions">
-                    <bans :data="data.losers.bans"></bans>
-                </template>
-                <team
-                    :data="data.losers.participants"
-                    :region="data.region"
-                    :matchId="data.matchId"
-                    :summonerId="data.summonerId"
-                ></team>
-            </vx-card>
-        </div>
-    </div>
+    <vx-card
+        :title="winners ? $t('Match.winningTeam') : $t('Match.losingTeam')"
+        :title-color="winners ? '#7ed321' : '#a12b17'"
+        content-color="#fff"
+    >
+        <template slot="actions">
+            <bans :data="data.bans"></bans>
+        </template>
+        <team
+            :data="data.participants"
+            :region="region"
+            :matchId="matchId"
+            :summonerId="summonerId"
+        ></team>
+    </vx-card>
 </template>
 
 <script>
@@ -40,7 +26,7 @@ export default {
         Team,
         Bans
     },
-    props: ["data"],
+    props: ["data", "winners", "region", "summonerId", "matchId"],
     data() {
         return {
             images: {

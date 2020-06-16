@@ -46,13 +46,13 @@ const router = new Router({
                     component: () => import('./views/Home.vue')
                 },
                 {
-                    path: '/:locale/match/:region/:summonerId/:matchId',
-                    name: 'match',
+                    path: '/:locale/matchs/:region/:summonerId/:matchId',
+                    name: 'matchs',
                     component: () => import('./views/Match.vue'),
                 },
                 {
-                    path: '/:locale/champion/:champion',
-                    name: 'champion',
+                    path: '/:locale/champions/:champion',
+                    name: 'champions',
                     component: () => import('./views/Champion.vue')
                 }
             ]

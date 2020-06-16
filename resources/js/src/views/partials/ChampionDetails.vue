@@ -56,8 +56,8 @@
 
 <script>
 export default {
-    name: "summoner-details",
-    props: ["summonerId", "region"],
+    name: "champion-details",
+    props: ["champion"],
     data() {
         return {
             srcIfNull: require("@assets/images/match/none_ban.png"),
@@ -72,10 +72,9 @@ export default {
             // loading
             this.loadingData(true);
             this.$http
-                .get("summoners", {
+                .get("champions", {
                     params: {
-                        summonerId: this.summonerId,
-                        region: this.region,
+                        champion: this.champion,
                         locale: this.$route.params.locale
                     }
                 })

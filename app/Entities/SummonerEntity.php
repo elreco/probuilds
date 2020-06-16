@@ -2,6 +2,10 @@
 
 namespace App\Entities;
 
+// DATADRAGON
+use RiotAPI\DataDragonAPI\DataDragonAPI;
+use App\Entities\Riot\RiotEntity;
+
 class SummonerEntity
 {
 
@@ -10,6 +14,7 @@ class SummonerEntity
     public function __construct($riot)
     {
         $this->riot = $riot;
+        RiotEntity::initDataDragonAPI();
     }
 
     /**
@@ -49,13 +54,43 @@ class SummonerEntity
         return $return;
     }
 
+    /**
+     * Get a summoner by a given summoner id.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getSummonerDetails($summonerId)
+    {
+
+        $response = $this->initSummonerArray();
+
+        $summoner = $this->getSummoner($summonerId);
+
+        $response['name'] = $summoner->name;
+        $response['icon'] = DataDragonAPI::getProfileIconO($summoner)->src;
+
+        // summoner rank and points
+        $summonerLeague = $this->getLeague($summonerId, "RANKED_SOLO_5x5");
+
+        if (!empty($summonerLeague)) {
+            $leagueRank = "";
+            if (!in_array($summonerLeague->tier, ["MASTER", "GRANDMASTER", "CHALLENGER"])) {
+                $leagueRank = " " . $summonerLeague->rank;
+            }
+            $response['league'] = $summonerLeague->tier . $leagueRank;
+            $response['leaguePoints'] = $summonerLeague->leaguePoints;
+        }
+
+        return $response;
+    }
+
     public function initSummonerArray()
     {
         return [
-            'regionName' => null,
-            'summonerName' => null,
-            'summonerLeague' => null,
-            'summonerLeaguePoints' => null,
+            'name' => null,
+            'icon' => null,
+            'league' => null,
+            'leaguePoints' => null,
         ];
     }
 }

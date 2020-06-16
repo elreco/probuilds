@@ -74,7 +74,7 @@ export default {
         onSuggestSelect(suggest) {
             if (suggest.name != this.championInput)
                 return this.$router.push({
-                    name: "champion",
+                    name: "champions",
                     params: {
                         champion: suggest.name
                     }

@@ -88,21 +88,16 @@ class MatchEntity
             $response[$i]['region'] = $region;
             // summonerId
             $response[$i]['summonerId'] = $summonerId;
-            $src = DataDragonAPI::getChampionIconO($m[0]->staticData);
 
-            // CHAMPION
-            $response[$i]['champion'] = [
-                'title' => $m[0]->staticData->name,
-                'src' => $src->src,
-                'description' => "<h4 class='text-gold mb-2'>{$m[0]->staticData->title}</h4><p>{$m[0]->staticData->lore}</p>"
-            ];
+            $championEntity = new ChampionEntity();
+            $response[$i]['champion'] = $championEntity->getChampionDetails($m[0]->staticData);
 
             // DATE
             $response[$i]['date'] = $m[0]->timestamp;
 
             // PLAYER
-            $response[$i]['player']['name'] = $m['summoner']->name;
-            $response[$i]['player']['icon'] = DataDragonAPI::getProfileIconO($m['summoner'])->src;
+            $summonerEntity = new SummonerEntity($this->riot);
+            $response[$i]['player'] = $summonerEntity->getSummonerDetails($m['summoner']->id);
             ////////////////////////
             /// SEARCH VS PLAYER ///
             ////////////////////////

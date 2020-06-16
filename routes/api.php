@@ -22,7 +22,9 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => 
     // LIVEFEED CONTROLLER
     $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER
-    $api->get('/match/show-details', 'MatchController@showDetails');
+    $api->get('/matchs', 'MatchController@show');
+    // MATCH CONTROLLER
+    $api->get('/summoners', 'SummonerController@show');
     // BUILD CONTROLLER
     $api->get('/build', 'BuildController@index');
     // REGIONS CONTROLLER
