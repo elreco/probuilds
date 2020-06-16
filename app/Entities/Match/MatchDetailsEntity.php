@@ -37,7 +37,6 @@ class MatchDetailsEntity
     {
         // init entities
         $matchEntity = new MatchEntity($this->riot);
-
         // get match
         $match = $matchEntity->getMatch($request->matchId);
 
@@ -65,7 +64,6 @@ class MatchDetailsEntity
                 $response['champion'] = $participant->staticData->name;
             }
         }
-
         // build winners and losers
         foreach ($match->teams as $team) {
             if ($team->win == "Win") {
@@ -78,12 +76,14 @@ class MatchDetailsEntity
 
                 $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity);
             } else {
+
                 $response['losers']['bans'] = $this->bans($team);
 
                 // losers participants
                 $losers = array_filter($match->participants, function ($var) use ($team) {
                     return ($var->teamId == $team->teamId);
                 });
+
 
                 $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity);
             }

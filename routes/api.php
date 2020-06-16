@@ -22,15 +22,16 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => 
     // LIVEFEED CONTROLLER
     $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER
-    $api->get('/matchs', 'MatchController@show');
+    $api->get('/matchs/{matchId}', 'MatchController@show');
     // MATCH CONTROLLER
-    $api->get('/summoners', 'SummonerController@show');
+    $api->get('/summoners/{summonerId}', 'SummonerController@show');
     // BUILD CONTROLLER
     $api->get('/build', 'BuildController@index');
     // REGIONS CONTROLLER
     $api->get('/regions', 'RegionController@index');
     // CHAMPIONS CONTROLLER
     $api->get('/champions', 'ChampionController@index');
+    $api->get('/champions/{name}', 'ChampionController@show');
     $api->get('/champions/check', 'ChampionController@checkIfChampionExists');
 });
 /* Route::domain(env('APP_API_URL'))->group(function () {

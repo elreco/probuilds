@@ -97,7 +97,32 @@ class ChampionEntity
         // CHAMPION
         $response['title'] = $staticData->name;
         $response['src'] =  $src->src;
-        $response['description'] = "<h4 class='text-gold mb-2'>{$staticData->title}</h4><p>{$staticData->lore}</p>";
+        $response['description'] = "<h4 class='text-gold mb-2'>" . Str::ucfirst($staticData->title) . "</h4><p>{$staticData->lore}</p>";
+
+        return $response;
+    }
+
+    /**
+     * Check if champion exists and returns his well formatted name.
+     *
+     * @return boolean or string
+     */
+    public function getChampionDetailsByName($championName)
+    {
+        $response = $this->initChampionArray();
+
+        $champions = DataDragonAPI::getStaticChampions();
+
+        foreach ($champions['data'] as $c) {
+            if (strtoupper($c['name']) == strtoupper($championName)) {
+                $response = [
+                    'title' => $c['name'],
+                    'src' => DataDragonAPI::getChampionIconUrl($c['id']),
+                    'splash' => DataDragonAPI::getChampionSplashUrl($c['id']),
+                    'description' => $c['blurb']
+                ];
+            }
+        }
 
         return $response;
     }
@@ -107,6 +132,7 @@ class ChampionEntity
         return [
             'title' => null,
             'src' => null,
+            'splash' => null,
             'description' => null,
         ];
     }

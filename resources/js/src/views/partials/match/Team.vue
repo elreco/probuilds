@@ -3,23 +3,23 @@
         <template slot="thead">
             <vs-th></vs-th>
             <vs-th>{{ $t("LiveFeed.player") }}</vs-th>
-            <vs-th>{{ $t("LiveFeed.level") }}</vs-th>
-            <vs-th>{{ $t("LiveFeed.kda") }}</vs-th>
-            <vs-th>{{ $t("LiveFeed.gold") }}</vs-th>
-            <vs-th>{{ $t("LiveFeed.keystone") }}</vs-th>
-            <vs-th>{{ $t("LiveFeed.build") }}</vs-th>
-            <vs-th></vs-th>
+            <vs-th class="text-center">{{ $t("LiveFeed.level") }}</vs-th>
+            <vs-th class="text-center">{{ $t("LiveFeed.kda") }}</vs-th>
+            <vs-th class="text-center">{{ $t("LiveFeed.gold") }}</vs-th>
+            <vs-th class="text-center">{{ $t("LiveFeed.keystone") }}</vs-th>
+            <vs-th class="text-center">{{ $t("LiveFeed.build") }}</vs-th>
+            <vs-th class="text-center">{{ $t("LiveFeed.summoners") }}</vs-th>
         </template>
 
         <template slot-scope="{data}">
             <vs-tr
-                class="whitespace-no-wrap"
+                class="whitespace-no-wrap text-base text-center"
                 :data="tr"
                 :key="indextr"
                 v-for="(tr, indextr) in data"
                 :state="tr.summonerId == summonerId?'primary':null"
             >
-                <vs-td :data="tr.champion">
+                <vs-td class="text-center" :data="tr.champion">
                     <popover-avatar
                         :win="tr.win"
                         :default="false"
@@ -28,22 +28,22 @@
                         :description="tr.champion.description"
                     />
                 </vs-td>
-                <vs-td :data="tr.player">
+                <vs-td class="text-center" :data="tr.player">
                     <vs-chip color="primary">
                         <vs-avatar :src="tr.player.icon" />
                         {{ tr.player.name }}
                     </vs-chip>
                 </vs-td>
-                <vs-td :data="tr.level">{{ tr.level }}</vs-td>
-                <vs-td :data="tr.kda">{{ tr.kda }}</vs-td>
-                <vs-td :data="tr.gold">{{ tr.gold }}</vs-td>
-                <vs-td :data="tr.keystone">
+                <vs-td class="text-center" :data="tr.level">{{ tr.level }}</vs-td>
+                <vs-td class="text-center" :data="tr.kda">{{ tr.kda }}</vs-td>
+                <vs-td class="text-center" :data="tr.gold">{{ tr.gold }}</vs-td>
+                <vs-td class="text-center" :data="tr.keystone">
                     <div class="relative inline">
                         <vs-avatar :src="tr.keystone" />
                         <img class="supperposed-avatar rounded" :src="tr.subkeystone" />
                     </div>
                 </vs-td>
-                <vs-td :data="tr.slots">
+                <vs-td class="text-center" :data="tr.slots">
                     <popover-avatar
                         v-for="(slot, index) in tr.slots"
                         :key="index"
@@ -59,7 +59,7 @@
                         class="inline-block w-10 h-10 rounded bg-theme-dark mr-1"
                     ></div>
                 </vs-td>
-                <vs-td :data="tr.spells">
+                <vs-td class="text-center" :data="tr.spells">
                     <popover-avatar
                         v-for="(spell, index) in tr.spells"
                         :key="index"
@@ -91,7 +91,8 @@ export default {
                 params: {
                     region: this.region,
                     summonerId: tr.summonerId,
-                    matchId: this.matchId
+                    matchId: this.matchId,
+                    champion: tr.champion.title
                 }
             });
         }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 // REQUEST
 use App\Http\Requests\Champion\ChampionRequest;
+use App\Http\Requests\Champion\ShowRequest;
 // ENTITY
 use App\Entities\ChampionEntity;
 
@@ -36,5 +37,15 @@ class ChampionController extends Controller
     public function checkIfChampionExists(ChampionRequest $request)
     {
         return $this->championEntity->checkIfChampionExists($request);
+    }
+
+    /**
+     * route : /api/champions/check.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show(ShowRequest $request)
+    {
+        return $this->championEntity->getChampionDetailsByName($request->name);
     }
 }

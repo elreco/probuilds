@@ -24,6 +24,7 @@ export default {
             kda: 'KDA',
             gold: 'Gold',
             keystone: 'Keystone',
+            summoners: 'Summoners',
             build: 'Build',
             all: 'All',
             allRegion: 'All Region'
@@ -32,10 +33,16 @@ export default {
             winningTeam: "Winning Team",
             losingTeam: "Losing Team",
             bans: "Bans",
-            titleIfNull: "None",
+            titleIfNull: "None"
+        },
+        Summoner: {
             player: "Player",
             league: "League",
             leaguePoints: "Points"
+        },
+        Champion: {
+            name: 'Champion',
+            description: 'Description'
         },
         SearchBanner: {
             loading: 'Loading',
@@ -65,6 +72,7 @@ export default {
             kda: 'KDA',
             gold: 'Gold',
             keystone: 'Keystone',
+            summoners: "Sorts d'invocateur",
             build: 'Build',
             all: 'Tout',
             allRegion: 'Toutes les régions'
@@ -78,9 +86,14 @@ export default {
             league: "Ligue",
             leaguePoints: "Points"
         },
-        SearchBanner: {
-            loading: 'Chargement',
-            searchInput: 'Rechercher un champion...'
+        Summoner: {
+            player: "Joueur",
+            league: "Ligue",
+            leaguePoints: "Points"
+        },
+        Champion: {
+            name: 'Champion',
+            description: 'Description'
         }
 
     },

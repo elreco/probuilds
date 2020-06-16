@@ -46,7 +46,7 @@ const router = new Router({
                     component: () => import('./views/Home.vue')
                 },
                 {
-                    path: '/:locale/matchs/:region/:summonerId/:matchId',
+                    path: '/:locale/matchs/:region/:summonerId/:matchId/:champion',
                     name: 'matchs',
                     component: () => import('./views/Match.vue'),
                 },

@@ -1,40 +1,40 @@
 <template>
-    <div class="vx-row mb-base" id="page-user-view">
-        <div class="vx-col w-1/2">
-            <vx-card :title="data.name" class="vs-con-loading__container" id="summonerLoading">
-                <!-- Avatar -->
-                <div class="vx-row">
-                    <!-- Avatar Col -->
-                    <div class="vx-col" id="avatar-col">
-                        <div class="img-container mb-4">
-                            <img
-                                :src="data.icon ? data.icon : srcIfNull"
-                                class="rounded w-full border-solid border-2 border-white"
-                            />
-                        </div>
+    <div class="vx-col w-1/2">
+        <vx-card
+            :title="data.title"
+            class="vs-con-loading__container"
+            id="championLoading"
+            :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)),no-repeat center 25% url(' + data.splash + ')'"
+        >
+            <!-- Avatar -->
+            <div class="vx-row">
+                <!-- Avatar Col -->
+                <div class="vx-col" id="avatar-col">
+                    <div class="img-container mb-4">
+                        <img
+                            :src="data.src ? data.src : srcIfNull"
+                            class="rounded w-full border-solid border-2 border-white"
+                        />
                     </div>
+                </div>
 
-                    <!-- Information - Col 1 -->
-                    <div class="vx-col flex-1" id="account-info-col-1">
-                        <table>
-                            <tr>
-                                <td class="font-semibold">{{$t('Match.player')}}</td>
-                                <td>{{data.name}}</td>
-                            </tr>
+                <!-- Information - Col 1 -->
+                <div class="vx-col flex-1" id="account-info-col-1">
+                    <table>
+                        <tr>
+                            <td class="font-normal">{{$t('Champion.name')}}</td>
+                            <td class="font-light">{{data.title}}</td>
+                        </tr>
 
-                            <tr>
-                                <td class="font-semibold">{{$t('Match.league')}}</td>
-                                <td>{{data.league}}</td>
-                            </tr>
-                            <tr>
-                                <td class="font-semibold">{{$t('Match.leaguePoints')}}</td>
-                                <td>{{data.leaguePoints}}</td>
-                            </tr>
-                        </table>
-                    </div>
-                    <!-- /Information - Col 2 -->
-                    <div class="vx-col w-full flex" id="account-manage-buttons">
-                        <!--  <vs-button
+                        <tr>
+                            <td class="font-normal">{{$t('Champion.description')}}</td>
+                            <td class="font-light">{{data.description}}</td>
+                        </tr>
+                    </table>
+                </div>
+                <!-- /Information - Col 2 -->
+                <div class="vx-col w-full flex" id="account-manage-buttons">
+                    <!--  <vs-button
                                 icon-pack="feather"
                                 icon="icon-edit"
                                 class="mr-4"
@@ -46,11 +46,10 @@
                                 icon-pack="feather"
                                 icon="icon-trash"
                                 @click="confirmDeleteRecord"
-                        >Delete</vs-button>-->
-                    </div>
+                    >Delete</vs-button>-->
                 </div>
-            </vx-card>
-        </div>
+            </div>
+        </vx-card>
     </div>
 </template>
 
@@ -61,20 +60,27 @@ export default {
     data() {
         return {
             srcIfNull: require("@assets/images/match/none_ban.png"),
-            data: {}
+            data: {
+                title: " "
+            }
         };
     },
     mounted() {
-        this.getSummoner();
+        this.getChampion();
+    },
+    watch: {
+        champion: function(newVal, oldVal) {
+            // watch it
+            this.getChampion();
+        }
     },
     methods: {
-        getSummoner() {
+        getChampion() {
             // loading
             this.loadingData(true);
             this.$http
-                .get("champions", {
+                .get(`champions/${this.champion}`, {
                     params: {
-                        champion: this.champion,
                         locale: this.$route.params.locale
                     }
                 })
@@ -91,64 +97,12 @@ export default {
             if (boolean) {
                 this.$vs.loading({
                     type: "default",
-                    container: "#summonerLoading"
+                    container: "#championLoading"
                 });
             } else {
-                this.$vs.loading.close("#summonerLoading > .con-vs-loading");
+                this.$vs.loading.close("#championLoading > .con-vs-loading");
             }
         }
     }
 };
 </script>
-
-<style lang="scss">
-#avatar-col {
-    width: 8rem;
-}
-
-#page-user-view {
-    table {
-        td {
-            vertical-align: top;
-            min-width: 140px;
-            padding-bottom: 0.8rem;
-            word-break: break-all;
-        }
-
-        &:not(.permissions-table) {
-            td {
-                @media screen and (max-width: 370px) {
-                    display: block;
-                }
-            }
-        }
-    }
-}
-
-// #account-info-col-1 {
-//   // flex-grow: 1;
-//   width: 30rem !important;
-//   @media screen and (min-width:1200px) {
-//     & {
-//       flex-grow: unset !important;
-//     }
-//   }
-// }
-
-@media screen and (min-width: 1201px) and (max-width: 1211px),
-    only screen and (min-width: 636px) and (max-width: 991px) {
-    #account-info-col-1 {
-        width: calc(100% - 12rem) !important;
-    }
-
-    // #account-manage-buttons {
-    //   width: 12rem !important;
-    //   flex-direction: column;
-
-    //   > button {
-    //     margin-right: 0 !important;
-    //     margin-bottom: 1rem;
-    //   }
-    // }
-}
-</style>

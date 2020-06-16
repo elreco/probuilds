@@ -46,7 +46,15 @@ export default {
     methods: {
         updateLocale(locale) {
             this.$i18n.locale = locale;
-            return (window.location.href = "/" + locale);
+
+            let query = Object.assign({}, this.$route.params);
+            query.locale = locale;
+
+            return this.$router.push({
+                name: this.$route.name,
+                params: query
+            });
+            //return (window.location.href = "/" + locale);
         }
     }
 };

@@ -1,7 +1,7 @@
 <template>
     <vx-card
-        :title="winners ? $t('Match.winningTeam') : $t('Match.losingTeam')"
-        :title-color="winners ? '#7ed321' : '#a12b17'"
+        :title="win ? $t('Match.winningTeam') : $t('Match.losingTeam')"
+        :title-color="win ? '#7ed321' : '#a12b17'"
         content-color="#fff"
     >
         <template slot="actions">
@@ -26,9 +26,17 @@ export default {
         Team,
         Bans
     },
-    props: ["data", "winners", "region", "summonerId", "matchId"],
+    props: ["data", "win", "region", "summonerId", "matchId"],
     data() {
         return {
+            losers: {
+                bans: [],
+                participants: []
+            },
+            winners: {
+                bans: [],
+                participants: []
+            },
             images: {
                 background1: require("@assets/images/match/background1.jpg"),
                 background2: require("@assets/images/match/background2.jpg")

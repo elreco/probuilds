@@ -1,14 +1,16 @@
 <template>
     <section id="dashboard-analytics">
-        <summoner-details :summonerId="summonerId" :region="region" />
-        <champion-details :champion="champion" />
+        <div class="vx-row mb-base" id="page-user-view">
+            <champion-details :champion="champion" />
+            <summoner-details :summonerId="summonerId" :region="region" />
+        </div>
 
         <!-- Two columns -->
         <div class="vx-row mb-base">
-            <div class="vx-col w-full xl:w-1/2 mb-base">
+            <div class="vx-col w-full mb-base">
                 <match-details
                     :data="winners"
-                    :winners="true"
+                    :win="true"
                     :summonerId="summonerId"
                     :region="region"
                     :matchId="matchId"
@@ -16,10 +18,10 @@
                     class="vs-con-loading__container"
                 />
             </div>
-            <div class="vx-col xl:w-1/2 w-full">
+            <div class="vx-col w-full">
                 <match-details
                     :data="losers"
-                    :winners="false"
+                    :win="false"
                     :summonerId="summonerId"
                     :region="region"
                     :matchId="matchId"
@@ -43,7 +45,7 @@ export default {
             summonerId: this.$route.params.summonerId,
             region: this.$route.params.region,
             matchId: this.$route.params.matchId,
-            champion: null,
+            champion: this.$route.params.champion,
             losers: {
                 bans: [],
                 participants: []
@@ -55,7 +57,7 @@ export default {
         };
     },
     components: {
-        /* ChampionDetails, */
+        ChampionDetails,
         SummonerDetails,
         MatchDetails
     },
@@ -67,17 +69,17 @@ export default {
             // loading
             this.loadingData(true);
             this.$http
-                .get("matchs", {
+                .get(`matchs/${this.matchId}`, {
                     params: {
                         summonerId: this.summonerId,
                         region: this.region,
-                        matchId: this.matchId,
                         locale: this.$route.params.locale
                     }
                 })
                 .then(response => {
                     this.losers = response.data.losers;
                     this.winners = response.data.winners;
+                    this.champion = response.data.champion;
                 })
                 .then(() => {
                     this.loadingData(false);
@@ -111,3 +113,55 @@ export default {
     }
 };
 </script>
+
+<style lang="scss">
+#avatar-col {
+    width: 8rem;
+}
+
+#page-user-view {
+    table {
+        td {
+            vertical-align: top;
+            min-width: 140px;
+            padding-bottom: 0.8rem;
+            word-break: break-all;
+        }
+
+        &:not(.permissions-table) {
+            td {
+                @media screen and (max-width: 370px) {
+                    display: block;
+                }
+            }
+        }
+    }
+}
+
+// #account-info-col-1 {
+//   // flex-grow: 1;
+//   width: 30rem !important;
+//   @media screen and (min-width:1200px) {
+//     & {
+//       flex-grow: unset !important;
+//     }
+//   }
+// }
+
+@media screen and (min-width: 1201px) and (max-width: 1211px),
+    only screen and (min-width: 636px) and (max-width: 991px) {
+    #account-info-col-1 {
+        width: calc(100% - 12rem) !important;
+    }
+
+    // #account-manage-buttons {
+    //   width: 12rem !important;
+    //   flex-direction: column;
+
+    //   > button {
+    //     margin-right: 0 !important;
+    //     margin-bottom: 1rem;
+    //   }
+    // }
+}
+</style>

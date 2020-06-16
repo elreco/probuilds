@@ -1,5 +1,5 @@
 <template>
-    <v-popover container="body" trigger="hover" placement="auto" class="inline" v-if="src">
+    <v-popover container="body" trigger="hover" placement="top" class="inline" v-if="src">
         <img
             loading="lazy"
             width="32"
@@ -35,7 +35,7 @@
             height="32"
             alt="Kai'Sa"
             :src="srcIfNull"
-            class="tooltip-target w-10 h-10 rounded tooltip-target border-solid border-2 border-white"
+            class="tooltip-target mx-auto w-10 h-10 rounded tooltip-target border-solid border-2 border-theme-dark"
         />
     </div>
 </template>

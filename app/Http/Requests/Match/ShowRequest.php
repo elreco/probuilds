@@ -45,4 +45,11 @@ class ShowRequest extends FormRequest
             ],
         ];
     }
+
+    public function all($keys = null)
+    {
+        $data = parent::all($keys);
+        $data['matchId'] = $this->route('matchId');
+        return $data;
+    }
 }
