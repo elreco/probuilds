@@ -49,11 +49,7 @@ class RiotEntity
             LeagueAPI::SET_INTERIM          => true,
             LeagueAPI::SET_CACHE_RATELIMIT  => true,
             LeagueAPI::SET_CACHE_CALLS      => true,
-            LeagueAPI::SET_CACHE_CALLS_LENGTH => [
-                LeagueAPI::RESOURCE_STATICDATA => 9999,
-                LeagueAPI::RESOURCE_SUMMONER   => 9999,
-                LeagueAPI::RESOURCE_MATCH => 9999
-            ]
+            LeagueAPI::SET_CACHE_CALLS_LENGTH => 9999
         ]);
 
 
@@ -77,11 +73,7 @@ class RiotEntity
                 LeagueAPI::SET_INTERIM          => true,
                 LeagueAPI::SET_CACHE_RATELIMIT  => true,
                 LeagueAPI::SET_CACHE_CALLS      => true,
-                LeagueAPI::SET_CACHE_CALLS_LENGTH => [
-                    LeagueAPI::RESOURCE_STATICDATA => 9999,
-                    LeagueAPI::RESOURCE_SUMMONER   => 9999,
-                    LeagueAPI::RESOURCE_MATCH => 9999
-                ]
+                LeagueAPI::SET_CACHE_CALLS_LENGTH => 9999
             ]);
         }
 
