@@ -38,7 +38,9 @@ export default {
         Summoner: {
             player: "Player",
             league: "League",
-            leaguePoints: "Points"
+            leaguePoints: "Points",
+            items: "Items",
+            finalItems: "Final Items",
         },
         Champion: {
             name: 'Champion',
@@ -89,7 +91,9 @@ export default {
         Summoner: {
             player: "Joueur",
             league: "Ligue",
-            leaguePoints: "Points"
+            leaguePoints: "Points",
+            items: "Items",
+            finalItems: "Build final",
         },
         Champion: {
             name: 'Champion',

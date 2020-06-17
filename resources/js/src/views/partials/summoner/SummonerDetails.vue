@@ -1,39 +1,38 @@
 <template>
-    <div class="vx-col w-1/2 flex items-stretch">
-        <vx-card :title="data.name" class="vs-con-loading__container" id="summonerLoading">
-            <!-- Avatar -->
-            <div class="vx-row">
-                <!-- Avatar Col -->
-                <div class="vx-col" id="avatar-col">
-                    <div class="img-container mb-4">
-                        <img
-                            :src="data.icon ? data.icon : srcIfNull"
-                            class="rounded w-full border-solid border-2 border-white"
-                        />
-                    </div>
+    <vx-card :title="data.name" class="vs-con-loading__container" id="summonerLoading">
+        <!-- Avatar -->
+        <div class="vx-row">
+            <!-- Avatar Col -->
+            <div class="vx-col" id="avatar-col">
+                <div class="img-container mb-4">
+                    <img
+                        :src="data.icon ? data.icon : srcIfNull"
+                        class="rounded w-full border-solid border-2 border-white"
+                    />
                 </div>
+            </div>
 
-                <!-- Information - Col 1 -->
-                <div class="vx-col flex-1" id="account-info-col-1">
-                    <table>
-                        <tr>
-                            <td class="font-semibold">{{$t('Summoner.player')}}</td>
-                            <td class="font-light">{{data.name}}</td>
-                        </tr>
+            <!-- Information - Col 1 -->
+            <div class="vx-col flex-1" id="account-info-col-1">
+                <table>
+                    <tr>
+                        <td class="font-semibold">{{$t('Summoner.player')}}</td>
+                        <td class="font-light">{{data.name}}</td>
+                    </tr>
 
-                        <tr>
-                            <td class="font-semibold">{{$t('Summoner.league')}}</td>
-                            <td class="font-light">{{data.league}}</td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold">{{$t('Summoner.leaguePoints')}}</td>
-                            <td class="font-light">{{data.leaguePoints}}</td>
-                        </tr>
-                    </table>
-                </div>
-                <!-- /Information - Col 2 -->
-                <div class="vx-col w-full flex" id="account-manage-buttons">
-                    <!--  <vs-button
+                    <tr>
+                        <td class="font-semibold">{{$t('Summoner.league')}}</td>
+                        <td class="font-light">{{data.league}}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold">{{$t('Summoner.leaguePoints')}}</td>
+                        <td class="font-light">{{data.leaguePoints}}</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- /Information - Col 2 -->
+            <div class="vx-col w-full flex" id="account-manage-buttons">
+                <!--  <vs-button
                                 icon-pack="feather"
                                 icon="icon-edit"
                                 class="mr-4"
@@ -45,11 +44,10 @@
                                 icon-pack="feather"
                                 icon="icon-trash"
                                 @click="confirmDeleteRecord"
-                    >Delete</vs-button>-->
-                </div>
+                >Delete</vs-button>-->
             </div>
-        </vx-card>
-    </div>
+        </div>
+    </vx-card>
 </template>
 
 <script>

@@ -6,7 +6,7 @@
             height="32"
             :alt="title"
             :class="classImg"
-            class="tooltip-target w-10 h-10 rounded"
+            class="tooltip-target w-16 h-16 rounded"
             :src="src"
         />
 
@@ -42,7 +42,7 @@
 
 <script>
 export default {
-    name: "popover-avatar",
+    name: "popover-avatar-lg",
     props: {
         title: {
             type: String,
@@ -83,7 +83,7 @@ export default {
             }
 
             if (this.default) {
-                classImg += " border-solid border-2 border-theme-dark";
+                classImg += " border-solid border-2 border-white";
             } else {
                 if (this.win) {
                     classImg += " border-solid border-2 win-border win-shadow";

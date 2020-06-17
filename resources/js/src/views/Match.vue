@@ -1,10 +1,22 @@
 <template>
     <section id="dashboard-analytics">
-        <div class="vx-row mb-base" id="page-user-view">
-            <champion-details :champion="champion" />
-            <summoner-details :summonerId="summonerId" :region="region" />
+        <div class="vx-row mb-0 lg:mb-base" id="page-user-view">
+            <div class="vx-col w-full lg:w-1/2 mb-base lg:mb-0 flex items-stretch">
+                <champion-details :champion="champion" />
+            </div>
+            <div class="vx-col w-full lg:w-1/2 mb-base lg:mb-0 flex items-stretch">
+                <summoner-details :summonerId="summonerId" :region="region" />
+            </div>
         </div>
-        <summoner-items :data="summonerItems" id="itemsLoading" class="vs-con-loading__container" />
+        <div class="vx-row mb-base">
+            <div class="vx-col w-full lg:w-2/3 flex items-stretch">
+                <summoner-items
+                    :data="summonerItems"
+                    id="itemsLoading"
+                    class="vs-con-loading__container"
+                />
+            </div>
+        </div>
         <!-- Two columns -->
         <div class="vx-row mb-base">
             <div class="vx-col w-full mb-base">

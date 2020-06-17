@@ -1,40 +1,39 @@
 <template>
-    <div class="vx-col w-1/2 flex items-stretch">
-        <vx-card
-            :title="data.title"
-            class="vs-con-loading__container"
-            id="championLoading"
-            :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)),no-repeat center 25% url(' + data.splash + ')'"
-        >
-            <!-- Avatar -->
-            <div class="vx-row">
-                <!-- Avatar Col -->
-                <div class="vx-col" id="avatar-col">
-                    <div class="img-container mb-4">
-                        <img
-                            :src="data.src ? data.src : srcIfNull"
-                            class="rounded w-full border-solid border-2 border-white"
-                        />
-                    </div>
+    <vx-card
+        :title="data.title"
+        class="vs-con-loading__container"
+        id="championLoading"
+        :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)),no-repeat center 25% url(' + data.splash + ')'"
+    >
+        <!-- Avatar -->
+        <div class="vx-row">
+            <!-- Avatar Col -->
+            <div class="vx-col" id="avatar-col">
+                <div class="img-container mb-4">
+                    <img
+                        :src="data.src ? data.src : srcIfNull"
+                        class="rounded w-full border-solid border-2 border-white"
+                    />
                 </div>
+            </div>
 
-                <!-- Information - Col 1 -->
-                <div class="vx-col flex-1" id="account-info-col-1">
-                    <table>
-                        <tr>
-                            <td class="font-normal">{{$t('Champion.name')}}</td>
-                            <td class="font-light">{{data.title}}</td>
-                        </tr>
+            <!-- Information - Col 1 -->
+            <div class="vx-col flex-1" id="account-info-col-1">
+                <table>
+                    <tr>
+                        <td class="font-normal">{{$t('Champion.name')}}</td>
+                        <td class="font-light">{{data.title}}</td>
+                    </tr>
 
-                        <tr>
-                            <td class="font-normal">{{$t('Champion.description')}}</td>
-                            <td class="font-light">{{data.description}}</td>
-                        </tr>
-                    </table>
-                </div>
-                <!-- /Information - Col 2 -->
-                <div class="vx-col w-full flex" id="account-manage-buttons">
-                    <!--  <vs-button
+                    <tr>
+                        <td class="font-normal">{{$t('Champion.description')}}</td>
+                        <td class="font-light">{{data.description}}</td>
+                    </tr>
+                </table>
+            </div>
+            <!-- /Information - Col 2 -->
+            <div class="vx-col w-full flex" id="account-manage-buttons">
+                <!--  <vs-button
                                 icon-pack="feather"
                                 icon="icon-edit"
                                 class="mr-4"
@@ -46,11 +45,10 @@
                                 icon-pack="feather"
                                 icon="icon-trash"
                                 @click="confirmDeleteRecord"
-                    >Delete</vs-button>-->
-                </div>
+                >Delete</vs-button>-->
             </div>
-        </vx-card>
-    </div>
+        </div>
+    </vx-card>
 </template>
 
 <script>
