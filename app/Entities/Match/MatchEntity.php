@@ -11,6 +11,7 @@ use RiotAPI\DataDragonAPI\DataDragonAPI;
 use App\Entities\SummonerEntity;
 use App\Entities\ChampionEntity;
 use App\Entities\ChallengerEntity;
+use App\Entities\ItemEntity;
 use App\Entities\Riot\RiotEntity;
 
 class MatchEntity
@@ -18,11 +19,13 @@ class MatchEntity
     //
     use CommonTrait;
 
-    protected $riot = [];
+    protected $riot;
+    protected $locale = "fr";
 
-    public function __construct($riot)
+    public function __construct($riot, $locale)
     {
         $this->riot = $riot;
+        $this->locale = $locale;
         RiotEntity::initDataDragonAPI();
     }
 
@@ -298,15 +301,8 @@ class MatchEntity
         $response['subkeystone'] = !empty($runes[$player_stats->perk4]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src : '';
 
         // SLOTS
-        $items = DataDragonAPI::getStaticItems();
-        for ($u = 1; $u <= 6; $u++) {
-            $item_name = "item" . $u;
-            if (!empty($participant->stats->$item_name)) {
-                $response['slots'][$u]['src'] = DataDragonAPI::getItemIconUrl($participant->stats->$item_name);
-                $response['slots'][$u]['title'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['name'] : '';
-                $response['slots'][$u]['description'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['description'] : '';
-            }
-        }
+        $itemEntity = new ItemEntity($this->locale);
+        $response['slots'] = $itemEntity->getItems($participant->stats);
 
         for ($u = 1; $u <= 2; $u++) {
             $spell_name = "spell" . $u . "Id";

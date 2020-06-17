@@ -3,7 +3,6 @@
 namespace App\Entities\Match;
 
 // COLLECTION
-use Illuminate\Support\Collection;
 use App\Http\Traits\CommonTrait;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
@@ -20,10 +19,12 @@ class MatchDetailsEntity
     use CommonTrait;
 
     protected $riot;
+    protected $locale = "fr";
 
-    public function __construct($riot)
+    public function __construct($riot, $locale)
     {
         $this->riot = $riot;
+        $this->locale = $locale;
         RiotEntity::initDataDragonAPI();
     }
 
@@ -36,10 +37,9 @@ class MatchDetailsEntity
     public function getMatchDetails($request)
     {
         // init entities
-        $matchEntity = new MatchEntity($this->riot);
+        $matchEntity = new MatchEntity($this->riot, $request->locale);
         // get match
         $match = $matchEntity->getMatch($request->matchId);
-
         // init match array
         $response = $this->initMatchArray();
 
@@ -115,6 +115,7 @@ class MatchDetailsEntity
         $i = 0;
         $response = [];
         foreach ($participants as $participant) {
+            $response[$i]['participantId'] = $participant->participantId;
 
             $summonerId = $participantIdentities[$participant->participantId]->summonerId;
             $response[$i]['summonerId'] = $summonerId;
@@ -158,6 +159,7 @@ class MatchDetailsEntity
         for ($i = 0; $i < $numbers; $i++) {
             $array[$i] = [
                 'summonerId' => null,
+                'participantId' => null,
                 'level' => null,
                 'champion' => [
                     'title' => null,

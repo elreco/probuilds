@@ -26,7 +26,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => 
     // MATCH CONTROLLER
     $api->get('/summoners/{summonerId}', 'SummonerController@show');
     // BUILD CONTROLLER
-    $api->get('/build', 'BuildController@index');
+    $api->get('/builds/{matchId}/{summonerId}/{participantId}', 'BuildController@show');
     // REGIONS CONTROLLER
     $api->get('/regions', 'RegionController@index');
     // CHAMPIONS CONTROLLER

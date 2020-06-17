@@ -18,7 +18,7 @@ class MatchController extends Controller
         $riotEntity = new RiotEntity($request->locale);
         $riot = $riotEntity->initApi($request->region);
 
-        $matchDetailsEntity = new MatchDetailsEntity($riot);
+        $matchDetailsEntity = new MatchDetailsEntity($riot, $request->locale);
         return $matchDetailsEntity->getMatchDetails($request);
     }
 }
