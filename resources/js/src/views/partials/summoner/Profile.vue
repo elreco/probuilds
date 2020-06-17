@@ -1,5 +1,24 @@
 <template>
-    <vx-card :title="data.name" class="vs-con-loading__container" id="summonerLoading">
+    <vx-card
+        class="vs-con-loading__container"
+        id="summonerLoading"
+        :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)), no-repeat url(/images/dragon/emblems/Emblem_' + data.leagueName + '.png) 125% 50%/50%'"
+    >
+        <div class="vx-row">
+            <div class="vx-col mb-5">
+                <h4>{{ data.name }}</h4>
+                <p>{{ region.toUpperCase() }}</p>
+            </div>
+            <div class="vx-col" id="account-manage-buttons">
+                <vs-button
+                    icon-pack="feather"
+                    icon="icon-external-link"
+                    class="ml-2 text-xs"
+                    target="_blank"
+                    :href="'https://'+region+'.op.gg/summoner/userName=' + data.name"
+                >OP.GG</vs-button>
+            </div>
+        </div>
         <!-- Avatar -->
         <div class="vx-row">
             <!-- Avatar Col -->
@@ -31,21 +50,6 @@
                 </table>
             </div>
             <!-- /Information - Col 2 -->
-            <div class="vx-col w-full flex" id="account-manage-buttons">
-                <!--  <vs-button
-                                icon-pack="feather"
-                                icon="icon-edit"
-                                class="mr-4"
-                                :to="{name: 'app-user-edit', params: { userId: $route.params.userId }}"
-                            >Edit</vs-button>
-                            <vs-button
-                                type="border"
-                                color="danger"
-                                icon-pack="feather"
-                                icon="icon-trash"
-                                @click="confirmDeleteRecord"
-                >Delete</vs-button>-->
-            </div>
         </div>
     </vx-card>
 </template>

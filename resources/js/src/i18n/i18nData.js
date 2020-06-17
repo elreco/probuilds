@@ -27,7 +27,8 @@ export default {
             summoners: 'Summoners',
             build: 'Build',
             all: 'All',
-            allRegion: 'All Region'
+            allRegion: 'All Regions',
+            region: 'Region'
         },
         Match: {
             winningTeam: "Winning Team",
@@ -77,7 +78,8 @@ export default {
             summoners: "Sorts d'invocateur",
             build: 'Build',
             all: 'Tout',
-            allRegion: 'Toutes les régions'
+            allRegion: 'Toutes les régions',
+            region: 'Region'
         },
         Match: {
             winningTeam: "Équipe Gagnante",

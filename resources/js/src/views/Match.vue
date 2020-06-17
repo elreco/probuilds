@@ -1,15 +1,15 @@
 <template>
     <section id="dashboard-analytics">
         <div class="vx-row mb-0 lg:mb-base" id="page-user-view">
-            <div class="vx-col w-full lg:w-1/2 mb-base lg:mb-0 flex items-stretch">
-                <champion-details :champion="champion" />
-            </div>
-            <div class="vx-col w-full lg:w-1/2 mb-base lg:mb-0 flex items-stretch">
+            <div class="vx-col w-full xl:w-1/3 mb-base xl:mb-0 flex items-stretch">
                 <profile :summonerId="summonerId" :region="region" />
+            </div>
+            <div class="vx-col w-full xl:w-2/3 mb-base xl:mb-0 flex items-stretch">
+                <champion-details :champion="champion" />
             </div>
         </div>
         <div class="vx-row mb-base">
-            <div class="vx-col w-full lg:w-2/3 flex items-stretch">
+            <div class="vx-col w-full xl:w-2/3 flex items-stretch">
                 <items :data="items" id="itemsLoading" class="vs-con-loading__container" />
             </div>
         </div>

@@ -37,7 +37,6 @@ class RiotEntity
     {
         // if (empty(env('RIOT_API_KEY')))
         // 	die("Please change API key in the configuration file (.env) to your own." . env('RIOT_API_KEY'));
-
         $api = new LeagueAPI([
             LeagueAPI::SET_KEY              => config('app.riot_api_key'),
             LeagueAPI::SET_TOURNAMENT_KEY   => "",
@@ -50,7 +49,11 @@ class RiotEntity
             LeagueAPI::SET_INTERIM          => true,
             LeagueAPI::SET_CACHE_RATELIMIT  => true,
             LeagueAPI::SET_CACHE_CALLS      => true,
-            LeagueAPI::SET_CACHE_CALLS_LENGTH => 9999
+            LeagueAPI::SET_CACHE_CALLS_LENGTH => [
+                LeagueAPI::RESOURCE_STATICDATA => 9999,
+                LeagueAPI::RESOURCE_SUMMONER   => 9999,
+                LeagueAPI::RESOURCE_MATCH => 9999
+            ]
         ]);
 
 
@@ -74,7 +77,11 @@ class RiotEntity
                 LeagueAPI::SET_INTERIM          => true,
                 LeagueAPI::SET_CACHE_RATELIMIT  => true,
                 LeagueAPI::SET_CACHE_CALLS      => true,
-                LeagueAPI::SET_CACHE_CALLS_LENGTH => 9999
+                LeagueAPI::SET_CACHE_CALLS_LENGTH => [
+                    LeagueAPI::RESOURCE_STATICDATA => 9999,
+                    LeagueAPI::RESOURCE_SUMMONER   => 9999,
+                    LeagueAPI::RESOURCE_MATCH => 9999
+                ]
             ]);
         }
 

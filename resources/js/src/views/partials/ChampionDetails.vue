@@ -3,7 +3,7 @@
         :title="data.title"
         class="vs-con-loading__container"
         id="championLoading"
-        :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)),no-repeat center 25% url(' + data.splash + ')'"
+        :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)),no-repeat 100% 25%/100% url(' + data.splash + ')'"
     >
         <!-- Avatar -->
         <div class="vx-row">

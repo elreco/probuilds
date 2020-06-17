@@ -59,6 +59,7 @@
                     <vs-th class="text-center">{{ $t("LiveFeed.keystone") }}</vs-th>
                     <vs-th class="text-center">{{ $t("LiveFeed.build") }}</vs-th>
                     <vs-th class="text-center">{{ $t("LiveFeed.summoners") }}</vs-th>
+                    <vs-th class="text-center">{{ $t("LiveFeed.region") }}</vs-th>
                 </template>
 
                 <template slot-scope="{data}">
@@ -125,6 +126,7 @@
                                 :description="spell.description"
                             />
                         </vs-td>
+                        <vs-td class="text-center" :data="tr.region">{{tr.region.toUpperCase()}}</vs-td>
                     </vs-tr>
                 </template>
             </vs-table>
