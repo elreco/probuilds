@@ -1,7 +1,25 @@
 <template>
     <section id="dashboard-analytics">
-        <search-banner />
-        <live-feed />
+        <div class="vx-row">
+            <!-- CARD 1: CONGRATS -->
+            <div class="vx-col w-full mb-base">
+                <search-banner>
+                    <template v-slot:default>
+                        <h1 class="mb-4 text-white">{{ $t("home.welcome") }}</h1>
+                        <p
+                            class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white mb-5"
+                            v-html="$t('home.welcomeText')"
+                        ></p>
+                    </template>
+                </search-banner>
+            </div>
+        </div>
+        <div class="vx-row">
+            <!-- CARD 1: CONGRATS -->
+            <div class="vx-col w-full">
+                <live-feed />
+            </div>
+        </div>
     </section>
 </template>
 

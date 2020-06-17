@@ -52,7 +52,7 @@
 
 <script>
 export default {
-    name: "summoner-details",
+    name: "profile",
     props: ["summonerId", "region"],
     data() {
         return {

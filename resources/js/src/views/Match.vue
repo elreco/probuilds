@@ -5,16 +5,12 @@
                 <champion-details :champion="champion" />
             </div>
             <div class="vx-col w-full lg:w-1/2 mb-base lg:mb-0 flex items-stretch">
-                <summoner-details :summonerId="summonerId" :region="region" />
+                <profile :summonerId="summonerId" :region="region" />
             </div>
         </div>
         <div class="vx-row mb-base">
             <div class="vx-col w-full lg:w-2/3 flex items-stretch">
-                <summoner-items
-                    :data="summonerItems"
-                    id="itemsLoading"
-                    class="vs-con-loading__container"
-                />
+                <items :data="items" id="itemsLoading" class="vs-con-loading__container" />
             </div>
         </div>
         <!-- Two columns -->
@@ -48,8 +44,8 @@
 <script>
 import MatchDetails from "./partials/MatchDetails";
 import ChampionDetails from "./partials/ChampionDetails";
-import SummonerDetails from "./partials/summoner/SummonerDetails";
-import SummonerItems from "./partials/summoner/SummonerItems";
+import Profile from "./partials/summoner/Profile";
+import Items from "./partials/summoner/Items";
 
 export default {
     data() {
@@ -59,7 +55,7 @@ export default {
             region: this.$route.params.region,
             matchId: this.$route.params.matchId,
             champion: this.$route.params.champion,
-            summonerItems: {},
+            items: {},
             losers: {
                 bans: [],
                 participants: []
@@ -72,8 +68,8 @@ export default {
     },
     components: {
         ChampionDetails,
-        SummonerDetails,
-        SummonerItems,
+        Profile,
+        Items,
         MatchDetails
     },
     mounted() {
@@ -99,12 +95,12 @@ export default {
                 .then(() => {
                     this.losers.participants.forEach((value, index) => {
                         if (this.summonerId == value.summonerId) {
-                            this.summonerItems = value.items;
+                            this.items = value.items;
                         }
                     });
                     this.winners.participants.forEach((value, index) => {
                         if (this.summonerId == value.summonerId) {
-                            this.summonerItems = value.items;
+                            this.items = value.items;
                         }
                     });
                 })
