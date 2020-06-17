@@ -1,5 +1,5 @@
 <template>
-    <div class="vx-col w-1/2">
+    <div class="vx-col w-1/2 flex items-stretch">
         <vx-card
             :title="data.title"
             class="vs-con-loading__container"

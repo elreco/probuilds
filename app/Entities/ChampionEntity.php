@@ -107,14 +107,15 @@ class ChampionEntity
      *
      * @return boolean or string
      */
-    public function getChampionDetailsByName($championName)
+    public function getChampionDetailsByName($request)
     {
         $response = $this->initChampionArray();
 
-        $champions = DataDragonAPI::getStaticChampions();
+        $riotEntity = new RiotEntity($request->locale);
+        $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
 
         foreach ($champions['data'] as $c) {
-            if (strtoupper($c['name']) == strtoupper($championName)) {
+            if (strtoupper($c['name']) == strtoupper($request->name)) {
                 $response = [
                     'title' => $c['name'],
                     'src' => DataDragonAPI::getChampionIconUrl($c['id']),

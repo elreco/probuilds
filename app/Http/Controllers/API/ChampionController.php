@@ -46,6 +46,6 @@ class ChampionController extends Controller
      */
     public function show(ShowRequest $request)
     {
-        return $this->championEntity->getChampionDetailsByName($request->name);
+        return $this->championEntity->getChampionDetailsByName($request);
     }
 }

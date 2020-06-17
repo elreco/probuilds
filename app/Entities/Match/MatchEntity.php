@@ -225,10 +225,10 @@ class MatchEntity
      * @return \Illuminate\Support\Collection
      */
 
-    public function getChallengersLastMatch(?Collection $challengers, $request)
+    public function getChallengersLastMatch($challengers, $request)
     {
         $matches = [];
-        if (!$challengers->isEmpty()) {
+        if (!empty($challengers)) {
             foreach ($challengers as $c) {
                 $summonerEntity = new SummonerEntity($this->riot);
                 $summoner = $summonerEntity->getSummoner($c->summonerId);
