@@ -1,6 +1,6 @@
 <template>
     <section id="dashboard-analytics">
-        <div class="vx-row mb-base" id="page-user-view">
+        <div class="vx-row mb-base items-stretch" id="page-user-view">
             <champion-details :champion="champion" />
             <summoner-details :summonerId="summonerId" :region="region" />
         </div>
