@@ -67,9 +67,16 @@ export default {
     },
     methods: {
         simpleSuggestionList(q) {
-            return this.$http.get("champions?name=" + q).then(response => {
-                return response.data;
-            });
+            return this.$http
+                .get("champions", {
+                    params: {
+                        name: q,
+                        locale: this.$route.params.locale
+                    }
+                })
+                .then(response => {
+                    return response.data;
+                });
         },
         onSuggestSelect(suggest) {
             if (suggest.name != this.championInput)
@@ -81,7 +88,10 @@ export default {
                 });
         },
         setChampion() {
-            if (this.$route.params.champion) {
+            if (
+                this.$route.params.champion &&
+                this.$route.name == "champions"
+            ) {
                 this.championInput = this.$route.params.champion;
             } else {
                 this.championInput = "";

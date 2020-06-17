@@ -57,6 +57,9 @@ class MatchEntity
         $i = 0;
         $lane = $request->lane;
         $response = [];
+        // entities
+        $championEntity = new ChampionEntity($this->locale);
+        $summonerEntity = new SummonerEntity($this->riot);
         // equivalent de if !empty
         foreach ($matches as $summonerId => $m) {
             // init array
@@ -91,15 +94,13 @@ class MatchEntity
             $response[$i]['region'] = $region;
             // summonerId
             $response[$i]['summonerId'] = $summonerId;
-
-            $championEntity = new ChampionEntity();
+            // champion
             $response[$i]['champion'] = $championEntity->getChampionDetails($m[0]->staticData);
 
             // DATE
             $response[$i]['date'] = $m[0]->timestamp;
 
             // PLAYER
-            $summonerEntity = new SummonerEntity($this->riot);
             $response[$i]['player'] = $summonerEntity->getSummonerDetails($m['summoner']->id);
             ////////////////////////
             /// SEARCH VS PLAYER ///
@@ -107,52 +108,44 @@ class MatchEntity
             // MATCH FROM API
 
             $matchApi = $this->getMatch($m[0]->gameId);
+            if (!empty($matchApi)) {
+                //Identité des joueurs
+                $participantIdentities = [];
+                $participantIdentitiesAPI = $matchApi->participantIdentities;
 
-            //Identité des joueurs
-            $participantIdentities = [];
+                foreach ($participantIdentitiesAPI as $participantIdentity) {
+                    $participantIdentities[$participantIdentity->participantId] = $participantIdentity;
+                    if ($summonerId == $participantIdentity->player->summonerId) {
+                        $playerParticipantId = $participantIdentity->participantId;
+                    }
+                }
 
-            $participantIdentitiesAPI = $matchApi->participantIdentities;
+                // Joueurs
+                $participantsAPI = $matchApi->participants;
 
-            foreach ($participantIdentitiesAPI as $participantIdentity) {
-                $participantIdentities[$participantIdentity->participantId] = $participantIdentity;
-                if ($summonerId == $participantIdentity->player->summonerId) {
-                    $playerParticipantId = $participantIdentity->participantId;
+                foreach ($participantsAPI as $participant) {
+                    // GET PLAYER
+                    if ($participant->participantId == $playerParticipantId) {
+                        $playerParticipant = $participant;
+
+                        $response[$i] = $this->addMatchStats($participant, $response[$i]);
+                    }
+                }
+                //https://riot-api-libraries.readthedocs.io/en/latest/roleid.html#a-simple-mapping
+                // position REF
+                $positionRef = $this->getRiotPosition($m[0]->lane, $m[0]->role);
+                foreach ($participantsAPI as $participant) {
+                    // GET VS CHAMPION
+                    $participantPosition = $this->getRiotPosition($participant->timeline->lane, $participant->timeline->role);
+                    if (
+                        $playerParticipantId != $participant->participantId
+                        &&  $playerParticipant->teamId != $participant->teamId
+                        && $positionRef == $participantPosition
+                    ) {
+                        $response[$i]['vs'] = $championEntity->getChampionDetails($participant->staticData);
+                    }
                 }
             }
-
-            // Joueurs
-            $participantsAPI = $matchApi->participants;
-
-            foreach ($participantsAPI as $participant) {
-                // GET PLAYER
-                if ($participant->participantId == $playerParticipantId) {
-                    $playerParticipant = $participant;
-
-                    $response[$i] = $this->addMatchStats($participant, $response[$i]);
-                }
-            }
-            //https://riot-api-libraries.readthedocs.io/en/latest/roleid.html#a-simple-mapping
-            // position REF
-            $positionRef = $this->getRiotPosition($m[0]->lane, $m[0]->role);
-            foreach ($participantsAPI as $participant) {
-                // GET VS CHAMPION
-                $participantPosition = $this->getRiotPosition($participant->timeline->lane, $participant->timeline->role);
-                if (
-                    $playerParticipantId != $participant->participantId
-                    &&  $playerParticipant->teamId != $participant->teamId
-                    && $positionRef == $participantPosition
-                ) {
-                    // $summonerVS = $this->riot->getSummoner($participantIdentities[$participant->participantId]->player->summonerId);
-                    $src = DataDragonAPI::getChampionIconO($participant->staticData);
-                    $response[$i]['vs'] = [
-                        'title' => $participant->staticData->name,
-                        'src' => $src->src,
-                        'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
-                    ];
-                }
-            }
-
-
             $i++;
         }
 
@@ -181,47 +174,6 @@ class MatchEntity
         return $position;
     }
 
-    public function initMatchArray()
-    {
-        return [
-            'matchId' => null,
-            'region' => null,
-            'summonerId' => null,
-            'champion' => [
-                'title' => null,
-                'src' => null,
-                'description' => null
-            ],
-            'date' => null,
-            'player' => [
-                'name' => null,
-                'icon' => null
-            ],
-            'win' => null,
-            'kda' => null,
-            'gold' => null,
-            'keystone' => null,
-            'subkeystone' => null,
-            'slots' => [],
-            'spells' => [
-                1 => [
-                    'src' => null,
-                    'title' => null,
-                    'description' => null
-                ],
-                2 => [
-                    'src' => null,
-                    'title' => null,
-                    'description' => null
-                ],
-            ],
-            'vs' => [
-                'title' => null,
-                'src' => null,
-                'description' => null
-            ]
-        ];
-    }
     /**
      * Display a collection of last match for each challengers.
      *
@@ -232,14 +184,15 @@ class MatchEntity
     {
         $matches = [];
         if (!empty($challengers)) {
+            // init entity
+            $summonerEntity = new SummonerEntity($this->riot);
+            $championEntity = new ChampionEntity($this->locale);
             foreach ($challengers as $c) {
-                $summonerEntity = new SummonerEntity($this->riot);
                 $summoner = $summonerEntity->getSummoner($c->summonerId);
                 // get account Id
                 !empty($summoner) ? $accountId = $summoner->accountId : null;
 
                 // GET CHAMPION KEY
-                $championEntity = new ChampionEntity();
                 $championKey = $championEntity->getChampionKey($request->champion);
 
                 // get last match
@@ -284,6 +237,9 @@ class MatchEntity
 
     public function addMatchStats($participant, $response)
     {
+        // init item entity 
+        $itemEntity = new ItemEntity($this->locale);
+
         // WIN OR LOSE
         $response['win'] = $participant->stats->win;
         // KDA
@@ -300,9 +256,8 @@ class MatchEntity
         $response['keystone'] = !empty($runes[$player_stats->perk0]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src : '';
         $response['subkeystone'] = !empty($runes[$player_stats->perk4]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src : '';
 
-        // SLOTS
-        $itemEntity = new ItemEntity($this->locale);
-        $response['slots'] = $itemEntity->getItems($participant->stats);
+        // ITEMS
+        $response['items'] = $itemEntity->getItems($participant->stats);
 
         for ($u = 1; $u <= 2; $u++) {
             $spell_name = "spell" . $u . "Id";
@@ -316,5 +271,36 @@ class MatchEntity
         }
 
         return $response;
+    }
+
+    public function initMatchArray()
+    {
+        return [
+            'matchId' => null,
+            'region' => null,
+            'summonerId' => null,
+            'champion' => [],
+            'date' => null,
+            'player' => [],
+            'win' => null,
+            'kda' => null,
+            'gold' => null,
+            'keystone' => null,
+            'subkeystone' => null,
+            'items' => [],
+            'spells' => [
+                1 => [
+                    'src' => null,
+                    'title' => null,
+                    'description' => null
+                ],
+                2 => [
+                    'src' => null,
+                    'title' => null,
+                    'description' => null
+                ],
+            ],
+            'vs' => []
+        ];
     }
 }

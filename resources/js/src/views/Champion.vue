@@ -17,7 +17,6 @@ export default {
             isFetching: true
         };
     },
-    props: ["champion", "isFetching"],
     created() {
         this.checkChampion();
     },
@@ -31,7 +30,12 @@ export default {
             // if exists
             this.loadingData(true);
             return this.$http
-                .get("champions/check?name=" + this.$route.params.champion)
+                .get("champions-check", {
+                    params: {
+                        name: this.$route.params.champion,
+                        locale: this.$route.params.locale
+                    }
+                })
                 .then(response => {
                     return this.setChampion(response.data);
                 })

@@ -7,10 +7,6 @@ use App\Http\Traits\CommonTrait;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
-use App\Entities\SummonerEntity;
-use App\Entities\Match\MatchEntity;
-use App\Entities\ChampionEntity;
-use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
 
 class ItemEntity
@@ -29,12 +25,14 @@ class ItemEntity
 
     public function getItems($participantStats)
     {
+        $itemsNumber = 6;
+
         $response = [];
-        // SLOTS
+        // ITEMS
         $riotEnitity = new RiotEntity($this->locale);
         $items = DataDragonAPI::getStaticItems($riotEnitity->localeMutator());
 
-        for ($u = 1; $u <= 6; $u++) {
+        for ($u = 1; $u <= $itemsNumber; $u++) {
             $item_name = "item" . $u;
             if (!empty($participantStats->$item_name)) {
                 $response[$u]['src'] = DataDragonAPI::getItemIconUrl($participantStats->$item_name);
@@ -45,4 +43,17 @@ class ItemEntity
 
         return $response;
     }
+
+    /* public function initItemArray($numbers)
+    {
+        for ($i = 1; $i <= $numbers; $i++) {
+            $array[$i] = [
+
+                'src' => null,
+                'title' => null,
+                'description' => null
+            ];
+        };
+        return $array;
+    } */
 }

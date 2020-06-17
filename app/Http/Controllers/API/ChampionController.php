@@ -11,13 +11,6 @@ use App\Entities\ChampionEntity;
 
 class ChampionController extends Controller
 {
-    protected $championEntity;
-
-
-    public function __construct()
-    {
-        $this->championEntity = new ChampionEntity;
-    }
 
     /**
      * route : /api/champions.
@@ -27,7 +20,8 @@ class ChampionController extends Controller
 
     public function index(ChampionRequest $request)
     {
-        return $this->championEntity->getChampionsByName($request);
+        $championEntity = new ChampionEntity($request->locale);
+        return $championEntity->getChampionsByName($request);
     }
     /**
      * route : /api/champions/check.
@@ -36,7 +30,8 @@ class ChampionController extends Controller
      */
     public function checkIfChampionExists(ChampionRequest $request)
     {
-        return $this->championEntity->checkIfChampionExists($request);
+        $championEntity = new ChampionEntity($request->locale);
+        return $championEntity->checkIfChampionExists($request);
     }
 
     /**
@@ -46,6 +41,7 @@ class ChampionController extends Controller
      */
     public function show(ShowRequest $request)
     {
-        return $this->championEntity->getChampionDetailsByName($request);
+        $championEntity = new ChampionEntity($request->locale);
+        return $championEntity->getChampionDetailsByName($request);
     }
 }

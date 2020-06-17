@@ -36,58 +36,64 @@ class MatchDetailsEntity
 
     public function getMatchDetails($request)
     {
-        // init entities
-        $matchEntity = new MatchEntity($this->riot, $request->locale);
-        // get match
-        $match = $matchEntity->getMatch($request->matchId);
         // init match array
         $response = $this->initMatchArray();
 
-        // global array data
-        $response['matchId'] = $request->matchId;
-        $response['region'] = $request->region;
-        $response['date'] = $match->gameCreation ?? null;
-
-        // get region name
+        // init entity
+        $matchEntity = new MatchEntity($this->riot, $request->locale);
         $regionEntity = new RegionEntity();
-        $response['regionName'] = $regionEntity->getRegionName($request->region);
 
-        // construction de l'array pour les participants
-        $participantIdentities = [];
-        foreach ($match->participantIdentities as $participantIdentity) {
-            $participantIdentities[$participantIdentity->participantId] = $participantIdentity->player;
-        }
 
-        // selected summoner champion data
-        foreach ($match->participants as $participant) {
-            if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
-                $response['champion'] = $participant->staticData->name;
+        // get match
+        $match = $matchEntity->getMatch($request->matchId);
+
+        if (!empty($match)) {
+            // global array data
+            $response['matchId'] = $request->matchId;
+            $response['region'] = $request->region;
+            $response['date'] = $match->gameCreation ?? null;
+
+            // get region name
+            $response['regionName'] = $regionEntity->getRegionName($request->region);
+
+            // construction de l'array pour les participants
+            $participantIdentities = [];
+            foreach ($match->participantIdentities as $participantIdentity) {
+                $participantIdentities[$participantIdentity->participantId] = $participantIdentity->player;
+            }
+
+            // selected summoner champion data
+            foreach ($match->participants as $participant) {
+                if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
+                    $response['champion'] = $participant->staticData->name;
+                }
+            }
+            // build winners and losers
+            foreach ($match->teams as $team) {
+                if ($team->win == "Win") {
+                    $response['winners']['bans'] = $this->bans($team);
+
+                    // winners participants
+                    $winners = array_filter($match->participants, function ($var) use ($team) {
+                        return ($var->teamId == $team->teamId);
+                    });
+
+                    $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity);
+                } else {
+
+                    $response['losers']['bans'] = $this->bans($team);
+
+                    // losers participants
+                    $losers = array_filter($match->participants, function ($var) use ($team) {
+                        return ($var->teamId == $team->teamId);
+                    });
+
+
+                    $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity);
+                }
             }
         }
-        // build winners and losers
-        foreach ($match->teams as $team) {
-            if ($team->win == "Win") {
-                $response['winners']['bans'] = $this->bans($team);
 
-                // winners participants
-                $winners = array_filter($match->participants, function ($var) use ($team) {
-                    return ($var->teamId == $team->teamId);
-                });
-
-                $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity);
-            } else {
-
-                $response['losers']['bans'] = $this->bans($team);
-
-                // losers participants
-                $losers = array_filter($match->participants, function ($var) use ($team) {
-                    return ($var->teamId == $team->teamId);
-                });
-
-
-                $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity);
-            }
-        }
 
         return $response;
     }
@@ -114,17 +120,20 @@ class MatchDetailsEntity
     {
         $i = 0;
         $response = [];
+
+        // init entity
+        $championEntity = new ChampionEntity($this->locale);
+        $summonerEntity = new SummonerEntity($this->riot);
+
         foreach ($participants as $participant) {
             $response[$i]['participantId'] = $participant->participantId;
 
             $summonerId = $participantIdentities[$participant->participantId]->summonerId;
             $response[$i]['summonerId'] = $summonerId;
 
-            $championEntity = new ChampionEntity();
             $response[$i]['champion'] = $championEntity->getChampionDetails($participant->staticData);
 
             // player
-            $summonerEntity = new SummonerEntity($this->riot);
             $response[$i]['player'] = $summonerEntity->getSummonerDetails($summonerId);
 
             $response[$i]['level'] = $participant->stats->champLevel;
@@ -161,21 +170,14 @@ class MatchDetailsEntity
                 'summonerId' => null,
                 'participantId' => null,
                 'level' => null,
-                'champion' => [
-                    'title' => null,
-                    'src' => null,
-                    'description' => null
-                ],
-                'player' => [
-                    'name' => null,
-                    'icon' => null
-                ],
+                'champion' => [],
+                'player' => [],
                 'win' => null,
                 'kda' => null,
                 'gold' => null,
                 'keystone' => null,
                 'subkeystone' => null,
-                'slots' => [],
+                'items' => [],
                 'spells' => [
                     1 => [
                         'src' => null,

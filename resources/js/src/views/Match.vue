@@ -4,7 +4,7 @@
             <champion-details :champion="champion" />
             <summoner-details :summonerId="summonerId" :region="region" />
         </div>
-
+        <summoner-items :data="summonerItems" id="itemsLoading" class="vs-con-loading__container" />
         <!-- Two columns -->
         <div class="vx-row mb-base">
             <div class="vx-col w-full mb-base">
@@ -36,7 +36,8 @@
 <script>
 import MatchDetails from "./partials/MatchDetails";
 import ChampionDetails from "./partials/ChampionDetails";
-import SummonerDetails from "./partials/SummonerDetails";
+import SummonerDetails from "./partials/summoner/SummonerDetails";
+import SummonerItems from "./partials/summoner/SummonerItems";
 
 export default {
     data() {
@@ -46,6 +47,7 @@ export default {
             region: this.$route.params.region,
             matchId: this.$route.params.matchId,
             champion: this.$route.params.champion,
+            summonerItems: {},
             losers: {
                 bans: [],
                 participants: []
@@ -59,6 +61,7 @@ export default {
     components: {
         ChampionDetails,
         SummonerDetails,
+        SummonerItems,
         MatchDetails
     },
     mounted() {
@@ -82,6 +85,18 @@ export default {
                     this.champion = response.data.champion;
                 })
                 .then(() => {
+                    this.losers.participants.forEach((value, index) => {
+                        if (this.summonerId == value.summonerId) {
+                            this.summonerItems = value.items;
+                        }
+                    });
+                    this.winners.participants.forEach((value, index) => {
+                        if (this.summonerId == value.summonerId) {
+                            this.summonerItems = value.items;
+                        }
+                    });
+                })
+                .then(() => {
                     this.loadingData(false);
                 });
 
@@ -97,9 +112,14 @@ export default {
                     type: "default",
                     container: "#winnersLoading"
                 });
+                this.$vs.loading({
+                    type: "default",
+                    container: "#itemsLoading"
+                });
             } else {
                 this.$vs.loading.close("#losersLoading > .con-vs-loading");
                 this.$vs.loading.close("#winnersLoading > .con-vs-loading");
+                this.$vs.loading.close("#itemsLoading > .con-vs-loading");
             }
         }
     },

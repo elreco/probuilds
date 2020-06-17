@@ -43,18 +43,18 @@
                         <img class="supperposed-avatar rounded" :src="tr.subkeystone" />
                     </div>
                 </vs-td>
-                <vs-td class="text-center" :data="tr.slots">
+                <vs-td class="text-center" :data="tr.items">
                     <popover-avatar
-                        v-for="(slot, index) in tr.slots"
+                        v-for="(item, index) in tr.items"
                         :key="index"
-                        :data="slot"
-                        :src="slot.src"
-                        :title="slot.title"
-                        :description="slot.description"
+                        :data="item"
+                        :src="item.src"
+                        :title="item.title"
+                        :description="item.description"
                     />
 
                     <div
-                        v-for="n in 6-Object.keys(tr.slots).length"
+                        v-for="n in 6-Object.keys(tr.items).length"
                         :key="n + 100"
                         class="inline-block w-10 h-10 rounded bg-theme-dark mr-1"
                     ></div>

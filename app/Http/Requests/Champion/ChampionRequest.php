@@ -25,6 +25,7 @@ class ChampionRequest extends FormRequest
     {
         return [
             'name' => 'nullable|string|max:30',
+            'locale' => 'required|string'
         ];
     }
 }

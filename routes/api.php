@@ -32,18 +32,5 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => 
     // CHAMPIONS CONTROLLER
     $api->get('/champions', 'ChampionController@index');
     $api->get('/champions/{name}', 'ChampionController@show');
-    $api->get('/champions/check', 'ChampionController@checkIfChampionExists');
+    $api->get('/champions-check', 'ChampionController@checkIfChampionExists');
 });
-/* Route::domain(env('APP_API_URL'))->group(function () {
-    // LIVEFEED CONTROLLER
-    Route::get('/livefeed', 'LiveFeedController@index');
-    // MATCH CONTROLLER
-    Route::get('/match/show-details', 'MatchController@showDetails');
-    // BUILD CONTROLLER
-    Route::get('/build', 'BuildController@index');
-    // REGIONS CONTROLLER
-    Route::get('/regions', 'RegionController');
-    // CHAMPIONS CONTROLLER
-    Route::get('/champions', 'ChampionController@index');
-    Route::get('/champions/check', 'ChampionController@checkIfChampionExists');
-}); */

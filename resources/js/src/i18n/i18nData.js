@@ -94,6 +94,10 @@ export default {
         Champion: {
             name: 'Champion',
             description: 'Description'
+        },
+        SearchBanner: {
+            loading: 'Chargement',
+            searchInput: 'Rechercher un champion...'
         }
 
     },
