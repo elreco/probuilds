@@ -4,10 +4,10 @@
         id="summonerLoading"
         :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)), no-repeat url(/images/dragon/emblems/Emblem_' + data.leagueName + '.png) 125% 50%/50%'"
     >
-        <div class="vx-row">
-            <div class="vx-col mb-5">
+        <div class="vx-row mb-8">
+            <div class="vx-col">
                 <h4>{{ data.name }}</h4>
-                <p>{{ region.toUpperCase() }}</p>
+                <p>{{ regionName }}</p>
             </div>
             <div class="vx-col" id="account-manage-buttons">
                 <vs-button
@@ -20,19 +20,27 @@
             </div>
         </div>
         <!-- Avatar -->
-        <div class="vx-row">
+        <div class="vx-row mb-2">
             <!-- Avatar Col -->
-            <div class="vx-col" id="avatar-col">
-                <div class="img-container mb-4">
+            <div class="vx-col mr-4" id="avatar-col">
+                <div class="img-container relative">
+                    <div
+                        class="borderImage"
+                        :style="'background-image: url(' + images.borderImage + ');'"
+                    ></div>
                     <img
                         :src="data.icon ? data.icon : srcIfNull"
                         class="rounded w-full border-solid border-2 border-white"
                     />
+                    <span
+                        class="level"
+                        :style="'background-image:url(' + images.levelBox + ')'"
+                    >{{data.level}}</span>
                 </div>
             </div>
 
             <!-- Information - Col 1 -->
-            <div class="vx-col flex-1" id="account-info-col-1">
+            <div class="vx-col flex-1 text-sm" id="account-info-col-1">
                 <table>
                     <tr>
                         <td class="font-semibold">{{$t('Summoner.player')}}</td>
@@ -61,6 +69,11 @@ export default {
     data() {
         return {
             srcIfNull: require("@assets/images/match/none_ban.png"),
+            regionName: null,
+            images: {
+                levelBox: require("@assets/images/dragon/bg-levelbox.png"),
+                borderImage: ""
+            },
             data: {
                 name: " "
             }
@@ -84,9 +97,14 @@ export default {
                     this.data = response.data;
                 })
                 .then(() => {
+                    this.regionName = this.region.toUpperCase();
+                    this.images.borderImage = require("@assets/images/dragon/borders/" +
+                        this.data.leagueName +
+                        ".png");
+                })
+                .then(() => {
                     this.loadingData(false);
                 });
-
             // UPDATE this.users après avoir fait la requête axios
         },
         loadingData(boolean) {
@@ -102,3 +120,38 @@ export default {
     }
 };
 </script>
+
+<style>
+.borderImage {
+    position: absolute;
+    left: -10px;
+    top: -10px;
+    width: 120px;
+    height: 120px;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+}
+
+.img-container {
+    width: 100px;
+    height: 100px;
+}
+.level {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-top: -14px;
+    margin-left: -22px;
+    width: 44px;
+    height: 24px;
+    padding-top: 3.8px;
+    box-sizing: border-box;
+    background-size: 100%;
+    line-height: 17px;
+    /* font-family: Helvetica, AppleSDGothic, "Apple SD Gothic Neo", AppleGothic,
+        Arial, Tahoma; */
+    font-size: 14px;
+    text-align: center;
+    color: #eabd56;
+}
+</style>

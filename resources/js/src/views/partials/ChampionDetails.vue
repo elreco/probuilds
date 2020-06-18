@@ -5,16 +5,16 @@
         :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)),no-repeat 100% 25%/100% url(' + data.splash + ')'"
     >
         <!-- Avatar -->
-        <div class="vx-row">
-            <div class="vx-col mb-5">
-                <h4>{{ data.title }}</h4>
+        <div class="vx-row mb-8">
+            <div class="vx-col">
+                <h4>{{ data.name }}</h4>
                 <p>{{ data.title }}</p>
             </div>
         </div>
-        <div class="vx-row">
+        <div class="vx-row mb-2">
             <!-- Avatar Col -->
-            <div class="vx-col" id="avatar-col">
-                <div class="img-container mb-4">
+            <div class="vx-col mr-4" id="avatar-col">
+                <div class="img-container relative">
                     <img
                         :src="data.src ? data.src : srcIfNull"
                         class="rounded w-full border-solid border-2 border-white"
@@ -23,7 +23,7 @@
             </div>
 
             <!-- Information - Col 1 -->
-            <div class="vx-col flex-1" id="account-info-col-1">
+            <div class="vx-col flex-1 text-sm" id="account-info-col-1">
                 <table>
                     <tr>
                         <td class="font-normal">{{$t('Champion.name')}}</td>
@@ -64,6 +64,7 @@ export default {
         return {
             srcIfNull: require("@assets/images/match/none_ban.png"),
             data: {
+                name: " ",
                 title: " "
             }
         };
@@ -109,3 +110,9 @@ export default {
     }
 };
 </script>
+<style>
+.img-container {
+    width: 100px;
+    height: 100px;
+}
+</style>

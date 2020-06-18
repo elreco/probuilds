@@ -67,6 +67,7 @@ class SummonerEntity
 
         $response['name'] = $summoner->name;
         $response['icon'] = DataDragonAPI::getProfileIconO($summoner)->src;
+        $response['level'] = $summoner->summonerLevel;
         // summoner rank and points
         $summonerLeague = $this->getLeague($summonerId, "RANKED_SOLO_5x5");
 
@@ -88,6 +89,7 @@ class SummonerEntity
         return [
             'name' => null,
             'icon' => null,
+            'level' => null,
             'league' => null,
             'leagueName' => null,
             'leaguePoints' => null,

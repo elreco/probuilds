@@ -121,7 +121,8 @@ class ChampionEntity
         foreach ($champions['data'] as $c) {
             if (strtoupper($c['name']) == strtoupper($request->name)) {
                 $response = [
-                    'title' => $c['name'],
+                    'name' => $c['name'],
+                    'title' => Str::ucfirst($c['title']),
                     'src' => DataDragonAPI::getChampionIconUrl($c['id']),
                     'splash' => DataDragonAPI::getChampionSplashUrl($c['id']),
                     'description' => $c['blurb']
@@ -135,6 +136,7 @@ class ChampionEntity
     public function initChampionArray()
     {
         return [
+            'name' => null,
             'title' => null,
             'src' => null,
             'splash' => null,

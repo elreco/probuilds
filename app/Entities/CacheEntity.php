@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Cache;
 class CacheEntity
 {
 
-    const SECONDS = 600;
+    const SECONDS = 60 * 60;
 
     public static function useCache($resource, $request, $method)
     {
