@@ -1,11 +1,16 @@
 <template>
     <vx-card
-        :title="data.title"
         class="vs-con-loading__container"
         id="championLoading"
         :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)),no-repeat 100% 25%/100% url(' + data.splash + ')'"
     >
         <!-- Avatar -->
+        <div class="vx-row">
+            <div class="vx-col mb-5">
+                <h4>{{ data.title }}</h4>
+                <p>{{ data.title }}</p>
+            </div>
+        </div>
         <div class="vx-row">
             <!-- Avatar Col -->
             <div class="vx-col" id="avatar-col">
