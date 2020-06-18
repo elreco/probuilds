@@ -28,10 +28,7 @@
                         class="borderImage"
                         :style="'background-image: url(' + images.borderImage + ');'"
                     ></div>
-                    <img
-                        :src="data.icon ? data.icon : srcIfNull"
-                        class="rounded w-full border-solid border-2 border-white"
-                    />
+                    <img :src="data.icon ? data.icon : srcIfNull" class="w-full" />
                     <span
                         class="level"
                         :style="'background-image:url(' + images.levelBox + ')'"

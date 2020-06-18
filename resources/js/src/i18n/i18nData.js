@@ -24,7 +24,7 @@ export default {
             kda: 'KDA',
             gold: 'Gold',
             keystone: 'Keystone',
-            summoners: 'Summoners',
+            summoners: 'Summoner Spells',
             build: 'Build',
             all: 'All',
             allRegion: 'All Regions',
@@ -41,7 +41,8 @@ export default {
             league: "League",
             leaguePoints: "Points",
             items: "Items",
-            finalItems: "Final Items",
+            finalItems: "Final Build",
+            summoners: "Summoner Spells"
         },
         Champion: {
             name: 'Champion',
@@ -96,6 +97,7 @@ export default {
             leaguePoints: "Points",
             items: "Items",
             finalItems: "Build final",
+            summoners: "Sorts d'invocateur",
         },
         Champion: {
             name: 'Champion',

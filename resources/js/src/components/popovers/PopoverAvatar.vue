@@ -17,7 +17,7 @@
                         <div class="img-container">
                             <img
                                 :src="src"
-                                class="w-10 h-10 rounded border-solid border-2 border-white"
+                                class="w-12 h-12 rounded border-solid border-2 border-white"
                             />
                         </div>
                     </vs-col>

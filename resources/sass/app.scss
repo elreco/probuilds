@@ -102,6 +102,10 @@
     box-shadow: 0 0 5px 0 $shadow-green;
 }
 
+.primary-shadow {
+    box-shadow: 0 0 5px 0 rgba(var(--vs-primary), 1);
+}
+
 
 .lose-border {
     border-color: $dark-red !important;

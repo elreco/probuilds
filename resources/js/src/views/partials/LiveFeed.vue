@@ -195,7 +195,6 @@ export default {
                 })
                 .then(response => {
                     this.matches = response.data;
-                    console.log(this.matches);
                     this.formatDate();
                 })
                 .then(() => {

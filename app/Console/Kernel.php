@@ -29,13 +29,11 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-
-
         $schedule->call(function () {
             // LIVEFEED
             $request = new Request();
             $request->replace(['page' => '1', 'locale' => 'fr']);
-            CacheEntity::useCache('livefeed.1.fr', 'App\Http\Controllers\API\LiveFeedController', 'getLiveFeed', [$request]);
+            CacheEntity::useCache('livefeed', $request, 'getLiveFeed', true);
         })->daily();
     }
 

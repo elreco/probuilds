@@ -12,6 +12,9 @@
             <div class="vx-col w-full xl:w-2/3 flex items-stretch">
                 <items :data="items" id="itemsLoading" class="vs-con-loading__container" />
             </div>
+            <div class="vx-col w-full xl:w-1/3 flex items-stretch">
+                <spells :data="spells" id="spellsLoading" class="vs-con-loading__container" />
+            </div>
         </div>
         <!-- Two columns -->
         <div class="vx-row mb-base">
@@ -46,6 +49,7 @@ import MatchDetails from "./partials/MatchDetails";
 import ChampionDetails from "./partials/ChampionDetails";
 import Profile from "./partials/summoner/Profile";
 import Items from "./partials/summoner/Items";
+import Spells from "./partials/summoner/Spells";
 
 export default {
     data() {
@@ -56,6 +60,7 @@ export default {
             matchId: this.$route.params.matchId,
             champion: this.$route.params.champion,
             items: {},
+            spells: {},
             losers: {
                 bans: [],
                 participants: []
@@ -70,7 +75,8 @@ export default {
         ChampionDetails,
         Profile,
         Items,
-        MatchDetails
+        MatchDetails,
+        Spells
     },
     mounted() {
         this.getMatch();
@@ -96,11 +102,13 @@ export default {
                     this.losers.participants.forEach((value, index) => {
                         if (this.summonerId == value.summonerId) {
                             this.items = value.items;
+                            this.spells = value.spells;
                         }
                     });
                     this.winners.participants.forEach((value, index) => {
                         if (this.summonerId == value.summonerId) {
                             this.items = value.items;
+                            this.spells = value.spells;
                         }
                     });
                 })
@@ -124,10 +132,15 @@ export default {
                     type: "default",
                     container: "#itemsLoading"
                 });
+                this.$vs.loading({
+                    type: "default",
+                    container: "#spellsLoading"
+                });
             } else {
                 this.$vs.loading.close("#losersLoading > .con-vs-loading");
                 this.$vs.loading.close("#winnersLoading > .con-vs-loading");
                 this.$vs.loading.close("#itemsLoading > .con-vs-loading");
+                this.$vs.loading.close("#spellsLoading > .con-vs-loading");
             }
         }
     },
