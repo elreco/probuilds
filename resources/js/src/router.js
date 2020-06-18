@@ -46,13 +46,13 @@ const router = new Router({
                     component: () => import('./views/Home.vue')
                 },
                 {
-                    path: '/:locale/match/:region/:summonerId/:matchId',
-                    name: 'match',
+                    path: '/:locale/matchs/:region/:summonerId/:matchId/:champion',
+                    name: 'matchs',
                     component: () => import('./views/Match.vue'),
                 },
                 {
-                    path: '/:locale/champion/:champion',
-                    name: 'champion',
+                    path: '/:locale/champions/:champion',
+                    name: 'champions',
                     component: () => import('./views/Champion.vue')
                 }
             ]
@@ -73,7 +73,7 @@ const router = new Router({
                     component: () => import('@/views/pages/Login.vue')
                 },
                 {
-                    path: '/pages/error-404',
+                    path: '/:locale/pages/error-404',
                     name: 'page-error-404',
                     component: () => import('@/views/pages/Error404.vue')
                 }
@@ -82,7 +82,7 @@ const router = new Router({
         //Redirect to 404 page, if no match found
         {
             path: '*',
-            redirect: '/pages/error-404'
+            redirect: '/:locale/pages/error-404'
         }
     ]
 })

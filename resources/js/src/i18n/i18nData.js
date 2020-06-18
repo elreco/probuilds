@@ -19,13 +19,33 @@ export default {
         LiveFeed: {
             title: 'Live Feed',
             player: "Player",
+            level: 'Level',
             vs: "VS.",
             kda: 'KDA',
             gold: 'Gold',
             keystone: 'Keystone',
+            summoners: 'Summoners',
             build: 'Build',
             all: 'All',
-            allRegion: 'All Region'
+            allRegion: 'All Regions',
+            region: 'Region'
+        },
+        Match: {
+            winningTeam: "Winning Team",
+            losingTeam: "Losing Team",
+            bans: "Bans",
+            titleIfNull: "None"
+        },
+        Summoner: {
+            player: "Player",
+            league: "League",
+            leaguePoints: "Points",
+            items: "Items",
+            finalItems: "Final Items",
+        },
+        Champion: {
+            name: 'Champion',
+            description: 'Description'
         },
         SearchBanner: {
             loading: 'Loading',
@@ -50,13 +70,36 @@ export default {
         LiveFeed: {
             title: "Flux en direct",
             player: "Joueur",
+            level: 'Niveau',
             vs: "VS.",
             kda: 'KDA',
             gold: 'Gold',
             keystone: 'Keystone',
+            summoners: "Sorts d'invocateur",
             build: 'Build',
             all: 'Tout',
-            allRegion: 'Toutes les régions'
+            allRegion: 'Toutes les régions',
+            region: 'Region'
+        },
+        Match: {
+            winningTeam: "Équipe Gagnante",
+            losingTeam: "Équipe Perdante",
+            bans: "Bans",
+            titleIfNull: "Aucun",
+            player: "Joueur",
+            league: "Ligue",
+            leaguePoints: "Points"
+        },
+        Summoner: {
+            player: "Joueur",
+            league: "Ligue",
+            leaguePoints: "Points",
+            items: "Items",
+            finalItems: "Build final",
+        },
+        Champion: {
+            name: 'Champion',
+            description: 'Description'
         },
         SearchBanner: {
             loading: 'Chargement',

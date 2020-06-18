@@ -1,5 +1,5 @@
 <template>
-    <vx-card class="z-0">
+    <vx-card class="z-0 vs-con-loading__container" content-color="#fff" id="loadingFeed">
         <div class="vx-col w-full">
             <vs-navbar
                 active-text-color="rgba(255,255,255,1)"
@@ -43,85 +43,82 @@
                 :currentPage="page"
                 :sst="true"
                 @change-page="handleChangePage"
-                :max-items="users.maxItems"
-                :total="users.totalItems"
+                :max-items="matches.maxItems"
+                :total="matches.totalItems"
                 pagination
-                :data="users.data"
+                :data="matches.data"
                 @selected="handleSelected"
-                id="loadingFeed"
             >
                 <template slot="thead">
                     <vs-th></vs-th>
                     <vs-th></vs-th>
                     <vs-th>{{ $t("LiveFeed.player") }}</vs-th>
-                    <vs-th>{{ $t("LiveFeed.vs") }}</vs-th>
-                    <vs-th>{{ $t("LiveFeed.kda") }}</vs-th>
-                    <vs-th>{{ $t("LiveFeed.gold") }}</vs-th>
-                    <vs-th>{{ $t("LiveFeed.keystone") }}</vs-th>
-                    <vs-th>{{ $t("LiveFeed.build") }}</vs-th>
-                    <vs-th></vs-th>
+                    <vs-th class="text-center">{{ $t("LiveFeed.vs") }}</vs-th>
+                    <vs-th class="text-center">{{ $t("LiveFeed.kda") }}</vs-th>
+                    <vs-th class="text-center">{{ $t("LiveFeed.gold") }}</vs-th>
+                    <vs-th class="text-center">{{ $t("LiveFeed.keystone") }}</vs-th>
+                    <vs-th class="text-center">{{ $t("LiveFeed.build") }}</vs-th>
+                    <vs-th class="text-center">{{ $t("LiveFeed.summoners") }}</vs-th>
+                    <vs-th class="text-center">{{ $t("LiveFeed.region") }}</vs-th>
                 </template>
 
                 <template slot-scope="{data}">
                     <vs-tr
-                        class="whitespace-no-wrap"
+                        class="whitespace-no-wrap text-base"
                         :data="tr"
                         :key="indextr"
                         v-for="(tr, indextr) in data"
                     >
-                        <vs-td :data="data[indextr].date">{{ data[indextr].ago }}</vs-td>
-                        <vs-td :data="data[indextr].champion">
+                        <vs-td class="text-center" :data="tr.date">{{ tr.ago }}</vs-td>
+                        <vs-td class="text-center" :data="tr.champion">
                             <popover-avatar
-                                :win="data[indextr].win"
+                                :win="tr.win"
                                 :default="false"
-                                :src="data[indextr].champion.src"
-                                :title="data[indextr].champion.title"
-                                :description="data[indextr].champion.description"
+                                :src="tr.champion.src"
+                                :title="tr.champion.title"
+                                :description="tr.champion.description"
                             />
                         </vs-td>
-                        <vs-td :data="data[indextr].player">
+                        <vs-td :data="tr.player">
                             <vs-chip color="primary">
-                                <vs-avatar :src="data[indextr].player.icon" />
-                                {{ data[indextr].player.name }}
+                                <vs-avatar :src="tr.player.icon" />
+                                {{ tr.player.name }}
                             </vs-chip>
                         </vs-td>
-                        <vs-td :data="data[indextr].vs">
+                        <vs-td class="text-center" :data="tr.vs">
                             <popover-avatar
-                                :src="data[indextr].vs.src"
-                                :title="data[indextr].vs.title"
-                                :description="data[indextr].vs.description"
+                                :src="tr.vs.src"
+                                :title="tr.vs.title"
+                                :description="tr.vs.description"
                             />
                         </vs-td>
-                        <vs-td :data="data[indextr].kda">{{ data[indextr].kda }}</vs-td>
-                        <vs-td :data="data[indextr].gold">{{ data[indextr].gold }}</vs-td>
-                        <vs-td :data="data[indextr].keystone">
+                        <vs-td class="text-center" :data="tr.kda">{{ tr.kda }}</vs-td>
+                        <vs-td class="text-center" :data="tr.gold">{{ tr.gold }}</vs-td>
+                        <vs-td class="text-center" :data="tr.keystone">
                             <div class="relative inline">
-                                <vs-avatar :src="data[indextr].keystone" />
-                                <img
-                                    class="supperposed-avatar rounded"
-                                    :src="data[indextr].subkeystone"
-                                />
+                                <vs-avatar :src="tr.keystone" />
+                                <img class="supperposed-avatar rounded" :src="tr.subkeystone" />
                             </div>
                         </vs-td>
-                        <vs-td :data="data[indextr].slots">
+                        <vs-td class="text-center" :data="tr.items">
                             <popover-avatar
-                                v-for="(slot, index) in data[indextr].slots"
+                                v-for="(item, index) in tr.items"
                                 :key="index"
-                                :data="slot"
-                                :src="slot.src"
-                                :title="slot.title"
-                                :description="slot.description"
+                                :data="item"
+                                :src="item.src"
+                                :title="item.title"
+                                :description="item.description"
                             />
 
                             <div
-                                v-for="n in 6-Object.keys(data[indextr].slots).length"
+                                v-for="n in 6-Object.keys(tr.items).length"
                                 :key="n + 100"
                                 class="inline-block w-10 h-10 rounded bg-theme-dark mr-1"
                             ></div>
                         </vs-td>
-                        <vs-td :data="data[indextr].spells">
+                        <vs-td class="text-center" :data="tr.spells">
                             <popover-avatar
-                                v-for="(spell, index) in data[indextr].spells"
+                                v-for="(spell, index) in tr.spells"
                                 :key="index"
                                 :data="spell"
                                 :src="spell.src"
@@ -129,6 +126,7 @@
                                 :description="spell.description"
                             />
                         </vs-td>
+                        <vs-td class="text-center" :data="tr.region">{{tr.region.toUpperCase()}}</vs-td>
                     </vs-tr>
                 </template>
             </vs-table>
@@ -151,7 +149,7 @@ export default {
             activeLoading: false,
             totalItems: 0,
             get_feed_is_running: false,
-            users: {
+            matches: {
                 data: [],
                 totalItems: 1,
                 maxItems: 1
@@ -167,16 +165,13 @@ export default {
     },
     methods: {
         handleSelected(tr) {
-            /* this.$vs.notify({
-                title: `Selected ${tr.username}`,
-                text: `Email: ${tr.email}`
-            }); */
             this.$router.push({
-                name: "match",
+                name: "matchs",
                 params: {
                     region: tr.region,
                     summonerId: tr.summonerId,
-                    matchId: tr.matchId
+                    matchId: tr.matchId,
+                    champion: tr.champion.title
                 }
             });
         },
@@ -199,7 +194,8 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.users = response.data;
+                    this.matches = response.data;
+                    console.log(this.matches);
                     this.formatDate();
                 })
                 .then(() => {
@@ -211,10 +207,10 @@ export default {
                     this.loadingData(false);
                 });
 
-            // UPDATE this.users après avoir fait la requête axios
+            // UPDATE this.matches après avoir fait la requête axios
         },
         formatDate() {
-            this.users.data = this.users.data.map(m => {
+            this.matches.data = this.matches.data.map(m => {
                 m.ago = moment(m.date).fromNow();
                 return m;
             });
@@ -227,7 +223,7 @@ export default {
         loadingData(boolean) {
             if (boolean) {
                 this.$vs.loading({
-                    type: "material",
+                    type: "default",
                     container: "#loadingFeed"
                 });
             } else {

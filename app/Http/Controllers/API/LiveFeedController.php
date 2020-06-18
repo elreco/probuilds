@@ -9,6 +9,8 @@ use App\Http\Requests\LiveFeed\LiveFeedRequest;
 use App\Entities\Match\MatchEntity;
 use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
+use App\Entities\CacheEntity;
+
 
 class LiveFeedController extends Controller
 {
@@ -20,10 +22,11 @@ class LiveFeedController extends Controller
      */
     public function index(LiveFeedRequest $request)
     {
-        return $this->getLiveFeed($request);
+        $livefeed = CacheEntity::useCache('livefeed', $request, 'getLiveFeed');
+        return $livefeed;
     }
 
-    private function getLiveFeed($request)
+    public function getLiveFeed($request)
     {
 
         $regions = RegionEntity::getSelectedRegions($request);
@@ -40,14 +43,13 @@ class LiveFeedController extends Controller
         $itemsNumber = 5;
 
         foreach ($riots as $region => $riot) {
-            $matchEntity = new MatchEntity($riot);
+            $matchEntity = new MatchEntity($riot, $request->locale);
             $matches = $matchEntity->getMatchesTopElo($request, $region);
             $response['data'] = !empty($matches) ? array_merge($response['data'], $matches) : $response['data'];
         }
-
         $collectionResponse = collect($response['data']);
-
         $response['data'] = $collectionResponse->sortByDesc('date')->forPage($request->page, $itemsNumber)->values();
+
         // total éléments
         $response['totalItems'] =  $collectionResponse->count();
         // nombre d'items par page

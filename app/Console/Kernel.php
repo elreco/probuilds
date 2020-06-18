@@ -4,6 +4,9 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
+use Illuminate\Http\Request;
+
+use App\Entities\CacheEntity;
 
 class Kernel extends ConsoleKernel
 {
@@ -26,6 +29,14 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
+
+
+        $schedule->call(function () {
+            // LIVEFEED
+            $request = new Request();
+            $request->replace(['page' => '1', 'locale' => 'fr']);
+            CacheEntity::useCache('livefeed.1.fr', 'App\Http\Controllers\API\LiveFeedController', 'getLiveFeed', [$request]);
+        })->daily();
     }
 
     /**
@@ -35,7 +46,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
+        $this->load(__DIR__ . '/Commands');
 
         require base_path('routes/console.php');
     }

@@ -3,7 +3,6 @@
 namespace App\Entities\Match;
 
 // COLLECTION
-use Illuminate\Support\Collection;
 use App\Http\Traits\CommonTrait;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
@@ -11,17 +10,23 @@ use RiotAPI\DataDragonAPI\DataDragonAPI;
 use App\Entities\SummonerEntity;
 use App\Entities\ChampionEntity;
 use App\Entities\ChallengerEntity;
+use App\Entities\ItemEntity;
+use App\Entities\Riot\RiotEntity;
+
 
 class MatchEntity
 {
     //
     use CommonTrait;
 
-    protected $riot = [];
+    protected $riot;
+    protected $locale = "fr";
 
-    public function __construct($riot)
+    public function __construct($riot, $locale)
     {
         $this->riot = $riot;
+        $this->locale = $locale;
+        RiotEntity::initDataDragonAPI();
     }
 
     /**
@@ -39,7 +44,8 @@ class MatchEntity
         // Get last matchs for each challenger
         $challengersLastMatch = $this->getChallengersLastMatch($challengers, $request);
         // return an array of matches
-        return $this->formatMatches($challengersLastMatch, $request, $region);
+        $matches = $this->formatMatches($challengersLastMatch, $request, $region);
+        return $matches;
     }
 
     /**
@@ -52,152 +58,97 @@ class MatchEntity
         $i = 0;
         $lane = $request->lane;
         $response = [];
+        // entities
+        $championEntity = new ChampionEntity($this->locale);
+        $summonerEntity = new SummonerEntity($this->riot);
         // equivalent de if !empty
         foreach ($matches as $summonerId => $m) {
-            // init array
-            $response[$i] = $this->initMatchArray();
-            // LANE FILTER
-            if (!empty($lane)) {
-                if ($lane == "support") {
-                    if ($m[0]->role != "DUO_SUPPORT") {
-                        continue;
-                    }
-                } elseif ($lane == "adc") {
-                    if ($m[0]->role != "DUO_CARRY") {
-                        continue;
-                    }
-                } elseif ($lane == "mid") {
-                    if ($m[0]->lane != "MID") {
-                        continue;
-                    }
-                } elseif ($lane == "top") {
-                    if ($m[0]->lane != "TOP") {
-                        continue;
-                    }
-                } elseif ($lane == "jungle") {
-                    if ($m[0]->lane != "JUNGLE") {
-                        continue;
-                    }
-                }
-            }
-            // GAME ID
-            $response[$i]['matchId'] = $m[0]->gameId;
-            // region
-            $response[$i]['region'] = $region;
-            // summonerId
-            $response[$i]['summonerId'] = $summonerId;
-            $src = DataDragonAPI::getChampionIconO($m[0]->staticData);
-
-            // CHAMPION
-            $response[$i]['champion'] = [
-                'title' => $m[0]->staticData->name,
-                'src' => $src->src,
-                'description' => "<h4 class='text-gold mb-2'>{$m[0]->staticData->title}</h4><p>{$m[0]->staticData->lore}</p>"
-            ];
-
-            // DATE
-            $response[$i]['date'] = $m[0]->timestamp;
-
-            // PLAYER
-            $response[$i]['player']['name'] = $m['summoner']->name;
-            $response[$i]['player']['icon'] = DataDragonAPI::getProfileIconO($m['summoner'])->src;
-            ////////////////////////
-            /// SEARCH VS PLAYER ///
-            ////////////////////////
-            // MATCH FROM API
-
             $matchApi = $this->getMatch($m[0]->gameId);
+            if (!empty($matchApi)) {
+                // position REF
+                $positionRef = $this->getRiotPosition($m[0]->lane, $m[0]->role);
+                // LANE FILTER
+                if (!empty($lane)) {
+                    if ($lane == "support") {
+                        if ($positionRef  != "UTILITY") {
+                            continue;
+                        }
+                    } elseif ($lane == "adc") {
+                        if ($positionRef != "BOTTOM") {
+                            continue;
+                        }
+                    } elseif ($lane == "mid") {
+                        if ($positionRef != "MIDDLE") {
+                            continue;
+                        }
+                    } elseif ($lane == "top") {
+                        if ($positionRef != "TOP") {
+                            continue;
+                        }
+                    } elseif ($lane == "jungle") {
+                        if ($positionRef != "JUNGLE") {
+                            continue;
+                        }
+                    }
+                }
+                // init array
+                $response[$i] = $this->initMatchArray();
+                // GAME ID
+                $response[$i]['matchId'] = $m[0]->gameId;
+                // region
+                $response[$i]['region'] = $region;
+                // summonerId
+                $response[$i]['summonerId'] = $summonerId;
+                // champion
+                $response[$i]['champion'] = $championEntity->getChampionDetails($m[0]->staticData);
 
-            //Identité des joueurs
-            $participantIdentities = [];
+                // DATE
+                $response[$i]['date'] = $m[0]->timestamp;
 
-            try {
+                // PLAYER
+                $response[$i]['player'] = $summonerEntity->getSummonerDetails($m['summoner']->id);
+                ////////////////////////
+                /// SEARCH VS PLAYER ///
+                ////////////////////////
+                // MATCH FROM API
+
+
+                //Identité des joueurs
+                $participantIdentities = [];
                 $participantIdentitiesAPI = $matchApi->participantIdentities;
-            } catch (\Exception $e) {
-                return null;
-            }
 
-            foreach ($participantIdentitiesAPI as $participantIdentity) {
-                $participantIdentities[$participantIdentity->participantId] = $participantIdentity;
-                if ($summonerId == $participantIdentity->player->summonerId) {
-                    $playerParticipantId = $participantIdentity->participantId;
+                foreach ($participantIdentitiesAPI as $participantIdentity) {
+                    $participantIdentities[$participantIdentity->participantId] = $participantIdentity;
+                    if ($summonerId == $participantIdentity->player->summonerId) {
+                        $playerParticipantId = $participantIdentity->participantId;
+                    }
                 }
-            }
 
-            // Joueurs
-            try {
+                // Joueurs
                 $participantsAPI = $matchApi->participants;
-            } catch (\Exception $e) {
-                return null;
-            }
 
-            foreach ($participantsAPI as $participant) {
-                // GET PLAYER
-                if ($participant->participantId == $playerParticipantId) {
-                    $playerParticipant = $participant;
-                    // WIN OR LOSE
-                    $response[$i]['win'] = $participant->stats->win;
-                    // KDA
-                    $response[$i]['kda'] = $participant->stats->kills . "/" . $participant->stats->deaths . "/" . $participant->stats->assists;
+                foreach ($participantsAPI as $participant) {
+                    // GET PLAYER
+                    if ($participant->participantId == $playerParticipantId) {
+                        $playerParticipant = $participant;
 
-                    // GOLDS
-                    $response[$i]['gold'] = $this->thousandsCurrencyFormat($participant->stats->goldEarned);
-
-                    // KEYSTONES
-
-                    $runes = $this->riot->getStaticReforgedRunes()->runes;
-                    /* $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths; */
-                    $player_stats = $participant->stats;
-                    $response[$i]['keystone'] = !empty($runes[$player_stats->perk0]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src : '';
-                    $response[$i]['subkeystone'] = !empty($runes[$player_stats->perk4]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src : '';
-
-                    // SLOTS
-                    $items = DataDragonAPI::getStaticItems();
-                    for ($u = 1; $u <= 6; $u++) {
-                        $item_name = "item" . $u;
-                        if (!empty($participant->stats->$item_name)) {
-                            $response[$i]['slots'][$u]['src'] = DataDragonAPI::getItemIconUrl($participant->stats->$item_name);
-                            $response[$i]['slots'][$u]['title'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['name'] : '';
-                            $response[$i]['slots'][$u]['description'] = !empty($items['data'][$participant->stats->$item_name]) ? $items['data'][$participant->stats->$item_name]['description'] : '';
-                        }
+                        $response[$i] = $this->addMatchStats($participant, $response[$i]);
                     }
-                    // SPELLS
-                    $spells = DataDragonAPI::getStaticSummonerSpells();
+                }
+                //https://riot-api-libraries.readthedocs.io/en/latest/roleid.html#a-simple-mapping
 
-                    for ($u = 1; $u <= 2; $u++) {
-                        $spell_name = "spell" . $u . "Id";
-
-                        if (!empty($participant->$spell_name)) {
-                            $spell = DataDragonAPI::getStaticSummonerSpellById($participant->$spell_name);
-                            $response[$i]['spells'][$u]['src'] = DataDragonAPI::getSpellIconUrl($spell['id']);
-                            $response[$i]['spells'][$u]['title'] = $spell['name'];
-                            $response[$i]['spells'][$u]['description'] = $spell['description'];
-                        }
+                foreach ($participantsAPI as $participant) {
+                    // GET VS CHAMPION
+                    $participantPosition = $this->getRiotPosition($participant->timeline->lane, $participant->timeline->role);
+                    if (
+                        $playerParticipantId != $participant->participantId
+                        &&  $playerParticipant->teamId != $participant->teamId
+                        && $positionRef == $participantPosition
+                    ) {
+                        $response[$i]['vs'] = $championEntity->getChampionDetails($participant->staticData);
                     }
                 }
             }
-            //https://riot-api-libraries.readthedocs.io/en/latest/roleid.html#a-simple-mapping
-            // position REF
-            $positionRef = $this->getRiotPosition($m[0]->lane, $m[0]->role);
-            foreach ($participantsAPI as $participant) {
-                // GET VS CHAMPION
-                $participantPosition = $this->getRiotPosition($participant->timeline->lane, $participant->timeline->role);
-                if (
-                    $playerParticipantId != $participant->participantId
-                    &&  $playerParticipant->teamId != $participant->teamId
-                    && $positionRef == $participantPosition
-                ) {
-                    // $summonerVS = $this->riot->getSummoner($participantIdentities[$participant->participantId]->player->summonerId);
-                    $src = DataDragonAPI::getChampionIconO($participant->staticData);
-                    $response[$i]['vs'] = [
-                        'title' => $participant->staticData->name,
-                        'src' => $src->src,
-                        'description' => "<h4 class='text-gold mb-2'>{$participant->staticData->title}</h4><p>{$participant->staticData->lore}</p>"
-                    ];
-                }
-            }
-
-
             $i++;
         }
 
@@ -226,65 +177,25 @@ class MatchEntity
         return $position;
     }
 
-    public function initMatchArray()
-    {
-        return [
-            'matchId' => null,
-            'region' => null,
-            'summonerId' => null,
-            'champion' => [
-                'title' => null,
-                'src' => null,
-                'description' => null
-            ],
-            'date' => null,
-            'player' => [
-                'name' => null,
-                'icon' => null
-            ],
-            'win' => null,
-            'kda' => null,
-            'gold' => null,
-            'keystone' => null,
-            'subkeystone' => null,
-            'slots' => [],
-            'spells' => [
-                1 => [
-                    'src' => null,
-                    'title' => null,
-                    'description' => null
-                ],
-                2 => [
-                    'src' => null,
-                    'title' => null,
-                    'description' => null
-                ],
-            ],
-            'vs' => [
-                'title' => null,
-                'src' => null,
-                'description' => null
-            ]
-        ];
-    }
     /**
      * Display a collection of last match for each challengers.
      *
      * @return \Illuminate\Support\Collection
      */
 
-    public function getChallengersLastMatch(?Collection $challengers, $request)
+    public function getChallengersLastMatch($challengers, $request)
     {
         $matches = [];
-        if (!$challengers->isEmpty()) {
+        if (!empty($challengers)) {
+            // init entity
+            $summonerEntity = new SummonerEntity($this->riot);
+            $championEntity = new ChampionEntity($this->locale);
             foreach ($challengers as $c) {
-                $summonerEntity = new SummonerEntity($this->riot);
                 $summoner = $summonerEntity->getSummoner($c->summonerId);
                 // get account Id
                 !empty($summoner) ? $accountId = $summoner->accountId : null;
 
                 // GET CHAMPION KEY
-                $championEntity = new ChampionEntity();
                 $championKey = $championEntity->getChampionKey($request->champion);
 
                 // get last match
@@ -325,5 +236,74 @@ class MatchEntity
         }
 
         return $match;
+    }
+
+    public function addMatchStats($participant, $response)
+    {
+        // init item entity 
+        $itemEntity = new ItemEntity($this->locale);
+
+        // WIN OR LOSE
+        $response['win'] = $participant->stats->win;
+        // KDA
+        $response['kda'] = $participant->stats->kills . "/" . $participant->stats->deaths . "/" . $participant->stats->assists;
+
+        // GOLDS
+        $response['gold'] = $this->thousandsCurrencyFormat($participant->stats->goldEarned);
+
+        // KEYSTONES
+
+        $runes = $this->riot->getStaticReforgedRunes()->runes;
+        /* $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths; */
+        $player_stats = $participant->stats;
+        $response['keystone'] = !empty($runes[$player_stats->perk0]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src : '';
+        $response['subkeystone'] = !empty($runes[$player_stats->perk4]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src : '';
+
+        // ITEMS
+        $response['items'] = $itemEntity->getItems($participant->stats);
+
+        for ($u = 1; $u <= 2; $u++) {
+            $spell_name = "spell" . $u . "Id";
+
+            if (!empty($participant->$spell_name)) {
+                $spell = DataDragonAPI::getStaticSummonerSpellById($participant->$spell_name);
+                $response['spells'][$u]['src'] = DataDragonAPI::getSpellIconUrl($spell['id']);
+                $response['spells'][$u]['title'] = $spell['name'];
+                $response['spells'][$u]['description'] = $spell['description'];
+            }
+        }
+
+        return $response;
+    }
+
+    public function initMatchArray()
+    {
+        return [
+            'matchId' => null,
+            'region' => null,
+            'summonerId' => null,
+            'champion' => [],
+            'date' => null,
+            'player' => [],
+            'win' => null,
+            'kda' => null,
+            'gold' => null,
+            'keystone' => null,
+            'subkeystone' => null,
+            'items' => [],
+            'spells' => [
+                1 => [
+                    'src' => null,
+                    'title' => null,
+                    'description' => null
+                ],
+                2 => [
+                    'src' => null,
+                    'title' => null,
+                    'description' => null
+                ],
+            ],
+            'vs' => []
+        ];
     }
 }

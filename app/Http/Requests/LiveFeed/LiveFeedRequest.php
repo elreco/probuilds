@@ -37,7 +37,7 @@ class LiveFeedRequest extends FormRequest
     {
         return [
             'locale' => 'required|string',
-            'page' => 'integer|max:3',
+            'page' => 'required|integer|max:3',
             'champion' => 'nullable|string|max:30',
             'lane' =>  [
                 'nullable',

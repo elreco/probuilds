@@ -1,61 +1,49 @@
 <template>
-    <!-- Two columns -->
-    <vx-card>
-        <div class="flex flex-wrap" id="loadingFeed">
-            <div class="w-1/3 ml-auto bg-grid-color h-12">dfh</div>
-            <div class="w-1/3 mr-auto bg-grid-color-secondary h-12">dgsg</div>
-        </div>
+    <vx-card
+        :title="win ? $t('Match.winningTeam') : $t('Match.losingTeam')"
+        :title-color="win ? '#7ed321' : '#a12b17'"
+        content-color="#fff"
+    >
+        <template slot="actions">
+            <bans :data="data.bans"></bans>
+        </template>
+        <team
+            :data="data.participants"
+            :region="region"
+            :matchId="matchId"
+            :summonerId="summonerId"
+        ></team>
     </vx-card>
 </template>
 
 <script>
+import Team from "./match/Team";
+import Bans from "./match/Bans";
+
 export default {
     name: "match-details",
-    props: ["region", "summonerId", "matchId"],
-    mounted() {
-        this.getMatch();
+    components: {
+        Team,
+        Bans
     },
-    methods: {
-        getMatch() {
-            // loading
-
-            this.loadingData(true);
-            this.$http
-                .get("match/show-details", {
-                    params: {
-                        summonerId: this.summonerId,
-                        region: this.region,
-                        matchId: this.matchId,
-                        locale: this.$route.params.locale
-                    }
-                })
-                .then(response => {
-                    console.log(response.data);
-                })
-                .then(() => {
-                    this.loadingData(false);
-                });
-
-            // UPDATE this.users après avoir fait la requête axios
-        },
-        getRegions() {
-            this.$http
-                .get("regions")
-                .then(response => (this.regions = response.data));
-        },
-        loadingData(boolean) {
-            if (boolean) {
-                this.$vs.loading({
-                    type: "material",
-                    container: "#loadingFeed"
-                });
-            } else {
-                this.$vs.loading.close("#loadingFeed > .con-vs-loading");
+    props: ["data", "win", "region", "summonerId", "matchId"],
+    data() {
+        return {
+            losers: {
+                bans: [],
+                participants: []
+            },
+            winners: {
+                bans: [],
+                participants: []
+            },
+            images: {
+                background1: require("@assets/images/match/background1.jpg"),
+                background2: require("@assets/images/match/background2.jpg")
             }
-        }
+        };
     }
 };
 </script>
 
-<style lang="css" scoped>
-</style>
+

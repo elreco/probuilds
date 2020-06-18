@@ -1,46 +1,34 @@
 <template>
-    <div class="vx-row">
-        <!-- CARD 1: CONGRATS -->
-        <div class="vx-col w-full mb-base">
-            <vx-card slot="no-body" class="text-center bg-primary-gradient greet-user">
-                <ul class="circles">
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                    <li></li>
-                </ul>
-                <img :src="images.raka" class="decore-left" alt="card-img-left" />
-                <img :src="images.leona" class="decore-right" alt="card-img-right" />
+    <vx-card slot="no-body" class="text-center bg-primary-gradient greet-user">
+        <ul class="circles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+        <img :src="images.raka" class="decore-left" alt="card-img-left" />
+        <img :src="images.leona" class="decore-right" alt="card-img-right" />
 
-                <logo-white class="w-16 fill-current text-primary z-50" />
+        <logo-white class="w-16 fill-current text-primary z-50" />
 
-                <h1 class="mb-4 text-white">{{ $t("home.welcome") }}</h1>
-                <p
-                    class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white mb-5"
-                    v-html="$t('home.welcomeText')"
-                ></p>
-                <div class="xl:w-2/5 lg:w-2/5 md:w-2/3 w-3/5 mx-auto"></div>
-            </vx-card>
-        </div>
-    </div>
+        <slot></slot>
+        <div class="xl:w-2/5 lg:w-2/5 md:w-2/3 w-3/5 mx-auto"></div>
+    </vx-card>
 </template>
 
 <script>
-// Search Input
-import SearchInput from "./SearchInput";
 import LogoWhite from "@/layouts/components/LogoWhite.vue";
 
 export default {
     name: "search-banner",
     props: ["champion"],
     components: {
-        SearchInput,
         LogoWhite
     },
     data: () => ({

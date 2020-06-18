@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Match;
+namespace App\Http\Requests\Summoner;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Entities\RegionEntity;
 
-class MatchRequest extends FormRequest
+class ShowRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -38,11 +38,13 @@ class MatchRequest extends FormRequest
         return [
             'locale' => 'required|string',
             'summonerId' => 'required|string|max:150',
-            'matchId' =>  'required|string|max:150',
-            'region' => [
-                'required',
-                Rule::in(array_map('strtolower', RegionEntity::$list))
-            ],
         ];
+    }
+
+    public function all($keys = null)
+    {
+        $data = parent::all($keys);
+        $data['summonerId'] = $this->route('summonerId');
+        return $data;
     }
 }

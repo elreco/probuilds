@@ -13,7 +13,7 @@ class RegionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke()
+    public function index()
     {
         $return = [];
         $i = 0;
