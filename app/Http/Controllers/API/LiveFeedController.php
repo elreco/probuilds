@@ -54,7 +54,6 @@ class LiveFeedController extends Controller
         $response['totalItems'] =  $collectionResponse->count();
         // nombre d'items par page
         $response['maxItems'] =  $itemsNumber;
-
         return $response;
     }
 }
