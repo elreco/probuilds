@@ -9,16 +9,23 @@ class CacheEntity
 
     const SECONDS = 60 * 60;
 
-    public static function useCache($resource, $request, $method, $force)
+    public static function useCache($resource, $request, $method, $force = false)
     {
         $namespace = get_class($request->route()->getController());
         $key = CacheEntity::keyGenerator($resource, $request);
 
         if (Cache::has($key)) {
-            $response = Cache::get($key);
+            if ($force) {
+                // force delete cache (from cron job)
+                Cache::forget($key);
+                $response = app($namespace)->$method($request);
+                Cache::forever($key, $response);
+            } else {
+                $response = Cache::get($key);
+            }
         } else {
             $response = app($namespace)->$method($request);
-            Cache::add($key, $response, self::SECONDS);
+            Cache::forever($key, $response);
         }
         return $response;
     }
