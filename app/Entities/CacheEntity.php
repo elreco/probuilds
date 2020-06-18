@@ -9,7 +9,7 @@ class CacheEntity
 
     const SECONDS = 60 * 60;
 
-    public static function useCache($resource, $request, $method)
+    public static function useCache($resource, $request, $method, $force)
     {
         $namespace = get_class($request->route()->getController());
         $key = CacheEntity::keyGenerator($resource, $request);
