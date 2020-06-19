@@ -131,7 +131,7 @@ class MatchEntity
                     // GET PLAYER
                     if ($participant->participantId == $playerParticipantId) {
                         $playerParticipant = $participant;
-
+                        $response[$i]['participantId'] = $participant->participantId;
                         $response[$i] = $this->addMatchStats($participant, $response[$i]);
                     }
                 }

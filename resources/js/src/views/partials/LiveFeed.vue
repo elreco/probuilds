@@ -171,7 +171,8 @@ export default {
                     region: tr.region,
                     summonerId: tr.summonerId,
                     matchId: tr.matchId,
-                    champion: tr.champion.title
+                    champion: tr.champion.title,
+                    participantId: tr.participantId
                 }
             });
         },

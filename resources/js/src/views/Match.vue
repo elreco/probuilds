@@ -9,11 +9,25 @@
             </div>
         </div>
         <div class="vx-row mb-base">
-            <div class="vx-col w-full xl:w-2/3 flex items-stretch">
+            <div class="vx-col w-2/4 xl:w-2/4 flex items-stretch">
                 <items :data="items" id="itemsLoading" class="vs-con-loading__container" />
             </div>
-            <div class="vx-col w-full xl:w-1/3 flex items-stretch">
+            <div class="vx-col w-1/4 xl:w-1/4 flex items-stretch">
                 <spells :data="spells" id="spellsLoading" class="vs-con-loading__container" />
+            </div>
+            <div class="vx-col w-1/4 xl:w-1/4 flex items-stretch">
+                <vx-card>
+                    <div class="text-center mb-custom">
+                        <h4>{{ $t('Summoner.summoners') }}</h4>
+                    </div>
+                    <!-- Avatar -->
+                    <div class="vx-row ml-auto mr-auto w-1/2">
+                        <!-- Avatar Col -->
+                        <div
+                            class="vx-col w-full lg:w-1/2 xl:w-1/2 mb-3 xl:mb-0 text-center"
+                        >{{duration}}</div>
+                    </div>
+                </vx-card>
             </div>
         </div>
         <div class="vx-row mb-base">
@@ -70,6 +84,8 @@ export default {
             region: this.$route.params.region,
             matchId: this.$route.params.matchId,
             champion: this.$route.params.champion,
+            participantId: this.$route.params.participantId,
+            duration: null,
             items: {},
             spells: {},
             losers: {
@@ -102,13 +118,16 @@ export default {
                     params: {
                         summonerId: this.summonerId,
                         region: this.region,
-                        locale: this.$route.params.locale
+                        locale: this.$route.params.locale,
+                        champion: this.champion,
+                        participantId: this.participantId
                     }
                 })
                 .then(response => {
                     this.losers = response.data.losers;
                     this.winners = response.data.winners;
                     this.champion = response.data.champion;
+                    this.duration = response.data.duration;
                 })
                 .then(() => {
                     this.losers.participants.forEach((value, index) => {

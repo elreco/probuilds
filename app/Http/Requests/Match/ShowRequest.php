@@ -38,7 +38,9 @@ class ShowRequest extends FormRequest
         return [
             'locale' => 'required|string',
             'summonerId' => 'required|string|max:150',
+            'participantId' => 'required|integer',
             'id' =>  'required|string|max:150',
+            'champion' => 'required|string|max:30',
             'region' => [
                 'required',
                 Rule::in(array_map('strtolower', RegionEntity::$list))

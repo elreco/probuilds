@@ -35,6 +35,6 @@ class MatchController extends Controller
         $riotEntity = new RiotEntity($request->locale);
         $riot = $riotEntity->initApi($request->region);
 
-        dd($this->getMatchTimeline($request->id));
+        dd($riot->getMatchTimeline($request->id));
     }
 }

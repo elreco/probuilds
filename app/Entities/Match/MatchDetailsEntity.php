@@ -52,6 +52,7 @@ class MatchDetailsEntity
             $response['matchId'] = $request->id;
             $response['region'] = $request->region;
             $response['date'] = $match->gameCreation ?? null;
+            $response['duration'] = gmdate("i:s", $request->gameDuration);
 
             // get region name
             $response['regionName'] = $regionEntity->getRegionName($request->region);
@@ -65,6 +66,14 @@ class MatchDetailsEntity
             // selected summoner champion data and participant Id
             foreach ($match->participants as $participant) {
                 if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
+                    // Verif du champion
+                    if (strtolower($participant->staticData->name) != strtolower($request->champion)) {
+                        throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong champion for this summoner');
+                    }
+                    // Verif du participantId
+                    if ($participant->participantId != $request->participantId) {
+                        throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong participantId');
+                    }
                     $response['champion'] = $participant->staticData->name;
                 }
             }
@@ -148,6 +157,7 @@ class MatchDetailsEntity
     {
         return [
             'matchId' => null,
+            'duration' => null,
             'region' => null,
             'champion' => null,
             'date' => null,
