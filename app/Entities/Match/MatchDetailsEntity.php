@@ -13,6 +13,8 @@ use App\Entities\ChampionEntity;
 use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
 
+use Carbon\CarbonInterval;
+
 class MatchDetailsEntity
 {
     //
@@ -25,6 +27,7 @@ class MatchDetailsEntity
     {
         $this->riot = $riot;
         $this->locale = $locale;
+        app()->setLocale($locale);
         RiotEntity::initDataDragonAPI();
     }
 
@@ -52,7 +55,7 @@ class MatchDetailsEntity
             $response['matchId'] = $request->id;
             $response['region'] = $request->region;
             $response['date'] = $match->gameCreation ?? null;
-            $response['duration'] = gmdate("i:s", $request->gameDuration);
+            $response['duration'] = CarbonInterval::seconds($match->gameDuration)->cascade()->forHumans();
 
             // get region name
             $response['regionName'] = $regionEntity->getRegionName($request->region);

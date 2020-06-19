@@ -17,6 +17,7 @@ class RiotEntity
     public function __construct($locale)
     {
         $this->locale = $locale;
+        app()->setLocale($locale);
     }
 
     public static $lanes = array(

@@ -1,6 +1,6 @@
 <template>
     <section id="dashboard-analytics">
-        <div class="vx-row mb-0 lg:mb-base" id="page-user-view">
+        <div class="vx-row mb-0 xl:mb-base" id="page-user-view">
             <div class="vx-col w-full xl:w-1/3 mb-base xl:mb-0 flex items-stretch">
                 <profile :summonerId="summonerId" :region="region" />
             </div>
@@ -9,23 +9,21 @@
             </div>
         </div>
         <div class="vx-row mb-base">
-            <div class="vx-col w-2/4 xl:w-2/4 flex items-stretch">
+            <div class="vx-col w-full xl:w-3/5 flex items-stretch">
                 <items :data="items" id="itemsLoading" class="vs-con-loading__container" />
             </div>
-            <div class="vx-col w-1/4 xl:w-1/4 flex items-stretch">
+            <div class="vx-col w-full xl:w-1/5 flex items-stretch">
                 <spells :data="spells" id="spellsLoading" class="vs-con-loading__container" />
             </div>
-            <div class="vx-col w-1/4 xl:w-1/4 flex items-stretch">
+            <div class="vx-col w-full xl:w-1/5 flex items-stretch">
                 <vx-card>
                     <div class="text-center mb-custom">
                         <h4>{{ $t('Summoner.summoners') }}</h4>
                     </div>
                     <!-- Avatar -->
-                    <div class="vx-row ml-auto mr-auto w-1/2">
+                    <div class="vx-row text-center h-full">
                         <!-- Avatar Col -->
-                        <div
-                            class="vx-col w-full lg:w-1/2 xl:w-1/2 mb-3 xl:mb-0 text-center"
-                        >{{duration}}</div>
+                        <div class="vx-col w-full h-full">{{duration}}</div>
                     </div>
                 </vx-card>
             </div>

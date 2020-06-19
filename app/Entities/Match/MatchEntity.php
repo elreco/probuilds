@@ -26,6 +26,7 @@ class MatchEntity
     {
         $this->riot = $riot;
         $this->locale = $locale;
+        app()->setLocale($locale);
         RiotEntity::initDataDragonAPI();
     }
 

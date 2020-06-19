@@ -4,7 +4,7 @@
             <h4>{{ $t('Summoner.summoners') }}</h4>
         </div>
         <!-- Avatar -->
-        <div class="vx-row ml-auto mr-auto w-1/2">
+        <div class="vx-row ml-auto mr-auto w-3/4">
             <!-- Avatar Col -->
             <div
                 class="vx-col w-full lg:w-1/2 xl:w-1/2 mb-3 xl:mb-0 text-center"
@@ -34,6 +34,6 @@ export default {
 </script>
 <style>
 .mb-custom {
-    margin-bottom: 3.7rem;
+    margin-bottom: 3.6rem;
 }
 </style>

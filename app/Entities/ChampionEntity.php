@@ -16,6 +16,7 @@ class ChampionEntity
     public function __construct($locale)
     {
         $this->locale = $locale;
+        app()->setLocale($locale);
         RiotEntity::initDataDragonAPI();
     }
 
