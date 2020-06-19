@@ -61,12 +61,6 @@ export default {
                 })
                 .then(response => {
                     return this.setChampion(response.data);
-                })
-                .catch(error => {
-                    this.loadingData(false);
-                    return this.$router.push({
-                        name: "page-error-404"
-                    });
                 });
 
             // else if not exist

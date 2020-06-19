@@ -16,6 +16,16 @@
                 <spells :data="spells" id="spellsLoading" class="vs-con-loading__container" />
             </div>
         </div>
+        <div class="vx-row mb-base">
+            <div class="vx-col w-full">
+                <!-- <items-timeline
+                    :matchId="matchId"
+                    :summonerId="summonerId"
+                    :region="region"
+                    :participantId="participantId"
+                />-->
+            </div>
+        </div>
         <!-- Two columns -->
         <div class="vx-row mb-base">
             <div class="vx-col w-full mb-base">
@@ -48,8 +58,9 @@
 import MatchDetails from "./partials/MatchDetails";
 import ChampionDetails from "./partials/ChampionDetails";
 import Profile from "./partials/summoner/Profile";
-import Items from "./partials/summoner/Items";
-import Spells from "./partials/summoner/Spells";
+import Items from "./partials/match/Items";
+import Spells from "./partials/match/Spells";
+import ItemsTimeline from "./partials/match/ItemsTimeline";
 
 export default {
     data() {
@@ -76,7 +87,8 @@ export default {
         Profile,
         Items,
         MatchDetails,
-        Spells
+        Spells,
+        ItemsTimeline
     },
     mounted() {
         this.getMatch();
@@ -86,7 +98,7 @@ export default {
             // loading
             this.loadingData(true);
             this.$http
-                .get(`matchs/${this.matchId}`, {
+                .get(`matches/${this.matchId}`, {
                     params: {
                         summonerId: this.summonerId,
                         region: this.region,

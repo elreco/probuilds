@@ -38,7 +38,7 @@ class ShowRequest extends FormRequest
         return [
             'locale' => 'required|string',
             'summonerId' => 'required|string|max:150',
-            'matchId' =>  'required|string|max:150',
+            'id' =>  'required|string|max:150',
             'region' => [
                 'required',
                 Rule::in(array_map('strtolower', RegionEntity::$list))
@@ -49,7 +49,7 @@ class ShowRequest extends FormRequest
     public function all($keys = null)
     {
         $data = parent::all($keys);
-        $data['matchId'] = $this->route('matchId');
+        $data['id'] = $this->route('id');
         return $data;
     }
 }

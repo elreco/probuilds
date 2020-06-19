@@ -23,10 +23,6 @@ Vue.use(Vuesax, {
     }
 })
 
-// axios
-import axios from './axios.js'
-Vue.prototype.$http = axios
-
 // Theme Configurations
 import '../themeConfig.js'
 
@@ -36,6 +32,10 @@ import './globalComponents.js'
 
 // Vue Router
 import router from './router'
+
+// axios
+import axios from './axios.js'
+Vue.prototype.$http = axios
 
 // Vuex Store
 import store from './store/store'

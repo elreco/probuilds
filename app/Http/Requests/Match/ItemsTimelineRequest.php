@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\Summoner;
+namespace App\Http\Requests\Match;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 use App\Entities\RegionEntity;
 
-class ShowRequest extends FormRequest
+class ItemsTimelineRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -36,8 +36,14 @@ class ShowRequest extends FormRequest
     public function rules()
     {
         return [
+            'id' =>  'required|string|max:150',
             'locale' => 'required|string',
-            'id' => 'required|string|max:150',
+            'summonerId' => 'required|string|max:150',
+            'participantId' =>  'required|string|max:150',
+            'region' => [
+                'required',
+                Rule::in(array_map('strtolower', RegionEntity::$list))
+            ],
         ];
     }
 

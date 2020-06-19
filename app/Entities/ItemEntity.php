@@ -15,7 +15,7 @@ class ItemEntity
     use CommonTrait;
 
     protected $riot;
-    protected $locale = "fr";
+    protected $locale;
 
     public function __construct($locale)
     {

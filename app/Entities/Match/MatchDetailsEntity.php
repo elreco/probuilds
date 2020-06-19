@@ -19,7 +19,7 @@ class MatchDetailsEntity
     use CommonTrait;
 
     protected $riot;
-    protected $locale = "fr";
+    protected $locale;
 
     public function __construct($riot, $locale)
     {
@@ -45,11 +45,11 @@ class MatchDetailsEntity
 
 
         // get match
-        $match = $matchEntity->getMatch($request->matchId);
+        $match = $matchEntity->getMatch($request->id);
 
         if (!empty($match)) {
             // global array data
-            $response['matchId'] = $request->matchId;
+            $response['matchId'] = $request->id;
             $response['region'] = $request->region;
             $response['date'] = $match->gameCreation ?? null;
 
@@ -62,7 +62,7 @@ class MatchDetailsEntity
                 $participantIdentities[$participantIdentity->participantId] = $participantIdentity->player;
             }
 
-            // selected summoner champion data
+            // selected summoner champion data and participant Id
             foreach ($match->participants as $participant) {
                 if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
                     $response['champion'] = $participant->staticData->name;

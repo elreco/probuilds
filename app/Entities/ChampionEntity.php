@@ -11,7 +11,7 @@ use App\Entities\Riot\RiotEntity;
 
 class ChampionEntity
 {
-    protected $locale = "fr";
+    protected $locale;
 
     public function __construct($locale)
     {

@@ -92,7 +92,8 @@ class RiotEntity
                 return $l;
             }
         }
-
-        return null;
+        if (empty($l)) {
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException("Can't find your locale");
+        }
     }
 }

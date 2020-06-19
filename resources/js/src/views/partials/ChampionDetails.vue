@@ -72,12 +72,6 @@ export default {
     mounted() {
         this.getChampion();
     },
-    watch: {
-        champion: function(newVal, oldVal) {
-            // watch it
-            this.getChampion();
-        }
-    },
     methods: {
         getChampion() {
             // loading

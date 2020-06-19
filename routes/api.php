@@ -20,14 +20,13 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 $api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => ['cors', 'api.throttle']], function ($api) {
     // LIVEFEED CONTROLLER
-
     $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER
-    $api->get('/matchs/{matchId}', 'MatchController@show');
-    // MATCH CONTROLLER
-    $api->get('/summoners/{summonerId}', 'SummonerController@show');
-    // BUILD CONTROLLER
-    $api->get('/builds/{matchId}/{summonerId}/{participantId}', 'BuildController@show');
+    $api->get('/matches/{id}', 'MatchController@show');
+    $api->get('/matches/{id}/items-timeline', 'MatchController@itemsTimeline');
+    // SUMMONER CONTROLLER
+    $api->get('/summoners/{id}', 'SummonerController@show');
+
     // REGIONS CONTROLLER
     $api->get('/regions', 'RegionController@index');
     // CHAMPIONS CONTROLLER

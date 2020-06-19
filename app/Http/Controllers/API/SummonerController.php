@@ -19,6 +19,6 @@ class SummonerController extends Controller
         $riot = $riotEntity->initApi($request->region);
 
         $summonerEntity = new SummonerEntity($riot);
-        return $summonerEntity->getSummonerDetails($request->summonerId);
+        return $summonerEntity->getSummonerDetails($request->id);
     }
 }

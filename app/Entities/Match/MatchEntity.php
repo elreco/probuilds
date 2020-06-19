@@ -20,7 +20,7 @@ class MatchEntity
     use CommonTrait;
 
     protected $riot;
-    protected $locale = "fr";
+    protected $locale;
 
     public function __construct($riot, $locale)
     {
@@ -232,7 +232,7 @@ class MatchEntity
         try {
             $match = $this->riot->getMatch($matchId);
         } catch (\Exception $e) {
-            return null;
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Match not found');
         }
 
         return $match;
@@ -282,6 +282,7 @@ class MatchEntity
             'matchId' => null,
             'region' => null,
             'summonerId' => null,
+            'participantId' => null,
             'champion' => [],
             'date' => null,
             'player' => [],
