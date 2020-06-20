@@ -1,5 +1,13 @@
 <template>
-    <v-popover container="body" trigger="hover" placement="top" class="inline" v-if="src">
+    <v-popover
+        container="body"
+        boundariesElement="body"
+        trigger="hover"
+        placement="auto"
+        offset="5"
+        class="inline"
+        v-if="src"
+    >
         <img
             loading="lazy"
             width="32"
@@ -17,7 +25,7 @@
                         <div class="img-container">
                             <img
                                 :src="src"
-                                class="w-12 h-12 rounded border-solid border-2 border-white"
+                                class="w-12 h-12 rounded border-solid border-2 border-white mx-auto text-center"
                             />
                         </div>
                     </vs-col>
