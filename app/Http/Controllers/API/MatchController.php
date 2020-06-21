@@ -10,6 +10,7 @@ use App\Http\Requests\Match\ItemsTimelineRequest;
 use App\Entities\Match\MatchDetailsEntity;
 use App\Entities\Riot\RiotEntity;
 use App\Entities\CacheEntity;
+use App\Entities\ItemEntity;
 
 class MatchController extends Controller
 {
@@ -35,6 +36,7 @@ class MatchController extends Controller
         $riotEntity = new RiotEntity($request->locale);
         $riot = $riotEntity->initApi($request->region);
 
-        dd($riot->getMatchTimeline($request->id));
+        $itemEntity = new ItemEntity($riot, $request->locale);
+        return $itemEntity->getTimeline($request);
     }
 }

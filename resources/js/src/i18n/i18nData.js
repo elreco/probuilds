@@ -34,7 +34,12 @@ export default {
             winningTeam: "Winning Team",
             losingTeam: "Losing Team",
             bans: "Bans",
-            titleIfNull: "None"
+            titleIfNull: "None",
+            duration: "Game duration"
+        },
+        Item: {
+            buildOrder: "Build Order",
+            timeline: "Timeline"
         },
         Summoner: {
             player: "Player",
@@ -89,7 +94,12 @@ export default {
             titleIfNull: "Aucun",
             player: "Joueur",
             league: "Ligue",
-            leaguePoints: "Points"
+            leaguePoints: "Points",
+            duration: "Durée de la partie"
+        },
+        Item: {
+            buildOrder: "Ordre d'achat",
+            timeline: "Chronologie"
         },
         Summoner: {
             player: "Joueur",

@@ -51,6 +51,7 @@ class ItemsTimelineRequest extends FormRequest
     {
         $data = parent::all($keys);
         $data['id'] = $this->route('id');
+        $data['summonerId'] = $this->route('summonerId');
         return $data;
     }
 }

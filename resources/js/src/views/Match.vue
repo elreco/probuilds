@@ -9,16 +9,16 @@
             </div>
         </div>
         <div class="vx-row mb-base">
-            <div class="vx-col w-full xl:w-3/5 flex items-stretch">
+            <div class="vx-col w-full mb-base xl:mb-0 xl:w-3/5 flex items-stretch">
                 <items :data="items" id="itemsLoading" class="vs-con-loading__container" />
             </div>
-            <div class="vx-col w-full xl:w-1/5 flex items-stretch">
+            <div class="vx-col w-full mb-base xl:mb-0 xl:w-1/5 flex items-stretch">
                 <spells :data="spells" id="spellsLoading" class="vs-con-loading__container" />
             </div>
-            <div class="vx-col w-full xl:w-1/5 flex items-stretch">
-                <vx-card>
-                    <div class="text-center mb-custom">
-                        <h4>{{ $t('Summoner.summoners') }}</h4>
+            <div class="vx-col w-full mb-base xl:mb-0 xl:w-1/5 flex items-stretch">
+                <vx-card id="durationLoading" class="vs-con-loading__container">
+                    <div class="text-center mb-custom-2">
+                        <h4>{{ $t('Match.duration') }}</h4>
                     </div>
                     <!-- Avatar -->
                     <div class="vx-row text-center h-full">
@@ -29,13 +29,13 @@
             </div>
         </div>
         <div class="vx-row mb-base">
-            <div class="vx-col w-full">
-                <!-- <items-timeline
+            <div class="vx-col w-full mb-base xl:mb-0">
+                <items-timeline
                     :matchId="matchId"
                     :summonerId="summonerId"
                     :region="region"
                     :participantId="participantId"
-                />-->
+                />
             </div>
         </div>
         <!-- Two columns -->
@@ -165,11 +165,16 @@ export default {
                     type: "default",
                     container: "#spellsLoading"
                 });
+                this.$vs.loading({
+                    type: "default",
+                    container: "#durationLoading"
+                });
             } else {
                 this.$vs.loading.close("#losersLoading > .con-vs-loading");
                 this.$vs.loading.close("#winnersLoading > .con-vs-loading");
                 this.$vs.loading.close("#itemsLoading > .con-vs-loading");
                 this.$vs.loading.close("#spellsLoading > .con-vs-loading");
+                this.$vs.loading.close("#durationLoading > .con-vs-loading");
             }
         }
     },
@@ -185,6 +190,9 @@ export default {
 </script>
 
 <style lang="scss">
+.mb-custom-2 {
+    margin-bottom: 4.5rem;
+}
 #avatar-col {
     width: 8rem;
 }

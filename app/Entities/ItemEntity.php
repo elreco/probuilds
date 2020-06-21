@@ -9,6 +9,8 @@ use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
 use App\Entities\Riot\RiotEntity;
 
+use Carbon\Carbon;
+
 class ItemEntity
 {
     //
@@ -17,9 +19,10 @@ class ItemEntity
     protected $riot;
     protected $locale;
 
-    public function __construct($locale)
+    public function __construct($riot, $locale)
     {
         $this->locale = $locale;
+        $this->riot = $riot;
         app()->setLocale($locale);
         RiotEntity::initDataDragonAPI();
     }
@@ -45,16 +48,64 @@ class ItemEntity
         return $response;
     }
 
-    /* public function initItemArray($numbers)
+    public function getTimeline($request)
     {
-        for ($i = 1; $i <= $numbers; $i++) {
-            $array[$i] = [
+        $response = [];
+        // ITEMS
+        $frames = $this->riot->getMatchTimeline($request->id);
+        $i = 0;
+        foreach ($frames as $frame) {
+            $response[$i] = $this->initTimelineArray();
+            $response[$i]['time'] = Carbon::createFromTimestampMs($frame->timestamp)->format('i:s');
+            $i2 = 0;
 
-                'src' => null,
-                'title' => null,
-                'description' => null
-            ];
-        };
+            foreach ($frame->events as $event) {
+                if ($event->participantId == $request->participantId && $event->type == "ITEM_PURCHASED") {
+                    $response[$i]['items'][$i2] = $this->getItem($event->itemId);
+                    $response[$i]['items'][$i2]['time'] = Carbon::createFromTimestampMs($event->timestamp)->format('i:s');
+                    $i2++;
+                }
+            }
+
+            if (empty($response[$i]['items'])) {
+                unset($response[$i]);
+            }
+            $i++;
+        }
+        return $response;
+    }
+
+    public function getItem($itemId)
+    {
+        $response = $this->initItemArray();
+
+        $riotEnitity = new RiotEntity($this->locale);
+        $items = DataDragonAPI::getStaticItems($riotEnitity->localeMutator());
+
+        $response['src'] = DataDragonAPI::getItemIconUrl($itemId);
+        $response['title'] = !empty($items['data'][$itemId]) ? $items['data'][$itemId]['name'] : '';
+        $response['description'] = !empty($items['data'][$itemId]) ? $items['data'][$itemId]['description'] : '';
+
+        return $response;
+    }
+
+    public function initTimelineArray()
+    {
+        $array = [
+            'time' => null,
+            'items' => [],
+        ];
         return $array;
-    } */
+    }
+
+    public function initItemArray()
+    {
+        $array = [
+            'src' => null,
+            'title' => null,
+            'description' => null,
+            'time' => null,
+        ];
+        return $array;
+    }
 }

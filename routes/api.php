@@ -23,7 +23,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => 
     $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER
     $api->get('/matches/{id}', 'MatchController@show');
-    $api->get('/matches/{id}/items-timeline', 'MatchController@itemsTimeline');
+    $api->get('/matches/{id}/items-timeline/{summonerId}', 'MatchController@itemsTimeline');
     // SUMMONER CONTROLLER
     $api->get('/summoners/{id}', 'SummonerController@show');
 

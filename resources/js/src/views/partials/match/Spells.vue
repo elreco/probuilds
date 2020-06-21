@@ -34,6 +34,6 @@ export default {
 </script>
 <style>
 .mb-custom {
-    margin-bottom: 3.6rem;
+    margin-bottom: 3.4rem;
 }
 </style>

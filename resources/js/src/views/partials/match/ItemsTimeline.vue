@@ -1,25 +1,8 @@
 <template>
-    <vx-card class="vs-con-loading__container" id="championLoading">
-        <!-- Avatar -->
-        <div class="vx-row mb-8">
-            <div class="vx-col"></div>
-        </div>
-        <div class="vx-row mb-2">
-            <!-- Avatar Col -->
-            <div class="vx-col mr-4" id="avatar-col">
-                <div class="img-container relative"></div>
-            </div>
-
-            <!-- Information - Col 1 -->
-            <div class="vx-col flex-1 text-sm" id="account-info-col-1">
-                <table>
-                    <tr></tr>
-
-                    <tr></tr>
-                </table>
-            </div>
-            <!-- /Information - Col 2 -->
-            <div class="vx-col w-full flex" id="account-manage-buttons"></div>
+    <vx-card class="vs-con-loading__container" id="timelineLoading">
+        <div class="text-center mb-custom">
+            <h4>{{ $t('Item.timeline') }}</h4>
+            <p class="text-grey">{{ $t('Item.buildOrder') }}</p>
         </div>
     </vx-card>
 </template>
@@ -41,14 +24,16 @@ export default {
             // loading
             this.loadingData(true);
             this.$http
-                .get(`matches/${this.matchId}/items-timeline`, {
-                    params: {
-                        locale: this.$route.params.locale,
-                        summonerId: this.summonerId,
-                        region: this.region,
-                        participantId: this.participantId
+                .get(
+                    `matches/${this.matchId}/items-timeline/${this.summonerId}`,
+                    {
+                        params: {
+                            locale: this.$route.params.locale,
+                            region: this.region,
+                            participantId: this.participantId
+                        }
                     }
-                })
+                )
                 .then(response => {
                     this.data = response.data;
                     console.log(this.data);
@@ -63,10 +48,10 @@ export default {
             if (boolean) {
                 this.$vs.loading({
                     type: "default",
-                    container: "#championLoading"
+                    container: "#timelineLoading"
                 });
             } else {
-                this.$vs.loading.close("#championLoading > .con-vs-loading");
+                this.$vs.loading.close("#timelineLoading > .con-vs-loading");
             }
         }
     }
