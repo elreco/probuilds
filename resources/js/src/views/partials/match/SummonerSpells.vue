@@ -25,7 +25,7 @@
 <script>
 import PopoverAvatarLg from "@/components/popovers/PopoverAvatarLg";
 export default {
-    name: "spells",
+    name: "summoner-spells",
     components: {
         PopoverAvatarLg
     },

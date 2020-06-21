@@ -13,7 +13,11 @@
                 <items :data="items" id="itemsLoading" class="vs-con-loading__container" />
             </div>
             <div class="vx-col w-full mb-base xl:mb-0 xl:w-1/5 flex items-stretch">
-                <spells :data="spells" id="spellsLoading" class="vs-con-loading__container" />
+                <summoner-spells
+                    :data="spells"
+                    id="spellsLoading"
+                    class="vs-con-loading__container"
+                />
             </div>
             <div class="vx-col w-full mb-base xl:mb-0 xl:w-1/5 flex items-stretch">
                 <vx-card id="durationLoading" class="vs-con-loading__container">
@@ -71,7 +75,7 @@ import MatchDetails from "./partials/MatchDetails";
 import ChampionDetails from "./partials/ChampionDetails";
 import Profile from "./partials/summoner/Profile";
 import Items from "./partials/match/Items";
-import Spells from "./partials/match/Spells";
+import SummonerSpells from "./partials/match/SummonerSpells";
 import ItemsTimeline from "./partials/match/ItemsTimeline";
 
 export default {
@@ -101,7 +105,7 @@ export default {
         Profile,
         Items,
         MatchDetails,
-        Spells,
+        SummonerSpells,
         ItemsTimeline
     },
     mounted() {
