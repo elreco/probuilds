@@ -1,5 +1,5 @@
 <!-- =========================================================================================
-    File Name: Error404.vue
+    File Name: Error.vue
     Description: 404 Page
     ----------------------------------------------------------------------------------------
     Item Name: Vuexy - Vuejs, HTML & Laravel Admin Dashboard Template
@@ -18,7 +18,7 @@
                 alt="graphic-404"
                 class="mx-auto mb-4 max-w-full"
             />
-            <h1 class="sm:mx-0 mx-4 mb-12 text-5xl d-theme-heading-color">404</h1>
+            <h1 class="sm:mx-0 mx-4 mb-12 text-5xl d-theme-heading-color">{{$route.params.code}}</h1>
             <p class="sm:mx-0 mx-4 mb-4 sm:mb-16 d-theme-text-inverse">{{$route.params.message}}.</p>
             <vs-button size="large" to="/">{{$t('404.backToHome')}}</vs-button>
         </div>

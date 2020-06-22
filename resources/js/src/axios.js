@@ -10,10 +10,10 @@ axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     // Do something with response error
-
     return router.push({
-        name: "page-error-404",
+        name: "page-error",
         params: {
+            code: error.response.status,
             message: error.response.data.message
         }
     });

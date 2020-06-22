@@ -73,16 +73,16 @@ const router = new Router({
                     component: () => import('@/views/pages/Login.vue')
                 },
                 {
-                    path: '/:locale/pages/error-404/:message',
-                    name: 'page-error-404',
-                    component: () => import('@/views/pages/Error404.vue'),
+                    path: '/:locale/pages/error/:code/:message',
+                    name: 'page-error',
+                    component: () => import('@/views/pages/Error.vue'),
                 }
             ]
         },
         //Redirect to 404 page, if no match found
         {
             path: '*',
-            redirect: '/:locale/pages/error-404'
+            redirect: '/:locale/pages/error/404/Page not Found'
         }
     ]
 })
