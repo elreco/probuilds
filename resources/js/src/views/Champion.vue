@@ -1,5 +1,5 @@
 <template>
-    <section id="dashboard-analytics" v-if="!isFetching">
+    <section id="dashboard-analytics">
         <div class="vx-row" id="page-user-view">
             <!-- CARD 1: CONGRATS -->
             <div class="vx-col xl:w-1/2 w-full mb-base flex items-stretch">
@@ -35,19 +35,16 @@ export default {
     data() {
         return {
             title: this.$i18n.t("meta.title.home"),
-            champion: "",
+            champion: this.$route.params.champion,
             isFetching: true
         };
-    },
-    created() {
-        this.checkChampion();
     },
     components: {
         LiveFeed,
         SearchBanner,
         ChampionDetails
     },
-    methods: {
+    /* methods: {
         checkChampion() {
             // check if champion exists
             // if exists
@@ -81,7 +78,7 @@ export default {
                 this.$vs.loading.close("body > .con-vs-loading");
             }
         }
-    },
+    }, */
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used
         return {

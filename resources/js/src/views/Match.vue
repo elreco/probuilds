@@ -185,8 +185,7 @@ export default {
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used
         return {
-            title: `${this.champion.charAt(0).toUpperCase() +
-                this.champion.slice(1)}`,
+            title: `${this.champion}`,
             // all titles will be injected into this template
             titleTemplate: "Probuilds.eu – %s"
         };

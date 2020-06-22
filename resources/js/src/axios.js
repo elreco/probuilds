@@ -10,9 +10,13 @@ axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     // Do something with response error
-    /* return router.push({
-        name: "page-error-404"
-    }); */
+
+    return router.push({
+        name: "page-error-404",
+        params: {
+            message: error.response.data.message
+        }
+    });
 });
 
 export default axios

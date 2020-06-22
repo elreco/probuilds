@@ -69,12 +69,12 @@ class MatchDetailsEntity
             foreach ($match->participants as $participant) {
                 if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
                     // Verif du champion
-                    if (strtolower($participant->staticData->name) != strtolower($request->champion)) {
+                    if ($participant->staticData->name != $request->champion) {
                         throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong champion for this summoner');
                     }
                     // Verif du participantId
                     if ($participant->participantId != $request->participantId) {
-                        throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong participantId');
+                        throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong participant');
                     }
                     $response['champion'] = $participant->staticData->name;
                 }

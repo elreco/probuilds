@@ -32,13 +32,13 @@ class ChampionEntity
             $riotEntity = new RiotEntity($this->locale);
             $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
             foreach ($champions['data'] as $champ) {
-                if (strcasecmp($champ['name'], $championName) == 0) {
+                if ($champ['name'] ==  $championName) {
                     $champion = intval($champ['key']);
                 }
             }
             // il n'y a pas de champion
             if (empty($champion)) {
-                return null;
+                throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Champion not found');
             } else {
                 return $champion;
             }
@@ -81,7 +81,7 @@ class ChampionEntity
         $riotEntity = new RiotEntity($this->locale);
         $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
         foreach ($champions['data'] as $c) {
-            if (strtoupper($c['name']) == strtoupper($request->query('name'))) {
+            if ($c['name'] == $request->query('name')) {
                 return $c['name'];
             }
         }
@@ -120,7 +120,7 @@ class ChampionEntity
         $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
 
         foreach ($champions['data'] as $c) {
-            if (strtoupper($c['name']) == strtoupper($request->name)) {
+            if ($c['name'] == $request->name) {
                 $response = [
                     'name' => $c['name'],
                     'title' => Str::ucfirst($c['title']),
@@ -129,6 +129,10 @@ class ChampionEntity
                     'description' => $c['blurb']
                 ];
             }
+        }
+
+        if (empty($response['name'])) {
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Champion not found');
         }
 
         return $response;

@@ -73,9 +73,9 @@ const router = new Router({
                     component: () => import('@/views/pages/Login.vue')
                 },
                 {
-                    path: '/:locale/pages/error-404',
+                    path: '/:locale/pages/error-404/:message',
                     name: 'page-error-404',
-                    component: () => import('@/views/pages/Error404.vue')
+                    component: () => import('@/views/pages/Error404.vue'),
                 }
             ]
         },

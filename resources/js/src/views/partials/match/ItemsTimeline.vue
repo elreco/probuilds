@@ -13,7 +13,7 @@
                     />
                 </div>
                 <template v-for="(item, index2) in group.items">
-                    <div class="vx-col text-center mt-base" :key="index2">
+                    <div class="vx-col text-center mt-base" :key="index2 + '-' + index">
                         <div class="w-full mx-auto">
                             <popover-avatar
                                 :border="true"

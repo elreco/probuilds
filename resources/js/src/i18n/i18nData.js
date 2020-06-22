@@ -11,6 +11,9 @@ export default {
                 showMatch: ''
             }
         },
+        404: {
+            backToHome: "Back to Home"
+        },
         home: {
             nav: 'Home',
             welcome: 'Welcome to Probuilds',
@@ -67,6 +70,9 @@ export default {
             description: {
                 description: ''
             }
+        },
+        404: {
+            backToHome: "Revenir à l'accueil"
         },
         home: {
             nav: 'Accueil',
