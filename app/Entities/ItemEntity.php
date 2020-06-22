@@ -69,8 +69,9 @@ class ItemEntity
 
             if (empty($response[$i]['items'])) {
                 unset($response[$i]);
+            } else {
+                $i++;
             }
-            $i++;
         }
         return $response;
     }

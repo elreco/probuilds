@@ -26,12 +26,12 @@
             <div class="vx-col flex-1 text-sm" id="account-info-col-1">
                 <table>
                     <tr>
-                        <td class="font-normal">{{$t('Champion.name')}}</td>
+                        <td class="font-semibold">{{$t('Champion.name')}}</td>
                         <td class="font-light">{{data.title}}</td>
                     </tr>
 
                     <tr>
-                        <td class="font-normal">{{$t('Champion.description')}}</td>
+                        <td class="font-semibold">{{$t('Champion.description')}}</td>
                         <td class="font-light">{{data.description}}</td>
                     </tr>
                 </table>

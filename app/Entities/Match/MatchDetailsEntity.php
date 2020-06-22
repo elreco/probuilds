@@ -46,7 +46,6 @@ class MatchDetailsEntity
         $matchEntity = new MatchEntity($this->riot, $request->locale);
         $regionEntity = new RegionEntity();
 
-
         // get match
         $match = $matchEntity->getMatch($request->id);
 

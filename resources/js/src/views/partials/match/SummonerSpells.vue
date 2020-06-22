@@ -4,7 +4,7 @@
             <h4>{{ $t('Summoner.summoners') }}</h4>
         </div>
         <!-- Avatar -->
-        <div class="vx-row ml-auto mr-auto w-3/4">
+        <div class="vx-row ml-auto mr-auto w-full">
             <!-- Avatar Col -->
             <div
                 class="vx-col w-full lg:w-1/2 xl:w-1/2 mb-3 xl:mb-0 text-center"
@@ -16,6 +16,9 @@
                     :title="item.title"
                     :description="item.description"
                 />
+                <div class="mini-chip w-full flex">
+                    <vs-chip color="primary" class="text-xs mx-auto">{{item.title}}</vs-chip>
+                </div>
             </div>
         </div>
     </vx-card>

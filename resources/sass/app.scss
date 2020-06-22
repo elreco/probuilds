@@ -130,3 +130,20 @@
 .text-shadow-none {
     text-shadow: none;
 }
+
+.mini-chip {
+    .con-vs-chip {
+        min-height: 17px;
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+
+    .text-chip {
+        margin-left: 0px;
+        padding-top: 2px;
+    }
+
+    .vx-row>.vx-col {
+        padding: 0 0.5rem;
+    }
+}

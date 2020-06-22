@@ -4,7 +4,7 @@ export default {
         meta: {
             title: {
                 home: 'League of Legends pro players builds and spectate them',
-                showMatch: ''
+                match: 'Vayne'
             },
             description: {
                 home: '',

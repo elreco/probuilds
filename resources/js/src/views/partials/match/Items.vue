@@ -5,7 +5,7 @@
             <p class="text-grey">{{ $t('Summoner.finalItems') }}</p>
         </div>
         <!-- Avatar -->
-        <div class="vx-row ml-auto mr-auto w-3/4">
+        <div class="vx-row ml-auto mr-auto w-full" id="items">
             <!-- Avatar Col -->
             <div
                 class="vx-col mx-auto w-1/2 lg:w-1/3 xl:w-1/6 mb-3 xl:mb-0 text-center"
@@ -17,6 +17,9 @@
                     :title="item.title"
                     :description="item.description"
                 />
+                <div class="mini-chip w-full flex">
+                    <vs-chip color="primary" class="text-xs mx-auto">{{item.title}}</vs-chip>
+                </div>
             </div>
         </div>
     </vx-card>
@@ -32,3 +35,4 @@ export default {
     props: ["data"]
 };
 </script>
+

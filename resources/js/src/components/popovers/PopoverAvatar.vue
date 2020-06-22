@@ -69,6 +69,11 @@ export default {
             default: true,
             required: false
         },
+        border: {
+            type: Boolean,
+            default: false,
+            required: false
+        },
         win: {
             type: Boolean,
             default: false,
@@ -89,7 +94,12 @@ export default {
             }
 
             if (this.default) {
-                classImg += " border-solid border-2 border-theme-dark";
+                classImg += " border-solid border-2";
+                if (this.border) {
+                    classImg += " border-primary";
+                } else {
+                    classImg += " border-theme-dark";
+                }
             } else {
                 if (this.win) {
                     classImg += " border-solid border-2 win-border win-shadow";

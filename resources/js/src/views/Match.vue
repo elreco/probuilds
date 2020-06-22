@@ -81,7 +81,7 @@ import ItemsTimeline from "./partials/match/ItemsTimeline";
 export default {
     data() {
         return {
-            title: this.$i18n.t("meta.title.show"),
+            title: this.$i18n.t("meta.title.match"),
             summonerId: this.$route.params.summonerId,
             region: this.$route.params.region,
             matchId: this.$route.params.matchId,
@@ -185,7 +185,8 @@ export default {
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used
         return {
-            title: `${this.title}`,
+            title: `${this.champion.charAt(0).toUpperCase() +
+                this.champion.slice(1)}`,
             // all titles will be injected into this template
             titleTemplate: "Probuilds.eu – %s"
         };

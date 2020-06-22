@@ -1,24 +1,37 @@
 <template>
-    <vx-card slot="no-body" class="text-center bg-primary-gradient greet-user">
-        <ul class="circles">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
-        <img v-if="displayDecore" :src="images.raka" class="decore-left" alt="card-img-left" />
-        <img v-if="displayDecore" :src="images.leona" class="decore-right" alt="card-img-right" />
+    <vx-card slot="no-body" class="text-center bg-primary-gradient greet-user h-full">
+        <div class="vx-row h-full flex items-center pt-5 pb-5">
+            <div class="vx-col w-full">
+                <ul class="circles">
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                    <li></li>
+                </ul>
+                <img
+                    v-if="displayDecore"
+                    :src="images.raka"
+                    class="decore-left"
+                    alt="card-img-left"
+                />
+                <img
+                    v-if="displayDecore"
+                    :src="images.leona"
+                    class="decore-right"
+                    alt="card-img-right"
+                />
 
-        <logo-white class="w-16 fill-current text-primary z-50" />
+                <logo-white class="w-16 fill-current text-primary z-50" />
 
-        <slot></slot>
-        <div class="xl:w-2/5 lg:w-2/5 md:w-2/3 w-3/5 mx-auto"></div>
+                <slot></slot>
+            </div>
+        </div>
     </vx-card>
 </template>
 
@@ -42,4 +55,7 @@ export default {
 
 <style lang="scss">
 @import "@sass/vuexy/pages/home.scss";
+.vx-card__body {
+    height: 100%;
+}
 </style>
