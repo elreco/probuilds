@@ -44,41 +44,6 @@ export default {
         SearchBanner,
         ChampionDetails
     },
-    /* methods: {
-        checkChampion() {
-            // check if champion exists
-            // if exists
-            this.loadingData(true);
-            return this.$http
-                .get("champions-check", {
-                    params: {
-                        name: this.$route.params.champion,
-                        locale: this.$route.params.locale
-                    }
-                })
-                .then(response => {
-                    return this.setChampion(response.data);
-                });
-
-            // else if not exist
-            // 404
-        },
-        setChampion(champion) {
-            this.champion = champion;
-            this.loadingData(false);
-        },
-        loadingData(boolean) {
-            this.isFetching = boolean;
-            if (this.isFetching) {
-                this.$vs.loading({
-                    type: "default",
-                    container: "body"
-                });
-            } else {
-                this.$vs.loading.close("body > .con-vs-loading");
-            }
-        }
-    }, */
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used
         return {
