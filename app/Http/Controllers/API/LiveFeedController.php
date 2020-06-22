@@ -22,7 +22,7 @@ class LiveFeedController extends Controller
      */
     public function index(LiveFeedRequest $request)
     {
-        $livefeed = CacheEntity::useCache('livefeed', $request, 'getLiveFeed');
+        $livefeed = CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed');
         return $livefeed;
     }
 

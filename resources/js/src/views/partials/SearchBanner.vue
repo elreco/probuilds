@@ -12,8 +12,8 @@
             <li></li>
             <li></li>
         </ul>
-        <img :src="images.raka" class="decore-left" alt="card-img-left" />
-        <img :src="images.leona" class="decore-right" alt="card-img-right" />
+        <img v-if="displayDecore" :src="images.raka" class="decore-left" alt="card-img-left" />
+        <img v-if="displayDecore" :src="images.leona" class="decore-right" alt="card-img-right" />
 
         <logo-white class="w-16 fill-current text-primary z-50" />
 
@@ -27,7 +27,7 @@ import LogoWhite from "@/layouts/components/LogoWhite.vue";
 
 export default {
     name: "search-banner",
-    props: ["champion"],
+    props: ["champion", "displayDecore"],
     components: {
         LogoWhite
     },

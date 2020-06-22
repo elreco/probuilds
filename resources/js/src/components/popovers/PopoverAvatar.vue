@@ -20,19 +20,17 @@
 
         <template slot="popover" v-if="title">
             <vx-card class="mb-0 bg-primary" :title="title">
-                <vs-row>
-                    <vs-col vs-type="flex" vs-justify="center" vs-w="2">
-                        <div class="img-container">
-                            <img
-                                :src="src"
-                                class="w-12 h-12 rounded border-solid border-2 border-white mx-auto text-center"
-                            />
-                        </div>
-                    </vs-col>
-                    <vs-col vs-type="flex" vs-justify="center" vs-align="center" vs-w="10">
+                <div class="vx-row">
+                    <div class="vx-col w-1/5">
+                        <img
+                            :src="src"
+                            class="w-12 h-12 rounded border-solid border-2 border-white mx-auto text-center"
+                        />
+                    </div>
+                    <div class="vx-col w-4/5 text-left">
                         <p class="text-white text-xs font-light text-shadow" v-html="description"></p>
-                    </vs-col>
-                </vs-row>
+                    </div>
+                </div>
             </vx-card>
         </template>
     </v-popover>

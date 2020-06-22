@@ -3,7 +3,7 @@
         <div class="vx-row">
             <!-- CARD 1: CONGRATS -->
             <div class="vx-col w-full mb-base">
-                <search-banner>
+                <search-banner :displayDecore="true">
                     <template v-slot:default>
                         <h1 class="mb-4 text-white">{{ $t("home.welcome") }}</h1>
                         <p

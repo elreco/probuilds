@@ -47,7 +47,6 @@
                     <popover-avatar
                         v-for="(item, index) in tr.items"
                         :key="index"
-                        :data="item"
                         :src="item.src"
                         :title="item.title"
                         :description="item.description"
@@ -63,7 +62,6 @@
                     <popover-avatar
                         v-for="(spell, index) in tr.spells"
                         :key="index"
-                        :data="spell"
                         :src="spell.src"
                         :title="spell.title"
                         :description="spell.description"

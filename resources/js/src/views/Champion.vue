@@ -3,7 +3,7 @@
         <div class="vx-row" id="page-user-view">
             <!-- CARD 1: CONGRATS -->
             <div class="vx-col xl:w-1/2 w-full mb-base flex items-stretch">
-                <search-banner>
+                <search-banner :displayDecore="false">
                     <template v-slot:default>
                         <h1 class="mb-4 text-white">{{ $t("home.welcome") }}</h1>
                         <p

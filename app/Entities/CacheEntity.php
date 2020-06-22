@@ -11,7 +11,7 @@ class CacheEntity
 
     public static function useCache($resource, $request, $method, $force = false)
     {
-        $namespace = get_class($request->route()->getController());
+        $namespace = "App\\Http\\Controllers\\API\\" . $resource;
         $key = CacheEntity::keyGenerator($resource, $request);
 
         if (Cache::has($key)) {
@@ -36,7 +36,7 @@ class CacheEntity
         $requestArray = $request->all();
         krsort($requestArray);
         foreach ($requestArray as $r) {
-            $key .= "." . $r;
+            $key .= "." . strtolower($r);
         }
         return $key;
     }

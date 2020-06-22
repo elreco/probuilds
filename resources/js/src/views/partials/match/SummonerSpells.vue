@@ -12,7 +12,6 @@
                 :key="index"
             >
                 <popover-avatar-lg
-                    :data="item"
                     :src="item.src"
                     :title="item.title"
                     :description="item.description"

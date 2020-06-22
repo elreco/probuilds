@@ -233,7 +233,8 @@ class MatchEntity
         try {
             $match = $this->riot->getMatch($matchId);
         } catch (\Exception $e) {
-            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Match not found');
+            /* throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Match not found'); */
+            return null;
         }
 
         return $match;
@@ -242,7 +243,7 @@ class MatchEntity
     public function addMatchStats($participant, $response)
     {
         // init item entity 
-        $itemEntity = new ItemEntity($this->locale);
+        $itemEntity = new ItemEntity($this->riot, $this->locale);
 
         // WIN OR LOSE
         $response['win'] = $participant->stats->win;

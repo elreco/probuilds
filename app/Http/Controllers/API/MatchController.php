@@ -18,7 +18,7 @@ class MatchController extends Controller
     //
     public function show(ShowRequest $request)
     {
-        $match = CacheEntity::useCache('match', $request, 'getMatchDetails');
+        $match = CacheEntity::useCache('MatchController', $request, 'getMatchDetails');
         return $match;
     }
 

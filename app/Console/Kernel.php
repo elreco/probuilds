@@ -4,9 +4,7 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
-use Illuminate\Http\Request;
 
-use App\Entities\CacheEntity;
 
 class Kernel extends ConsoleKernel
 {
@@ -29,12 +27,7 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->call(function () {
-            // LIVEFEED
-            $request = new Request();
-            $request->replace(['page' => '1', 'locale' => 'fr']);
-            CacheEntity::useCache('livefeed', $request, 'getLiveFeed', true);
-        })->daily();
+        $schedule->call('cache:livefeed 1 fr all')->dailyAt(env("CRON_TIME", '00:00'));
     }
 
     /**
