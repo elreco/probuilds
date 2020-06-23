@@ -2,7 +2,7 @@
 import axios from 'axios'
 import router from './router'
 
-const domain = 'https://api.moi.elreco.fr/'
+const domain = process.env.MIX_API_DOMAIN;
 axios.defaults.baseURL = domain;
 
 axios.interceptors.response.use(function (response) {
@@ -10,13 +10,16 @@ axios.interceptors.response.use(function (response) {
     return response;
 }, function (error) {
     // Do something with response error
-    return router.push({
-        name: "page-error",
-        params: {
-            code: error.response.status,
-            message: error.response.data.message
-        }
-    });
+    if (router.currentRoute.name != "page-error") {
+        return router.push({
+            name: "page-error",
+            params: {
+                code: error.response.status,
+                message: error.response.data.message
+            }
+        });
+    }
+
 });
 
 export default axios

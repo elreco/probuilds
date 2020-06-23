@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Entities;
+namespace App\Entities\Summoner;
 
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;

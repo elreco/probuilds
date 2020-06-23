@@ -7,9 +7,9 @@ use App\Http\Traits\CommonTrait;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
-use App\Entities\SummonerEntity;
+use App\Entities\Summoner\SummonerEntity;
 use App\Entities\ChampionEntity;
-use App\Entities\ChallengerEntity;
+use App\Entities\Summoner\ChallengerEntity;
 use App\Entities\ItemEntity;
 use App\Entities\Riot\RiotEntity;
 
@@ -263,12 +263,12 @@ class MatchEntity
 
         // ITEMS
         $response['items'] = $itemEntity->getItems($participant->stats);
-
+        $riotEntity = new RiotEntity($this->locale);
         for ($u = 1; $u <= 2; $u++) {
             $spell_name = "spell" . $u . "Id";
 
             if (!empty($participant->$spell_name)) {
-                $spell = DataDragonAPI::getStaticSummonerSpellById($participant->$spell_name);
+                $spell = DataDragonAPI::getStaticSummonerSpellById($participant->$spell_name, $riotEntity->localeMutator());
                 $response['spells'][$u]['src'] = DataDragonAPI::getSpellIconUrl($spell['id']);
                 $response['spells'][$u]['title'] = $spell['name'];
                 $response['spells'][$u]['description'] = $spell['description'];

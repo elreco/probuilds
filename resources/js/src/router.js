@@ -11,6 +11,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import i18n from './i18n/i18n'
+import axiosRouter from './axiosRouter'
 import {
     languages
 } from './i18n/i18n'
@@ -100,7 +101,29 @@ router.beforeEach((to, from, next) => {
         i18n.locale = language
     }
 
+    /* if (to.params.champion && to.params.locale) {
+        return axiosRouter.get("champions-check", {
+                params: {
+                    name: to.params.champion,
+                    locale: to.params.locale
+                }
+            })
+            .catch(function (error) {
+                next({
+                    name: "page-error",
+                    params: {
+                        code: "404",
+                        message: "Champion not found"
+                    }
+                });
+            });
+    } */
+
+
+
     return next();
+
+
 
 });
 router.afterEach(() => {
@@ -110,5 +133,9 @@ router.afterEach(() => {
         appLoading.style.display = 'none'
     }
 })
+
+function checkChampion(champion, locale) {
+
+}
 
 export default router

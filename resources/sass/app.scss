@@ -140,10 +140,13 @@
 
     .text-chip {
         margin-left: 0px;
-        padding-top: 2px;
     }
 
     .vx-row>.vx-col {
         padding: 0 0.5rem;
     }
+}
+
+.theme-dark .con-vs-loading {
+    z-index: 999;
 }

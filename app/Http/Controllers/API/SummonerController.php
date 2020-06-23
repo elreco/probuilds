@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 // REQUEST
 use App\Http\Requests\Summoner\ShowRequest;
 // ENTITY
-use App\Entities\SummonerEntity;
+use App\Entities\Summoner\SummonerEntity;
 use App\Entities\Riot\RiotEntity;
 
 class SummonerController extends Controller

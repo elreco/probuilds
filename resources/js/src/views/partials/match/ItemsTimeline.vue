@@ -67,7 +67,6 @@ export default {
                 )
                 .then(response => {
                     this.data = response.data;
-                    console.log(this.data);
                 })
                 .then(() => {
                     this.loadingData(false);

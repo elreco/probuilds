@@ -12,7 +12,7 @@ class CacheEntity
     public static function useCache($resource, $request, $method, $force = false)
     {
         $namespace = "App\\Http\\Controllers\\API\\" . $resource;
-        $key = CacheEntity::keyGenerator($resource, $request);
+        $key = CacheEntity::keyGenerator($resource, $method, $request);
 
         if (Cache::has($key)) {
             if ($force) {
@@ -32,9 +32,9 @@ class CacheEntity
         return $response;
     }
 
-    public static function keyGenerator($resource, $request)
+    public static function keyGenerator($resource, $method, $request)
     {
-        $key = $resource;
+        $key = $resource . "@" .  $method;
         $requestArray = $request->all();
         krsort($requestArray);
         foreach ($requestArray as $r) {
