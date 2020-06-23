@@ -59,6 +59,9 @@ export default {
         SearchBanner: {
             loading: 'Loading',
             searchInput: 'Search champion...'
+        },
+        Global: {
+            sold: "Sold"
         }
     },
     de: {},
@@ -122,6 +125,9 @@ export default {
         SearchBanner: {
             loading: 'Chargement',
             searchInput: 'Rechercher un champion...'
+        },
+        Global: {
+            sold: "Vendu"
         }
 
     },

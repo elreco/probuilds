@@ -42,12 +42,17 @@ class Livefeed extends Command
     {
         //
         $request = new Request();
-        $request->replace([
+        $requests = [
             'page' => $this->argument('page'),
             'locale' => $this->argument('locale'),
             'lane' => $this->argument('lane'),
-            'champion' => $this->argument('champion')
-        ]);
+        ];
+        if (!empty($this->argument('champion'))) {
+            $requests .= [
+                'champion' => $this->argument('champion'),
+            ];
+        }
+        $request->replace($requests);
         CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed', true);
     }
 }

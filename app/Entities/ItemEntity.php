@@ -53,20 +53,20 @@ class ItemEntity
         $response = [];
         // ITEMS
         $frames = $this->riot->getMatchTimeline($request->id);
+
         $i = 0;
         foreach ($frames as $frame) {
             $response[$i] = $this->initTimelineArray();
             $response[$i]['time'] = Carbon::createFromTimestampMs($frame->timestamp)->format('i:s');
             $i2 = 0;
-
             foreach ($frame->events as $event) {
-                if ($event->participantId == $request->participantId && $event->type == "ITEM_PURCHASED") {
+                if ($event->participantId == $request->participantId && ($event->type == "ITEM_PURCHASED" or $event->type == "ITEM_SOLD")) {
                     $response[$i]['items'][$i2] = $this->getItem($event->itemId);
                     $response[$i]['items'][$i2]['time'] = Carbon::createFromTimestampMs($event->timestamp)->format('i:s');
+                    $response[$i]['items'][$i2]['type'] = $event->type;
                     $i2++;
                 }
             }
-
             if (empty($response[$i]['items'])) {
                 unset($response[$i]);
             } else {
@@ -106,6 +106,7 @@ class ItemEntity
             'title' => null,
             'description' => null,
             'time' => null,
+            'type' => null
         ];
         return $array;
     }

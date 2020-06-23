@@ -19,7 +19,9 @@ class CacheEntity
                 // force delete cache (from cron job)
                 Cache::forget($key);
                 $response = app($namespace)->$method($request);
-                Cache::forever($key, $response);
+                if (!empty($response)) {
+                    Cache::forever($key, $response);
+                }
             } else {
                 $response = Cache::get($key);
             }

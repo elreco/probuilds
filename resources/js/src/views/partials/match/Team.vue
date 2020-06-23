@@ -90,7 +90,8 @@ export default {
                     region: this.region,
                     summonerId: tr.summonerId,
                     matchId: this.matchId,
-                    champion: tr.champion.title
+                    champion: tr.champion.title,
+                    participantId: tr.participantId
                 }
             });
         }

@@ -8,16 +8,22 @@
         class="inline"
         v-if="src"
     >
-        <img
-            loading="lazy"
-            width="32"
-            height="32"
-            :alt="title"
-            :class="classImg"
-            class="tooltip-target w-10 h-10 rounded"
-            :src="src"
-        />
-
+        <div class="relative inline">
+            <img
+                loading="lazy"
+                width="32"
+                height="32"
+                :alt="title"
+                :class="classImg"
+                class="tooltip-target w-10 h-10 rounded"
+                :src="src"
+            />
+            <div
+                v-if="sold"
+                class="dot-count vs-avatar--count badgeNumber"
+                style="background: rgb(140, 23, 164);right:-8px;"
+            >{{$t('Global.sold')}}</div>
+        </div>
         <template slot="popover" v-if="title">
             <vx-card class="mb-0 bg-primary" :title="title">
                 <div class="vx-row">
@@ -70,6 +76,11 @@ export default {
             required: false
         },
         border: {
+            type: Boolean,
+            default: false,
+            required: false
+        },
+        sold: {
             type: Boolean,
             default: false,
             required: false

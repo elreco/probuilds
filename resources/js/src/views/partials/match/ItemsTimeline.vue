@@ -16,6 +16,7 @@
                     <div class="vx-col text-center mt-base" :key="index2 + '-' + index">
                         <div class="w-full mx-auto">
                             <popover-avatar
+                                :sold="item.type == 'ITEM_SOLD' ? true : false"
                                 :border="true"
                                 :src="item.src"
                                 :title="item.title"
