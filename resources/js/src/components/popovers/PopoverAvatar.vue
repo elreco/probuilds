@@ -18,11 +18,21 @@
                 class="tooltip-target w-10 h-10 rounded"
                 :src="src"
             />
-            <div
-                v-if="sold"
-                class="dot-count vs-avatar--count badgeNumber"
-                style="background: rgb(140, 23, 164);right:-8px;"
-            >{{$t('Global.sold')}}</div>
+            <div v-if="sold">
+                <div
+                    loading="lazy"
+                    width="32"
+                    height="32"
+                    :class="classImg"
+                    class="w-10 h-10 rounded"
+                    style="position:absolute;top:0;background:rgba(255,255,255,0.5);"
+                    src="src"
+                ></div>
+                <div
+                    class="dot-count vs-avatar--count badgeNumber"
+                    style="background: rgb(140, 23, 164);right:-8px;"
+                >{{$t('Global.sold')}}</div>
+            </div>
         </div>
         <template slot="popover" v-if="title">
             <vx-card class="mb-0 bg-primary" :title="title">
