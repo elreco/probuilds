@@ -60,25 +60,11 @@ class MatchDetailsEntity
             $response['regionName'] = $regionEntity->getRegionName($request->region);
 
             // construction de l'array pour les participants
-            $participantIdentities = [];
-            foreach ($match->participantIdentities as $participantIdentity) {
-                $participantIdentities[$participantIdentity->participantId] = $participantIdentity->player;
-            }
+            $participantIdentities = $this->getParticipantIdentities($match);
+            $participantInfos = $this->getParticipantInfos($request, $match, $participantIdentities);
+            // champion
+            $response['champion'] = $participantInfos['champion'];
 
-            // selected summoner champion data and participant Id
-            foreach ($match->participants as $participant) {
-                if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
-                    // Verif du champion
-                    if ($participant->staticData->name != $request->champion) {
-                        throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong champion for this summoner');
-                    }
-                    // Verif du participantId
-                    if ($participant->participantId != $request->participantId) {
-                        throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong participant');
-                    }
-                    $response['champion'] = $participant->staticData->name;
-                }
-            }
             // build winners and losers
             foreach ($match->teams as $team) {
                 if ($team->win == "Win") {
@@ -155,6 +141,38 @@ class MatchDetailsEntity
         return $response;
     }
 
+    public function getParticipantInfos($request, $match, $participantIdentities)
+    {
+        $response = [];
+        // selected summoner champion data and participant Id
+        foreach ($match->participants as $participant) {
+            if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
+                // Verif du champion
+                if (!empty($request->champion) && $participant->staticData->name != $request->champion) {
+                    throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong champion for this summoner');
+                }
+                // Verif du participantId
+                if (!empty($request->participantId) && $participant->participantId != $request->participantId) {
+                    throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong participant');
+                }
+                $response['champion'] = $participant->staticData->name;
+                $response['participantId'] = $participant->participantId;
+            }
+        }
+
+        return $response;
+    }
+
+    public function getParticipantIdentities($match)
+    {
+        // construction de l'array pour les participants
+        $participantIdentities = [];
+        foreach ($match->participantIdentities as $participantIdentity) {
+            $participantIdentities[$participantIdentity->participantId] = $participantIdentity->player;
+        }
+        return $participantIdentities;
+    }
+
     private function initMatchArray()
     {
         return [
@@ -190,18 +208,7 @@ class MatchDetailsEntity
                 'keystone' => null,
                 'subkeystone' => null,
                 'items' => [],
-                'spells' => [
-                    1 => [
-                        'src' => null,
-                        'title' => null,
-                        'description' => null
-                    ],
-                    2 => [
-                        'src' => null,
-                        'title' => null,
-                        'description' => null
-                    ],
-                ]
+                'spells' => []
             ];
         }
         return $array;

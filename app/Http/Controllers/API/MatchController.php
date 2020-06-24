@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 // REQUEST
 use App\Http\Requests\Match\ShowRequest;
 use App\Http\Requests\Match\TimelineRequest;
+use App\Http\Requests\Match\SpellsRequest;
 // ENTITY
 use App\Entities\Match\MatchDetailsEntity;
 use App\Entities\Riot\RiotEntity;
@@ -42,7 +43,7 @@ class MatchController extends Controller
         return $timelineEntity->getItemsTimeline($frames, $request->participantId);
     }
 
-    public function spells(TimelineRequest $request)
+    public function spells(SpellsRequest $request)
     {
         $riotEntity = new RiotEntity($request->locale);
         $riot = $riotEntity->initApi($request->region);

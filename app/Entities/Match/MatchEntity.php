@@ -12,7 +12,7 @@ use App\Entities\ChampionEntity;
 use App\Entities\Summoner\ChallengerEntity;
 use App\Entities\ItemEntity;
 use App\Entities\Riot\RiotEntity;
-
+use App\Entities\Summoner\SpellEntity;
 
 class MatchEntity
 {
@@ -254,7 +254,6 @@ class MatchEntity
         $response['gold'] = $this->thousandsCurrencyFormat($participant->stats->goldEarned);
 
         // KEYSTONES
-
         $runes = $this->riot->getStaticReforgedRunes()->runes;
         /* $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths; */
         $player_stats = $participant->stats;
@@ -263,17 +262,9 @@ class MatchEntity
 
         // ITEMS
         $response['items'] = $itemEntity->getItems($participant->stats);
-        $riotEntity = new RiotEntity($this->locale);
-        for ($u = 1; $u <= 2; $u++) {
-            $spell_name = "spell" . $u . "Id";
-
-            if (!empty($participant->$spell_name)) {
-                $spell = DataDragonAPI::getStaticSummonerSpellById($participant->$spell_name, $riotEntity->localeMutator());
-                $response['spells'][$u]['src'] = DataDragonAPI::getSpellIconUrl($spell['id']);
-                $response['spells'][$u]['title'] = $spell['name'];
-                $response['spells'][$u]['description'] = $spell['description'];
-            }
-        }
+        // Summoner Spells
+        $spellEntity = new SpellEntity($this->riot, $this->locale);
+        $response['spells'] = $spellEntity->getSummonerSpells($participant);
 
         return $response;
     }
@@ -294,18 +285,7 @@ class MatchEntity
             'keystone' => null,
             'subkeystone' => null,
             'items' => [],
-            'spells' => [
-                1 => [
-                    'src' => null,
-                    'title' => null,
-                    'description' => null
-                ],
-                2 => [
-                    'src' => null,
-                    'title' => null,
-                    'description' => null
-                ],
-            ],
+            'spells' => [],
             'vs' => []
         ];
     }

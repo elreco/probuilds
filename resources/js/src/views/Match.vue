@@ -49,6 +49,7 @@
                     :summonerId="summonerId"
                     :region="region"
                     :participantId="participantId"
+                    :champion="champion"
                 />
             </div>
         </div>
@@ -87,11 +88,11 @@ import Profile from "./partials/summoner/Profile";
 import Items from "./partials/match/Items";
 import SummonerSpells from "./partials/match/SummonerSpells";
 import ItemsTimeline from "./partials/match/ItemsTimeline";
+import Spells from "./partials/match/Spells";
 
 export default {
     data() {
         return {
-            title: this.$i18n.t("meta.title.match"),
             summonerId: this.$route.params.summonerId,
             region: this.$route.params.region,
             matchId: this.$route.params.matchId,
@@ -116,7 +117,8 @@ export default {
         Items,
         MatchDetails,
         SummonerSpells,
-        ItemsTimeline
+        ItemsTimeline,
+        Spells
     },
     mounted() {
         this.getMatch();
@@ -138,7 +140,6 @@ export default {
                 .then(response => {
                     this.losers = response.data.losers;
                     this.winners = response.data.winners;
-                    this.champion = response.data.champion;
                     this.duration = response.data.duration;
                 })
                 .then(() => {

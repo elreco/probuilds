@@ -42,6 +42,6 @@ class ChampionController extends Controller
     public function show(ShowRequest $request)
     {
         $championEntity = new ChampionEntity($request->locale);
-        return $championEntity->getChampionDetailsByName($request);
+        return $championEntity->getChampionDetailsByName($request->name);
     }
 }

@@ -107,12 +107,7 @@ class ChampionEntity
         return $response;
     }
 
-    /**
-     * Check if champion exists and returns his well formatted name.
-     *
-     * @return boolean or string
-     */
-    public function getChampionDetailsByName($request)
+    public function getChampionDetailsByName($name)
     {
         $response = $this->initChampionArray();
 
@@ -120,7 +115,7 @@ class ChampionEntity
         $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
 
         foreach ($champions['data'] as $c) {
-            if ($c['name'] == $request->name) {
+            if ($c['name'] == $name) {
                 $response = [
                     'name' => $c['name'],
                     'title' => Str::ucfirst($c['title']),

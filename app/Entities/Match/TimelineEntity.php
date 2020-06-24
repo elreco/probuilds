@@ -76,8 +76,7 @@ class TimelineEntity
             $i2 = 0;
             foreach ($frame->events as $event) {
                 if ($event->participantId == $participantId && ($event->type == "SKILL_LEVEL_UP")) {
-                    dd($event);
-                    $response[$i]['items'][$i2] = $itemEntity->getItem($event->itemId);
+                    $response[$i]['items'][$i2] = "test";
                     $response[$i]['items'][$i2]['time'] = Carbon::createFromTimestampMs($event->timestamp)->format('i:s');
                     $response[$i]['items'][$i2]['type'] = $event->type;
                     $i2++;

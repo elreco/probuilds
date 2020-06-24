@@ -24,6 +24,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => 
     // MATCH CONTROLLER
     $api->get('/matches/{id}', 'MatchController@show');
     $api->get('/matches/{id}/items-timeline/{summonerId}', 'MatchController@itemsTimeline');
+    $api->get('/matches/{id}/spells/{summonerId}', 'MatchController@spells');
     // SUMMONER CONTROLLER
     $api->get('/summoners/{id}', 'SummonerController@show');
 
