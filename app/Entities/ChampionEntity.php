@@ -57,6 +57,7 @@ class ChampionEntity
         // init data dragon
         $riotEntity = new RiotEntity($this->locale);
         $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
+
         foreach ($champions['data'] as $c) {
             if (Str::startsWith(strtoupper($c['id']), strtoupper($request->query('name'))) or Str::startsWith(strtoupper($c['name']), strtoupper($request->query('name')))) {
                 $return[intval($c['key'])] = [
@@ -133,6 +134,34 @@ class ChampionEntity
         return $response;
     }
 
+    public function getChampionSpells($name)
+    {
+        /* $response = $this->initChampionArray(); */
+        $response = [];
+
+        $riotEntity = new RiotEntity($this->locale);
+
+        $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
+
+        foreach ($champions['data'] as $c) {
+            if ($c['name'] == $name) {
+                $champion = DataDragonAPI::getStaticChampionDetails($c['id'], $riotEntity->localeMutator());
+                foreach ($champion['data'][$c['id']]['spells'] as $key => $spell) {
+                    $key = $key + 1;
+                    $response[$key] = $this->initChampionSpellsArray();
+                    $response[$key]['src'] = DataDragonAPI::getSpellIconUrl($spell['id'], $riotEntity->localeMutator());
+                    $response[$key]['name'] = $spell['name'];
+                }
+            }
+        }
+
+        if (empty($response)) {
+            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Champion not found');
+        }
+
+        return $response;
+    }
+
     public function initChampionArray()
     {
         return [
@@ -141,6 +170,14 @@ class ChampionEntity
             'src' => null,
             'splash' => null,
             'description' => null,
+        ];
+    }
+
+    public function initChampionSpellsArray()
+    {
+        return [
+            'name' => null,
+            'src' => null,
         ];
     }
 }

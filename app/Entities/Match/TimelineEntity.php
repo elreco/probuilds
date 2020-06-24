@@ -7,6 +7,7 @@ use App\Http\Traits\CommonTrait;
 // ENTITY
 use App\Entities\Riot\RiotEntity;
 use App\Entities\ItemEntity;
+use App\Entities\ChampionEntity;
 
 use Carbon\Carbon;
 
@@ -64,31 +65,26 @@ class TimelineEntity
         return $response;
     }
 
-    public function getSpells($frames, $participantId)
+    public function getSpells($frames, $participantId, $champion)
     {
         $i = 0;
-        $response = [];
+        $response = $this->initSpellsArray();
 
-        $itemEntity = new ItemEntity($this->riot, $this->locale);
+        $championEntity = new ChampionEntity($this->locale);
+        $response['spells'] = $championEntity->getChampionSpells($champion);
+
+        $response['timeline'] = $this->initSpellsTimelineArray(18);
+        /* dd($spells); */
+        $i = 1;
         foreach ($frames as $frame) {
-            $response[$i] = $this->initItemsTimelineArray();
-            $response[$i]['time'] = Carbon::createFromTimestampMs($frame->timestamp)->format('i:s');
-            $i2 = 0;
             foreach ($frame->events as $event) {
                 if ($event->participantId == $participantId && ($event->type == "SKILL_LEVEL_UP")) {
-                    $response[$i]['items'][$i2] = "test";
-                    $response[$i]['items'][$i2]['time'] = Carbon::createFromTimestampMs($event->timestamp)->format('i:s');
-                    $response[$i]['items'][$i2]['type'] = $event->type;
-                    $i2++;
+                    $response['timeline'][$i]['skillSlot'] = $event->skillSlot;
+                    $response['timeline'][$i]['time'] = Carbon::createFromTimestampMs($event->timestamp)->format('i:s');
+                    $i++;
                 }
             }
-            if (empty($response[$i]['items'])) {
-                unset($response[$i]);
-            } else {
-                $i++;
-            }
         }
-
         return $response;
     }
 
@@ -97,6 +93,27 @@ class TimelineEntity
         $array = [
             'time' => null,
             'items' => [],
+        ];
+        return $array;
+    }
+
+    public function initSpellsTimelineArray($numbers)
+    {
+        for ($i = 1; $i <= $numbers; $i++) {
+            $array[$i] = [
+                'time' => null,
+                'skillSlot' => null,
+            ];
+        }
+
+        return $array;
+    }
+
+    public function initSpellsArray()
+    {
+        $array = [
+            'spells' => null,
+            'timeline' => null,
         ];
         return $array;
     }

@@ -60,6 +60,14 @@ export default {
             loading: 'Loading',
             searchInput: 'Search champion...'
         },
+        Spell: {
+            abilities: "Abilities",
+            abilitiesOrder: "Abilities Order",
+            1: "Q",
+            2: "W",
+            3: "E",
+            4: "R"
+        },
         Global: {
             sold: "Sold"
         }
@@ -125,6 +133,14 @@ export default {
         SearchBanner: {
             loading: 'Chargement',
             searchInput: 'Rechercher un champion...'
+        },
+        Spell: {
+            abilities: "Compétences",
+            abilitiesOrder: "Ordre des compétences",
+            1: "A",
+            2: "Z",
+            3: "E",
+            4: "R"
         },
         Global: {
             sold: "Vendu"

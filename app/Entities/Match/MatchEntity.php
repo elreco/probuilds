@@ -264,7 +264,7 @@ class MatchEntity
         $response['items'] = $itemEntity->getItems($participant->stats);
         // Summoner Spells
         $spellEntity = new SpellEntity($this->riot, $this->locale);
-        $response['spells'] = $spellEntity->getSummonerSpells($participant);
+        $response['summonerSpells'] = $spellEntity->getSummonerSpells($participant);
 
         return $response;
     }
@@ -285,7 +285,7 @@ class MatchEntity
             'keystone' => null,
             'subkeystone' => null,
             'items' => [],
-            'spells' => [],
+            'summonerSpells' => [],
             'vs' => []
         ];
     }

@@ -208,7 +208,7 @@ class MatchDetailsEntity
                 'keystone' => null,
                 'subkeystone' => null,
                 'items' => [],
-                'spells' => []
+                'summonerSpells' => []
             ];
         }
         return $array;

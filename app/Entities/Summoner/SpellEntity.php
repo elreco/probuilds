@@ -45,6 +45,8 @@ class SpellEntity
         return $response;
     }
 
+
+
     public function initSummonerSpellsArray()
     {
         return [

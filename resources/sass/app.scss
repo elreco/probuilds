@@ -92,6 +92,10 @@
     border-radius: 0.50rem !important;
 }
 
+.rounded-lg {
+    border-radius: 0.75rem !important;
+}
+
 // WIN LOSE BORDER WITH SHADOW
 
 .win-border {
@@ -136,6 +140,7 @@
         min-height: 17px;
         padding-right: 6px;
         padding-left: 6px;
+        margin-top: 3px;
     }
 
     .text-chip {
@@ -147,6 +152,24 @@
     }
 }
 
+.mini-chip .transparent {
+    .con-vs-chip {
+        background: #262C49;
+
+
+    }
+
+    .con-vs-chip .text-chip {
+        color: white !important;
+    }
+
+}
+
 .theme-dark .con-vs-loading {
     z-index: 999;
+}
+
+.shadow-primary {
+    box-shadow: 0 15px 30px 0 rgba(0, 145, 234, 0.11),
+        0 5px 15px 0 rgba(0, 145, 234, 0.18) !important;
 }

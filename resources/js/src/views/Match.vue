@@ -8,31 +8,29 @@
                 <champion-details :champion="champion" />
             </div>
         </div>
-        <div class="vx-row mb-base">
+        <div class="vx-row xl:mb-base">
             <div class="vx-col w-full mb-base xl:mb-0 xl:w-3/5 flex items-stretch">
                 <items :data="items" id="itemsLoading" class="vs-con-loading__container" />
             </div>
             <div class="vx-col w-full mb-base xl:mb-0 xl:w-1/5 flex items-stretch">
                 <summoner-spells
-                    :data="spells"
-                    id="spellsLoading"
+                    :data="summonerSpells"
+                    id="summonerSpellsLoading"
                     class="vs-con-loading__container"
                 />
             </div>
             <div class="vx-col w-full mb-base xl:mb-0 xl:w-1/5 flex items-stretch">
                 <vx-card id="durationLoading" class="vs-con-loading__container">
-                    <div class="text-center mb-custom-2">
+                    <div class="text-center xl:mb-20 mb-base">
                         <h4>{{ $t('Match.duration') }}</h4>
                     </div>
-                    <!-- Avatar -->
-                    <div class="vx-row text-center h-full">
-                        <!-- Avatar Col -->
+                    <div class="vx-row text-center h-full mb-4">
                         <div class="vx-col w-full h-full">{{duration}}</div>
                     </div>
                 </vx-card>
             </div>
         </div>
-        <div class="vx-row mb-base">
+        <div class="vx-row xl:mb-base">
             <div class="vx-col w-full mb-base xl:mb-0">
                 <items-timeline
                     :matchId="matchId"
@@ -100,7 +98,7 @@ export default {
             participantId: this.$route.params.participantId,
             duration: null,
             items: {},
-            spells: {},
+            summonerSpells: {},
             losers: {
                 bans: [],
                 participants: []
@@ -146,13 +144,13 @@ export default {
                     this.losers.participants.forEach((value, index) => {
                         if (this.summonerId == value.summonerId) {
                             this.items = value.items;
-                            this.spells = value.spells;
+                            this.summonerSpells = value.summonerSpells;
                         }
                     });
                     this.winners.participants.forEach((value, index) => {
                         if (this.summonerId == value.summonerId) {
                             this.items = value.items;
-                            this.spells = value.spells;
+                            this.summonerSpells = value.summonerSpells;
                         }
                     });
                 })
@@ -178,7 +176,7 @@ export default {
                 });
                 this.$vs.loading({
                     type: "default",
-                    container: "#spellsLoading"
+                    container: "#summonerSpellsLoading"
                 });
                 this.$vs.loading({
                     type: "default",
@@ -188,7 +186,9 @@ export default {
                 this.$vs.loading.close("#losersLoading > .con-vs-loading");
                 this.$vs.loading.close("#winnersLoading > .con-vs-loading");
                 this.$vs.loading.close("#itemsLoading > .con-vs-loading");
-                this.$vs.loading.close("#spellsLoading > .con-vs-loading");
+                this.$vs.loading.close(
+                    "#summonerSpellsLoading > .con-vs-loading"
+                );
                 this.$vs.loading.close("#durationLoading > .con-vs-loading");
             }
         }

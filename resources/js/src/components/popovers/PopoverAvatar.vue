@@ -26,7 +26,6 @@
                     :class="classImg"
                     class="w-10 h-10 rounded"
                     style="position:absolute;top:0;background:rgba(255,255,255,0.5);"
-                    src="src"
                 ></div>
                 <div
                     class="dot-count vs-avatar--count badgeNumber"

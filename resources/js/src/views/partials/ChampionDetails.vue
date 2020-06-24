@@ -3,6 +3,7 @@
         class="vs-con-loading__container"
         id="championLoading"
         :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)),no-repeat 100% 25%/100% url(' + data.splash + ')'"
+        style="background-size: cover;"
     >
         <!-- Avatar -->
         <div class="vx-row mb-8">
@@ -13,7 +14,7 @@
         </div>
         <div class="vx-row mb-2">
             <!-- Avatar Col -->
-            <div class="vx-col mr-4" id="avatar-col">
+            <div class="vx-col xl:mr-4 xl:mb-0 mb-base mx-auto" id="avatar-col">
                 <div class="img-container relative">
                     <img
                         :src="data.src ? data.src : srcIfNull"

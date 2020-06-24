@@ -9,11 +9,11 @@
                 <h4>{{ data.name }}</h4>
                 <p>{{ regionName }}</p>
             </div>
-            <div class="vx-col" id="account-manage-buttons">
+            <div class="vx-col xl:ml-2 ml-auto" id="account-manage-buttons">
                 <vs-button
                     icon-pack="feather"
                     icon="icon-external-link"
-                    class="ml-2 text-xs"
+                    class="text-xs"
                     target="_blank"
                     :href="'https://'+region+'.op.gg/summoner/userName=' + data.name"
                 >OP.GG</vs-button>
@@ -22,7 +22,7 @@
         <!-- Avatar -->
         <div class="vx-row mb-2">
             <!-- Avatar Col -->
-            <div class="vx-col mr-4" id="avatar-col">
+            <div class="vx-col xl:mr-4 xl:mb-0 mb-base mx-auto" id="avatar-col">
                 <div class="img-container relative">
                     <div
                         class="borderImage"

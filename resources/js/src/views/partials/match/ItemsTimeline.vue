@@ -23,9 +23,7 @@
                                 :description="item.description"
                             />
                         </div>
-                        <div class="w-full mini-chip flex">
-                            <vs-chip color="primary" class="w-full ml-0 mr-0 text-xs">{{item.time}}</vs-chip>
-                        </div>
+                        <p class="text-center text-xs text-white mt-1">{{item.time}}</p>
                     </div>
                 </template>
             </template>

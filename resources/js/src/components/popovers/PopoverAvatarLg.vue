@@ -14,7 +14,7 @@
             height="32"
             :alt="title"
             :class="classImg"
-            class="tooltip-target w-16 h-16 rounded"
+            class="tooltip-target w-16 h-16 rounded-lg shadow-primary"
             :src="src"
         />
 
@@ -24,7 +24,7 @@
                     <div class="vx-col w-1/5">
                         <img
                             :src="src"
-                            class="w-12 h-12 rounded border-solid border-2 border-white mx-auto text-center"
+                            class="w-12 h-12 border-solid border-2 border-white mx-auto text-center"
                         />
                     </div>
                     <div class="vx-col w-4/5 text-left">

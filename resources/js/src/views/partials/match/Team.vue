@@ -58,9 +58,9 @@
                         class="inline-block w-10 h-10 rounded bg-theme-dark mr-1"
                     ></div>
                 </vs-td>
-                <vs-td class="text-center" :data="tr.spells">
+                <vs-td class="text-center" :data="tr.summonerSpells">
                     <popover-avatar
-                        v-for="(spell, index) in tr.spells"
+                        v-for="(spell, index) in tr.summonerSpells"
                         :key="index"
                         :src="spell.src"
                         :title="spell.title"

@@ -17,9 +17,7 @@
                     :title="item.title"
                     :description="item.description"
                 />
-                <div class="mini-chip w-full flex">
-                    <vs-chip color="primary" class="text-xs mx-auto">{{item.title}}</vs-chip>
-                </div>
+                <p class="text-center text-xs text-white mt-1">{{item.title}}</p>
             </div>
         </div>
     </vx-card>
