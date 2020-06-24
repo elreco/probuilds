@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import moment from "moment";
 export default {
     computed: {
         i18n_locale_img() {
@@ -45,6 +46,7 @@ export default {
     },
     methods: {
         updateLocale(locale) {
+            moment.locale(locale);
             this.$i18n.locale = locale;
 
             let query = Object.assign({}, this.$route.params);

@@ -85,7 +85,7 @@ class ChampionEntity
                 return $c['name'];
             }
         }
-        return response()->json(['message' => 'Not Found!'], 404);
+        return false;
     }
 
     /**

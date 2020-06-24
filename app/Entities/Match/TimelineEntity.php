@@ -70,13 +70,13 @@ class TimelineEntity
         $response = [];
 
         $itemEntity = new ItemEntity($this->riot, $this->locale);
-
         foreach ($frames as $frame) {
             $response[$i] = $this->initItemsTimelineArray();
             $response[$i]['time'] = Carbon::createFromTimestampMs($frame->timestamp)->format('i:s');
             $i2 = 0;
             foreach ($frame->events as $event) {
-                if ($event->participantId == $participantId && ($event->type == "ITEM_PURCHASED" or $event->type == "ITEM_SOLD")) {
+                if ($event->participantId == $participantId && ($event->type == "SKILL_LEVEL_UP")) {
+                    dd($event);
                     $response[$i]['items'][$i2] = $itemEntity->getItem($event->itemId);
                     $response[$i]['items'][$i2]['time'] = Carbon::createFromTimestampMs($event->timestamp)->format('i:s');
                     $response[$i]['items'][$i2]['type'] = $event->type;

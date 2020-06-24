@@ -27,7 +27,14 @@
 
 
 <script>
-/* export default {
-    props: ["message"]
-}; */
+export default {
+    metaInfo() {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        return {
+            title: this.$route.params.code,
+            // all titles will be injected into this template
+            titleTemplate: "Probuilds.eu – %s"
+        };
+    }
+};
 </script>

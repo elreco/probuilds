@@ -42,6 +42,16 @@
                 />
             </div>
         </div>
+        <div class="vx-row mb-base">
+            <div class="vx-col w-full mb-base xl:mb-0">
+                <spells
+                    :matchId="matchId"
+                    :summonerId="summonerId"
+                    :region="region"
+                    :participantId="participantId"
+                />
+            </div>
+        </div>
         <!-- Two columns -->
         <div class="vx-row mb-base">
             <div class="vx-col w-full mb-base">
@@ -185,7 +195,7 @@ export default {
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used
         return {
-            title: `${this.champion}`,
+            title: this.champion,
             // all titles will be injected into this template
             titleTemplate: "Probuilds.eu – %s"
         };

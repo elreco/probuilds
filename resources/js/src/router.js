@@ -101,29 +101,11 @@ router.beforeEach((to, from, next) => {
         i18n.locale = language
     }
 
-    /* if (to.params.champion && to.params.locale) {
-        return axiosRouter.get("champions-check", {
-                params: {
-                    name: to.params.champion,
-                    locale: to.params.locale
-                }
-            })
-            .catch(function (error) {
-                next({
-                    name: "page-error",
-                    params: {
-                        code: "404",
-                        message: "Champion not found"
-                    }
-                });
-            });
-    } */
-
-
+    if (to.params.champion && to.params.locale) {
+        checkChampion(to.params.champion, to.params.locale);
+    }
 
     return next();
-
-
 
 });
 router.afterEach(() => {
@@ -135,7 +117,31 @@ router.afterEach(() => {
 })
 
 function checkChampion(champion, locale) {
-
+    axiosRouter.get("champions-check", {
+            params: {
+                name: champion,
+                locale: locale
+            }
+        })
+        .then(function (response) {
+            if (response.data == false) {
+                next({
+                    name: "page-error",
+                    params: {
+                        code: "404",
+                        message: "Champion not found"
+                    }
+                });
+            }
+        }).catch(function (error) {
+            next({
+                name: "page-error",
+                params: {
+                    code: error.response.status,
+                    message: error.response.data.message
+                }
+            });
+        });
 }
 
 export default router
