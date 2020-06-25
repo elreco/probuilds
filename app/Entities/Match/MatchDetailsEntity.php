@@ -12,6 +12,7 @@ use App\Entities\Match\MatchEntity;
 use App\Entities\ChampionEntity;
 use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
+use App\Entities\Summoner\RuneEntity;
 
 use Carbon\CarbonInterval;
 
@@ -64,7 +65,8 @@ class MatchDetailsEntity
             $participantInfos = $this->getParticipantInfos($request, $match, $participantIdentities);
             // champion
             $response['champion'] = $participantInfos['champion'];
-
+            // runes
+            $response['runes'] = $participantInfos['runes'];
             // build winners and losers
             foreach ($match->teams as $team) {
                 if ($team->win == "Win") {
@@ -144,6 +146,8 @@ class MatchDetailsEntity
     public function getParticipantInfos($request, $match, $participantIdentities)
     {
         $response = [];
+        $runeEntity = new RuneEntity($this->riot, $this->locale);
+
         // selected summoner champion data and participant Id
         foreach ($match->participants as $participant) {
             if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
@@ -155,11 +159,12 @@ class MatchDetailsEntity
                 if (!empty($request->participantId) && $participant->participantId != $request->participantId) {
                     throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong participant');
                 }
+
+                $response['runes'] = $runeEntity->getRunes($participant);
                 $response['champion'] = $participant->staticData->name;
                 $response['participantId'] = $participant->participantId;
             }
         }
-
         return $response;
     }
 
@@ -181,6 +186,7 @@ class MatchDetailsEntity
             'region' => null,
             'champion' => null,
             'date' => null,
+            'runes' => null,
             'winners' =>
             [
                 'bans' => [],

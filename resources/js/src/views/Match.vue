@@ -53,13 +53,7 @@
         </div>
         <div class="vx-row mb-base">
             <div class="vx-col w-full mb-base xl:mb-0">
-                <runes
-                    :matchId="matchId"
-                    :summonerId="summonerId"
-                    :region="region"
-                    :participantId="participantId"
-                    :champion="champion"
-                />
+                <runes :data="runes" id="runesLoading" class="vs-con-loading__container" />
             </div>
         </div>
         <!-- Two columns -->
@@ -109,6 +103,12 @@ export default {
             champion: this.$route.params.champion,
             participantId: this.$route.params.participantId,
             duration: null,
+            runes: {
+                first: {
+                    principal: {}
+                },
+                second: {}
+            },
             items: {},
             summonerSpells: {},
             losers: {
@@ -152,6 +152,7 @@ export default {
                     this.losers = response.data.losers;
                     this.winners = response.data.winners;
                     this.duration = response.data.duration;
+                    this.runes = response.data.runes;
                 })
                 .then(() => {
                     this.losers.participants.forEach((value, index) => {
@@ -166,6 +167,7 @@ export default {
                             this.summonerSpells = value.summonerSpells;
                         }
                     });
+                    console.log(this.summonerSpells);
                 })
                 .then(() => {
                     this.loadingData(false);
@@ -195,6 +197,10 @@ export default {
                     type: "default",
                     container: "#durationLoading"
                 });
+                this.$vs.loading({
+                    type: "default",
+                    container: "#runesLoading"
+                });
             } else {
                 this.$vs.loading.close("#losersLoading > .con-vs-loading");
                 this.$vs.loading.close("#winnersLoading > .con-vs-loading");
@@ -203,6 +209,7 @@ export default {
                     "#summonerSpellsLoading > .con-vs-loading"
                 );
                 this.$vs.loading.close("#durationLoading > .con-vs-loading");
+                this.$vs.loading.close("#runesLoading > .con-vs-loading");
             }
         }
     },

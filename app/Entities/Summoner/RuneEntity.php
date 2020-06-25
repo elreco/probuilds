@@ -2,24 +2,132 @@
 
 namespace App\Entities\Summoner;
 
-class ChallengerEntity
+use App\Entities\Riot\RiotEntity;
+
+// DATADRAGON
+use RiotAPI\DataDragonAPI\DataDragonAPI;
+
+class RuneEntity
 {
 
     protected $riot;
+    protected $locale;
 
-    public function __construct($riot)
+    public function __construct($riot, $locale)
     {
         $this->riot = $riot;
+        $this->locale = $locale;
+        app()->setLocale($locale);
+        RiotEntity::initDataDragonAPI();
     }
 
-    public function getChallengers($numbers)
+    public function getKeystones($participant)
     {
-        // GET CHALLENGERS
-        try {
-            $challengers = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->sortByDesc('leaguePoints')->take($numbers);
-        } catch (\Exception $e) {
-            return null;
+        $response = $this->initKeystonesArray();
+        $runes = $this->riot->getStaticReforgedRunes()->runes;
+        $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths;
+        $player_stats = $participant->stats;
+        $response['keystone'] = !empty($runes[$player_stats->perk0]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src : '';
+        $response['subkeystone'] = !empty($rune_paths[$player_stats->perkSubStyle]) ? DataDragonAPI::getReforgedRunePathIconO($rune_paths[$player_stats->perkSubStyle])->src : '';
+
+        return $response;
+    }
+
+    public function getRunes($participant)
+    {
+        $response = $this->initRunesArray();
+        $riotEntity = new RiotEntity($this->locale);
+        $runes = $this->riot->getStaticReforgedRunes($riotEntity->localeMutator())->runes;
+        $rune_paths = $this->riot->getStaticReforgedRunePaths($riotEntity->localeMutator())->paths;
+        //dd($runes);
+        $player_stats = $participant->stats;
+
+        $response['first']['principal'] =
+            [
+                'src' => !empty($rune_paths[$player_stats->perkPrimaryStyle]) ? DataDragonAPI::getReforgedRunePathIconO($rune_paths[$player_stats->perkPrimaryStyle])->src : '',
+                'name' => !empty($rune_paths[$player_stats->perkPrimaryStyle]) ? $rune_paths[$player_stats->perkPrimaryStyle]->name : ''
+            ];
+
+        for ($i = 0; $i < 4; $i++) {
+            $iname = "perk" . $i;
+            $response['first']['rune' . $i] =
+                [
+                    'src' => !empty($runes[$player_stats->$iname]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->$iname])->src : '',
+                    'name' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->name : '',
+                    'description' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->shortDesc : '',
+                ];
         }
-        return $challengers;
+
+        $response['second']['principal'] =
+            [
+                'src' => !empty($rune_paths[$player_stats->perkSubStyle]) ? DataDragonAPI::getReforgedRunePathIconO($rune_paths[$player_stats->perkSubStyle])->src : '',
+                'name' => !empty($rune_paths[$player_stats->perkSubStyle]) ? $rune_paths[$player_stats->perkSubStyle]->name : ''
+            ];
+        for ($i = 4; $i < 6; $i++) {
+            $iname = "perk" . $i;
+            $response['second']['rune' . $i] =
+                [
+                    'src' => !empty($runes[$player_stats->$iname]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->$iname])->src : '',
+                    'name' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->name : '',
+                    'description' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->shortDesc : '',
+                ];
+        }
+
+        return $response;
+    }
+
+    public function initKeystonesArray()
+    {
+        return [
+            'keystone' => null,
+            'subkeystone' => null
+        ];
+    }
+    public function initRunesArray()
+    {
+        return [
+            'first' => [
+                'principal' => [
+                    'src' => null,
+                    'name' => null
+                ],
+                'rune0' => [
+                    'src' => null,
+                    'name' => null,
+                    'description' => null
+                ],
+                'rune1' => [
+                    'src' => null,
+                    'name' => null,
+                    'description' => null
+                ],
+                'rune2' => [
+                    'src' => null,
+                    'name' => null,
+                    'description' => null
+                ],
+                'rune3' => [
+                    'src' => null,
+                    'name' => null,
+                    'description' => null
+                ]
+            ],
+            'second' => [
+                'principal' => [
+                    'src' => null,
+                    'name' => null
+                ],
+                'rune0' => [
+                    'src' => null,
+                    'name' => null,
+                    'description' => null
+                ],
+                'rune1' => [
+                    'src' => null,
+                    'name' => null,
+                    'description' => null
+                ]
+            ]
+        ];
     }
 }

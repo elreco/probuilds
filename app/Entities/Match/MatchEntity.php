@@ -4,8 +4,6 @@ namespace App\Entities\Match;
 
 // COLLECTION
 use App\Http\Traits\CommonTrait;
-// DATADRAGON
-use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
 use App\Entities\Summoner\SummonerEntity;
 use App\Entities\ChampionEntity;
@@ -13,6 +11,7 @@ use App\Entities\Summoner\ChallengerEntity;
 use App\Entities\ItemEntity;
 use App\Entities\Riot\RiotEntity;
 use App\Entities\Summoner\SpellEntity;
+use App\Entities\Summoner\RuneEntity;
 
 class MatchEntity
 {
@@ -254,11 +253,10 @@ class MatchEntity
         $response['gold'] = $this->thousandsCurrencyFormat($participant->stats->goldEarned);
 
         // KEYSTONES
-        $runes = $this->riot->getStaticReforgedRunes()->runes;
-        /* $rune_paths = $this->riot->getStaticReforgedRunePaths()->paths; */
-        $player_stats = $participant->stats;
-        $response['keystone'] = !empty($runes[$player_stats->perk0]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk0])->src : '';
-        $response['subkeystone'] = !empty($runes[$player_stats->perk4]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->perk4])->src : '';
+        $runeEntity = new RuneEntity($this->riot, $this->locale);
+        $keystones = $runeEntity->getKeystones($participant);
+        $response['keystone'] = $keystones['keystone'];
+        $response['subkeystone'] = $keystones['subkeystone'];
 
         // ITEMS
         $response['items'] = $itemEntity->getItems($participant->stats);
