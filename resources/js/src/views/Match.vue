@@ -51,6 +51,17 @@
                 />
             </div>
         </div>
+        <div class="vx-row mb-base">
+            <div class="vx-col w-full mb-base xl:mb-0">
+                <runes
+                    :matchId="matchId"
+                    :summonerId="summonerId"
+                    :region="region"
+                    :participantId="participantId"
+                    :champion="champion"
+                />
+            </div>
+        </div>
         <!-- Two columns -->
         <div class="vx-row mb-base">
             <div class="vx-col w-full mb-base">
@@ -87,6 +98,7 @@ import Items from "./partials/match/Items";
 import SummonerSpells from "./partials/match/SummonerSpells";
 import ItemsTimeline from "./partials/match/ItemsTimeline";
 import Spells from "./partials/match/Spells";
+import Runes from "./partials/match/Runes";
 
 export default {
     data() {
@@ -116,7 +128,8 @@ export default {
         MatchDetails,
         SummonerSpells,
         ItemsTimeline,
-        Spells
+        Spells,
+        Runes
     },
     mounted() {
         this.getMatch();

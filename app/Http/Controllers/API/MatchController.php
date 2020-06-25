@@ -54,6 +54,10 @@ class MatchController extends Controller
         return $timelineEntity->getSpells($frames, $request->participantId, $request->champion);
     }
 
+    public function runes($request)
+    {
+    }
+
     public function matchTimeline($request)
     {
         $riotEntity = new RiotEntity($request->locale);
