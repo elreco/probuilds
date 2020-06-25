@@ -4,45 +4,38 @@
             <h4>{{ $t('Spell.abilities') }}</h4>
             <p class="text-grey">{{ $t('Spell.abilitiesOrder') }}</p>
         </div>
-        <vs-table
-            class="w-full text-white"
-            noDataText
-            :sst="true"
-            :data="data"
-            :hoverFlat="true"
-            :notSpacer="true"
-            id="spellsTable"
-        >
-            <vs-tr
-                class="whitespace-no-wrap text-base leading-10 bg-theme-dark"
-                :data="spell"
-                :key="indexSpell"
-                v-for="(spell, indexSpell) in data.spells"
-            >
-                <vs-td class="border-solid border border-white bg-primary-gradient">
-                    <div class="flex items-center justify-start">
-                        <img
-                            :src="spell.src"
-                            class="inline w-10 h-10 rounded border-solid border-2 border-white"
-                            :alt="spell.name"
-                        />
-                        <span class="pl-2">{{spell.name}}</span>
-                        <span class="ml-auto">{{$t('Spell.' + indexSpell)}}</span>
-                    </div>
-                </vs-td>
-                <vs-td :data="tl" :key="indexTl" v-for="(tl, indexTl) in data.timeline" class="p-0">
-                    <div
-                        class="border-solid border border-white flex items-center justify-center w-10 h-10 bg-primary-gradient text-center mx-auto"
-                        v-if="tl.skillSlot == indexSpell"
-                    >{{indexTl}}</div>
+        <div class="overflow-auto">
+            <table class="border-collapse w-full text-white" id="spellsTable" cellspacing="0">
+                <tr
+                    class="whitespace-no-wrap text-base leading-10 bg-theme-dark"
+                    :key="indexSpell"
+                    v-for="(spell, indexSpell) in spells"
+                >
+                    <td class="border-solid border border-white bg-primary-gradient p-1 w-20">
+                        <div class="flex items-center justify-start">
+                            <img
+                                :src="spell.src"
+                                class="inline w-10 h-10 rounded border-solid border-2 border-white"
+                                :alt="spell.name"
+                            />
+                            <span class="pl-2">{{spell.name}}</span>
+                            <span class="pl-2 pr-2 ml-auto">{{$t('Spell.' + indexSpell)}}</span>
+                        </div>
+                    </td>
+                    <td :key="indexTl" v-for="(tl, indexTl) in timeline" class="px-2">
+                        <div
+                            class="border-solid border border-white flex items-center justify-center w-10 h-10 bg-primary-gradient text-center mx-auto"
+                            v-if="tl.skillSlot == indexSpell"
+                        >{{indexTl}}</div>
 
-                    <div
-                        class="border-solid border border-white flex items-center justify-center w-10 h-10 text-center mx-auto"
-                        v-else
-                    ></div>
-                </vs-td>
-            </vs-tr>
-        </vs-table>
+                        <div
+                            class="border-solid border border-white flex items-center justify-center w-10 h-10 text-center mx-auto"
+                            v-else
+                        ></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
     </vx-card>
 </template>
 
@@ -57,10 +50,8 @@ export default {
     props: ["matchId", "summonerId", "region", "participantId", "champion"],
     data() {
         return {
-            data: {
-                spells: [],
-                timeline: []
-            }
+            spells: [],
+            timeline: []
         };
     },
     mounted() {
@@ -80,7 +71,8 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.data = response.data;
+                    this.spells = response.data.spells;
+                    this.timeline = response.data.timeline;
                 })
                 .then(() => {
                     this.loadingData(false);
@@ -107,22 +99,17 @@ $dark-color: #10163a;
     tr {
         background-color: $dark-color;
     }
-    .vs-con-tbody {
-        border-color: $dark-color !important;
-        background: $dark-color;
-    }
-    .vs-table {
+    table {
         border: 0;
     }
-    .vs-table--tbody-table .tr-values:last-child {
-        border: 0;
-    }
-    .vs-table--tbody-table .tr-values {
-        cursor: auto;
-    }
-    .vs-table--tbody-table
-        .tr-values.hoverFlat:not(.activeEdit):not(.is-expand):hover {
-        opacity: 1;
+    @media (min-width: 640px) {
+        table {
+            display: inline-table !important;
+        }
+
+        thead tr:not(:first-child) {
+            display: none;
+        }
     }
 }
 </style>
