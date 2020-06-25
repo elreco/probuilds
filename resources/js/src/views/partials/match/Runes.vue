@@ -7,17 +7,17 @@
             <div class="vx-col w-1/2">
                 <div class="vx-row mb-base">
                     <div class="vx-col w-full">
-                        <!-- <div class="flex items-start flex-col sm:flex-row">
-                            <img :src="data.first.principal.src" class="mr-8 rounded h-24 w-24" />
+                        <div class="flex items-start flex-col sm:flex-row">
+                            <img :src="runesA.principal.src" class="mr-8 rounded h-24 w-24" />
                             <div class>
                                 <p
                                     class="text-lg font-medium mb-2 mt-4 sm:mt-0"
-                                >{{data.first.principal.name}}</p>
+                                >{{runesA.principal.name}}</p>
                                 <p
                                     class="text-sm font-light mb-2 mt-4 sm:mt-0"
-                                >{{data.first.principal.description}}</p>
+                                >{{runesA.principal.description}}</p>
                             </div>
-                        </div>-->
+                        </div>
                     </div>
                 </div>
                 <div class="vx-row">
@@ -48,9 +48,9 @@ export default {
     components: {
         PopoverAvatar
     },
-    props: ["data"],
+    props: ["runesA"],
     mounted() {
-        console.log(this.data);
+        console.log(this.runesA);
     }
 };
 </script>
