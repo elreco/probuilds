@@ -1,21 +1,17 @@
 <template>
     <vx-card class="vs-con-loading__container" id="spellsLoading">
         <div class="text-center mb-custom">
-            <h4>{{ $t('Rune.runes') }}</h4>
+            <!-- <h4>{{ $t('Rune.runes') }}</h4> -->
         </div>
         <div class="vx-row w-2/3 mx-auto flex items-stretch text-white">
             <div class="vx-col w-1/2">
                 <div class="vx-row mb-base">
                     <div class="vx-col w-full">
                         <div class="flex items-start flex-col sm:flex-row">
-                            <img :src="runesA.principal.src" class="mr-8 rounded h-24 w-24" />
+                            <img :src="data.first.principal.src" class="mr-8 rounded h-24 w-24" />
                             <div class>
-                                <p
-                                    class="text-lg font-medium mb-2 mt-4 sm:mt-0"
-                                >{{runesA.principal.name}}</p>
-                                <p
-                                    class="text-sm font-light mb-2 mt-4 sm:mt-0"
-                                >{{runesA.principal.description}}</p>
+                                <p class="text-lg font-medium mb-2 mt-4 sm:mt-0"></p>
+                                <p class="text-sm font-light mb-2 mt-4 sm:mt-0"></p>
                             </div>
                         </div>
                     </div>
@@ -48,9 +44,9 @@ export default {
     components: {
         PopoverAvatar
     },
-    props: ["runesA"],
+    props: ["data"],
     mounted() {
-        console.log(this.runesA);
+        /* console.log(this.data); */
     }
 };
 </script>

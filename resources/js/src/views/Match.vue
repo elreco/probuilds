@@ -53,12 +53,7 @@
         </div>
         <div class="vx-row mb-base">
             <div class="vx-col w-full mb-base xl:mb-0">
-                <runes
-                    v-if="!isFetching"
-                    :runesA="summonerSpells"
-                    id="runesLoading"
-                    class="vs-con-loading__container"
-                />
+                <runes :data="runes" id="runesLoading" class="vs-con-loading__container" />
             </div>
         </div>
         <!-- Two columns -->
@@ -102,14 +97,26 @@ import Runes from "./partials/match/Runes";
 export default {
     data() {
         return {
-            isFetching: true,
             summonerId: this.$route.params.summonerId,
             region: this.$route.params.region,
             matchId: this.$route.params.matchId,
             champion: this.$route.params.champion,
             participantId: this.$route.params.participantId,
             duration: null,
-            runes: {},
+            runes: {
+                first: {
+                    principal: {},
+                    perk0: {},
+                    perk1: {},
+                    perk2: {},
+                    perk3: {}
+                },
+                second: {
+                    principal: {},
+                    perk4: {},
+                    perk5: {}
+                }
+            },
             items: {},
             summonerSpells: {},
             losers: {
@@ -170,11 +177,8 @@ export default {
                     });
                 })
                 .then(() => {
-                    this.isFetching = false;
                     this.loadingData(false);
                 });
-
-            // UPDATE this.users après avoir fait la requête axios
         },
         loadingData(boolean) {
             if (boolean) {
