@@ -109,31 +109,11 @@ export default {
                         src: null,
                         name: null
                     },
-                    rune0: {
-                        src: null,
-                        name: null,
-                        description: null
-                    },
-                    rune1: {
-                        src: null,
-                        name: null,
-                        description: null
-                    },
-                    rune2: {
-                        src: null,
-                        name: null,
-                        description: null
-                    },
-                    rune3: {
-                        src: null,
-                        name: null,
-                        description: null
-                    }
+                    rune: {}
                 },
                 second: {
                     principal: {},
-                    rune4: {},
-                    rune5: {}
+                    rune: {}
                 }
             },
             items: {},

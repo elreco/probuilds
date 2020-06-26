@@ -22,32 +22,32 @@
                     <div class="vx-col w-full">
                         <div class="flex items-start flex-col sm:flex-row">
                             <img
-                                :src="data.first.rune0.src ? data.first.rune0.src : srcIfNull"
+                                :src="data.first.rune[0].src ? data.first.rune[0].src : srcIfNull"
                                 class="mr-8 rounded h-24 w-24"
                             />
                             <div>
                                 <p
                                     class="text-lg font-medium mb-2 mt-4 sm:mt-0"
-                                >{{data.first.rune0.name}}</p>
+                                >{{data.first.rune[0].name}}</p>
                                 <p
                                     class="text-sm font-light mb-2 mt-4 sm:mt-0"
-                                >{{data.first.rune0.description}}</p>
+                                >{{data.first.rune[0].description}}</p>
                             </div>
                         </div>
                     </div>
                     <div class="vx-col w-full" v-for="n in firstRunesNumbers" :key="n">
                         <div class="flex items-start flex-col sm:flex-row">
                             <img
-                                :src="data.first.['rune' + n].src ? data.first.rune0.src : srcIfNull"
-                                class="mr-8 rounded h-24 w-24"
+                                :src="data.first.rune[n].src ? data.first.rune[n].src : srcIfNull"
+                                class="mr-8 rounded h-12 w-12"
                             />
                             <div>
                                 <p
                                     class="text-lg font-medium mb-2 mt-4 sm:mt-0"
-                                >{{data.first.rune0.name}}</p>
+                                >{{data.first.rune[n].name}}</p>
                                 <p
                                     class="text-sm font-light mb-2 mt-4 sm:mt-0"
-                                >{{data.first.rune0.description}}</p>
+                                >{{data.first.rune[n].description}}</p>
                             </div>
                         </div>
                     </div>

@@ -91,42 +91,46 @@ class RuneEntity
                     'src' => null,
                     'name' => null
                 ],
-                'rune0' => [
-                    'src' => null,
-                    'name' => null,
-                    'description' => null
+                'rune' => [
+                    0 => [
+                        'src' => null,
+                        'name' => null,
+                        'description' => null
+                    ],
+                    1 => [
+                        'src' => null,
+                        'name' => null,
+                        'description' => null
+                    ],
+                    2 => [
+                        'src' => null,
+                        'name' => null,
+                        'description' => null
+                    ],
+                    3 => [
+                        'src' => null,
+                        'name' => null,
+                        'description' => null
+                    ],
                 ],
-                'rune1' => [
-                    'src' => null,
-                    'name' => null,
-                    'description' => null
-                ],
-                'rune2' => [
-                    'src' => null,
-                    'name' => null,
-                    'description' => null
-                ],
-                'rune3' => [
-                    'src' => null,
-                    'name' => null,
-                    'description' => null
-                ]
             ],
             'second' => [
                 'principal' => [
                     'src' => null,
                     'name' => null
                 ],
-                'rune0' => [
-                    'src' => null,
-                    'name' => null,
-                    'description' => null
+                'rune' => [
+                    4 => [
+                        'src' => null,
+                        'name' => null,
+                        'description' => null
+                    ],
+                    5 => [
+                        'src' => null,
+                        'name' => null,
+                        'description' => null
+                    ],
                 ],
-                'rune1' => [
-                    'src' => null,
-                    'name' => null,
-                    'description' => null
-                ]
             ]
         ];
     }
