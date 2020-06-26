@@ -68,6 +68,9 @@ export default {
             3: "E",
             4: "R"
         },
+        Rune: {
+            runes: "Reforged Runes"
+        },
         Global: {
             sold: "Sold"
         }
@@ -141,6 +144,9 @@ export default {
             2: "Z",
             3: "E",
             4: "R"
+        },
+        Rune: {
+            runes: "Runes reforgées"
         },
         Global: {
             sold: "Vendu"

@@ -8,7 +8,7 @@
         <!-- Avatar -->
         <div class="vx-row mb-8">
             <div class="vx-col">
-                <h4>{{ data.name }}</h4>
+                <h4 class="text-white">{{ data.name }}</h4>
                 <p>{{ data.title }}</p>
             </div>
         </div>
@@ -18,7 +18,7 @@
                 <div class="img-container relative">
                     <img
                         :src="data.src ? data.src : srcIfNull"
-                        class="rounded w-full border-solid border-2 border-white"
+                        class="rounded w-full border-solid border-2 border-darker"
                     />
                 </div>
             </div>
@@ -27,12 +27,12 @@
             <div class="vx-col flex-1 text-sm" id="account-info-col-1">
                 <table>
                     <tr>
-                        <td class="font-semibold">{{$t('Champion.name')}}</td>
+                        <td class="font-semibold text-white">{{$t('Champion.name')}}</td>
                         <td class="font-light">{{data.title}}</td>
                     </tr>
 
                     <tr>
-                        <td class="font-semibold">{{$t('Champion.description')}}</td>
+                        <td class="font-semibold text-white">{{$t('Champion.description')}}</td>
                         <td class="font-light">{{data.description}}</td>
                     </tr>
                 </table>

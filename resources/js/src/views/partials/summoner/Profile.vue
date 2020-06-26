@@ -6,7 +6,7 @@
     >
         <div class="vx-row mb-8">
             <div class="vx-col">
-                <h4>{{ data.name }}</h4>
+                <h4 class="text-white">{{ data.name }}</h4>
                 <p>{{ regionName }}</p>
             </div>
             <div class="vx-col xl:ml-2 ml-auto" id="account-manage-buttons">
@@ -40,16 +40,16 @@
             <div class="vx-col flex-1 text-sm" id="account-info-col-1">
                 <table>
                     <tr>
-                        <td class="font-semibold">{{$t('Summoner.player')}}</td>
+                        <td class="font-semibold text-white">{{$t('Summoner.player')}}</td>
                         <td class="font-light">{{data.name}}</td>
                     </tr>
 
                     <tr>
-                        <td class="font-semibold">{{$t('Summoner.league')}}</td>
+                        <td class="font-semibold text-white">{{$t('Summoner.league')}}</td>
                         <td class="font-light">{{data.league}}</td>
                     </tr>
                     <tr>
-                        <td class="font-semibold">{{$t('Summoner.leaguePoints')}}</td>
+                        <td class="font-semibold text-white">{{$t('Summoner.leaguePoints')}}</td>
                         <td class="font-light">{{data.leaguePoints}}</td>
                     </tr>
                 </table>

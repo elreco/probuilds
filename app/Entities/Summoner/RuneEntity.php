@@ -50,14 +50,14 @@ class RuneEntity
 
         for ($i = 0; $i < 4; $i++) {
             $iname = "perk" . $i;
-            $response['first']['rune' . $i] =
+            $response['first']['rune'][$i] =
                 [
                     'src' => !empty($runes[$player_stats->$iname]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->$iname])->src : '',
                     'name' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->name : '',
-                    'description' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->shortDesc : '',
+                    'description' => !empty($runes[$player_stats->$iname]) ? strip_tags($runes[$player_stats->$iname]->shortDesc) : '',
                 ];
         }
-
+        /* dd($player_stats); */
         $response['second']['principal'] =
             [
                 'src' => !empty($rune_paths[$player_stats->perkSubStyle]) ? DataDragonAPI::getReforgedRunePathIconO($rune_paths[$player_stats->perkSubStyle])->src : '',
@@ -65,11 +65,11 @@ class RuneEntity
             ];
         for ($i = 4; $i < 6; $i++) {
             $iname = "perk" . $i;
-            $response['second']['rune' . $i] =
+            $response['second']['rune'][$i] =
                 [
                     'src' => !empty($runes[$player_stats->$iname]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->$iname])->src : '',
                     'name' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->name : '',
-                    'description' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->shortDesc : '',
+                    'description' => !empty($runes[$player_stats->$iname]) ? strip_tags($runes[$player_stats->$iname]->shortDesc) : '',
                 ];
         }
 
@@ -130,6 +130,23 @@ class RuneEntity
                         'name' => null,
                         'description' => null
                     ],
+                ],
+            ],
+            'third' => [
+                0 => [
+                    'src' => null,
+                    'name' => null,
+                    'description' => null
+                ],
+                1 => [
+                    'src' => null,
+                    'name' => null,
+                    'description' => null
+                ],
+                2 => [
+                    'src' => null,
+                    'name' => null,
+                    'description' => null
                 ],
             ]
         ];

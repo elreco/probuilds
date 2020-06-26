@@ -1,29 +1,31 @@
 <template>
     <vx-card class="vs-con-loading__container" id="spellsLoading">
         <div class="text-center mb-custom">
-            <!-- <h4>{{ $t('Rune.runes') }}</h4> -->
+            <h4>{{ $t('Rune.runes') }}</h4>
         </div>
         <div class="vx-row w-2/3 mx-auto flex items-stretch text-white">
             <div class="vx-col w-1/2">
                 <div class="vx-row mb-base">
                     <div class="vx-col w-full">
-                        <div class="flex items-start flex-col sm:flex-row">
-                            <img :src="data.first.principal.src" class="mr-8 rounded h-10 w-10" />
-                            <div class>
-                                <p
-                                    class="text-lg font-medium mb-2 mt-4 sm:mt-0"
-                                >{{data.first.principal.name}}</p>
-                                <p class="text-sm font-light mb-2 mt-4 sm:mt-0"></p>
+                        <div class="text-center">
+                            <div>
+                                <img
+                                    :src=" data.first.principal.src ? data.first.principal.src : srcIfNull"
+                                    class="mx-auto h-8 w-8 mb-3"
+                                />
                             </div>
+                            <p
+                                class="text-lg font-medium mb-2 mt-4 sm:mt-0"
+                            >{{data.first.principal.name}}</p>
                         </div>
                     </div>
                 </div>
                 <div class="vx-row">
-                    <div class="vx-col w-full">
+                    <div class="vx-col w-full mb-base">
                         <div class="flex items-start flex-col sm:flex-row">
                             <img
                                 :src="data.first.rune[0].src ? data.first.rune[0].src : srcIfNull"
-                                class="mr-8 rounded h-24 w-24"
+                                class="mr-8 h-24 w-24"
                             />
                             <div>
                                 <p
@@ -35,11 +37,11 @@
                             </div>
                         </div>
                     </div>
-                    <div class="vx-col w-full" v-for="n in firstRunesNumbers" :key="n">
+                    <div class="vx-col w-full mb-base" v-for="n in firstRunesNumbers" :key="n">
                         <div class="flex items-start flex-col sm:flex-row">
                             <img
                                 :src="data.first.rune[n].src ? data.first.rune[n].src : srcIfNull"
-                                class="mr-8 rounded h-12 w-12"
+                                class="mr-8 rounded-full border-solid border-2 border-darker h-12 w-12"
                             />
                             <div>
                                 <p
@@ -53,7 +55,38 @@
                     </div>
                 </div>
             </div>
-            <div class="vx-col w-1/2"></div>
+            <div class="vx-col w-1/2 pl-10">
+                <div class="vx-row mb-base">
+                    <div class="vx-col w-full">
+                        <div class="text-center">
+                            <div>
+                                <img :src="data.second.principal.src" class="mx-auto h-8 w-8 mb-3" />
+                            </div>
+                            <p
+                                class="text-lg font-medium mb-2 mt-4 sm:mt-0"
+                            >{{data.second.principal.name}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="vx-row">
+                    <div class="vx-col w-full mb-base" v-for="n in secondRunesNumbers" :key="n">
+                        <div class="flex items-start flex-col sm:flex-row">
+                            <img
+                                :src="data.second.rune[n].src ? data.second.rune[n].src : srcIfNull"
+                                class="mr-8 rounded-full border-solid border-2 border-darker h-12 w-12"
+                            />
+                            <div>
+                                <p
+                                    class="text-lg font-medium mb-2 mt-4 sm:mt-0"
+                                >{{data.second.rune[n].name}}</p>
+                                <p
+                                    class="text-sm font-light mb-2 mt-4 sm:mt-0"
+                                >{{data.second.rune[n].description}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </vx-card>
 </template>
@@ -73,9 +106,11 @@ export default {
     components: {
         PopoverAvatar
     },
-    props: ["data"],
+    props: {
+        data: Object
+    },
     mounted() {
-        /* console.log(this.data); */
+        console.log(this.data);
     }
 };
 </script>

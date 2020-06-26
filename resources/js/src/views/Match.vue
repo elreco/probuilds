@@ -57,7 +57,7 @@
             </div>
         </div>
         <!-- Two columns -->
-        <div class="vx-row mb-base">
+        <div class="vx-row">
             <div class="vx-col w-full mb-base">
                 <match-details
                     :data="winners"
@@ -109,11 +109,46 @@ export default {
                         src: null,
                         name: null
                     },
-                    rune: {}
+                    rune: {
+                        "0": {
+                            src: null,
+                            name: null,
+                            description: null
+                        },
+                        "1": {
+                            src: null,
+                            name: null,
+                            description: null
+                        },
+                        "2": {
+                            src: null,
+                            name: null,
+                            description: null
+                        },
+                        "3": {
+                            src: null,
+                            name: null,
+                            description: null
+                        }
+                    }
                 },
                 second: {
-                    principal: {},
-                    rune: {}
+                    principal: {
+                        src: null,
+                        name: null
+                    },
+                    rune: {
+                        "4": {
+                            src: null,
+                            name: null,
+                            description: null
+                        },
+                        "5": {
+                            src: null,
+                            name: null,
+                            description: null
+                        }
+                    }
                 }
             },
             items: {},
@@ -160,6 +195,7 @@ export default {
                     this.winners = response.data.winners;
                     this.duration = response.data.duration;
                     this.runes = response.data.runes;
+                    console.log(this.runes);
                 })
                 .then(() => {
                     this.losers.participants.forEach((value, index) => {
