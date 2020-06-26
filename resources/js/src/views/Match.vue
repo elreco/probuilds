@@ -105,16 +105,35 @@ export default {
             duration: null,
             runes: {
                 first: {
-                    principal: {},
-                    perk0: {},
-                    perk1: {},
-                    perk2: {},
-                    perk3: {}
+                    principal: {
+                        src: null,
+                        name: null
+                    },
+                    rune0: {
+                        src: null,
+                        name: null,
+                        description: null
+                    },
+                    rune1: {
+                        src: null,
+                        name: null,
+                        description: null
+                    },
+                    rune2: {
+                        src: null,
+                        name: null,
+                        description: null
+                    },
+                    rune3: {
+                        src: null,
+                        name: null,
+                        description: null
+                    }
                 },
                 second: {
                     principal: {},
-                    perk4: {},
-                    perk5: {}
+                    rune4: {},
+                    rune5: {}
                 }
             },
             items: {},
