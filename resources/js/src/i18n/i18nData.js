@@ -73,6 +73,14 @@ export default {
         },
         Global: {
             sold: "Sold"
+        },
+        Special: {
+            AttackSpeed: "Attack Speed",
+            Adaptive: "Adaptive",
+            Armor: "Armore",
+            MagicRes: "Magic Resistance",
+            HealthScaling: "Health Scaling",
+            CDRScaling: "Cooldown Reduction"
         }
     },
     de: {},
@@ -150,6 +158,14 @@ export default {
         },
         Global: {
             sold: "Vendu"
+        },
+        Special: {
+            AttackSpeed: "Vitesse d'attaque",
+            Adaptive: "Adaptif",
+            Armor: "Armure",
+            MagicRes: "Résistance magique",
+            HealthScaling: "Points de Vie",
+            CDRScaling: "Réduction des délais"
         }
 
     },

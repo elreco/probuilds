@@ -57,7 +57,6 @@ class RuneEntity
                     'description' => !empty($runes[$player_stats->$iname]) ? strip_tags($runes[$player_stats->$iname]->shortDesc) : '',
                 ];
         }
-        /* dd($player_stats); */
         $response['second']['principal'] =
             [
                 'src' => !empty($rune_paths[$player_stats->perkSubStyle]) ? DataDragonAPI::getReforgedRunePathIconO($rune_paths[$player_stats->perkSubStyle])->src : '',
@@ -70,6 +69,17 @@ class RuneEntity
                     'src' => !empty($runes[$player_stats->$iname]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->$iname])->src : '',
                     'name' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->name : '',
                     'description' => !empty($runes[$player_stats->$iname]) ? strip_tags($runes[$player_stats->$iname]->shortDesc) : '',
+                ];
+        }
+
+        for ($i = 0; $i < 3; $i++) {
+            $iname = "statPerk" . $i;
+            $perks = $this->riot->getStaticPerks($riotEntity->localeMutator())->runes;
+            $response['third'][$i] =
+                [
+                    'src' => !empty($perks[$player_stats->$iname]) ? DataDragonAPI::getPerkPathIconO($perks[$player_stats->$iname])->src : '',
+                    'name' => !empty($perks[$player_stats->$iname]) ? $perks[$player_stats->$iname]->name : '',
+                    'description' => !empty($perks[$player_stats->$iname]) ? strip_tags($perks[$player_stats->$iname]->shortDesc) : '',
                 ];
         }
 

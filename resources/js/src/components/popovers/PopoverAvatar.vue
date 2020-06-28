@@ -85,8 +85,8 @@ export default {
             required: false
         },
         border: {
-            type: Boolean,
-            default: false,
+            type: String,
+            default: "",
             required: false
         },
         sold: {
@@ -116,7 +116,7 @@ export default {
             if (this.default) {
                 classImg += " border-solid border-2";
                 if (this.border) {
-                    classImg += " border-primary";
+                    classImg += " border-" + this.border;
                 } else {
                     classImg += " border-theme-dark";
                 }

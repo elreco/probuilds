@@ -17,7 +17,7 @@
                         <div class="w-full mx-auto">
                             <popover-avatar
                                 :sold="item.type == 'ITEM_SOLD' ? true : false"
-                                :border="true"
+                                :border="'primary'"
                                 :src="item.src"
                                 :title="item.title"
                                 :description="item.description"

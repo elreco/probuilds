@@ -13,10 +13,16 @@
                 >
                     <td class="border-solid border border-white bg-primary-gradient p-1 w-20">
                         <div class="flex items-center justify-start">
-                            <img
+                            <!-- <img
                                 :src="spell.src"
                                 class="inline w-10 h-10 rounded border-solid border-2 border-white"
                                 :alt="spell.name"
+                            />-->
+                            <popover-avatar
+                                :border="'white'"
+                                :src="spell.src"
+                                :title="spell.name"
+                                :description="spell.description"
                             />
                             <span class="pl-2">{{spell.name}}</span>
                             <span class="pl-2 pr-2 ml-auto">{{$t('Spell.' + indexSpell)}}</span>

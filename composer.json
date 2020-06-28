@@ -7,6 +7,10 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [{
+        "type": "vcs",
+        "url": "https://github.com/elreco/riot-api"
+    }],
     "require": {
         "php": "^7.2",
         "dingo/api": "^3.0",

@@ -151,6 +151,7 @@ class ChampionEntity
                     $response[$key] = $this->initChampionSpellsArray();
                     $response[$key]['src'] = DataDragonAPI::getSpellIconUrl($spell['id'], $riotEntity->localeMutator());
                     $response[$key]['name'] = $spell['name'];
+                    $response[$key]['description'] = $spell['description'];
                 }
             }
         }
@@ -178,6 +179,7 @@ class ChampionEntity
         return [
             'name' => null,
             'src' => null,
+            'description' => null
         ];
     }
 }

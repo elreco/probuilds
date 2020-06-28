@@ -149,6 +149,23 @@ export default {
                             description: null
                         }
                     }
+                },
+                third: {
+                    "0": {
+                        src: null,
+                        name: null,
+                        description: null
+                    },
+                    "1": {
+                        src: null,
+                        name: null,
+                        description: null
+                    },
+                    "2": {
+                        src: null,
+                        name: null,
+                        description: null
+                    }
                 }
             },
             items: {},
@@ -195,7 +212,6 @@ export default {
                     this.winners = response.data.winners;
                     this.duration = response.data.duration;
                     this.runes = response.data.runes;
-                    console.log(this.runes);
                 })
                 .then(() => {
                     this.losers.participants.forEach((value, index) => {
