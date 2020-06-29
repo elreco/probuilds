@@ -14,6 +14,9 @@
 
 $appRoutes = function () {
     Route::get('/{any}', 'ApplicationController')->where('any', '.*');
+    // auth 
+    Route::get('login/twitch', 'Auth\LoginController@redirectToProvider');
+    Route::get('login/twitch/callback', 'Auth\LoginController@handleProviderCallback');
 };
 Route::group(['domain' => env('APP_WEB_URL')], $appRoutes);
 Route::group(['domain' => env('APP_WEB_URL_LOCAL')], $appRoutes);

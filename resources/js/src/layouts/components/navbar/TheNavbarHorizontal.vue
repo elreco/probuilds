@@ -31,9 +31,11 @@
 
                 <i18n />
 
-                <notification-drop-down />
+                <!--  <notification-drop-down />
 
-                <profile-drop-down />
+                <profile-drop-down />-->
+
+                <login-with-twitch />
             </vs-navbar>
         </div>
     </div>
@@ -45,6 +47,7 @@ import I18n from "./components/I18n.vue";
 import SearchBar from "./components/SearchBar.vue";
 import NotificationDropDown from "./components/NotificationDropDown.vue";
 import ProfileDropDown from "./components/ProfileDropDown.vue";
+import LoginWithTwitch from "./components/LoginWithTwitch.vue";
 import Logo from "../Logo.vue";
 
 export default {
@@ -64,7 +67,8 @@ export default {
         SearchBar,
         I18n,
         NotificationDropDown,
-        ProfileDropDown
+        ProfileDropDown,
+        LoginWithTwitch
     },
     computed: {
         navbarColor() {
