@@ -17,8 +17,10 @@
         "dolejska-daniel/riot-api": "dev-master",
         "fideloper/proxy": "^4.0",
         "laravel/framework": "^7.0",
+        "laravel/socialite": "^4.4",
         "laravel/tinker": "^2.0",
-        "nesbot/carbon": "^2.31"
+        "nesbot/carbon": "^2.31",
+        "socialiteproviders/twitch": "^5.2"
     },
     "require-dev": {
         "facade/ignition": "^2.0",
