@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Session;
 
 use Illuminate\Http\Request;
 
@@ -16,7 +17,8 @@ class LoginController extends Controller
      */
     public function redirectToProvider(Request $request)
     {
-        return Socialite::driver('twitch')->with(['link' => $request->url()])->stateless()->redirect();
+        Session::put('redirect', $request->url);
+        return Socialite::driver('twitch')->stateless()->redirect();
     }
 
     /**
@@ -27,9 +29,9 @@ class LoginController extends Controller
     public function handleProviderCallback()
     {
         $user = Socialite::driver('twitch')->stateless()->user();
-
-        dd($user);
-
+        //dd($user);
         // $user->token;
+        return redirect(Session::get('redirect'));
+        Session::forget('redirect');
     }
 }

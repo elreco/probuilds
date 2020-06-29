@@ -17,7 +17,9 @@ export default {
     name: "login-with-twitch",
     methods: {
         socialLogin(service) {
-            window.location.href = `${process.env.MIX_APP_URL}/login/${service}?url=${this.$route.query.page}`;
+            window.location.href = `${
+                process.env.MIX_APP_URL
+            }/login/${service}?url=${encodeURIComponent(window.location.href)}`;
         }
     }
 };
