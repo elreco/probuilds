@@ -11,15 +11,15 @@
 .vx-auto-suggest {
     position: relative;
 
-    .vs-input{
-        .vs-con-input{
-            .vs-inputx{
+    .vs-input {
+        .vs-con-input {
+            .vs-inputx {
                 z-index: 10;
             }
 
             .vs-input--placeholder {
-              top: 0;
-              z-index: 50;
+                top: 0;
+                z-index: 50;
             }
         }
     }

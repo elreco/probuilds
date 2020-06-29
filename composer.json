@@ -20,7 +20,8 @@
         "laravel/socialite": "^4.4",
         "laravel/tinker": "^2.0",
         "nesbot/carbon": "^2.31",
-        "socialiteproviders/twitch": "^5.2"
+        "socialiteproviders/twitch": "^5.2",
+        "tymon/jwt-auth": "^1.0"
     },
     "require-dev": {
         "facade/ignition": "^2.0",

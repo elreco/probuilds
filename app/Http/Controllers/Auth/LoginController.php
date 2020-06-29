@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 
+use Illuminate\Http\Request;
+
 class LoginController extends Controller
 {
     /**
@@ -12,9 +14,9 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function redirectToProvider()
+    public function redirectToProvider(Request $request)
     {
-        return Socialite::driver('twitch')->redirect();
+        return Socialite::driver('twitch')->with(['link' => $request->url()])->stateless()->redirect();
     }
 
     /**
