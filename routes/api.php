@@ -19,6 +19,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 $api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => ['cors', 'api.throttle']], function ($api) {
+    $api->get('/mediawiki', 'MediaWikiController@index');
     // LIVEFEED CONTROLLER
     $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER
