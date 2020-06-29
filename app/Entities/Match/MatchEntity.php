@@ -40,7 +40,7 @@ class MatchEntity
 
         // Get Challengers
         $challengerEntity = new ChallengerEntity($this->riot);
-        $challengers = $challengerEntity->getChallengers(2);
+        $challengers = $challengerEntity->getChallengers(20);
         // Get last matchs for each challenger
         $challengersLastMatch = $this->getChallengersLastMatch($challengers, $request);
         // return an array of matches
