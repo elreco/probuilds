@@ -12,6 +12,7 @@ use App\Entities\ItemEntity;
 use App\Entities\Riot\RiotEntity;
 use App\Entities\Summoner\SpellEntity;
 use App\Entities\Summoner\RuneEntity;
+use App\Entities\CacheEntity;
 
 class MatchEntity
 {
@@ -39,8 +40,10 @@ class MatchEntity
     {
 
         // Get Challengers
-        $challengerEntity = new ChallengerEntity($this->riot);
-        $challengers = $challengerEntity->getChallengers(20);
+        /* $challengerEntity = new ChallengerEntity($this->riot);
+        $challengers = $challengerEntity->getChallengers(20); */
+
+        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, null, false, 20, 2);
         // Get last matchs for each challenger
         $challengersLastMatch = $this->getChallengersLastMatch($challengers, $request);
         // return an array of matches
@@ -191,9 +194,12 @@ class MatchEntity
             $summonerEntity = new SummonerEntity($this->riot);
             $championEntity = new ChampionEntity($this->locale);
             foreach ($challengers as $c) {
+
                 $summoner = $summonerEntity->getSummoner($c->summonerId);
+                if (empty($summoner)) continue;
+
                 // get account Id
-                !empty($summoner) ? $accountId = $summoner->accountId : null;
+                $accountId = $summoner->accountId;
 
                 // GET CHAMPION KEY
                 $championKey = $championEntity->getChampionKey($request->champion);

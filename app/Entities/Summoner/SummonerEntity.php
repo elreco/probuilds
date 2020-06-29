@@ -24,10 +24,11 @@ class SummonerEntity
      */
     public function getSummoner($summonerId)
     {
+        $summoner = [];
         try {
             $summoner = $this->riot->getSummoner($summonerId);
         } catch (\Exception $e) {
-            throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Summoner not found');
+            /* throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Summoner not found'); */
         }
 
         return $summoner;

@@ -42,4 +42,46 @@ class CacheEntity
         }
         return $key;
     }
+
+    public static function useEntityCache($resource, $method, $riot, $locale, $force = false, ...$params)
+    {
+        $namespace = "\App\\Entities\\" . $resource;
+
+        if ($locale) {
+            $entity = new $namespace($riot, $locale);
+            $params .= $locale;
+        } else {
+            $entity = new $namespace($riot);
+        }
+
+        $key = CacheEntity::entityKeyGenerator($resource, $method, $params);
+
+        if (Cache::has($key)) {
+            if ($force) {
+                // force delete cache (from cron job)
+                Cache::forget($key);
+                $response = $entity->$method(...$params);
+                if (!empty($response)) {
+                    Cache::forever($key, $response);
+                }
+            } else {
+                $response = Cache::get($key);
+            }
+        } else {
+            $response = $entity->$method(...$params);
+            Cache::forever($key, $response);
+        }
+        return $response;
+    }
+
+    public static function entityKeyGenerator($resource, $method, $params)
+    {
+        $key = $resource . "@" .  $method;
+        $requestArray = $params;
+        krsort($requestArray);
+        foreach ($params as $r) {
+            $key .= "." . strtolower($r);
+        }
+        return $key;
+    }
 }
