@@ -132,7 +132,7 @@
     </vx-card>
 </template>
 <script>
-import PopoverAvatar from "../../components/popovers/PopoverAvatar";
+import PopoverAvatar from "../../../components/popovers/PopoverAvatar";
 import moment from "moment";
 
 export default {

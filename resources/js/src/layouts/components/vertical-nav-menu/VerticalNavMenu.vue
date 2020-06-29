@@ -33,8 +33,11 @@
                             class="vx-logo-text text-primary"
                             v-show="isMouseEnter || !reduce"
                         >
-                            <span class="vx-logo-text text-primary font-normal text-base">PRO</span>
-                            <span class="vx-logo-text font-bold text-gold text-base">BUILDS.EU</span>
+                            <span class="vx-logo-text font-semibold text-primary">EVIL</span>
+                            <span
+                                class="vx-logo-text font-normal text-gold text-shadow-gold-special"
+                            >SPARTAN</span>
+                            <span class="vx-logo-text font-semibold text-primary">.COM</span>
                         </template>
                     </router-link>
                     <!-- /Logo -->

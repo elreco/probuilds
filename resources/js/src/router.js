@@ -39,23 +39,39 @@ const router = new Router({
             component: () => import('./layouts/main/Main.vue'),
             children: [
                 // =============================================================================
-                // Theme Routes
+                // Home Route
                 // =============================================================================
                 {
                     path: '/:locale',
                     name: 'home',
-                    component: () => import('./views/Home.vue')
+                    component: () => import('./views/main/Home.vue')
+                },
+                // =============================================================================
+                // Probuilds Routes
+                // =============================================================================
+                {
+                    path: '/:locale/probuilds',
+                    name: 'probuilds',
+                    component: () => import('./views/probuilds/Home.vue')
                 },
                 {
                     path: '/:locale/matches/:region/:summonerId/:matchId/:champion/:participantId',
                     name: 'matches',
-                    component: () => import('./views/Match.vue'),
+                    component: () => import('./views/probuilds/Match.vue'),
                 },
                 {
                     path: '/:locale/champions/:champion',
                     name: 'champions',
-                    component: () => import('./views/Champion.vue')
-                }
+                    component: () => import('./views/probuilds/Champion.vue')
+                },
+                // =============================================================================
+                // Community Routes
+                // =============================================================================
+                {
+                    path: '/:locale/community',
+                    name: 'community',
+                    component: () => import('./views/community/Home.vue')
+                },
             ]
         },
         // =============================================================================
@@ -71,12 +87,12 @@ const router = new Router({
                 {
                     path: '/:locale/pages/login',
                     name: 'page-login',
-                    component: () => import('@/views/pages/Login.vue')
+                    component: () => import('@/views/main/pages/Login.vue')
                 },
                 {
                     path: '/:locale/pages/error/:code/:message',
                     name: 'page-error',
-                    component: () => import('@/views/pages/Error.vue'),
+                    component: () => import('@/views/main/pages/Error.vue'),
                 }
             ]
         },

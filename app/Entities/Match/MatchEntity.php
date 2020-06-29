@@ -43,7 +43,7 @@ class MatchEntity
         /* $challengerEntity = new ChallengerEntity($this->riot);
         $challengers = $challengerEntity->getChallengers(20); */
 
-        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, null, false, 20, 2);
+        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, null, false, $region, 5);
         // Get last matchs for each challenger
         $challengersLastMatch = $this->getChallengersLastMatch($challengers, $request);
         // return an array of matches

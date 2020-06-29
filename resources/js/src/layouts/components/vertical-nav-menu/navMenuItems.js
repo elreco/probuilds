@@ -8,11 +8,22 @@
 ==========================================================================================*/
 import i18n from '../../../i18n/i18n'
 
-export default [
-  {
-    url: '/' + i18n.locale,
-    name: i18n.t('home.nav'),
-    slug: 'home',
-    icon: 'HomeIcon'
-  }
+export default [{
+        url: '/' + i18n.locale,
+        name: i18n.t('home.nav'),
+        slug: 'home',
+        icon: 'HomeIcon'
+    },
+    {
+        url: '/' + i18n.locale + '/probuilds',
+        name: "Probuilds",
+        slug: 'probuilds',
+        icon: 'ZapIcon'
+    },
+    {
+        url: '/' + i18n.locale + '/community',
+        name: "Community",
+        slug: 'community',
+        icon: 'UsersIcon'
+    }
 ]

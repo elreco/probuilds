@@ -20,8 +20,11 @@
             >
                 <router-link tag="div" to="/" class="vx-logo cursor-pointer flex items-center">
                     <logo class="w-10 mr-4 fill-current text-primary" />
-                    <span class="vx-logo-text text-primary font-normal">PRO</span>
-                    <span class="vx-logo-text font-bold text-gold">BUILDS.EU</span>
+                    <span class="vx-logo-text font-semibold text-primary">EVIL</span>
+                    <span
+                        class="vx-logo-text font-normal text-gold text-shadow-gold-special"
+                    >SPARTAN</span>
+                    <span class="vx-logo-text font-semibold text-primary">.COM</span>
                 </router-link>
 
                 <search-bar />

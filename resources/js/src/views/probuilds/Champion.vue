@@ -28,7 +28,7 @@
 
 <script>
 import LiveFeed from "./partials/LiveFeed";
-import SearchBanner from "./partials/SearchBanner";
+import SearchBanner from "@/views/main/partials/SearchBanner";
 import ChampionDetails from "./partials/ChampionDetails";
 
 export default {
@@ -49,7 +49,7 @@ export default {
         return {
             title: `${this.title}`,
             // all titles will be injected into this template
-            titleTemplate: "Probuilds.eu – %s"
+            titleTemplate: "EvilSpartan.com – %s"
         };
     }
 };

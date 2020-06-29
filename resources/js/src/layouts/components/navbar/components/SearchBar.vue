@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import SearchInput from "@/views/partials/SearchInput";
+import SearchInput from "@/views/probuilds/partials/SearchInput";
 
 export default {
     components: {

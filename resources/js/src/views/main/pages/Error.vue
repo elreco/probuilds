@@ -33,7 +33,7 @@ export default {
         return {
             title: this.$route.params.code,
             // all titles will be injected into this template
-            titleTemplate: "Probuilds.eu – %s"
+            titleTemplate: "EvilSpartan.com – %s"
         };
     }
 };

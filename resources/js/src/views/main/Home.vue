@@ -14,17 +14,10 @@
                 </search-banner>
             </div>
         </div>
-        <div class="vx-row">
-            <!-- CARD 1: CONGRATS -->
-            <div class="vx-col w-full">
-                <live-feed />
-            </div>
-        </div>
     </section>
 </template>
 
 <script>
-import LiveFeed from "./partials/LiveFeed";
 import SearchBanner from "./partials/SearchBanner";
 
 export default {
@@ -34,7 +27,6 @@ export default {
         };
     },
     components: {
-        LiveFeed,
         SearchBanner
     },
     metaInfo() {
@@ -42,7 +34,7 @@ export default {
         return {
             title: `${this.title}`,
             // all titles will be injected into this template
-            titleTemplate: "Probuilds.eu – %s"
+            titleTemplate: "EvilSpartan.com – %s"
         };
     }
 };

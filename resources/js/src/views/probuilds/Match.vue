@@ -274,7 +274,7 @@ export default {
         return {
             title: this.champion,
             // all titles will be injected into this template
-            titleTemplate: "Probuilds.eu – %s"
+            titleTemplate: "EvilSpartan.com – %s"
         };
     }
 };

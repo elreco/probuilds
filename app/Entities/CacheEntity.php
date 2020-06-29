@@ -43,7 +43,7 @@ class CacheEntity
         return $key;
     }
 
-    public static function useEntityCache($resource, $method, $riot, $locale, $force = false, ...$params)
+    public static function useEntityCache($resource, $method, $riot, $locale, $force = false, $region, ...$params)
     {
         $namespace = "\App\\Entities\\" . $resource;
 
@@ -54,7 +54,7 @@ class CacheEntity
             $entity = new $namespace($riot);
         }
 
-        $key = CacheEntity::entityKeyGenerator($resource, $method, $params);
+        $key = CacheEntity::entityKeyGenerator($resource, $method, $region, ...$params);
 
         if (Cache::has($key)) {
             if ($force) {
@@ -74,7 +74,7 @@ class CacheEntity
         return $response;
     }
 
-    public static function entityKeyGenerator($resource, $method, $params)
+    public static function entityKeyGenerator($resource, $method, $region, ...$params)
     {
         $key = $resource . "@" .  $method;
         $requestArray = $params;
@@ -82,6 +82,7 @@ class CacheEntity
         foreach ($params as $r) {
             $key .= "." . strtolower($r);
         }
+        $key .= $region;
         return $key;
     }
 }
