@@ -10,7 +10,7 @@
         "production": "cross-env NODE_ENV=production node_modules/webpack/bin/webpack.js --no-progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
     "devDependencies": {
-        "@babel/plugin-proposal-class-properties": "^7.10.1",
+        "@babel/plugin-proposal-class-properties": "^7.10.4",
         "@babel/plugin-syntax-dynamic-import": "^7.2.0",
         "@chenfengyuan/vue-countdown": "^1.1.2",
         "@fortawesome/fontawesome-free": "^5.13.1",
@@ -87,6 +87,7 @@
     "dependencies": {
         "moment": "2.24.0",
         "v-tooltip": "^2.0.3",
+        "vue-axios": "^2.1.5",
         "vue-meta": "^2.4.0",
         "vue-moment": "^4.1.0"
     }

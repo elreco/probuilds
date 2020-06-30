@@ -25,23 +25,6 @@ export default {
             type: "default",
             background: "transparent"
         });
-        this.$auth.setToken("local", "Bearer " + this.token);
-        this.$auth.setStrategy("local");
-        this.$auth
-            .fetchUser()
-            .then(() => {
-                return (window.location.href = this.redirect);
-            })
-            .catch(e => {
-                /* this.$auth.logout();
-                return this.$router.push(
-                    `/auth/${
-                        this.$route.query.origin
-                            ? this.$route.query.origin
-                            : "register"
-                    }?error=1`
-                ); */
-            });
     }
 };
 </script>

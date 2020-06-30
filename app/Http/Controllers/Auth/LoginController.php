@@ -64,15 +64,9 @@ class LoginController extends Controller
                 'social_id' => $serviceUser->getId()
             ]);
         }
-
         return redirect(env('APP_URL') . '/' . Session::get('locale') . '/auth/social-callback?token=' . $this->auth->fromUser($user) . '&redirect=' . Session::get('redirect'));
 
         Session::forget('redirect');
-    }
-
-    public function needsToCreateSocial(User $user)
-    {
-        return !$user->hasSocialLinked();
     }
 
     public function getExistingUser($serviceUser, $email)

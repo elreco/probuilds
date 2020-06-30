@@ -14,6 +14,8 @@ import moment from 'moment'
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 
+
+
 // Vuesax Component Framework
 import Vuesax from 'vuesax'
 
@@ -38,6 +40,8 @@ import router from './router'
 // axios
 import axios from './axios.js'
 Vue.prototype.$http = axios
+
+
 
 // Vuex Store
 import store from './store/store'
@@ -68,7 +72,6 @@ import VueMoment from 'vue-moment'
 Vue.use(VueMoment, {
     moment
 })
-
 
 // PrismJS
 import 'prismjs'
