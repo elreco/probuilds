@@ -27,17 +27,19 @@
                 <!-- Header -->
                 <div class="header-sidebar flex items-end justify-between" slot="header">
                     <!-- Logo -->
-                    <router-link tag="div" class="vx-logo cursor-pointer flex items-center" to="/">
-                        <logo class="w-8 mr-4 fill-current text-primary" />
+                    <router-link
+                        tag="div"
+                        class="vx-logo cursor-pointer flex items-center align-middle"
+                        to="/"
+                    >
+                        <logo class="w-8 mr-1 fill-current text-primary" />
                         <template
                             class="vx-logo-text text-primary"
                             v-show="isMouseEnter || !reduce"
                         >
-                            <span class="vx-logo-text text-sm font-semibold text-primary">EVIL</span>
-                            <span
-                                class="vx-logo-text text-sm font-normal text-gold text-shadow-gold-special"
-                            >SPARTAN</span>
-                            <span class="vx-logo-text text-sm font-semibold text-primary">.COM</span>
+                            <span class="vx-logo-text text-sm font-normal text-primary pt-1">EVIL</span>
+                            <span class="vx-logo-text text-sm font-normal text-gold pt-1">SPARTAN</span>
+                            <span class="vx-logo-text text-sm font-normal text-primary pt-1">.COM</span>
                         </template>
                     </router-link>
                     <!-- /Logo -->

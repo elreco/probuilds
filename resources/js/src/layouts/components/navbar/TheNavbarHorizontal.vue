@@ -19,12 +19,16 @@
                 :color="navbarColor"
             >
                 <router-link tag="div" to="/" class="vx-logo cursor-pointer flex items-center">
-                    <logo class="w-10 mr-4 fill-current text-primary" />
-                    <span class="vx-logo-text font-semibold text-primary">EVIL</span>
+                    <logo class="w-10 mr-1 fill-current text-primary pt-0" />
+                    <span class="vx-logo-text font-normal text-primary pt-1">EVIL</span>
+                    <!--
+                    -->
                     <span
-                        class="vx-logo-text font-normal text-gold text-shadow-gold-special"
+                        class="vx-logo-text font-light text-gold text-shadow-gold-special pt-1"
                     >SPARTAN</span>
-                    <span class="vx-logo-text font-semibold text-primary">.COM</span>
+                    <!--
+                    -->
+                    <span class="vx-logo-text font-normal text-primary pt-1">.COM</span>
                 </router-link>
 
                 <search-bar />

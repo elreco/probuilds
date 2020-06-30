@@ -5,11 +5,22 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Session;
+use Laravel\Socialite\Two\InvalidStateException;
+use Tymon\JWTAuth\JWTAuth;
+use App\Models\User;
+use App\Models\UserSocial;
 
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
+    protected $auth;
+
+    public function __construct(JWTAuth $auth)
+    {
+        $this->auth = $auth;
+    }
+
     /**
      * Redirect the user to the GitHub authentication page.
      *
@@ -18,6 +29,7 @@ class LoginController extends Controller
     public function redirectToProvider(Request $request)
     {
         Session::put('redirect', $request->url);
+        Session::put('locale', $request->locale);
         return Socialite::driver('twitch')->stateless()->redirect();
     }
 
@@ -28,10 +40,45 @@ class LoginController extends Controller
      */
     public function handleProviderCallback()
     {
-        $user = Socialite::driver('twitch')->stateless()->user();
         //dd($user);
         // $user->token;
-        return redirect(Session::get('redirect'));
+        try {
+            $serviceUser = Socialite::driver('twitch')->stateless()->user();
+        } catch (\Exception $e) {
+            return redirect(env('APP_URL') . '/' . Session::get('locale') . '/auth/social-callback?error=Unable to login using. Please try again&redirect=' . Session::get('redirect'));
+        }
+
+
+        $email = $serviceUser->getEmail();
+
+
+        $user = $this->getExistingUser($serviceUser, $email);
+        if (!$user) {
+            $user = User::create([
+                'name' => $serviceUser->getName(),
+                'email' => $email,
+                'password' => ''
+            ]);
+            UserSocial::create([
+                'user_id' => $user->id,
+                'social_id' => $serviceUser->getId()
+            ]);
+        }
+
+        return redirect(env('APP_URL') . '/' . Session::get('locale') . '/auth/social-callback?token=' . $this->auth->fromUser($user) . '&redirect=' . Session::get('redirect'));
+
         Session::forget('redirect');
+    }
+
+    public function needsToCreateSocial(User $user)
+    {
+        return !$user->hasSocialLinked();
+    }
+
+    public function getExistingUser($serviceUser, $email)
+    {
+        return User::where('email', $email)->orWhereHas('social', function ($q) use ($serviceUser) {
+            $q->where('social_id', $serviceUser->getId());
+        })->first();
     }
 }

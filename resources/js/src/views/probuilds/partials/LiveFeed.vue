@@ -5,7 +5,7 @@
                 active-text-color="rgba(255,255,255,1)"
                 text-color
                 v-model="selectedLane"
-                class="nabarx mb-base lane-selection p-2"
+                class="nabarx mb-base lane-selection p-2 z-0"
                 type="flat"
             >
                 <div slot="title">

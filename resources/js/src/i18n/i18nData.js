@@ -85,6 +85,8 @@ export default {
         Message: {
             noData: "No Data",
             noLivefeedData: "Livefeed is not available yet for the requested criteria.",
+            loginWaitTitle: "Please wait",
+            loginWaitMessage: "We are login you to the plateform..."
         }
     },
     de: {},
@@ -174,6 +176,8 @@ export default {
         Message: {
             noData: "Aucune donnée",
             noLivefeedData: "Le livefeed n'est pas encore disponible pour les critères demandés.",
+            loginWaitTitle: "Veuillez patienter",
+            loginWaitMessage: "Nous vous connectons à la plateforme..."
         }
 
     },

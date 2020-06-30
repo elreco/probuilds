@@ -12,8 +12,9 @@ class ChallengerEntity
         $this->riot = $riot;
     }
 
-    public function getChallengers($numbers)
+    public function getChallengers()
     {
+        $numbers = 5;
         // GET CHALLENGERS
         try {
             $challengers = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->sortByDesc('leaguePoints')->take($numbers);

@@ -38,6 +38,7 @@ const router = new Router({
             path: '/',
             component: () => import('./layouts/main/Main.vue'),
             children: [
+
                 // =============================================================================
                 // Home Route
                 // =============================================================================
@@ -93,7 +94,15 @@ const router = new Router({
                     path: '/:locale/pages/error/:code/:message',
                     name: 'page-error',
                     component: () => import('@/views/main/pages/Error.vue'),
-                }
+                },
+                // =============================================================================
+                // Login
+                // =============================================================================
+                {
+                    path: '/:locale/auth/social-callback',
+                    name: 'social-callback',
+                    component: () => import('./views/main/pages/auth/SocialCallback.vue')
+                },
             ]
         },
         //Redirect to 404 page, if no match found

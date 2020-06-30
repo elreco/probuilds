@@ -46,6 +46,9 @@ export default {
     },
     methods: {
         updateLocale(locale) {
+            this.$vs.loading({
+                type: "default"
+            });
             moment.locale(locale);
             this.$i18n.locale = locale;
 

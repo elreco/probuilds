@@ -19,7 +19,9 @@ export default {
         socialLogin(service) {
             window.location.href = `${
                 process.env.MIX_APP_URL
-            }/login/${service}?url=${encodeURIComponent(window.location.href)}`;
+            }/login/${service}?url=${encodeURIComponent(
+                window.location.href
+            )}&locale=${this.$route.params.locale}`;
         }
     }
 };
