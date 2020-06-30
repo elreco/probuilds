@@ -14,6 +14,8 @@ use App\Entities\Summoner\SpellEntity;
 use App\Entities\Summoner\RuneEntity;
 use App\Entities\CacheEntity;
 
+use Illuminate\Http\Request;
+
 class MatchEntity
 {
     //
@@ -42,8 +44,9 @@ class MatchEntity
         // Get Challengers
         /* $challengerEntity = new ChallengerEntity($this->riot);
         $challengers = $challengerEntity->getChallengers(20); */
+        $challengersNumber = 1;
 
-        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, null, false, $region, 5);
+        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, null, false, $region, $challengersNumber);
         // Get last matchs for each challenger
         $challengersLastMatch = $this->getChallengersLastMatch($challengers, $request);
         // return an array of matches
@@ -150,6 +153,21 @@ class MatchEntity
                     ) {
                         $response[$i]['vs'] = $championEntity->getChampionDetails($participant->staticData);
                     }
+                }
+
+                // cache the entire match
+                foreach ($participantsAPI as $participant) {
+                    $customRequest = new Request();
+                    $customRequests = [
+                        'id' => $m[0]->gameId,
+                        'locale' => $this->locale,
+                        'region' => $region,
+                        'summonerId' => $participantIdentities[$participant->participantId]->player->summonerId,
+                        'champion' => $participant->staticData->name,
+                        'participantId' => $participant->participantId
+                    ];
+                    $customRequest->replace($customRequests);
+                    CacheEntity::useCache('MatchController', $customRequest, 'getMatchDetails');
                 }
             }
             $i++;
