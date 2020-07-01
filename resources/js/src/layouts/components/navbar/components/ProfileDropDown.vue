@@ -69,10 +69,18 @@ export default {
     methods: {
         async logout() {
             // Log out the user.
-            await this.$store.dispatch("auth/logout");
+            await this.$store.dispatch("auth/logout").then(() => {
+                this.$vs.notify({
+                    title: "Logout",
+                    text: "gsdgds",
+                    color: "success",
+                    position: "top-center"
+                });
+
+                this.$router.go(-1);
+            });
 
             // Redirect to login.
-            this.$router.push({ name: "home" });
             /* this.$router.go(); */
         }
     }
