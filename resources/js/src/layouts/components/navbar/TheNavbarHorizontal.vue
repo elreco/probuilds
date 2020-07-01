@@ -34,12 +34,12 @@
                 <search-bar />
 
                 <i18n />
-                {{user}}
-                <!--  <notification-drop-down />
+                <template v-if="user">
+                    <notification-drop-down />
+                    <profile-drop-down :user="user" />
+                </template>
 
-                <profile-drop-down />-->
-
-                <login-with-twitch />
+                <login-with-twitch v-else />
             </vs-navbar>
         </div>
     </div>

@@ -16,6 +16,7 @@
         "dingo/api": "^3.0",
         "dolejska-daniel/riot-api": "dev-master",
         "fideloper/proxy": "^4.0",
+        "fruitcake/laravel-cors": "^2.0",
         "laravel/framework": "^7.0",
         "laravel/socialite": "^4.4",
         "laravel/tinker": "^2.0",

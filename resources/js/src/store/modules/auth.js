@@ -2,6 +2,11 @@ import axios from '../../axios.js'
 import Cookies from 'js-cookie'
 import * as types from '../mutation-types'
 
+// cookie settings 
+Cookies.defaults = {
+    domain: ".elreco.fr",
+    expires: 1,
+};
 // state
 export const state = {
     user: null,
@@ -22,9 +27,8 @@ export const mutations = {
         remember
     }) {
         state.token = token
-        Cookies.set('token', token, {
-            expires: remember ? 365 : null
-        })
+
+        Cookies.set('token', token)
     },
 
     [types.FETCH_USER_SUCCESS](state, {
@@ -51,7 +55,6 @@ export const mutations = {
         state.user = user
     }
 }
-
 // actions
 export const actions = {
     saveToken({
@@ -60,14 +63,13 @@ export const actions = {
     }, payload) {
         commit(types.SAVE_TOKEN, payload)
     },
-
     async fetchUser({
         commit
     }) {
         try {
             const {
                 data
-            } = await axios.get('/user?token=' + token);
+            } = await axios.get('/user?token=' + state.token);
 
             commit(types.FETCH_USER_SUCCESS, {
                 user: data

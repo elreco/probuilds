@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Session;
 use Laravel\Socialite\Two\InvalidStateException;
-use Tymon\JWTAuth\JWTAuth;
+use JWTAuth;
 use App\Models\User;
 use App\Models\UserSocial;
 
@@ -14,12 +14,12 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
-    protected $auth;
+    /* protected $auth;
 
     public function __construct(JWTAuth $auth)
     {
         $this->auth = $auth;
-    }
+    } */
 
     /**
      * Redirect the user to the GitHub authentication page.
@@ -51,20 +51,21 @@ class LoginController extends Controller
 
         $email = $serviceUser->getEmail();
 
-
         $user = $this->getExistingUser($serviceUser, $email);
         if (!$user) {
             $user = User::create([
                 'name' => $serviceUser->getName(),
                 'email' => $email,
-                'password' => ''
+                'password' => '',
+                'avatar' => $serviceUser->avatar
             ]);
             UserSocial::create([
                 'user_id' => $user->id,
                 'social_id' => $serviceUser->getId()
             ]);
         }
-        return redirect(env('APP_URL') . '/' . Session::get('locale') . '/auth/social-callback?token=' . $this->auth->fromUser($user) . '&redirect=' . Session::get('redirect'));
+        $token = JWTAuth::fromUser($user);
+        return redirect(env('APP_URL') . '/' . Session::get('locale') . '/auth/social-callback?token=' . $token . '&redirect=' . Session::get('redirect'));
 
         Session::forget('redirect');
     }

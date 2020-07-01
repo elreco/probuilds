@@ -1,6 +1,7 @@
 // axios
 import axios from 'axios'
 import router from './router'
+import store from './store/store'
 
 const domain = process.env.MIX_API_DOMAIN;
 axios.defaults.baseURL = domain;
@@ -21,15 +22,18 @@ axios.interceptors.response.use(function (response) {
     }
 
 });
+// Add a request interceptor
+axios.interceptors.request.use(
+    config => {
 
-// Request interceptor
-axios.interceptors.request.use(request => {
-    const token = store.getters['auth/token']
-    if (token) {
-        request.headers.common['Authorization'] = `Bearer ${token}`
-    }
-
-    return request
-});
+        const token = process.env.MIX_API_TOKEN;
+        if (token) {
+            config.headers['Authorization'] = 'Bearer ' + token;
+        }
+        return config;
+    },
+    error => {
+        Promise.reject(error)
+    });
 
 export default axios

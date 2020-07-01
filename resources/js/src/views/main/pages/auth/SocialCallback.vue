@@ -15,6 +15,7 @@ export default {
     data() {
         return {
             token: this.$route.query.token ? this.$route.query.token : null,
+            error: this.$route.query.error ? this.$route.query.error : null,
             redirect: this.$route.query.redirect
                 ? this.$route.query.redirect
                 : "/"
@@ -25,9 +26,35 @@ export default {
             type: "default",
             background: "transparent"
         });
-        this.$store.dispatch("auth/saveToken", {
-            token: this.token
-        });
+        if (this.token) {
+            this.$store
+                .dispatch("auth/saveToken", {
+                    token: this.token
+                })
+                .then(() => {
+                    setTimeout(
+                        () =>
+                            this.$vs.notify({
+                                title: "Login",
+                                text: "gsdgds",
+                                color: "success",
+                                position: "top-center"
+                            }),
+                        3000
+                    );
+                    setTimeout(() => this.$router.push(this.redirect), 3000);
+                    setTimeout(() => this.$vs.loading.close(), 3000);
+                });
+        } else {
+            this.$vs.loading.close();
+            this.$vs.notify({
+                title: "Login error",
+                text: this.error,
+                color: "warning",
+                position: "top-center"
+            });
+            this.$router.push(this.redirect);
+        }
     }
 };
 </script>
