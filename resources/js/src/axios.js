@@ -22,4 +22,14 @@ axios.interceptors.response.use(function (response) {
 
 });
 
+// Request interceptor
+axios.interceptors.request.use(request => {
+    const token = store.getters['auth/token']
+    if (token) {
+        request.headers.common['Authorization'] = `Bearer ${token}`
+    }
+
+    return request
+});
+
 export default axios

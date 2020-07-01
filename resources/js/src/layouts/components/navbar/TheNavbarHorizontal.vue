@@ -34,7 +34,7 @@
                 <search-bar />
 
                 <i18n />
-
+                {{user}}
                 <!--  <notification-drop-down />
 
                 <profile-drop-down />-->
@@ -53,6 +53,7 @@ import NotificationDropDown from "./components/NotificationDropDown.vue";
 import ProfileDropDown from "./components/ProfileDropDown.vue";
 import LoginWithTwitch from "./components/LoginWithTwitch.vue";
 import Logo from "../Logo.vue";
+import { mapGetters } from "vuex";
 
 export default {
     name: "the-navbar-horizontal",
@@ -75,6 +76,7 @@ export default {
         LoginWithTwitch
     },
     computed: {
+        ...mapGetters({ user: "auth/user" }),
         navbarColor() {
             let color = "#fff";
             if (this.navbarType === "sticky") color = "#f7f7f7";

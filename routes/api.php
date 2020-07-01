@@ -18,7 +18,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 // middleware 'api.auth'
-$api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => ['cors' /* , 'api.auth' */]], function ($api) {
+$api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => ['cors']], function ($api) {
+    // USER CONTROLLER
+    $api->get('/user', 'Auth\UserController@current');
+
     // LIVEFEED CONTROLLER
     $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER

@@ -25,6 +25,9 @@ export default {
             type: "default",
             background: "transparent"
         });
+        this.$store.dispatch("auth/saveToken", {
+            token: this.token
+        });
     }
 };
 </script>

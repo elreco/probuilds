@@ -12,6 +12,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import i18n from './i18n/i18n'
 import axiosRouter from './axiosRouter'
+
+import checkAuth from './middleware/check-auth';
+
 import {
     languages
 } from './i18n/i18n'
@@ -29,7 +32,8 @@ const router = new Router({
     },
     routes: [{
             path: "/",
-            redirect: `/${i18n.locale}`
+            redirect: `/${i18n.locale}`,
+
         },
         {
             // =============================================================================
@@ -37,6 +41,7 @@ const router = new Router({
             // =============================================================================
             path: '/',
             component: () => import('./layouts/main/Main.vue'),
+
             children: [
 
                 // =============================================================================
@@ -45,6 +50,9 @@ const router = new Router({
                 {
                     path: '/:locale',
                     name: 'home',
+                    meta: {
+                        middleware: checkAuth,
+                    },
                     component: () => import('./views/main/Home.vue')
                 },
                 // =============================================================================
@@ -53,16 +61,25 @@ const router = new Router({
                 {
                     path: '/:locale/probuilds',
                     name: 'probuilds',
+                    meta: {
+                        middleware: checkAuth,
+                    },
                     component: () => import('./views/probuilds/Home.vue')
                 },
                 {
                     path: '/:locale/matches/:region/:summonerId/:matchId/:champion/:participantId',
                     name: 'matches',
+                    meta: {
+                        middleware: checkAuth,
+                    },
                     component: () => import('./views/probuilds/Match.vue'),
                 },
                 {
                     path: '/:locale/champions/:champion',
                     name: 'champions',
+                    meta: {
+                        middleware: checkAuth,
+                    },
                     component: () => import('./views/probuilds/Champion.vue')
                 },
                 // =============================================================================
@@ -71,6 +88,9 @@ const router = new Router({
                 {
                     path: '/:locale/community',
                     name: 'community',
+                    meta: {
+                        middleware: checkAuth,
+                    },
                     component: () => import('./views/community/Home.vue')
                 },
             ]
@@ -114,7 +134,22 @@ const router = new Router({
 })
 // use beforeEach route guard to set the language
 router.beforeEach((to, from, next) => {
+    if (to.meta.middleware) {
+        const middleware = Array.isArray(to.meta.middleware) ? to.meta.middleware : [to.meta.middleware];
+        const context = {
+            from,
+            next,
+            router,
+            to,
 
+        };
+        const nextMiddleware = nextFactory(context, middleware, 1);
+
+        return middleware[0]({
+            ...context,
+            next: nextMiddleware
+        });
+    }
     // use the language from the routing param or default language
     let language = to.params.locale;
 
@@ -140,6 +175,26 @@ router.afterEach(() => {
         appLoading.style.display = 'none'
     }
 })
+
+function nextFactory(context, middleware, index) {
+
+    const subsequentMiddleware = middleware[index]; // If no subsequent Middleware exists,
+    // the default `next()` callback is returned.
+
+    if (!subsequentMiddleware) return context.next;
+
+    return (...parameters) => {
+        // Run the default Vue Router `next()` callback first.
+        context.next(...parameters); // Then run the subsequent Middleware with a new
+        // `nextMiddleware()` callback.
+
+        const nextMiddleware = nextFactory(context, middleware, index + 1);
+        subsequentMiddleware({
+            ...context,
+            next: nextMiddleware
+        });
+    };
+}
 
 function checkChampion(champion, locale) {
     axiosRouter.get("champions-check", {

@@ -14,8 +14,6 @@ import moment from 'moment'
 import '@fortawesome/fontawesome-free/css/all.css'
 import '@fortawesome/fontawesome-free/js/all.js'
 
-
-
 // Vuesax Component Framework
 import Vuesax from 'vuesax'
 
@@ -41,8 +39,6 @@ import router from './router'
 import axios from './axios.js'
 Vue.prototype.$http = axios
 
-
-
 // Vuex Store
 import store from './store/store'
 
@@ -52,10 +48,6 @@ import i18n from './i18n/i18n'
 // vue tooltip
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)
-
-// vue select
-/* import vSelect from "vue-select";
-Vue.component("v-select", vSelect); */
 
 // Vuejs - Vue wrapper for hammerjs
 import {
