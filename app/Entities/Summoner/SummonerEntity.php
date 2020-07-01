@@ -65,21 +65,24 @@ class SummonerEntity
 
         $summoner = $this->getSummoner($summonerId);
 
-        $response['name'] = $summoner->name;
-        $response['icon'] = DataDragonAPI::getProfileIconO($summoner)->src;
-        $response['level'] = $summoner->summonerLevel;
-        // summoner rank and points
-        $summonerLeague = $this->getLeague($summonerId, "RANKED_SOLO_5x5");
+        if (!empty($summoner)) {
+            $response['name'] = $summoner->name;
+            $response['icon'] = DataDragonAPI::getProfileIconO($summoner)->src;
+            $response['level'] = $summoner->summonerLevel;
+            // summoner rank and points
+            $summonerLeague = $this->getLeague($summonerId, "RANKED_SOLO_5x5");
 
-        if (!empty($summonerLeague)) {
-            $leagueRank = "";
-            if (!in_array($summonerLeague->tier, ["MASTER", "GRANDMASTER", "CHALLENGER"])) {
-                $leagueRank = " " . $summonerLeague->rank;
+            if (!empty($summonerLeague)) {
+                $leagueRank = "";
+                if (!in_array($summonerLeague->tier, ["MASTER", "GRANDMASTER", "CHALLENGER"])) {
+                    $leagueRank = " " . $summonerLeague->rank;
+                }
+                $response['league'] = $summonerLeague->tier . $leagueRank;
+                $response['leagueName'] = ucfirst(strtolower($summonerLeague->tier));
+                $response['leaguePoints'] = $summonerLeague->leaguePoints;
             }
-            $response['league'] = $summonerLeague->tier . $leagueRank;
-            $response['leagueName'] = ucfirst(strtolower($summonerLeague->tier));
-            $response['leaguePoints'] = $summonerLeague->leaguePoints;
         }
+
 
         return $response;
     }

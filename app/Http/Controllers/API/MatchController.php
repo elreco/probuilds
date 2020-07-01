@@ -20,6 +20,7 @@ class MatchController extends Controller
     public function show(ShowRequest $request)
     {
         $match = CacheEntity::useCache('MatchController', $request, 'getMatchDetails');
+        /* $match = $this->getMatchDetails($request); */
         return $match;
     }
 
@@ -52,10 +53,6 @@ class MatchController extends Controller
 
         $timelineEntity = new TimelineEntity($riot, $request->locale);
         return $timelineEntity->getSpells($frames, $request->participantId, $request->champion);
-    }
-
-    public function runes($request)
-    {
     }
 
     public function matchTimeline($request)

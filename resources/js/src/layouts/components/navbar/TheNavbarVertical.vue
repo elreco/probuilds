@@ -30,9 +30,13 @@
 
                 <search-bar />
 
-                <notification-drop-down />
+                <i18n />
 
-                <profile-drop-down />
+                <!-- <notification-drop-down />
+
+                <profile-drop-down />-->
+
+                <login-with-twitch />
             </vs-navbar>
         </div>
     </div>
@@ -40,10 +44,12 @@
 
 
 <script>
+import I18n from "./components/I18n.vue";
 import Bookmarks from "./components/Bookmarks.vue";
 import SearchBar from "./components/SearchBar.vue";
 import NotificationDropDown from "./components/NotificationDropDown.vue";
 import ProfileDropDown from "./components/ProfileDropDown.vue";
+import LoginWithTwitch from "./components/LoginWithTwitch.vue";
 
 export default {
     name: "the-navbar-vertical",
@@ -54,10 +60,12 @@ export default {
         }
     },
     components: {
-        Bookmarks,
+        /* Bookmarks, */
         SearchBar,
+        I18n,
         NotificationDropDown,
-        ProfileDropDown
+        ProfileDropDown,
+        LoginWithTwitch
     },
     computed: {
         navbarColorLocal() {

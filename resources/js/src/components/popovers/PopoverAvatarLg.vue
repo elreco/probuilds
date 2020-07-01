@@ -24,7 +24,7 @@
                     <div class="vx-col w-1/5">
                         <img
                             :src="src"
-                            class="w-12 h-12 border-solid border-2 rouned border-white mx-auto text-center"
+                            class="w-12 h-12 border-solid border-2 rounded border-white mx-auto text-center"
                         />
                     </div>
                     <div class="vx-col w-4/5 text-left">
@@ -54,15 +54,15 @@ export default {
             type: String,
             required: false
         },
-        src: {
-            type: String,
-            required: false,
-            default: require("@assets/images/livefeed/unknown.png")
-        },
         description: {
             type: String,
             required: false,
             default: ""
+        },
+        src: {
+            type: String,
+            required: false,
+            default: require("@assets/images/livefeed/unknown.png")
         },
         default: {
             type: Boolean,

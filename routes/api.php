@@ -17,8 +17,11 @@ $api = app('Dingo\Api\Routing\Router');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+// middleware 'api.auth'
+$api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => ['api.auth']], function ($api) {
+    // USER CONTROLLER
+    $api->get('/user', 'Auth\UserController@current');
 
-$api->version('v1', ['namespace' => 'App\Http\Controllers\API', 'middleware' => ['cors', 'api.throttle']], function ($api) {
     // LIVEFEED CONTROLLER
     $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER

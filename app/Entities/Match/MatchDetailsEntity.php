@@ -13,6 +13,8 @@ use App\Entities\ChampionEntity;
 use App\Entities\RegionEntity;
 use App\Entities\Riot\RiotEntity;
 use App\Entities\Summoner\RuneEntity;
+use App\Entities\CacheEntity;
+use Illuminate\Http\Request;
 
 use Carbon\CarbonInterval;
 
@@ -48,8 +50,13 @@ class MatchDetailsEntity
         $regionEntity = new RegionEntity();
 
         // get match
-        $match = $matchEntity->getMatch($request->id);
-
+        /* $match = $matchEntity->getMatch($request->id); */
+        $requestMatch = new Request();
+        $requestMatch->replace([
+            'locale' => $request->locale,
+            'id' => $request->id
+        ]);
+        $match = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatch', $this->riot, $requestMatch);
         if (!empty($match)) {
             // global array data
             $response['matchId'] = $request->id;

@@ -81,6 +81,12 @@ export default {
             MagicRes: "Magic Resistance",
             HealthScaling: "Health Scaling",
             CDRScaling: "Cooldown Reduction"
+        },
+        Message: {
+            noData: "No Data",
+            noLivefeedData: "Livefeed is not available yet for the requested criteria.",
+            loginWaitTitle: "Please wait",
+            loginWaitMessage: "We are login you to the plateform..."
         }
     },
     de: {},
@@ -166,6 +172,12 @@ export default {
             MagicRes: "Résistance magique",
             HealthScaling: "Points de Vie",
             CDRScaling: "Réduction des délais"
+        },
+        Message: {
+            noData: "Aucune donnée",
+            noLivefeedData: "Le livefeed n'est pas encore disponible pour les critères demandés.",
+            loginWaitTitle: "Veuillez patienter",
+            loginWaitMessage: "Nous vous connectons à la plateforme..."
         }
 
     },

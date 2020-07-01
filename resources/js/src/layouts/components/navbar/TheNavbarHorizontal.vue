@@ -19,21 +19,27 @@
                 :color="navbarColor"
             >
                 <router-link tag="div" to="/" class="vx-logo cursor-pointer flex items-center">
-                    <logo class="w-10 mr-4 fill-current text-primary" />
-                    <span class="vx-logo-text font-semibold text-primary">EVIL</span>
+                    <logo class="w-10 mr-1 fill-current text-primary pt-0" />
+                    <span class="vx-logo-text font-normal text-primary pt-1">EVIL</span>
+                    <!--
+                    -->
                     <span
-                        class="vx-logo-text font-normal text-gold text-shadow-gold-special"
+                        class="vx-logo-text font-light text-gold text-shadow-gold-special pt-1"
                     >SPARTAN</span>
-                    <span class="vx-logo-text font-semibold text-primary">.COM</span>
+                    <!--
+                    -->
+                    <span class="vx-logo-text font-normal text-primary pt-1">.COM</span>
                 </router-link>
 
                 <search-bar />
 
                 <i18n />
+                <template v-if="user">
+                    <notification-drop-down />
+                    <profile-drop-down :user="user" />
+                </template>
 
-                <notification-drop-down />
-
-                <profile-drop-down />
+                <login-with-twitch v-else />
             </vs-navbar>
         </div>
     </div>
@@ -45,7 +51,9 @@ import I18n from "./components/I18n.vue";
 import SearchBar from "./components/SearchBar.vue";
 import NotificationDropDown from "./components/NotificationDropDown.vue";
 import ProfileDropDown from "./components/ProfileDropDown.vue";
+import LoginWithTwitch from "./components/LoginWithTwitch.vue";
 import Logo from "../Logo.vue";
+import { mapGetters } from "vuex";
 
 export default {
     name: "the-navbar-horizontal",
@@ -64,9 +72,11 @@ export default {
         SearchBar,
         I18n,
         NotificationDropDown,
-        ProfileDropDown
+        ProfileDropDown,
+        LoginWithTwitch
     },
     computed: {
+        ...mapGetters({ user: "auth/user" }),
         navbarColor() {
             let color = "#fff";
             if (this.navbarType === "sticky") color = "#f7f7f7";

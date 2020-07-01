@@ -14,7 +14,7 @@ class Livefeed extends Command
      *
      * @var string
      */
-    protected $signature = 'cache:livefeed {page} {locale} {lane} {champion?}';
+    protected $signature = 'cache:livefeed {locale} {lane} {champion?}';
 
     /**
      * The console command description.
@@ -43,9 +43,9 @@ class Livefeed extends Command
         //
         $request = new Request();
         $requests = [
-            'page' => $this->argument('page'),
             'locale' => $this->argument('locale'),
             'lane' => $this->argument('lane'),
+            'force' => true
         ];
         if (!empty($this->argument('champion'))) {
             $requests .= [
@@ -53,6 +53,6 @@ class Livefeed extends Command
             ];
         }
         $request->replace($requests);
-        CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed', true);
+        CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed');
     }
 }
