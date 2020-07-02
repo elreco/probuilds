@@ -71,8 +71,8 @@ export default {
             // Log out the user.
             await this.$store.dispatch("auth/logout").then(() => {
                 this.$vs.notify({
-                    title: "Logout",
-                    text: "gsdgds",
+                    title: this.$i18n.t("Message.logoutTitle"),
+                    text: this.$i18n.t("Message.logoutMessage"),
                     color: "success",
                     position: "top-center"
                 });

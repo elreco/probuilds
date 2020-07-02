@@ -95,9 +95,10 @@ export default {
                 })
                 .then(() => {
                     this.regionName = this.region.toUpperCase();
-                    this.images.borderImage = require("@assets/images/dragon/borders/" +
-                        this.data.leagueName +
-                        ".png");
+                    if (this.data.leagueName)
+                        this.images.borderImage = require("@assets/images/dragon/borders/" +
+                            this.data.leagueName +
+                            ".png");
                 })
                 .then(() => {
                     this.loadingData(false);

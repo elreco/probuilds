@@ -11,13 +11,11 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import i18n from './i18n/i18n'
-import axiosRouter from './axiosRouter'
 
 import checkAuth from './middleware/check-auth';
+import locale from './middleware/locale';
 
-import {
-    languages
-} from './i18n/i18n'
+
 
 Vue.use(Router)
 
@@ -51,7 +49,7 @@ const router = new Router({
                     path: '/:locale',
                     name: 'home',
                     meta: {
-                        middleware: checkAuth,
+                        middleware: [checkAuth, locale],
                     },
                     component: () => import('./views/main/Home.vue')
                 },
@@ -62,7 +60,7 @@ const router = new Router({
                     path: '/:locale/probuilds',
                     name: 'probuilds',
                     meta: {
-                        middleware: checkAuth,
+                        middleware: [checkAuth, locale],
                     },
                     component: () => import('./views/probuilds/Home.vue')
                 },
@@ -70,7 +68,7 @@ const router = new Router({
                     path: '/:locale/matches/:region/:summonerId/:matchId/:champion/:participantId',
                     name: 'matches',
                     meta: {
-                        middleware: checkAuth,
+                        middleware: [checkAuth, locale],
                     },
                     component: () => import('./views/probuilds/Match.vue'),
                 },
@@ -78,7 +76,7 @@ const router = new Router({
                     path: '/:locale/champions/:champion',
                     name: 'champions',
                     meta: {
-                        middleware: checkAuth,
+                        middleware: [checkAuth, locale],
                     },
                     component: () => import('./views/probuilds/Champion.vue')
                 },
@@ -89,7 +87,7 @@ const router = new Router({
                     path: '/:locale/community',
                     name: 'community',
                     meta: {
-                        middleware: checkAuth,
+                        middleware: [checkAuth, locale],
                     },
                     component: () => import('./views/community/Home.vue')
                 },
@@ -108,11 +106,17 @@ const router = new Router({
                 {
                     path: '/:locale/pages/login',
                     name: 'page-login',
+                    meta: {
+                        middleware: locale,
+                    },
                     component: () => import('@/views/main/pages/Login.vue')
                 },
                 {
                     path: '/:locale/pages/error/:code/:message',
                     name: 'page-error',
+                    meta: {
+                        middleware: locale,
+                    },
                     component: () => import('@/views/main/pages/Error.vue'),
                 },
                 // =============================================================================
@@ -121,6 +125,9 @@ const router = new Router({
                 {
                     path: '/:locale/auth/social-callback',
                     name: 'social-callback',
+                    meta: {
+                        middleware: locale,
+                    },
                     component: () => import('./views/main/pages/auth/SocialCallback.vue')
                 },
             ]
@@ -134,6 +141,7 @@ const router = new Router({
 })
 // use beforeEach route guard to set the language
 router.beforeEach((to, from, next) => {
+
     if (to.meta.middleware) {
         const middleware = Array.isArray(to.meta.middleware) ? to.meta.middleware : [to.meta.middleware];
         const context = {
@@ -150,22 +158,7 @@ router.beforeEach((to, from, next) => {
             next: nextMiddleware
         });
     }
-    // use the language from the routing param or default language
-    let language = to.params.locale;
 
-    if (!languages.includes(language)) return next('en')
-    // set the current language for vuex-i18n. note that translation data
-    // for the language might need to be loaded first
-    if (i18n.locale !== language) {
-        localStorage.locale = language
-        i18n.locale = language
-    }
-
-    if (to.params.champion && to.params.locale) {
-        checkChampion(to.params.champion, to.params.locale);
-    }
-
-    return next();
 
 });
 router.afterEach(() => {
@@ -196,7 +189,7 @@ function nextFactory(context, middleware, index) {
     };
 }
 
-function checkChampion(champion, locale) {
+/* function checkChampion(champion, locale) {
     axiosRouter.get("champions-check", {
             params: {
                 name: champion,
@@ -222,6 +215,6 @@ function checkChampion(champion, locale) {
                 }
             });
         });
-}
+} */
 
 export default router

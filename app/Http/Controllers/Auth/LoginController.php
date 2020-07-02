@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Session;
-use Laravel\Socialite\Two\InvalidStateException;
 use JWTAuth;
 use App\Models\User;
 use App\Models\UserSocial;

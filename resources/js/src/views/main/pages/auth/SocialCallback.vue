@@ -35,8 +35,8 @@ export default {
                     setTimeout(
                         () =>
                             this.$vs.notify({
-                                title: "Login",
-                                text: "gsdgds",
+                                title: this.$i18n.t("Message.loginTitle"),
+                                text: this.$i18n.t("Message.loginMessage"),
                                 color: "success",
                                 position: "top-center"
                             }),

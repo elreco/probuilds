@@ -86,7 +86,11 @@ export default {
             noData: "No Data",
             noLivefeedData: "Livefeed is not available yet for the requested criteria.",
             loginWaitTitle: "Please wait",
-            loginWaitMessage: "We are login you to the plateform..."
+            loginWaitMessage: "We are login you to the plateform...",
+            loginTitle: "Successful logged in",
+            loginMessage: "You are logged in to the platform!",
+            logoutTitle: "Successful logged out",
+            logoutMessage: "You are logged out to the platform, See you soon!",
         }
     },
     de: {},
@@ -177,7 +181,11 @@ export default {
             noData: "Aucune donnée",
             noLivefeedData: "Le livefeed n'est pas encore disponible pour les critères demandés.",
             loginWaitTitle: "Veuillez patienter",
-            loginWaitMessage: "Nous vous connectons à la plateforme..."
+            loginWaitMessage: "Nous vous connectons à la plateforme...",
+            loginTitle: "Connexion réussie",
+            loginMessage: "Vous êtes maintenant connecté à la plateforme !",
+            logoutTitle: "Déconnexion réussie",
+            logoutMessage: "Vous êtes maintenant déconnecté de la plateforme, à bientôt !",
         }
 
     },

@@ -11,12 +11,12 @@
             <vs-dropdown-item @click="updateLocale('fr')">
                 <img class="h-4 w-5 mr-1" src="@assets/images/flags/fr.png" alt="fr" /> &nbsp;French
             </vs-dropdown-item>
-            <vs-dropdown-item @click="updateLocale('de')">
+            <!-- <vs-dropdown-item @click="updateLocale('de')">
                 <img class="h-4 w-5 mr-1" src="@assets/images/flags/de.png" alt="de" /> &nbsp;German
             </vs-dropdown-item>
             <vs-dropdown-item @click="updateLocale('pt')">
                 <img class="h-4 w-5 mr-1" src="@assets/images/flags/pt.png" alt="pt" /> &nbsp;Portuguese
-            </vs-dropdown-item>
+            </vs-dropdown-item>-->
         </vs-dropdown-menu>
     </vs-dropdown>
 </template>

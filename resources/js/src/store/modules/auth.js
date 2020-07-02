@@ -69,7 +69,7 @@ export const actions = {
         try {
             const {
                 data
-            } = await axios.get('/user?token=' + state.token);
+            } = await axios.get('/user');
 
             commit(types.FETCH_USER_SUCCESS, {
                 user: data

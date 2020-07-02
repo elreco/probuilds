@@ -4,11 +4,12 @@ namespace App\Http\Controllers\API\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use JWTAuth;
+use Dingo\Api\Routing\Helpers;
 
 
 class UserController extends Controller
 {
+    use Helpers;
     /**
      * Get authenticated user.
      *
@@ -17,8 +18,7 @@ class UserController extends Controller
      */
     public function current(Request $request)
     {
-        $token = $request->token;
-        $user = JWTAuth::toUser($token);
+        $user = $this->auth->user();
 
         return $user;
     }

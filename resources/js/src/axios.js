@@ -26,7 +26,7 @@ axios.interceptors.response.use(function (response) {
 axios.interceptors.request.use(
     config => {
 
-        const token = process.env.MIX_API_TOKEN;
+        const token = store.getters['auth/token'];
         if (token) {
             config.headers['Authorization'] = 'Bearer ' + token;
         }
