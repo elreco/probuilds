@@ -184,7 +184,7 @@ export default {
     methods: {
         handleSelected(tr) {
             this.$router.push({
-                name: "matches",
+                name: "probuilds.matches",
                 params: {
                     region: tr.region,
                     summonerId: tr.summonerId,

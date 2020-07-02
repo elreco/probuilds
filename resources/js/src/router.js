@@ -31,67 +31,71 @@ const router = new Router({
     routes: [{
             path: "/",
             redirect: `/${i18n.locale}`,
-
         },
         {
             // =============================================================================
-            // MAIN LAYOUT ROUTES
+            // MAIN ROUTES
             // =============================================================================
-            path: '/',
+            path: '/:locale',
             component: () => import('./layouts/main/Main.vue'),
-
             children: [
 
                 // =============================================================================
                 // Home Route
                 // =============================================================================
                 {
-                    path: '/:locale',
+                    path: '',
                     name: 'home',
                     meta: {
                         middleware: [checkAuth, locale],
                     },
                     component: () => import('./views/main/Home.vue')
                 },
-                // =============================================================================
-                // Probuilds Routes
-                // =============================================================================
-                {
-                    path: '/:locale/probuilds',
-                    name: 'probuilds',
-                    meta: {
-                        middleware: [checkAuth, locale],
-                    },
-                    component: () => import('./views/probuilds/Home.vue')
-                },
-                {
-                    path: '/:locale/matches/:region/:summonerId/:matchId/:champion/:participantId',
-                    name: 'matches',
-                    meta: {
-                        middleware: [checkAuth, locale],
-                    },
-                    component: () => import('./views/probuilds/Match.vue'),
-                },
-                {
-                    path: '/:locale/champions/:champion',
-                    name: 'champions',
-                    meta: {
-                        middleware: [checkAuth, locale],
-                    },
-                    component: () => import('./views/probuilds/Champion.vue')
-                },
-                // =============================================================================
-                // Community Routes
-                // =============================================================================
-                {
-                    path: '/:locale/community',
-                    name: 'community',
-                    meta: {
-                        middleware: [checkAuth, locale],
-                    },
-                    component: () => import('./views/community/Home.vue')
-                },
             ]
+        },
+        {
+            // =============================================================================
+            // Probuilds Routes
+            // =============================================================================
+            path: '/:locale/probuilds',
+            component: () => import('./layouts/main/Main.vue'),
+            children: [{
+                path: '',
+                name: 'probuilds',
+                meta: {
+                    middleware: [checkAuth, locale],
+                },
+                component: () => import('./views/probuilds/Home.vue')
+            }, {
+                path: 'matches/:region/:summonerId/:matchId/:champion/:participantId',
+                name: 'probuilds.matches',
+                meta: {
+                    middleware: [checkAuth, locale],
+                },
+                component: () => import('./views/probuilds/Match.vue'),
+            }, {
+                path: 'champions/:champion',
+                name: 'probuilds.champions',
+                meta: {
+                    middleware: [checkAuth, locale],
+                },
+                component: () => import('./views/probuilds/Champion.vue')
+            }],
+        },
+        // =============================================================================
+        // Community Routes
+        // =============================================================================
+        {
+            path: '/:locale/community',
+            component: () => import('./layouts/main/Main.vue'),
+            children: [{
+                path: '',
+                name: 'community',
+                meta: {
+                    middleware: [checkAuth, locale],
+                },
+                component: () => import('./views/community/Home.vue')
+            }]
         },
         // =============================================================================
         // FULL PAGE LAYOUTS

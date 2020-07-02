@@ -21,6 +21,12 @@ export default [{
         icon: 'ZapIcon'
     },
     {
+        url: '/' + i18n.locale + '/spectate',
+        name: "Spectate",
+        slug: 'spectate',
+        icon: 'MonitorIcon'
+    },
+    {
         url: '/' + i18n.locale + '/community',
         name: "Community",
         slug: 'community',
