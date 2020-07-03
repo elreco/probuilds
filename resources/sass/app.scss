@@ -193,3 +193,51 @@
     box-shadow: 0 15px 30px 0 rgba(0, 145, 234, 0.11),
         0 5px 15px 0 rgba(0, 145, 234, 0.18) !important;
 }
+
+.pt-custom {
+    padding-top: 0.1rem;
+}
+
+@keyframes blinkdanger {
+    0% {
+        color: rgba(234, 84, 85, 1)
+    }
+
+    50% {
+        color: rgba(234, 84, 85, 0.5)
+    }
+
+    100% {
+        color: rgba(234, 84, 85, 1)
+    }
+}
+
+@-webkit-keyframes blinkdanger {
+    0% {
+        color: rgba(234, 84, 85, 1)
+    }
+
+    50% {
+        color: rgba(234, 84, 85, 0.5)
+    }
+
+    100% {
+        color: rgba(234, 84, 85, 1)
+    }
+}
+
+.blink {
+    -moz-transition: all 0.5s ease-in-out;
+    -webkit-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    -ms-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+    -moz-animation: blinkdanger normal 1.5s infinite ease-in-out;
+    /* Firefox */
+    -webkit-animation: blinkdanger normal 1.5s infinite ease-in-out;
+    /* Webkit */
+    -ms-animation: blinkdanger normal 1.5s infinite ease-in-out;
+    /* IE */
+    animation: blinkdanger normal 1.5s infinite ease-in-out;
+    /* Opera */
+}
