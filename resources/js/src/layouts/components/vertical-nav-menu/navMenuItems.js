@@ -22,7 +22,7 @@ export default [{
     },
     {
         url: '/' + i18n.locale + '/spectate',
-        name: "Spectate",
+        name: "Spectate <i class='fas fa-circle text-danger'></i>",
         slug: 'spectate',
         icon: 'MonitorIcon'
     },

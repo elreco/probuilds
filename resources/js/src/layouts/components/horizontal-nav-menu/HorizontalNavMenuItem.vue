@@ -86,13 +86,12 @@ export default {
             return this.iconSmall ? "w-3 h-3 mr-3" : "w-5 h-5 mr-3";
         },
         activeLink() {
-            console.log(this.$route.matched[0].path);
-            console.log(this.to);
             return !!(
                 (this.to ===
                     "/" + this.$route.params.lang + "/" + this.$route.name ||
                     this.to === this.$route.path ||
-                    this.to === this.$route.matched[1].name ||
+                    (this.$route.path.startsWith(this.to) &&
+                        this.to != "/" + this.$i18n.locale) ||
                     this.$route.meta.parent === this.slug) &&
                 this.to
             );
