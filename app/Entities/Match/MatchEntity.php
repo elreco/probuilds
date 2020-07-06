@@ -42,17 +42,14 @@ class MatchEntity
     {
 
         // Get Challengers
-        /* $challengerEntity = new ChallengerEntity($this->riot);
-        $challengers = $challengerEntity->getChallengers(); */
-
         $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $request);
-        // Get last matchs for each challenger
-        /* $challengersLastMatch = $this->getChallengersLastMatch($request, $challengers); */
-        $challengersLastMatch = CacheEntity::useEntityCache('Match\MatchEntity', 'getChallengersLastMatch', $this->riot, $request, $challengers);
 
+        // Get last matchs for each challenger
+        $challengersLastMatch = CacheEntity::useEntityCache('Match\MatchEntity', 'getChallengersLastMatch', $this->riot, $request, $challengers);
         // return an array of matches
         $matches = $this->formatMatches($challengersLastMatch, $request);
         return $matches;
+        /* return $challengersLastMatch; */
     }
 
     /**
@@ -67,7 +64,6 @@ class MatchEntity
         $response = [];
         // entities
         $championEntity = new ChampionEntity($this->locale);
-        $summonerEntity = new SummonerEntity($this->riot);
         // equivalent de if !empty
         foreach ($matches as $summonerId => $m) {
             $requestMatch = new Request();
@@ -76,8 +72,6 @@ class MatchEntity
                 'id' => $m[0]->gameId
             ]);
             $matchApi = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatch', $this->riot, $requestMatch);
-
-            /* $matchApi = $this->getMatch($m[0]->gameId); */
             if (!empty($matchApi)) {
                 // position REF
                 $positionRef = $this->getRiotPosition($m[0]->lane, $m[0]->role);
@@ -120,7 +114,12 @@ class MatchEntity
                 $response[$i]['date'] = $m[0]->timestamp;
 
                 // PLAYER
-                $response[$i]['player'] = $summonerEntity->getSummonerDetails($m['summoner']->id);
+                $requestSummoner = new Request();
+                $requestSummoner->replace([
+                    'id' => $m['summoner']->id,
+                    'forceDeep' => true
+                ]);
+                $response[$i]['player'] = CacheEntity::useEntityCache('Summoner\SummonerEntity', 'getSummonerDetails', $this->riot, $requestSummoner);
                 ////////////////////////
                 /// SEARCH VS PLAYER ///
                 ////////////////////////
@@ -173,7 +172,8 @@ class MatchEntity
                             'region' => $request->region,
                             'summonerId' => $participantIdentities[$participant->participantId]->player->summonerId,
                             'champion' => $participant->staticData->name,
-                            'participantId' => $participant->participantId
+                            'participantId' => $participant->participantId,
+                            'force' => true
                         ]);
                         CacheEntity::useCache('MatchController', $matchRequest, 'getMatchDetails');
                     }
@@ -183,7 +183,6 @@ class MatchEntity
             $i++;
         }
         // Return formated matchs
-
         return $response;
     }
 
@@ -268,7 +267,6 @@ class MatchEntity
             /* throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Match not found'); */
             return null;
         }
-
         return $match;
     }
 

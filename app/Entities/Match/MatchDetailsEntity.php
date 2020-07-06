@@ -129,7 +129,6 @@ class MatchDetailsEntity
 
         // init entity
         $championEntity = new ChampionEntity($this->locale);
-        $summonerEntity = new SummonerEntity($this->riot);
 
         foreach ($participants as $participant) {
             $response[$i]['participantId'] = $participant->participantId;
@@ -140,7 +139,13 @@ class MatchDetailsEntity
             $response[$i]['champion'] = $championEntity->getChampionDetails($participant->staticData);
 
             // player
-            $response[$i]['player'] = $summonerEntity->getSummonerDetails($summonerId);
+            /* $summonerEntity->getSummonerDetails($requestSummoner) */
+            $requestSummoner = new Request();
+            $requestSummoner->replace([
+                'id' => $summonerId,
+                'forceDeep' => true
+            ]);
+            $response[$i]['player'] = CacheEntity::useEntityCache('Summoner\SummonerEntity', 'getSummonerDetails', $this->riot, $requestSummoner);
 
             $response[$i]['level'] = $participant->stats->champLevel;
 

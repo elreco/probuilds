@@ -80,8 +80,8 @@ export default {
         },
         onSuggestSelect(suggest) {
             if (suggest.name != this.championInput)
-                return this.$router.push({
-                    name: "champions",
+                this.$router.push({
+                    name: "probuilds.champions",
                     params: {
                         champion: suggest.name
                     }
@@ -90,7 +90,7 @@ export default {
         setChampion() {
             if (
                 this.$route.params.champion &&
-                this.$route.name == "champions"
+                this.$route.name == "probuilds.champions"
             ) {
                 this.championInput = this.$route.params.champion;
             } else {

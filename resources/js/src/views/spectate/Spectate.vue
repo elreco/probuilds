@@ -1,17 +1,62 @@
 <template>
-    <section id="dashboard-analytics">
-        <div class="vx-row">
-            <!-- CARD 1: CONGRATS -->
-            <div class="vx-col w-full mb-base">
-                <search-banner :displayDecore="true">
-                    <template v-slot:default>
-                        <h1 class="mb-4 text-white">{{ $t("home.welcome") }}</h1>
-                        <p
-                            class="xl:w-3/4 lg:w-4/5 md:w-2/3 w-4/5 mx-auto text-white"
-                            v-html="$t('home.welcomeText')"
-                        ></p>
+    <section>
+        <!-- GRID VIEW -->
+        <div class="items-grid-view vx-row match-height">
+            <div class="vx-col">
+                <vx-card class="grid-view-item mb-base overflow-hidden" v-on="$listeners">
+                    <template slot="no-body">
+                        <!-- ITEM IMAGE -->
+                        <div
+                            class="item-img-container bg-white h-64 flex items-center justify-center mb-4 cursor-pointer"
+                        >
+                            <img
+                                src="https://ddragon.leagueoflegends.com/cdn/10.13.1/img/profileicon/4491.png"
+                                class="grid-view-img px-4"
+                            />
+                        </div>
+                        <div class="item-details px-4">
+                            <!-- RATING & PRICE -->
+                            <div class="flex justify-between items-center">
+                                <div
+                                    class="text-warning border border-solid border-warning flex py-1 px-2 rounded"
+                                >
+                                    <span class="text-sm mr-1">1</span>
+                                    <feather-icon icon="StarIcon" svgClasses="h-4 w-4" />
+                                </div>
+                                <h6 class="font-bold">1</h6>
+                            </div>
+
+                            <!-- TITLE & DESCRIPTION -->
+                            <div class="my-4">
+                                <!-- @click="navigate_to_detail_view" -->
+                                <h6
+                                    class="truncate font-semibold mb-1 hover:text-primary cursor-pointer"
+                                >sdgsdg</h6>
+                                <p class="item-description truncate text-sm">sdgsdg</p>
+                            </div>
+                        </div>
+                        <!-- SLOT: ACTION BUTTONS -->
+                        <div class="flex flex-wrap">
+                            <!-- PRIMARY BUTTON: ADD TO WISH LIST -->
+                            <div
+                                class="item-view-primary-action-btn p-3 flex flex-grow items-center justify-center cursor-pointer"
+                            >
+                                <feather-icon icon="HeartIcon" />
+
+                                <span class="text-sm font-semibold ml-2">WISHLIST</span>
+                            </div>
+
+                            <!-- SECONDARY BUTTON: ADD-TO/VIEW-IN CART -->
+                            <div
+                                class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
+                            >
+                                <feather-icon icon="ShoppingBagIcon" svgClasses="h-4 w-4" />
+
+                                <span class="text-sm font-semibold ml-2">ADD TO CART</span>
+                            </div>
+                        </div>
                     </template>
-                </search-banner>
+                </vx-card>
             </div>
         </div>
     </section>

@@ -88,6 +88,22 @@ class ChampionEntity
         }
         return false;
     }
+    /**
+     * Check if champion exists and returns his well formatted name.
+     *
+     * @return array
+     */
+    public function getAllChampionsName()
+    {
+        // init data dragon
+        $response = [];
+        $riotEntity = new RiotEntity($this->locale);
+        $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
+        foreach ($champions['data'] as $c) {
+            $response[] = $c['name'];
+        }
+        return $response;
+    }
 
     /**
      * Check if champion exists and returns his well formatted name.

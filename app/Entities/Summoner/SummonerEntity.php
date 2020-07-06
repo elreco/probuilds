@@ -59,18 +59,18 @@ class SummonerEntity
      *
      * @return \Illuminate\Http\Response
      */
-    public function getSummonerDetails($summonerId)
+    public function getSummonerDetails($request)
     {
         $response = $this->initSummonerArray();
 
-        $summoner = $this->getSummoner($summonerId);
+        $summoner = $this->getSummoner($request->id);
 
         if (!empty($summoner)) {
             $response['name'] = $summoner->name;
             $response['icon'] = DataDragonAPI::getProfileIconO($summoner)->src;
             $response['level'] = $summoner->summonerLevel;
             // summoner rank and points
-            $summonerLeague = $this->getLeague($summonerId, "RANKED_SOLO_5x5");
+            $summonerLeague = $this->getLeague($request->id, "RANKED_SOLO_5x5");
 
             if (!empty($summonerLeague)) {
                 $leagueRank = "";

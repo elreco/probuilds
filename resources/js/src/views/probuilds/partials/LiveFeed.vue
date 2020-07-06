@@ -39,7 +39,7 @@
                 />
             </vs-navbar>
             <vs-table
-                v-if="matches.data"
+                v-if="Object.keys(matches.data).length != 0 || isFetching==true"
                 noDataText
                 :currentPage="page"
                 :sst="true"
@@ -162,6 +162,7 @@ export default {
         return {
             selectedLane: "all",
             selectedRegion: null,
+            isFetching: true,
             page: 1,
             regions: [],
             activeLoading: false,
@@ -213,6 +214,7 @@ export default {
                     }
                 })
                 .then(response => {
+                    this.isFetching = false;
                     this.matches = response.data;
                     this.formatDate();
                 })

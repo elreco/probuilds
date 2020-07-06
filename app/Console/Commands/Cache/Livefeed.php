@@ -6,6 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 
 use App\Entities\CacheEntity;
+use App\Entities\ChampionEntity;
 
 class Livefeed extends Command
 {
@@ -41,18 +42,40 @@ class Livefeed extends Command
     public function handle()
     {
         //
-        $request = new Request();
-        $requests = [
-            'locale' => $this->argument('locale'),
-            'lane' => $this->argument('lane'),
-            'force' => true
-        ];
-        if (!empty($this->argument('champion'))) {
-            $requests .= [
-                'champion' => $this->argument('champion'),
+        $championEntity = new ChampionEntity($this->locale);
+
+        if (!empty($this->argument('champion')) && $this->argument('champion') == 'all') {
+            // get all champions
+            $champions = $championEntity->getAllChampionsName();
+            foreach ($champions as $champion) {
+                $request = new Request();
+                $requests = [
+                    'locale' => $this->argument('locale'),
+                    'lane' => $this->argument('lane'),
+                    'force' => true,
+                    'forceDeep' => true
+                ];
+                $requests .= [
+                    'champion' => $champion,
+                ];
+                $request->replace($requests);
+                CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed');
+            }
+        } else {
+            $request = new Request();
+            $requests = [
+                'locale' => $this->argument('locale'),
+                'lane' => $this->argument('lane'),
+                'force' => true,
+                'forceDeep' => true
             ];
+            if (!empty($this->argument('champion'))) {
+                $requests .= [
+                    'champion' => $this->argument('champion'),
+                ];
+            }
+            $request->replace($requests);
+            CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed');
         }
-        $request->replace($requests);
-        CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed');
     }
 }

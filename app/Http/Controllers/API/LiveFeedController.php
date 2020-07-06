@@ -46,6 +46,7 @@ class LiveFeedController extends Controller
                 'region' => $region
             ]);
             $matches = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatchesTopElo', $riot, $request);
+
             /* $matchEntity = new MatchEntity($riot, $request->locale);
             $matches = $matchEntity->getMatchesTopElo($request, $region); */
             $response['data'] = !empty($matches) ? array_merge($response['data'], $matches) : $response['data'];
@@ -61,7 +62,6 @@ class LiveFeedController extends Controller
         $response['totalItems'] =  $collectionResponse->count();
         // nombre d'items par page
         $response['maxItems'] =  $itemsNumber;
-
 
         return $response;
     }
