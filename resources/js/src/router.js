@@ -51,6 +51,17 @@ const router = new Router({
                     },
                     component: () => import('./views/main/Home.vue')
                 },
+                // =============================================================================
+                // Spectate Route
+                // =============================================================================
+                {
+                    path: 'spectate',
+                    name: 'spectate',
+                    meta: {
+                        middleware: [checkAuth, locale],
+                    },
+                    component: () => import('./views/spectate/Spectate.vue')
+                },
             ]
         },
         {
@@ -65,7 +76,7 @@ const router = new Router({
                 meta: {
                     middleware: [checkAuth, locale],
                 },
-                component: () => import('./views/probuilds/Home.vue')
+                component: () => import('./views/probuilds/Probuilds.vue')
             }, {
                 path: 'matches/:region/:summonerId/:matchId/:champion/:participantId',
                 name: 'probuilds.matches',
