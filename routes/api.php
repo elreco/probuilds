@@ -24,6 +24,8 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API'], function ($api)
         // USER CONTROLLER
         $api->get('/user', 'Auth\UserController@current');
     });
+    // SPECTATE CONTROLLER
+    $api->get('/spectate', 'SpectateController@index');
     // LIVEFEED CONTROLLER
     $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER

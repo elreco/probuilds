@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Http\Controllers\Controller;
 // REQUEST
-use App\Http\Requests\LiveFeed\LiveFeedRequest;
+use App\Http\Requests\Spectate\SpectateRequest;
 // ENTITY
 use App\Entities\Match\MatchEntity;
 use App\Entities\RegionEntity;
@@ -20,25 +20,17 @@ class SpectateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(LiveFeedRequest $request)
+    public function index(SpectateRequest $request)
     {
-        /* CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed') */
         return $this->getLiveMatches($request);
     }
 
     public function getLiveMatches($request)
     {
-        $regions = RegionEntity::getSelectedRegions($request);
 
         $riotEntity = new RiotEntity($request->locale);
-        $riots = $riotEntity->initApiMulti($regions);
+        $riot = $riotEntity->initApi("EUW");
 
-        $response = [
-            'data' => [],
-            'totalItems' => 0,
-            'maxItems' => 0,
-        ];
-
-        return $response;
+        dd($riot->getFeaturedGames());
     }
 }
