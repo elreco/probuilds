@@ -55,7 +55,7 @@ const router = new Router({
                 // Spectate Route
                 // =============================================================================
                 {
-                    path: 'spectate',
+                    path: 'spectate/:region?',
                     name: 'spectate',
                     meta: {
                         middleware: [checkAuth, locale],

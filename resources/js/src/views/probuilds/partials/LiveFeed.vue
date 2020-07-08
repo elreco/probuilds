@@ -165,7 +165,6 @@ export default {
             isFetching: true,
             page: 1,
             regions: [],
-            activeLoading: false,
             totalItems: 0,
             get_feed_is_running: false,
             matches: {

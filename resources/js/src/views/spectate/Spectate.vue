@@ -1,6 +1,11 @@
 <template>
     <section>
         <!-- GRID VIEW -->
+        <div class="vx-row">
+            <div class="vx-col w-1/2 mx-auto">
+                <region-navbar />
+            </div>
+        </div>
         <div class="items-grid-view vx-row match-height">
             <div class="vx-col w-1/6">
                 <vx-card class="grid-view-item mb-base overflow-hidden">
@@ -37,16 +42,6 @@
                         </div>
                         <!-- SLOT: ACTION BUTTONS -->
                         <div class="flex flex-wrap">
-                            <!-- PRIMARY BUTTON: ADD TO WISH LIST -->
-                            <!-- <div
-                                class="item-view-primary-action-btn p-3 flex flex-grow items-center justify-center cursor-pointer"
-                            >
-                                <feather-icon icon="HeartIcon" />
-
-                                <span class="text-sm font-semibold ml-2">WISHLIST</span>
-                            </div>
-                            -->
-                            <!-- SECONDARY BUTTON: ADD-TO/VIEW-IN CART -->
                             <div
                                 class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
                             >
@@ -64,15 +59,64 @@
 
 <script>
 import SearchBanner from "@/views/main/partials/SearchBanner";
+import RegionNavbar from "./partials/RegionNavbar";
 
 export default {
     data() {
         return {
-            title: this.$i18n.t("meta.title.home")
+            title: this.$i18n.t("meta.title.home"),
+            regions: []
         };
     },
     components: {
-        SearchBanner
+        SearchBanner,
+        RegionNavbar
+    },
+    mounted() {
+        this.getRegions();
+        /* this.getLiveMatches(); */
+    },
+    methods: {
+        getLiveMatches() {
+            // loading
+            this.loadingData(true);
+            this.$http
+                .get(`summoners/${this.summonerId}`, {
+                    params: {
+                        region: this.region,
+                        locale: this.$route.params.locale
+                    }
+                })
+                .then(response => {
+                    this.data = response.data;
+                })
+                .then(() => {
+                    this.regionName = this.region.toUpperCase();
+                    if (this.data.leagueName)
+                        this.images.borderImage = require("@assets/images/dragon/borders/" +
+                            this.data.leagueName +
+                            ".png");
+                })
+                .then(() => {
+                    this.loadingData(false);
+                });
+            // UPDATE this.users après avoir fait la requête axios
+        },
+        getRegions() {
+            this.$http
+                .get("regions")
+                .then(response => (this.regions = response.data));
+        },
+        loadingData(boolean) {
+            if (boolean) {
+                this.$vs.loading({
+                    type: "default",
+                    container: "#summonerLoading"
+                });
+            } else {
+                this.$vs.loading.close("#summonerLoading > .con-vs-loading");
+            }
+        }
     },
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used

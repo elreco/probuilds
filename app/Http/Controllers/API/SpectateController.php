@@ -27,9 +27,9 @@ class SpectateController extends Controller
 
     public function getLiveMatches($request)
     {
-
         $riotEntity = new RiotEntity($request->locale);
-        $riot = $riotEntity->initApi("EUW");
+        $region = $request->region ? $request->region : "EUW";
+        $riot = $riotEntity->initApi($region);
 
         $matchEntity = new MatchEntity($riot, $request->locale);
         return $matchEntity->getLiveMatches();
