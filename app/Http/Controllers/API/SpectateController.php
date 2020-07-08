@@ -31,6 +31,7 @@ class SpectateController extends Controller
         $riotEntity = new RiotEntity($request->locale);
         $riot = $riotEntity->initApi("EUW");
 
-        dd($riot->getFeaturedGames());
+        $matchEntity = new MatchEntity($riot, $request->locale);
+        return $matchEntity->getLiveMatches();
     }
 }

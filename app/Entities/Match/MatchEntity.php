@@ -298,7 +298,40 @@ class MatchEntity
         return $response;
     }
 
+    public function getLiveMatches()
+    {
+        $response = [];
+        $matches = $this->riot->getFeaturedGames();
+
+        foreach ($matches as $match) {
+            $response[] = $this->initLiveMatchArray();
+        }
+
+        return $response;
+    }
+
     public function initMatchArray()
+    {
+        return [
+            'matchId' => null,
+            'region' => null,
+            'summonerId' => null,
+            'participantId' => null,
+            'champion' => [],
+            'date' => null,
+            'player' => [],
+            'win' => null,
+            'kda' => null,
+            'gold' => null,
+            'keystone' => null,
+            'subkeystone' => null,
+            'items' => [],
+            'summonerSpells' => [],
+            'vs' => []
+        ];
+    }
+
+    public function initLiveMatchArray()
     {
         return [
             'matchId' => null,
