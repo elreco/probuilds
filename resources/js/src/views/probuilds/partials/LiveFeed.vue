@@ -1,12 +1,13 @@
 <template>
-    <vx-card class="z-0 vs-con-loading__container" content-color="#fff" id="loadingFeed">
+    <vx-card content-color="#fff">
         <div class="vx-col w-full">
             <vs-navbar
                 active-text-color="rgba(255,255,255,1)"
                 text-color
                 v-model="selectedLane"
-                class="nabarx mb-base lane-selection p-2 z-0"
+                class="nabarx mb-base lane-selection p-2"
                 type="flat"
+                id="loadingRegions"
             >
                 <div slot="title">
                     <vs-navbar-title>{{ $t("LiveFeed.title") }}</vs-navbar-title>
@@ -30,7 +31,6 @@
                     <a href="#" class="support">Support</a>
                 </vs-navbar-item>
                 <v-select
-                    id="loadingSelect"
                     :clearable="true"
                     :options="regions"
                     :placeholder="$t('LiveFeed.allRegion')"
@@ -38,6 +38,7 @@
                     v-model="selectedRegion"
                 />
             </vs-navbar>
+
             <vs-table
                 v-if="Object.keys(matches.data).length != 0 || isFetching==true"
                 noDataText
@@ -49,6 +50,8 @@
                 pagination
                 :data="matches.data"
                 @selected="handleSelected"
+                class="vs-con-loading__container"
+                id="loadingFeed"
             >
                 <template slot="thead">
                     <vs-th></vs-th>
@@ -176,10 +179,10 @@ export default {
             request: null
         };
     },
-
     mounted() {
-        this.getRegions();
         this.getFeed();
+
+        this.getRegions();
     },
     methods: {
         handleSelected(tr) {
@@ -200,8 +203,7 @@ export default {
         },
         getFeed() {
             // loading
-
-            this.loadingData(true);
+            this.loadingData(true, "#loadingFeed");
             this.$http
                 .get("livefeed", {
                     params: {
@@ -223,7 +225,7 @@ export default {
                     }, 1000);
                 })
                 .then(() => {
-                    this.loadingData(false);
+                    this.loadingData(false, "#loadingFeed");
                 });
 
             // UPDATE this.matches après avoir fait la requête axios
@@ -237,18 +239,24 @@ export default {
             }
         },
         getRegions() {
+            this.loadingData(true, "#loadingRegions");
             this.$http
                 .get("regions")
-                .then(response => (this.regions = response.data));
+                .then(response => {
+                    this.regions = response.data;
+                })
+                .then(() => {
+                    this.loadingData(false, "#loadingRegions");
+                });
         },
-        loadingData(boolean) {
+        loadingData(boolean, id) {
             if (boolean) {
                 this.$vs.loading({
                     type: "default",
-                    container: "#loadingFeed"
+                    container: id
                 });
             } else {
-                this.$vs.loading.close("#loadingFeed > .con-vs-loading");
+                this.$vs.loading.close(id + " > .con-vs-loading");
             }
         }
     },
@@ -292,5 +300,8 @@ export default {
     .con-select .vs-select {
         width: 100%;
     }
+}
+.vs__dropdown-menu {
+    z-index: 9999 !important;
 }
 </style>

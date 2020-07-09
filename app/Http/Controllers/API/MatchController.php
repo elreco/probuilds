@@ -37,7 +37,6 @@ class MatchController extends Controller
     {
         $riotEntity = new RiotEntity($request->locale);
         $riot = $riotEntity->initApi($request->region);
-
         $frames = CacheEntity::useCache('MatchController', $request, 'matchTimeline');
 
         $timelineEntity = new TimelineEntity($riot, $request->locale);
@@ -48,7 +47,6 @@ class MatchController extends Controller
     {
         $riotEntity = new RiotEntity($request->locale);
         $riot = $riotEntity->initApi($request->region);
-
         $frames = CacheEntity::useCache('MatchController', $request, 'matchTimeline');
 
         $timelineEntity = new TimelineEntity($riot, $request->locale);

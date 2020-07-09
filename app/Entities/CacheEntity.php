@@ -27,10 +27,8 @@ class CacheEntity
                 $response = Cache::get($key);
             }
         } else {
-            if (!empty($request->forceDeep)) {
-                $response = app($namespace)->$method($request);
-                Cache::forever($key, $response);
-            }
+            $response = app($namespace)->$method($request);
+            Cache::forever($key, $response);
         }
 
         return $response;
@@ -39,6 +37,7 @@ class CacheEntity
     public static function keyGenerator($resource, $method, $request)
     {
         $key = $resource . "@" .  $method;
+
         if (!empty($request)) {
             $requestArray = $request->except(['force', 'page']);
             krsort($requestArray);
@@ -46,7 +45,6 @@ class CacheEntity
                 $key .= "." . strtolower($r);
             }
         }
-
         return $key;
     }
 
@@ -78,14 +76,12 @@ class CacheEntity
                 $response = Cache::get($key);
             }
         } else {
-            if (!empty($request->forceDeep)) {
-                if (empty($othersArray)) {
-                    $response = $entity->$method($request);
-                } else {
-                    $response = $entity->$method($request, $othersArray);
-                }
-                Cache::forever($key, $response);
+            if (empty($othersArray)) {
+                $response = $entity->$method($request);
+            } else {
+                $response = $entity->$method($request, $othersArray);
             }
+            Cache::forever($key, $response);
         }
         return $response;
     }

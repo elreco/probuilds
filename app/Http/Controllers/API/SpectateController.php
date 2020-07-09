@@ -22,16 +22,19 @@ class SpectateController extends Controller
      */
     public function index(SpectateRequest $request)
     {
-        return $this->getLiveMatches($request);
+        return CacheEntity::useCache('SpectateController', $request, 'getLiveMatches');
+        /* return $this->getLiveMatches($request); */
     }
 
     public function getLiveMatches($request)
     {
         $riotEntity = new RiotEntity($request->locale);
-        $region = $request->region ? $request->region : "EUW";
-        $riot = $riotEntity->initApi($region);
+        if (empty($request->region)) {
+            $request->merge(['region' => 'EUW']);
+        }
+        $riot = $riotEntity->initApi($request->region);
 
         $matchEntity = new MatchEntity($riot, $request->locale);
-        return $matchEntity->getLiveMatches();
+        return $matchEntity->getLiveMatches($request);
     }
 }

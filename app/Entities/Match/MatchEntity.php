@@ -7,7 +7,6 @@ use App\Http\Traits\CommonTrait;
 // ENTITY
 use App\Entities\Summoner\SummonerEntity;
 use App\Entities\ChampionEntity;
-use App\Entities\Summoner\ChallengerEntity;
 use App\Entities\ItemEntity;
 use App\Entities\Riot\RiotEntity;
 use App\Entities\Summoner\SpellEntity;
@@ -43,7 +42,6 @@ class MatchEntity
 
         // Get Challengers
         $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $request);
-
         // Get last matchs for each challenger
         $challengersLastMatch = CacheEntity::useEntityCache('Match\MatchEntity', 'getChallengersLastMatch', $this->riot, $request, $challengers);
         // return an array of matches
@@ -69,9 +67,12 @@ class MatchEntity
             $requestMatch = new Request();
             $requestMatch->replace([
                 'locale' => $this->locale,
-                'id' => $m[0]->gameId
+                'id' => $m[0]->gameId,
+                'force' => !empty($request->force) ? true : false,
             ]);
             $matchApi = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatch', $this->riot, $requestMatch);
+
+            /* $matchApi = $this->getMatch($request); */
             if (!empty($matchApi)) {
                 // position REF
                 $positionRef = $this->getRiotPosition($m[0]->lane, $m[0]->role);
@@ -117,7 +118,6 @@ class MatchEntity
                 $requestSummoner = new Request();
                 $requestSummoner->replace([
                     'id' => $m['summoner']->id,
-                    'forceDeep' => true
                 ]);
                 $response[$i]['player'] = CacheEntity::useEntityCache('Summoner\SummonerEntity', 'getSummonerDetails', $this->riot, $requestSummoner);
                 ////////////////////////
@@ -129,14 +129,12 @@ class MatchEntity
                 //Identité des joueurs
                 $participantIdentities = [];
                 $participantIdentitiesAPI = $matchApi->participantIdentities;
-
                 foreach ($participantIdentitiesAPI as $participantIdentity) {
                     $participantIdentities[$participantIdentity->participantId] = $participantIdentity;
                     if ($summonerId == $participantIdentity->player->summonerId) {
                         $playerParticipantId = $participantIdentity->participantId;
                     }
                 }
-
                 // Joueurs
                 $participantsAPI = $matchApi->participants;
 
@@ -173,7 +171,7 @@ class MatchEntity
                             'summonerId' => $participantIdentities[$participant->participantId]->player->summonerId,
                             'champion' => $participant->staticData->name,
                             'participantId' => $participant->participantId,
-                            'force' => true
+                            'force' => true,
                         ]);
                         CacheEntity::useCache('MatchController', $matchRequest, 'getMatchDetails');
                     }
@@ -298,13 +296,24 @@ class MatchEntity
         return $response;
     }
 
-    public function getLiveMatches()
+    public function getLiveMatches($request)
     {
         $response = [];
-        $matches = $this->riot->getFeaturedGames();
 
-        foreach ($matches as $match) {
-            $response[] = $this->initLiveMatchArray();
+        $matches = $this->riot->getFeaturedGames();
+        $championEntity = new ChampionEntity($this->locale);
+
+        $i = 0;
+        foreach ($matches->gameList as $match) {
+            $response[$i] = $this->initLiveMatchArray();
+            $response[$i]['region'] = $request->region;
+            $response[$i]['matchId'] = $match->gameId;
+            $response[$i]['gameMode'] = $match->gameMode;
+            $response[$i]['summonerName'] = $match->participants[0]->summonerName;
+            $response[$i]['champion'] = $championEntity->getChampionDetailsByName($match->participants[0]->staticData->name);
+            $response[$i]['date'] = $match->gameStartTime;
+
+            $i++;
         }
 
         return $response;
@@ -338,17 +347,9 @@ class MatchEntity
             'region' => null,
             'summonerId' => null,
             'participantId' => null,
+            'gameMode' => null,
             'champion' => [],
             'date' => null,
-            'player' => [],
-            'win' => null,
-            'kda' => null,
-            'gold' => null,
-            'keystone' => null,
-            'subkeystone' => null,
-            'items' => [],
-            'summonerSpells' => [],
-            'vs' => []
         ];
     }
 }

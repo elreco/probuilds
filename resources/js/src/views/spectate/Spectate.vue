@@ -2,21 +2,31 @@
     <section>
         <!-- GRID VIEW -->
         <div class="vx-row">
-            <div class="vx-col w-1/2 mx-auto">
-                <region-navbar />
+            <div class="vx-col w-1/2 mx-auto mb-base">
+                <region-navbar
+                    :regions="regions"
+                    :activeRegion="activeRegion"
+                    class="vs-con-loading__container"
+                    id="loadingRegions"
+                />
             </div>
         </div>
-        <div class="items-grid-view vx-row match-height">
-            <div class="vx-col w-1/6">
-                <vx-card class="grid-view-item mb-base overflow-hidden">
+        <div class="items-grid-view vx-row match-height" id="loadingSpectate">
+            <div class="vx-col w-1/6" :data="match" :key="index" v-for="(match, index) in matches">
+                <vx-card
+                    class="grid-view-item mb-base overflow-hidden"
+                    style="background-size: cover;"
+                    :card-background="'linear-gradient(120deg ,rgba(16,22,58,0.85), rgba(16,22,58,0.85)),no-repeat 100% 25%/100% url(' + match.champion.splash + ')'"
+                >
                     <template slot="no-body">
                         <!-- ITEM IMAGE -->
                         <div
                             class="item-img-container mx-auto flex items-center justify-center my-4 cursor-pointer"
                         >
                             <img
-                                src="https://ddragon.leagueoflegends.com/cdn/10.13.1/img/champion/Nidalee.png"
-                                class="rounded-full grid-view-img w-16 h-16"
+                                :src="match.champion.src"
+                                class="grid-view-img w-16 h-16 rounded border-solid border-2 border-primary shadow-primary"
+                                style="border-radius:50%;object-fit: cover;"
                             />
                         </div>
                         <div class="item-details px-4">
@@ -65,7 +75,9 @@ export default {
     data() {
         return {
             title: this.$i18n.t("meta.title.home"),
-            regions: []
+            regions: [],
+            activeRegion: null,
+            matches: []
         };
     },
     components: {
@@ -74,47 +86,52 @@ export default {
     },
     mounted() {
         this.getRegions();
-        /* this.getLiveMatches(); */
+        this.setActiveRegion();
+        this.getLiveMatches();
+        setInterval(() => this.liveMatches(), 1000);
     },
     methods: {
         getLiveMatches() {
             // loading
-            this.loadingData(true);
-            this.$http
-                .get(`summoners/${this.summonerId}`, {
+            this.loadingData(true, "#loadingSpectate");
+            this.liveMatches().then(() => {
+                this.loadingData(false, "#loadingSpectate");
+            });
+        },
+        liveMatches() {
+            return this.$http
+                .get(`spectate`, {
                     params: {
-                        region: this.region,
+                        region: this.activeRegion,
                         locale: this.$route.params.locale
                     }
                 })
                 .then(response => {
-                    this.data = response.data;
-                })
-                .then(() => {
-                    this.regionName = this.region.toUpperCase();
-                    if (this.data.leagueName)
-                        this.images.borderImage = require("@assets/images/dragon/borders/" +
-                            this.data.leagueName +
-                            ".png");
-                })
-                .then(() => {
-                    this.loadingData(false);
+                    this.matches = response.data;
                 });
-            // UPDATE this.users après avoir fait la requête axios
         },
         getRegions() {
+            this.loadingData(true, "#loadingRegions");
             this.$http
                 .get("regions")
-                .then(response => (this.regions = response.data));
+                .then(response => (this.regions = response.data))
+                .then(() => {
+                    this.loadingData(false, "#loadingRegions");
+                });
         },
-        loadingData(boolean) {
+        setActiveRegion() {
+            this.activeRegion = this.$route.params.region
+                ? this.$route.params.region
+                : "EUW";
+        },
+        loadingData(boolean, id) {
             if (boolean) {
                 this.$vs.loading({
                     type: "default",
-                    container: "#summonerLoading"
+                    container: id
                 });
             } else {
-                this.$vs.loading.close("#summonerLoading > .con-vs-loading");
+                this.$vs.loading.close(id + " > .con-vs-loading");
             }
         }
     },

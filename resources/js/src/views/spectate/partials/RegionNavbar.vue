@@ -24,42 +24,9 @@
 <script>
 export default {
     data: () => ({
-        colorx: "#0091EA",
-        activeRegion: null,
-        regions: []
+        colorx: "#0091EA"
     }),
-    created() {
-        this.setActiveRegion();
-    },
-    mounted() {
-        this.getRegions();
-    },
-    methods: {
-        getRegions() {
-            this.loadingData(true);
-            this.$http
-                .get("regions")
-                .then(response => (this.regions = response.data))
-                .then(() => {
-                    this.loadingData(false);
-                });
-        },
-        setActiveRegion() {
-            this.activeRegion = this.$route.params.region
-                ? this.$route.params.region
-                : "EUW";
-        },
-        loadingData(boolean) {
-            if (boolean) {
-                this.$vs.loading({
-                    type: "default",
-                    container: "#regionLoading"
-                });
-            } else {
-                this.$vs.loading.close("#regionLoading > .con-vs-loading");
-            }
-        }
-    }
+    props: ["regions", "activeRegion"]
 };
 </script>
 <style>

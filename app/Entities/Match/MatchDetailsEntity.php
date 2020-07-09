@@ -54,7 +54,8 @@ class MatchDetailsEntity
         $requestMatch = new Request();
         $requestMatch->replace([
             'locale' => $request->locale,
-            'id' => $request->id
+            'id' => $request->id,
+            'force' => !empty($request->force) ? true : false,
         ]);
         $match = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatch', $this->riot, $requestMatch);
         if (!empty($match)) {
@@ -143,7 +144,6 @@ class MatchDetailsEntity
             $requestSummoner = new Request();
             $requestSummoner->replace([
                 'id' => $summonerId,
-                'forceDeep' => true
             ]);
             $response[$i]['player'] = CacheEntity::useEntityCache('Summoner\SummonerEntity', 'getSummonerDetails', $this->riot, $requestSummoner);
 
