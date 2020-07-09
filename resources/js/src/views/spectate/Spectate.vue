@@ -36,9 +36,9 @@
                                     class="text-warning border border-solid border-warning flex py-1 px-2 rounded"
                                 >
                                     <feather-icon icon="VideoIcon" svgClasses="h-4 w-4" />
-                                    <span class="text-sm ml-1">28:18</span>
+                                    <span class="text-sm ml-1">{{match.ago}}</span>
                                 </div>
-                                <h6 class="font-bold">Nidalee</h6>
+                                <h6 class="font-bold">{{match.champion.name}}</h6>
                             </div>
 
                             <!-- TITLE & DESCRIPTION -->
@@ -46,7 +46,7 @@
                                 <!-- @click="navigate_to_detail_view" -->
                                 <h6
                                     class="truncate font-semibold mb-1 hover:text-primary cursor-pointer"
-                                >GOSU</h6>
+                                >{{match.summonerName}}</h6>
                                 <p class="item-description truncate text-sm">Match classé</p>
                             </div>
                         </div>
@@ -70,6 +70,7 @@
 <script>
 import SearchBanner from "@/views/main/partials/SearchBanner";
 import RegionNavbar from "./partials/RegionNavbar";
+import moment from "moment";
 
 export default {
     data() {
@@ -77,7 +78,8 @@ export default {
             title: this.$i18n.t("meta.title.home"),
             regions: [],
             activeRegion: null,
-            matches: []
+            matches: [],
+            polling: null
         };
     },
     components: {
@@ -88,7 +90,7 @@ export default {
         this.getRegions();
         this.setActiveRegion();
         this.getLiveMatches();
-        setInterval(() => this.liveMatches(), 1000);
+        this.pollLiveMatches();
     },
     methods: {
         getLiveMatches() {
@@ -97,6 +99,9 @@ export default {
             this.liveMatches().then(() => {
                 this.loadingData(false, "#loadingSpectate");
             });
+        },
+        pollLiveMatches() {
+            this.polling = setInterval(() => this.liveMatches(), 10000);
         },
         liveMatches() {
             return this.$http
@@ -108,7 +113,18 @@ export default {
                 })
                 .then(response => {
                     this.matches = response.data;
+                })
+                .then(response => {
+                    this.formatDate();
                 });
+        },
+        formatDate() {
+            if (this.matches) {
+                this.matches = this.matches.map(m => {
+                    m.ago = moment(m.date).fromNow();
+                    return m;
+                });
+            }
         },
         getRegions() {
             this.loadingData(true, "#loadingRegions");
@@ -134,6 +150,9 @@ export default {
                 this.$vs.loading.close(id + " > .con-vs-loading");
             }
         }
+    },
+    beforeDestroy() {
+        clearInterval(this.polling);
     },
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used

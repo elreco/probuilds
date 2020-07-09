@@ -50,6 +50,7 @@ class Spectate extends Command
                 'region' => $region
             ];
             $request->replace($requests);
+
             CacheEntity::useCache('SpectateController', $request, 'getLiveMatches');
         }
     }

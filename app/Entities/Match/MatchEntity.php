@@ -302,6 +302,7 @@ class MatchEntity
         $response = [];
 
         $matches = $this->riot->getFeaturedGames();
+
         $championEntity = new ChampionEntity($this->locale);
 
         $i = 0;

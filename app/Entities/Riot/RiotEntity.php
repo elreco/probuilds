@@ -50,7 +50,7 @@ class RiotEntity
             LeagueAPI::SET_INTERIM          => true,
             LeagueAPI::SET_CACHE_RATELIMIT  => true,
             LeagueAPI::SET_CACHE_CALLS      => true,
-            LeagueAPI::SET_CACHE_CALLS_LENGTH => 99999999999
+            LeagueAPI::SET_CACHE_CALLS_LENGTH => 99
         ]);
 
 
