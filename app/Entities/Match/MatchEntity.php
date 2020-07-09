@@ -118,6 +118,7 @@ class MatchEntity
                 $requestSummoner = new Request();
                 $requestSummoner->replace([
                     'id' => $m['summoner']->id,
+                    'force' => !empty($request->force) ? true : false,
                 ]);
                 $response[$i]['player'] = CacheEntity::useEntityCache('Summoner\SummonerEntity', 'getSummonerDetails', $this->riot, $requestSummoner);
                 ////////////////////////
