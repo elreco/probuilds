@@ -127,13 +127,9 @@ export default {
             }
         },
         getRegions() {
-            this.loadingData(true, "#loadingRegions");
             this.$http
                 .get("regions")
-                .then(response => (this.regions = response.data))
-                .then(() => {
-                    this.loadingData(false, "#loadingRegions");
-                });
+                .then(response => (this.regions = response.data));
         },
         setActiveRegion() {
             this.activeRegion = this.$route.params.region
