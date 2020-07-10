@@ -313,15 +313,15 @@ class MatchEntity
         $response = [];
         $matches = [];
 
-        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $request);
+        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $request, ['numbers' => 15]);
 
         foreach ($challengers as $c) {
             $match = $this->getLiveMatch($c->summonerId);
-            if (!empty($match)) {
-                $matches[] = $match;
+            if (!empty($match) && empty($matches[$match->gameId])) {
+                $matches[$match->gameId] = $match;
             }
         }
-
+        /* $matches = $this->riot->getFeaturedGames(); */
         $championEntity = new ChampionEntity($this->locale);
         $i = 0;
         foreach ($matches as $match) {

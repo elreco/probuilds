@@ -64,6 +64,29 @@
                 </vx-card>
             </div>
         </div>
+        <div
+            v-if="matches && matches.length==0 && isFetching==false"
+            class="bg-primary text-white px-4 py-3 shadow-md"
+            role="alert"
+        >
+            <div class="flex">
+                <div class="py-1">
+                    <svg
+                        class="fill-current h-6 w-6 text-teal-500 mr-4"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 20 20"
+                    >
+                        <path
+                            d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z"
+                        />
+                    </svg>
+                </div>
+                <div>
+                    <p class="font-bold">{{$t('Message.noData')}}</p>
+                    <p class="text-sm">{{$t('Message.noMatchesData')}}</p>
+                </div>
+            </div>
+        </div>
     </section>
 </template>
 
@@ -77,6 +100,7 @@ export default {
         return {
             title: this.$i18n.t("meta.title.home"),
             regions: [],
+            isFetching: true,
             activeRegion: null,
             matches: [],
             polling: null,
@@ -89,6 +113,7 @@ export default {
         RegionNavbar
     },
     mounted() {
+        console.log(this.matches);
         this.getRegions();
         this.setActiveRegion();
         this.getLiveMatches();
@@ -103,7 +128,7 @@ export default {
                     this.loadingData(false, "#loadingSpectate");
                 })
                 .then(response => {
-                    this.formatDate();
+                    this.isFetching = false;
                 });
         },
         pollLiveMatches() {
@@ -128,21 +153,12 @@ export default {
                     }, 1000);
                 });
         },
-        formatDate() {
-            if (this.matches) {
-                this.matches = this.matches.map((m, index) => {
-                    var a = moment();
-                    var b = moment(m.date);
-                    this.ago[index] = moment({})
-                        .seconds(a.diff(b, "seconds"))
-                        .format("mm:ss");
-                    return m;
-                });
-            }
-        },
         updateDate() {
             this.matches = this.matches.map((m, index) => {
-                this.ago[index] = moment(this.ago[index], "mm:ss")
+                var a = moment();
+                var b = moment(m.date);
+                this.ago[index] = moment({})
+                    .seconds(a.diff(b, "seconds"))
                     .add(1, "seconds")
                     .format("mm:ss");
                 return m;
