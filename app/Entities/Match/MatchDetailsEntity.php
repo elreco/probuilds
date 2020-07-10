@@ -7,7 +7,6 @@ use App\Http\Traits\CommonTrait;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
-use App\Entities\Summoner\SummonerEntity;
 use App\Entities\Match\MatchEntity;
 use App\Entities\ChampionEntity;
 use App\Entities\RegionEntity;

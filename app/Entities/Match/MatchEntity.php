@@ -269,6 +269,17 @@ class MatchEntity
         return $match;
     }
 
+    public function getLiveMatch($summonerId)
+    {
+        try {
+            $match = $this->riot->getCurrentGameInfo($summonerId);
+        } catch (\Exception $e) {
+            /* throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException('Match not found'); */
+            return null;
+        }
+        return $match;
+    }
+
     public function addMatchStats($participant, $response)
     {
         // init item entity 
@@ -300,13 +311,20 @@ class MatchEntity
     public function getLiveMatches($request)
     {
         $response = [];
+        $matches = [];
 
-        $matches = $this->riot->getFeaturedGames();
+        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $request);
+
+        foreach ($challengers as $c) {
+            $match = $this->getLiveMatch($c->summonerId);
+            if (!empty($match)) {
+                $matches[] = $match;
+            }
+        }
 
         $championEntity = new ChampionEntity($this->locale);
-
         $i = 0;
-        foreach ($matches->gameList as $match) {
+        foreach ($matches as $match) {
             $response[$i] = $this->initLiveMatchArray();
             $response[$i]['region'] = $request->region;
             $response[$i]['matchId'] = $match->gameId;
