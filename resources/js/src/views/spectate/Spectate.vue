@@ -36,7 +36,7 @@
                                     class="text-warning border border-solid border-warning flex py-1 px-2 rounded"
                                 >
                                     <feather-icon icon="VideoIcon" svgClasses="h-4 w-4" />
-                                    <span class="text-sm ml-1">{{match.ago}}</span>
+                                    <span class="text-sm ml-1">{{ago[index]}}</span>
                                 </div>
                                 <h6 class="font-bold">{{match.champion.name}}</h6>
                             </div>
@@ -79,7 +79,9 @@ export default {
             regions: [],
             activeRegion: null,
             matches: [],
-            polling: null
+            polling: null,
+            ago: [],
+            agoInterval: null
         };
     },
     components: {
@@ -96,9 +98,13 @@ export default {
         getLiveMatches() {
             // loading
             this.loadingData(true, "#loadingSpectate");
-            this.liveMatches().then(() => {
-                this.loadingData(false, "#loadingSpectate");
-            });
+            this.liveMatches()
+                .then(() => {
+                    this.loadingData(false, "#loadingSpectate");
+                })
+                .then(response => {
+                    this.formatDate();
+                });
         },
         pollLiveMatches() {
             this.polling = setInterval(() => this.liveMatches(), 10000);
@@ -115,25 +121,37 @@ export default {
                     this.matches = response.data;
                 })
                 .then(response => {
-                    this.formatDate();
+                    clearInterval(this.agoInterval);
+                    this.updateDate();
+                    this.agoInterval = setInterval(() => {
+                        this.updateDate();
+                    }, 1000);
                 });
         },
         formatDate() {
             if (this.matches) {
-                this.matches = this.matches.map(m => {
-                    m.ago = moment(m.date).fromNow();
+                this.matches = this.matches.map((m, index) => {
+                    var a = moment();
+                    var b = moment(m.date);
+                    this.ago[index] = moment({})
+                        .seconds(a.diff(b, "seconds"))
+                        .format("mm:ss");
                     return m;
                 });
             }
         },
+        updateDate() {
+            this.matches = this.matches.map((m, index) => {
+                this.ago[index] = moment(this.ago[index], "mm:ss")
+                    .add(1, "seconds")
+                    .format("mm:ss");
+                return m;
+            });
+        },
         getRegions() {
-            this.loadingData(true, "#loadingRegions");
             this.$http
-                .get("regions")
-                .then(response => (this.regions = response.data))
-                .then(() => {
-                    this.loadingData(false, "#loadingRegions");
-                });
+                .get("regions", { cache: true })
+                .then(response => (this.regions = response.data));
         },
         setActiveRegion() {
             this.activeRegion = this.$route.params.region
@@ -153,6 +171,7 @@ export default {
     },
     beforeDestroy() {
         clearInterval(this.polling);
+        clearInterval(this.agoInterval);
     },
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used

@@ -1,25 +1,21 @@
 // axios
 import axios from 'axios'
+import {
+    cacheAdapterEnhancer
+} from 'axios-extensions';
 import router from './router'
 import store from './store/store'
 
 const domain = process.env.MIX_API_DOMAIN;
 axios.defaults.baseURL = domain;
+axios.defaults.adapter = cacheAdapterEnhancer(axios.defaults.adapter, {
+    enabledByDefault: false,
+});
+
 
 axios.interceptors.response.use(function (response) {
     // Do something with response data
     return response;
-    /* if (Array.isArray(response) && response.length) {
-        return response;
-    } else { */
-    /* return router.push({
-        name: "page-error",
-        params: {
-            code: "404",
-            message: "Data is empty"
-        }
-    }); */
-    /* } */
 }, function (error) {
     // Do something with response error
     if (router.currentRoute.name != "page-error") {
