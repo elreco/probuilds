@@ -12,10 +12,10 @@ class ChallengerEntity
         $this->riot = $riot;
     }
 
-    public function getChallengers($request, $params = [])
+    public function getChallengers($request)
     {
-        if (!empty($params['numbers'])) {
-            $numbers = $params['numbers'];
+        if (!empty($request->numbers)) {
+            $numbers = $request->numbers;
         } else {
             $numbers = 10;
         }

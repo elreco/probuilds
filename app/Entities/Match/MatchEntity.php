@@ -41,7 +41,11 @@ class MatchEntity
     {
 
         // Get Challengers
-        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $request);
+        $requestChallenger = new Request();
+        $requestChallenger->replace([
+            'force' => false,
+        ]);
+        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $requestChallenger);
         // Get last matchs for each challenger
         $challengersLastMatch = CacheEntity::useEntityCache('Match\MatchEntity', 'getChallengersLastMatch', $this->riot, $request, $challengers);
         // return an array of matches
@@ -313,12 +317,23 @@ class MatchEntity
         $response = [];
         $matches = [];
 
-        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $request, ['numbers' => 15]);
+        $requestChallenger = new Request();
+        $requestChallenger->replace([
+            /* 'numbers' => 100, */
+            'force' => false,
+        ]);
+        $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $requestChallenger);
 
         foreach ($challengers as $c) {
             $match = $this->getLiveMatch($c->summonerId);
             if (!empty($match) && empty($matches[$match->gameId])) {
                 $matches[$match->gameId] = $match;
+            }
+        }
+        $featuredGames = $this->riot->getFeaturedGames();
+        foreach ($featuredGames as $game) {
+            if (empty($matches[$game->gameId])) {
+                $matches[$game->gameId] = $game;
             }
         }
         /* $matches = $this->riot->getFeaturedGames(); */
