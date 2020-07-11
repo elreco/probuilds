@@ -8,7 +8,7 @@
         id="regionLoading"
     >
         <div slot="title">
-            <vs-navbar-title class="font-semibold uppercase">Regions</vs-navbar-title>
+            <vs-navbar-title class="font-semibold uppercase">{{$t('Global.Regions')}}</vs-navbar-title>
         </div>
 
         <vs-navbar-item :index="data" :data="data" :key="index" v-for="(data, index) in regions">

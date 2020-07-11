@@ -38,7 +38,12 @@
                                     <feather-icon icon="VideoIcon" svgClasses="h-4 w-4" />
                                     <span class="text-sm ml-1">{{ago[index]}}</span>
                                 </div>
-                                <h6 class="font-bold">{{match.champion.name}}</h6>
+                                <h6 class="font-bold">
+                                    <router-link
+                                        class="hover:text-primary text-white"
+                                        :to="{name: 'probuilds.champions', params: {champion: match.champion.name}}"
+                                    >{{match.champion.name}}</router-link>
+                                </h6>
                             </div>
 
                             <!-- TITLE & DESCRIPTION -->
@@ -46,8 +51,17 @@
                                 <!-- @click="navigate_to_detail_view" -->
                                 <h6
                                     class="truncate font-semibold mb-1 hover:text-primary cursor-pointer"
-                                >{{match.summonerName}}</h6>
-                                <p class="item-description truncate text-sm">Match classé</p>
+                                >
+                                    <a
+                                        class="hover:text-primary text-white"
+                                        target="_blank"
+                                        :href="'https://'+activeRegion+'.op.gg/summoner/userName=' + match.summonerName"
+                                    >
+                                        {{match.summonerName}}
+                                        <i class="fas fa-external-link-alt"></i>
+                                    </a>
+                                </h6>
+                                <p class="item-description truncate text-sm">{{match.gameMode}}</p>
                             </div>
                         </div>
                         <!-- SLOT: ACTION BUTTONS -->
@@ -57,7 +71,9 @@
                             >
                                 <feather-icon icon="EyeIcon" svgClasses="h-4 w-4" />
 
-                                <span class="text-sm font-semibold ml-2">REGARDER</span>
+                                <span
+                                    class="text-sm font-semibold ml-2 uppercase"
+                                >{{$t('Spectate.watch')}}</span>
                             </div>
                         </div>
                     </template>

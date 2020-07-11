@@ -14,8 +14,13 @@ export default {
         404: {
             backToHome: "Back to Home"
         },
+        nav: {
+            home: "Home",
+            probuilds: "Probuilds",
+            spectate: "Spectate",
+            community: "Community"
+        },
         home: {
-            nav: 'Home',
             welcome: 'Welcome to Probuilds',
             welcomeText: "League of Legends professional player's <strong class='text-gold'>builds</strong> across all regions"
         },
@@ -72,7 +77,8 @@ export default {
             runes: "Reforged Runes"
         },
         Global: {
-            sold: "Sold"
+            sold: "Sold",
+            Regions: "Regions"
         },
         Special: {
             AttackSpeed: "Attack Speed",
@@ -92,6 +98,9 @@ export default {
             loginMessage: "You are logged in to the platform!",
             logoutTitle: "Successful logged out",
             logoutMessage: "You are logged out to the platform, See you soon!",
+        },
+        Spectate: {
+            watch: "Watch"
         }
     },
     de: {},
@@ -107,8 +116,13 @@ export default {
         404: {
             backToHome: "Revenir à l'accueil"
         },
+        nav: {
+            home: "Home",
+            probuilds: "Probuilds",
+            spectate: "Pros en direct",
+            community: "Communauté"
+        },
         home: {
-            nav: 'Accueil',
             welcome: 'Bienvenue sur Probuilds',
             welcomeText: "<strong class='text-gold'>Builds</strong> des joueurs professionnels sur League of Legends dans toutes les régions"
         },
@@ -168,7 +182,8 @@ export default {
             runes: "Runes reforgées"
         },
         Global: {
-            sold: "Vendu"
+            sold: "Vendu",
+            Regions: "Regions"
         },
         Special: {
             AttackSpeed: "Vitesse d'attaque",
@@ -188,6 +203,9 @@ export default {
             loginMessage: "Vous êtes maintenant connecté à la plateforme !",
             logoutTitle: "Déconnexion réussie",
             logoutMessage: "Vous êtes maintenant déconnecté de la plateforme, à bientôt !",
+        },
+        Spectate: {
+            watch: "Regarder"
         }
 
     },

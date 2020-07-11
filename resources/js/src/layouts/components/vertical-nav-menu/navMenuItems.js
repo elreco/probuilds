@@ -10,25 +10,25 @@ import i18n from '../../../i18n/i18n'
 
 export default [{
         url: '/' + i18n.locale,
-        name: i18n.t('home.nav'),
+        name: i18n.t('nav.home'),
         slug: 'home',
         icon: 'HomeIcon'
     },
     {
         url: '/' + i18n.locale + '/probuilds',
-        name: "Probuilds",
+        name: i18n.t('nav.probuilds'),
         slug: 'probuilds',
         icon: 'ZapIcon'
     },
     {
         url: '/' + i18n.locale + '/spectate',
-        name: "Spectate <i class='pl-1 fas fa-circle text-md blink pt-custom'></i>",
+        name: i18n.t('nav.spectate') + " <i class='pl-1 fas fa-circle text-md blink pt-custom'></i>",
         slug: 'spectate',
         icon: 'MonitorIcon'
     },
     {
         url: '/' + i18n.locale + '/community',
-        name: "Community",
+        name: i18n.t('nav.community'),
         slug: 'community',
         icon: 'UsersIcon'
     }
