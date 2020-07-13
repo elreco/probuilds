@@ -36,11 +36,26 @@ class SpellEntity
 
             if (!empty($participant->$spell_name)) {
                 $spell = DataDragonAPI::getStaticSummonerSpellById($participant->$spell_name, $riotEntity->localeMutator());
+                $response[$u]['id'] = $spell['id'];
                 $response[$u]['src'] = DataDragonAPI::getSpellIconUrl($spell['id']);
                 $response[$u]['title'] = $spell['name'];
                 $response[$u]['description'] = $spell['description'];
             }
         }
+
+        return $response;
+    }
+
+    public function getSummonerSpell($id)
+    {
+        $response = $this->initSpellArray();
+
+        $riotEntity = new RiotEntity($this->locale);
+
+        $spell = DataDragonAPI::getStaticSummonerSpellById($id, $riotEntity->localeMutator());
+        $response['src'] = DataDragonAPI::getSpellIconUrl($spell['id']);
+        $response['title'] = $spell['name'];
+        $response['description'] = $spell['description'];
 
         return $response;
     }
@@ -51,15 +66,25 @@ class SpellEntity
     {
         return [
             1 => [
+                'id' => null,
                 'src' => null,
                 'title' => null,
                 'description' => null
             ],
             2 => [
+                'id' => null,
                 'src' => null,
                 'title' => null,
                 'description' => null
             ]
+        ];
+    }
+    public function initSpellArray()
+    {
+        return [
+            'src' => null,
+            'title' => null,
+            'description' => null
         ];
     }
 }

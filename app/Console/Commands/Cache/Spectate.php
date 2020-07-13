@@ -45,6 +45,7 @@ class Spectate extends Command
         foreach (RegionEntity::$list as $region) {
             $request = new Request();
             $requests = [
+                'locale' => app()->getLocale(),
                 'force' => true,
                 'region' => $region
             ];

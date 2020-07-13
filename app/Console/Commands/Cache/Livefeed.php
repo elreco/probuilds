@@ -42,7 +42,7 @@ class Livefeed extends Command
     public function handle()
     {
         //
-
+        $lang = app()->getLocale();
         $championEntity = new ChampionEntity($lang);
         if (!empty($this->argument('champion')) && $this->argument('champion') == 'all') {
             // get all champions
@@ -65,9 +65,7 @@ class Livefeed extends Command
         $requests = [
             'locale' => $lang,
             'lane' => $lane,
-            'force' => true
-        ];
-        $requests .= [
+            'force' => true,
             'champion' => $champion,
         ];
         $request->replace($requests);

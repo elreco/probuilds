@@ -12,7 +12,12 @@
             </div>
         </div>
         <div class="items-grid-view vx-row match-height" id="loadingSpectate">
-            <div class="vx-col w-1/6" :data="match" :key="index" v-for="(match, index) in matches">
+            <div
+                class="vx-col xl:w-1/6 md:w-1/3 w-full"
+                :data="match"
+                :key="index"
+                v-for="(match, index) in matches"
+            >
                 <vx-card
                     class="grid-view-item mb-base overflow-hidden"
                     style="background-size: cover;"

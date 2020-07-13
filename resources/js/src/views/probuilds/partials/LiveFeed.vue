@@ -105,8 +105,8 @@
                                 v-for="(item, index) in tr.items"
                                 :key="index"
                                 :src="item.src"
-                                :title="item.title"
-                                :description="item.description"
+                                :id="item.id"
+                                type="items"
                             />
 
                             <div
@@ -120,8 +120,8 @@
                                 v-for="(spell, index) in tr.summonerSpells"
                                 :key="index"
                                 :src="spell.src"
-                                :title="spell.title"
-                                :description="spell.description"
+                                :id="spell.id"
+                                type="spells"
                             />
                         </vs-td>
                         <vs-td class="text-center" :data="tr.region">{{tr.region.toUpperCase()}}</vs-td>

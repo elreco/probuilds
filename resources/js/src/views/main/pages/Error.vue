@@ -20,7 +20,7 @@
             />
             <h1 class="sm:mx-0 mx-4 mb-12 text-5xl d-theme-heading-color">{{$route.params.code}}</h1>
             <p class="sm:mx-0 mx-4 mb-4 sm:mb-16 d-theme-text-inverse">{{$route.params.message}}.</p>
-            <vs-button size="large" to="/">{{$t('404.backToHome')}}</vs-button>
+            <vs-button size="large" @click="redirect()">{{$t('404.backToHome')}}</vs-button>
         </div>
     </div>
 </template>
@@ -35,6 +35,13 @@ export default {
             // all titles will be injected into this template
             titleTemplate: "EvilSpartan.com – %s"
         };
+    },
+    methods: {
+        redirect() {
+            return window.location.replace(
+                window.location.origin + "/" + this.$i18n.locale
+            );
+        }
     }
 };
 </script>
