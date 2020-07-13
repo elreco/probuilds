@@ -177,8 +177,8 @@ export default {
     },
     mounted() {
         this.getFeed();
-
         this.getRegions();
+        this.setActiveRegion();
     },
     methods: {
         handleSelected(tr) {
@@ -192,6 +192,11 @@ export default {
                     participantId: tr.participantId
                 }
             });
+        },
+        setActiveRegion() {
+            this.selectedRegion = this.$route.params.region
+                ? this.$route.params.region
+                : null;
         },
         handleChangePage(page) {
             this.page = page;
