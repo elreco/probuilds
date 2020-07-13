@@ -134,7 +134,6 @@ export default {
         RegionNavbar
     },
     mounted() {
-        console.log(this.matches);
         this.getRegions();
         this.setActiveRegion();
         this.getLiveMatches();

@@ -73,11 +73,9 @@ export default {
             required: false
         },
         src: {
-            type: String,
-            required: true
+            required: false
         },
         id: {
-            type: String,
             required: true
         },
         type: {

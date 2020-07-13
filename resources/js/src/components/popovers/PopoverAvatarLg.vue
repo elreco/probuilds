@@ -53,7 +53,6 @@ export default {
     name: "popover-avatar-lg",
     props: {
         id: {
-            type: String,
             required: true
         },
         type: {
@@ -61,7 +60,6 @@ export default {
             required: true
         },
         src: {
-            type: String,
             required: false,
             default: require("@assets/images/livefeed/unknown.png")
         },

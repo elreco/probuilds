@@ -18,13 +18,13 @@
                                 class="inline w-10 h-10 rounded border-solid border-2 border-white"
                                 :alt="spell.name"
                             />-->
-                            <popover-avatar
+                            <!-- <popover-avatar
                                 :border="'white'"
                                 :src="spell.src"
-                                :title="spell.name"
-                                :description="spell.description"
-                            />
-                            <span class="pl-2">{{spell.name}}</span>
+                                :id="spell.id"
+                                type="spells"
+                            />-->
+                            <span class="pl-2">{{spellName}}</span>
                             <span class="pl-2 pr-2 ml-auto">{{$t('Spell.' + indexSpell)}}</span>
                         </div>
                     </td>
@@ -57,7 +57,8 @@ export default {
     data() {
         return {
             spells: [],
-            timeline: []
+            timeline: [],
+            spellName: null
         };
     },
     mounted() {
@@ -81,10 +82,30 @@ export default {
                     this.timeline = response.data.timeline;
                 })
                 .then(() => {
+                    this.getLocaleSpellNames();
+                })
+                .then(() => {
                     this.loadingData(false);
                 });
 
             // UPDATE this.users après avoir fait la requête axios
+        },
+        getLocaleSpellNames() {
+            var $this = this;
+            console.log(this.spells);
+            /* Object.keys(this.spells).forEach((index, value) => {
+                console.log(value);
+
+                $this.$http
+                    .get(`spells/${value.id}`, {
+                        params: {
+                            locale: this.$route.params.locale
+                        }
+                    })
+                    .then(response => {
+                        this.spellName = response.data.name;
+                    });
+            }); */
         },
         loadingData(boolean) {
             if (boolean) {

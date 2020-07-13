@@ -11,11 +11,7 @@
                 v-for="(item, index) in data"
                 :key="index"
             >
-                <popover-avatar-lg
-                    :src="item.src"
-                    :title="item.title"
-                    :description="item.description"
-                />
+                <popover-avatar-lg :src="item.src" :id="item.id" type="items" />
 
                 <p class="text-center text-xs text-white mt-1">{{item.title}}</p>
             </div>

@@ -66,8 +66,10 @@ class Livefeed extends Command
             'locale' => $lang,
             'lane' => $lane,
             'force' => true,
-            'champion' => $champion,
         ];
+        if (!empty($champion)) {
+            $requests['champion'] = $champion;
+        }
         $request->replace($requests);
         CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed');
     }

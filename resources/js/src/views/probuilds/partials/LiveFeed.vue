@@ -36,6 +36,7 @@
                     :placeholder="$t('LiveFeed.allRegion')"
                     class="w-48"
                     v-model="selectedRegion"
+                    @input="setSelectedRegion"
                 />
             </vs-navbar>
 
@@ -197,6 +198,14 @@ export default {
             this.selectedRegion = this.$route.params.region
                 ? this.$route.params.region
                 : null;
+        },
+        setSelectedRegion(region) {
+            this.$router.push({
+                name: "probuilds",
+                params: {
+                    region: region
+                }
+            });
         },
         handleChangePage(page) {
             this.page = page;
