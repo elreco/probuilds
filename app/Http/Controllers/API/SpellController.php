@@ -7,17 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Spell\ShowRequest;
 // ENTITY
 use App\Entities\Summoner\SpellEntity;
-use App\Entities\Riot\RiotEntity;
 
 class SpellController extends Controller
 {
 
     public function show(ShowRequest $request)
     {
-        $riotEntity = new RiotEntity($request->locale);
-        $riot = $riotEntity->initApi($request->region);
-
-        $spellEntity = new SpellEntity($riot, $request->locale);
+        $spellEntity = new SpellEntity($request->locale);
         return $spellEntity->getSummonerSpell($request->id);
     }
 }

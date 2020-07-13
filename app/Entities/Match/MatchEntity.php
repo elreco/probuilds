@@ -286,7 +286,7 @@ class MatchEntity
     public function addMatchStats($participant, $response)
     {
         // init item entity 
-        $itemEntity = new ItemEntity($this->riot, $this->locale);
+        $itemEntity = new ItemEntity($this->locale);
 
         // WIN OR LOSE
         $response['win'] = $participant->stats->win;
@@ -305,7 +305,7 @@ class MatchEntity
         // ITEMS
         $response['items'] = $itemEntity->getItems($participant->stats);
         // Summoner Spells
-        $spellEntity = new SpellEntity($this->riot, $this->locale);
+        $spellEntity = new SpellEntity($this->locale);
         $response['summonerSpells'] = $spellEntity->getSummonerSpells($participant);
 
         return $response;

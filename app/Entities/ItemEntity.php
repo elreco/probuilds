@@ -9,20 +9,17 @@ use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
 use App\Entities\Riot\RiotEntity;
 
-use Carbon\Carbon;
 
 class ItemEntity
 {
     //
     use CommonTrait;
 
-    protected $riot;
     protected $locale;
 
-    public function __construct($riot, $locale)
+    public function __construct($locale)
     {
         $this->locale = $locale;
-        $this->riot = $riot;
         app()->setLocale($locale);
         RiotEntity::initDataDragonAPI();
     }

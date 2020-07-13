@@ -51,7 +51,7 @@
 
         .vx-navbar-wrapper {
             &:not(.nav-menu-wrapper) {
-                height: 62px;
+                height: auto;
             }
         }
 
@@ -127,7 +127,7 @@
     &:not(.navbar-static) {
         .vx-navbar-wrapper {
             &.nav-menu-wrapper {
-                top: 60px;
+                top: 68px;
             }
         }
     }

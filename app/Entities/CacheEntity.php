@@ -45,6 +45,7 @@ class CacheEntity
                 $key .= "." . strtolower($r);
             }
         }
+        dd($key);
         return $key;
     }
 

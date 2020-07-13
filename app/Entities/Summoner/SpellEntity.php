@@ -14,13 +14,11 @@ class SpellEntity
     //
     use CommonTrait;
 
-    protected $riot;
     protected $locale;
 
-    public function __construct($riot, $locale)
+    public function __construct($locale)
     {
         $this->locale = $locale;
-        $this->riot = $riot;
         app()->setLocale($locale);
         RiotEntity::initDataDragonAPI();
     }

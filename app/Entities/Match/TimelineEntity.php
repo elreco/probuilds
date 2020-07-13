@@ -41,7 +41,7 @@ class TimelineEntity
         $i = 0;
         $response = [];
 
-        $itemEntity = new ItemEntity($this->riot, $this->locale);
+        $itemEntity = new ItemEntity($this->locale);
 
         foreach ($frames as $frame) {
             $response[$i] = $this->initItemsTimelineArray();
