@@ -130,7 +130,6 @@ class MatchEntity
                 ////////////////////////
                 // MATCH FROM API
 
-
                 //Identité des joueurs
                 $participantIdentities = [];
                 $participantIdentitiesAPI = $matchApi->participantIdentities;

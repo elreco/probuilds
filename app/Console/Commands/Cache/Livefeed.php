@@ -15,7 +15,7 @@ class Livefeed extends Command
      *
      * @var string
      */
-    protected $signature = 'cache:livefeed {locale} {lane} {champion?}';
+    protected $signature = 'cache:livefeed {lane} {champion?}';
 
     /**
      * The console command description.
@@ -42,38 +42,35 @@ class Livefeed extends Command
     public function handle()
     {
         //
-        $championEntity = new ChampionEntity($this->argument('locale'));
 
+        $championEntity = new ChampionEntity($lang);
         if (!empty($this->argument('champion')) && $this->argument('champion') == 'all') {
             // get all champions
             $champions = $championEntity->getAllChampionsName();
             foreach ($champions as $champion) {
-                $request = new Request();
-                $requests = [
-                    'locale' => $this->argument('locale'),
-                    'lane' => $this->argument('lane'),
-                    'force' => true
-                ];
-                $requests .= [
-                    'champion' => $champion,
-                ];
-                $request->replace($requests);
-                CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed');
+                $this->livefeed($lang, $this->argument('lane'), $champion);
             }
         } else {
-            $request = new Request();
-            $requests = [
-                'locale' => $this->argument('locale'),
-                'lane' => $this->argument('lane'),
-                'force' => true
-            ];
+            $champion = "";
             if (!empty($this->argument('champion'))) {
-                $requests .= [
-                    'champion' => $this->argument('champion'),
-                ];
+                $champion = $this->argument('champion');
             }
-            $request->replace($requests);
-            CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed');
+            $this->livefeed($lang, $this->argument('lane'), $champion);
         }
+    }
+
+    public function livefeed($lang, $lane, $champion)
+    {
+        $request = new Request();
+        $requests = [
+            'locale' => $lang,
+            'lane' => $lane,
+            'force' => true
+        ];
+        $requests .= [
+            'champion' => $champion,
+        ];
+        $request->replace($requests);
+        CacheEntity::useCache('LiveFeedController', $request, 'getLiveFeed');
     }
 }

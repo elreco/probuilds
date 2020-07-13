@@ -41,4 +41,7 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API'], function ($api)
     $api->get('/champions', 'ChampionController@index');
     $api->get('/champions/{name}', 'ChampionController@show');
     $api->get('/champions-check', 'ChampionController@checkIfChampionExists');
+    // SPELLS CONTROLLER
+    /*
+    $api->get('/champions/{name}', 'ChampionController@show'); */
 });

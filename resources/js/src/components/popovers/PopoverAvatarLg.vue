@@ -7,6 +7,8 @@
         offset="5"
         class="inline"
         v-if="src"
+        :content="getData(type, id)"
+        :loadingContent="$t('SearchBanner.loading')"
     >
         <img
             loading="lazy"
@@ -18,7 +20,7 @@
             :src="src"
         />
 
-        <template slot="popover" v-if="title">
+        <template slot="popover">
             <vx-card class="mb-0 bg-primary" :title="title">
                 <div class="vx-row">
                     <div class="vx-col w-1/5">
@@ -50,14 +52,13 @@
 export default {
     name: "popover-avatar-lg",
     props: {
-        title: {
+        id: {
             type: String,
-            required: false
+            required: true
         },
-        description: {
+        type: {
             type: String,
-            required: false,
-            default: ""
+            required: true
         },
         src: {
             type: String,
@@ -77,8 +78,24 @@ export default {
     },
     data() {
         return {
-            srcIfNull: require("@assets/images/livefeed/unknown.png")
+            srcIfNull: require("@assets/images/livefeed/unknown.png"),
+            title: "",
+            description: ""
         };
+    },
+    methods: {
+        getData(type, id) {
+            this.$http
+                .get(`${type}/${id}`, {
+                    params: {
+                        locale: this.$route.params.locale
+                    }
+                })
+                .then(response => {
+                    this.title = response.data.name;
+                    this.description = response.data.description;
+                });
+        }
     },
     computed: {
         classImg: function() {

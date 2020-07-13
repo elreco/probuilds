@@ -24,8 +24,8 @@
                         :win="tr.win"
                         :default="false"
                         :src="tr.champion.src"
-                        :title="tr.champion.title"
-                        :description="tr.champion.description"
+                        :id="tr.champion.title"
+                        type="champions"
                     />
                 </vs-td>
                 <vs-td class="text-center" :data="tr.player">

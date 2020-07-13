@@ -78,9 +78,9 @@
                             <popover-avatar
                                 :win="tr.win"
                                 :default="false"
+                                type="champions"
+                                :id="tr.champion.title"
                                 :src="tr.champion.src"
-                                :title="tr.champion.title"
-                                :description="tr.champion.description"
                             />
                         </vs-td>
                         <vs-td :data="tr.player">
@@ -90,11 +90,7 @@
                             </vs-chip>
                         </vs-td>
                         <vs-td class="text-center" :data="tr.vs">
-                            <popover-avatar
-                                :src="tr.vs.src"
-                                :title="tr.vs.title"
-                                :description="tr.vs.description"
-                            />
+                            <popover-avatar :src="tr.vs.src" type="champions" :id="tr.vs.title" />
                         </vs-td>
                         <vs-td class="text-center" :data="tr.kda">{{ tr.kda }}</vs-td>
                         <vs-td class="text-center" :data="tr.gold">{{ tr.gold }}</vs-td>

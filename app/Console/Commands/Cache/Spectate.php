@@ -15,7 +15,7 @@ class Spectate extends Command
      *
      * @var string
      */
-    protected $signature = 'cache:spectate {locale}';
+    protected $signature = 'cache:spectate';
 
     /**
      * The console command description.
@@ -45,7 +45,6 @@ class Spectate extends Command
         foreach (RegionEntity::$list as $region) {
             $request = new Request();
             $requests = [
-                'locale' => $this->argument('locale'),
                 'force' => true,
                 'region' => $region
             ];

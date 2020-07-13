@@ -39,7 +39,7 @@ class CacheEntity
         $key = $resource . "@" .  $method;
 
         if (!empty($request)) {
-            $requestArray = $request->except(['force', 'page']);
+            $requestArray = $request->except(['force', 'page', 'locale']);
             krsort($requestArray);
             foreach ($requestArray as $r) {
                 $key .= "." . strtolower($r);
