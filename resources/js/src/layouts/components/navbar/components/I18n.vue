@@ -65,8 +65,9 @@ export default {
                 name: this.$route.name,
                 params: query
             }); */
-            return window.location.replace(window.location.origin + path);
-            alert();
+            /* alert(); */
+            window.location.href = window.location.origin + path;
+            /* return window.location.replace(window.location.origin + path); */
         }
     }
 };
