@@ -13,7 +13,7 @@
         </div>
         <div class="items-grid-view vx-row match-height" id="loadingSpectate">
             <div
-                class="vx-col xl:w-1/6 md:w-1/3 w-full"
+                class="vx-col xl:w-1/5 md:w-1/3 w-full"
                 :data="match"
                 :key="index"
                 v-for="(match, index) in matches"
@@ -72,7 +72,7 @@
                         <!-- SLOT: ACTION BUTTONS -->
                         <div class="flex flex-wrap">
                             <div
-                                @click="download(match.url)"
+                                @click="download(match.url, match.matchId)"
                                 class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
                             >
                                 <feather-icon icon="EyeIcon" svgClasses="h-4 w-4" />
@@ -153,22 +153,29 @@ export default {
                     this.isFetching = false;
                 });
         },
-        forceFileDownload(response) {
+        forceFileDownload(response, fileName) {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement("a");
             link.href = url;
-            link.setAttribute("download", "spectate.bat"); //or any other extension
+            link.setAttribute("download", fileName); //or any other extension
             document.body.appendChild(link);
             link.click();
         },
-        download(url) {
+        download(url, matchId) {
             alert(process.env.MIX_APP_URL + url);
             axios({
                 method: "get",
                 url: process.env.MIX_APP_URL + url,
                 responseType: "blob"
             }).then(response => {
-                this.forceFileDownload(response);
+                this.forceFileDownload(
+                    response,
+                    "EvilSpartan_lol_spectate_" +
+                        this.activeRegion +
+                        "_" +
+                        matchId +
+                        ".bat"
+                );
             });
         },
         pollLiveMatches() {
