@@ -97,8 +97,4 @@ class RiotEntity
             throw new \Symfony\Component\HttpKernel\Exception\NotFoundHttpException("Can't find your locale");
         }
     }
-
-    public function gameType($gameType, $gameMode)
-    {
-    }
 }
