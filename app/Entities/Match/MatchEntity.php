@@ -319,7 +319,7 @@ class MatchEntity
 
         $requestChallenger = new Request();
         $requestChallenger->replace([
-            /* 'numbers' => 100, */
+            'numbers' => 50,
             'force' => false,
         ]);
         $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $requestChallenger);
@@ -360,15 +360,25 @@ class MatchEntity
 
     public function createBatchFile($matchId, $encryptionKey, $platformId, $region)
     {
-        $fileContents = "REM Generated from http://lolprofile.net.\n";
-        $fileContents .= "@ECHO OFF\n";
-        $fileContents .= "SETLOCAL\n";
-        $fileContents .= "FOR /F \"skip=2 tokens=2,*\" %%A IN ('reg.exe query \"HKEY_CLASSES_ROOT\VirtualStore\MACHINE\SOFTWARE\Wow6432Node\Riot Games\RADS\" /v \"LocalRootFolder\"') DO set \"LocalRootFolder=%%B\solutions\lol_game_client_sln\releases\"\n";
-        $fileContents .= "FOR /F \"delims=\" %%i IN ('dir \"%LocalRootFolder%\" /b /ad-h /t:c /od') DO SET ver=%%i\n";
-        $fileContents .= "CD %LocalRootFolder%\%ver%\deploy\ \n";
-        $fileContents .= "START \"\" \"League of Legends.exe\" \"8394\" \"LoLLauncher.exe\" \"\" \"spectator spectator." . strtolower($region) . ".lol.riotgames.com:80 " . $encryptionKey . " " . $matchId . " " . $platformId . "\" \"-UseRads\"\n";
+        $leaguePath = "C:\Riot Games\League of Legends";
+        $search = array(
+            '{$region}',
+            '{$matchId}',
+            '{$encryptionKey}',
+            '{$platformId}',
+            '{$leaguePath}'
+        );
+        $replace = array(
+            strtolower($platformId),
+            $matchId,
+            $encryptionKey,
+            $platformId,
+            $leaguePath
+        );
 
-        return Storage::put('public/spectate/' . $region . '/' . $matchId . '.bat', $fileContents);
+        $replaced_string = str_replace($search, $replace, Storage::get('public/batchSpectate.bat'));
+
+        return Storage::put('public/spectate/' . $region . '/' . $matchId . '.bat', $replaced_string);
     }
 
     public function initMatchArray()

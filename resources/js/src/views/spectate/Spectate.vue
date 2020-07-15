@@ -204,10 +204,15 @@ export default {
             this.matches = this.matches.map((m, index) => {
                 var a = moment();
                 var b = moment(m.date);
-                this.ago[index] = moment({})
-                    .seconds(a.diff(b, "seconds"))
+                this.ago[index] = moment
+                    .utc(a.diff(b, "seconds") * 1000)
                     .add(1, "seconds")
                     .format("mm:ss");
+
+                /* moment({})
+                    .seconds(a.diff(b, "seconds"))
+                    .add(1, "seconds")
+                    .format("mm:ss"); */
                 return m;
             });
         },
