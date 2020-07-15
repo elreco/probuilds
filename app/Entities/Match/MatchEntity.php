@@ -12,6 +12,7 @@ use App\Entities\Riot\RiotEntity;
 use App\Entities\Summoner\SpellEntity;
 use App\Entities\Summoner\RuneEntity;
 use App\Entities\CacheEntity;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 
@@ -344,13 +345,30 @@ class MatchEntity
             $response[$i]['matchId'] = $match->gameId;
             $response[$i]['gameMode'] = $match->gameMode;
             $response[$i]['summonerName'] = $match->participants[0]->summonerName;
-            $response[$i]['champion'] = $championEntity->getChampionDetailsByName($match->participants[0]->staticData->name);
+            $response[$i]['champion'] = $championEntity->getChampionDetailsByName($match->participants[0]->staticData->id);
             $response[$i]['date'] = $match->gameStartTime;
+
+            $response[$i]['url'] = Storage::url('spectate/' . $request->region . '/' . $match->gameId . '.bat');
+
+            $this->createBatchFile($match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
 
             $i++;
         }
 
         return $response;
+    }
+
+    public function createBatchFile($matchId, $encryptionKey, $platformId, $region)
+    {
+        $fileContents = "REM Generated from http://lolprofile.net.\n";
+        $fileContents .= "@ECHO OFF\n";
+        $fileContents .= "SETLOCAL\n";
+        $fileContents .= "FOR /F \"skip=2 tokens=2,*\" %%A IN ('reg.exe query \"HKEY_CLASSES_ROOT\VirtualStore\MACHINE\SOFTWARE\Wow6432Node\Riot Games\RADS\" /v \"LocalRootFolder\"') DO set \"LocalRootFolder=%%B\solutions\lol_game_client_sln\releases\"\n";
+        $fileContents .= "FOR /F \"delims=\" %%i IN ('dir \"%LocalRootFolder%\" /b /ad-h /t:c /od') DO SET ver=%%i\n";
+        $fileContents .= "CD %LocalRootFolder%\%ver%\deploy\ \n";
+        $fileContents .= "START \"\" \"League of Legends.exe\" \"8394\" \"LoLLauncher.exe\" \"\" \"spectator spectator." . strtolower($region) . ".lol.riotgames.com:80 " . $encryptionKey . " " . $matchId . " " . $platformId . "\" \"-UseRads\"\n";
+
+        return Storage::put('spectate/' . $region . '/' . $matchId . '.bat', $fileContents);
     }
 
     public function initMatchArray()
@@ -384,6 +402,7 @@ class MatchEntity
             'gameMode' => null,
             'champion' => [],
             'date' => null,
+            'url' => null
         ];
     }
 }
