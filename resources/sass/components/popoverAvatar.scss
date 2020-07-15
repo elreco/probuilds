@@ -1,15 +1,47 @@
 .vs-card--header {
     h3 {
-        color: black!important;
+        color: black !important;
     }
 }
+
 .vs-card--content {
     margin: 0;
     width: 100%;
 }
+
 .tooltip-inner {
-    max-width: 40rem!important;
+    max-width: 40rem !important;
 }
-.tooltip-inner{
-    min-width: 20rem!important;
+
+.tooltip-inner {
+    min-width: 20rem !important;
+}
+
+.lds-dual-ring {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    padding-top: .45rem !important;
+}
+
+.lds-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 24px;
+    height: 24px;
+    margin: 0px auto;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    border-color: #fff transparent #fff transparent;
+    animation: lds-dual-ring 1.2s linear infinite;
+}
+
+@keyframes lds-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }

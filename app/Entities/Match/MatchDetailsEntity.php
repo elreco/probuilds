@@ -158,12 +158,14 @@ class MatchDetailsEntity
     {
         $response = [];
         $runeEntity = new RuneEntity($this->riot, $this->locale);
+        $championEntity = new ChampionEntity($this->locale);
 
         // selected summoner champion data and participant Id
         foreach ($match->participants as $participant) {
             if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
                 // Verif du champion
-                if (!empty($request->champion) && $participant->staticData->name != $request->champion) {
+                $championDetails = $championEntity->getChampionDetails($participant->staticData);
+                if (!empty($request->champion) && !empty($championDetails['id']) && $championDetails['id'] != $request->champion) {
                     throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong champion for this summoner');
                 }
                 // Verif du participantId
@@ -171,7 +173,7 @@ class MatchDetailsEntity
                     throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong participant');
                 }
 
-                $response['runes'] = $runeEntity->getRunes($participant);
+                $response['runes'] = $runeEntity->getRunesIDs($participant);
                 $response['champion'] = $participant->staticData->name;
                 $response['participantId'] = $participant->participantId;
             }

@@ -24,7 +24,7 @@
                         :win="tr.win"
                         :default="false"
                         :src="tr.champion.src"
-                        :id="tr.champion.title"
+                        :id="tr.champion.id"
                         type="champions"
                     />
                 </vs-td>
@@ -90,7 +90,7 @@ export default {
                     region: this.region,
                     summonerId: tr.summonerId,
                     matchId: this.matchId,
-                    champion: tr.champion.title,
+                    champion: tr.champion.id,
                     participantId: tr.participantId
                 }
             });

@@ -80,7 +80,7 @@
                                 :win="tr.win"
                                 :default="false"
                                 type="champions"
-                                :id="tr.champion.title"
+                                :id="tr.champion.id"
                                 :src="tr.champion.src"
                             />
                         </vs-td>
@@ -91,7 +91,7 @@
                             </vs-chip>
                         </vs-td>
                         <vs-td class="text-center" :data="tr.vs">
-                            <popover-avatar :src="tr.vs.src" type="champions" :id="tr.vs.title" />
+                            <popover-avatar :src="tr.vs.src" type="champions" :id="tr.vs.id" />
                         </vs-td>
                         <vs-td class="text-center" :data="tr.kda">{{ tr.kda }}</vs-td>
                         <vs-td class="text-center" :data="tr.gold">{{ tr.gold }}</vs-td>
@@ -189,7 +189,7 @@ export default {
                     region: tr.region,
                     summonerId: tr.summonerId,
                     matchId: tr.matchId,
-                    champion: tr.champion.title,
+                    champion: tr.champion.id,
                     participantId: tr.participantId
                 }
             });

@@ -1,7 +1,7 @@
 <template>
     <vx-card>
         <div class="text-center mb-base">
-            <h4>{{ $t('Summoner.items') }}</h4>
+            <h4 class="text-white">{{ $t('Summoner.items') }}</h4>
             <p class="text-grey">{{ $t('Summoner.finalItems') }}</p>
         </div>
         <!-- Avatar -->

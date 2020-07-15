@@ -204,32 +204,4 @@ function nextFactory(context, middleware, index) {
     };
 }
 
-/* function checkChampion(champion, locale) {
-    axiosRouter.get("champions-check", {
-            params: {
-                name: champion,
-                locale: locale
-            }
-        })
-        .then(function (response) {
-            if (response.data == false) {
-                next({
-                    name: "page-error",
-                    params: {
-                        code: "404",
-                        message: "Champion not found"
-                    }
-                });
-            }
-        }).catch(function (error) {
-            next({
-                name: "page-error",
-                params: {
-                    code: error.response.status,
-                    message: error.response.data.message
-                }
-            });
-        });
-} */
-
 export default router

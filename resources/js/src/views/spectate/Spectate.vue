@@ -46,7 +46,7 @@
                                 <h6 class="font-bold">
                                     <router-link
                                         class="hover:text-primary text-white"
-                                        :to="{name: 'probuilds.champions', params: {champion: match.champion.name}}"
+                                        :to="{name: 'probuilds.champions', params: {champion: match.champion.id}}"
                                     >{{match.champion.name}}</router-link>
                                 </h6>
                             </div>

@@ -22,7 +22,7 @@
             <div class="vx-col w-full mb-base xl:mb-0 xl:w-1/5 flex items-stretch">
                 <vx-card id="durationLoading" class="vs-con-loading__container">
                     <div class="text-center xl:mb-20 mb-base">
-                        <h4>{{ $t('Match.duration') }}</h4>
+                        <h4 class="text-white">{{ $t('Match.duration') }}</h4>
                     </div>
                     <div class="vx-row text-center h-full mb-4">
                         <div class="vx-col w-full h-full">{{duration}}</div>
@@ -214,6 +214,9 @@ export default {
                     this.runes = response.data.runes;
                 })
                 .then(() => {
+                    this.getRunes(this.runes);
+                })
+                .then(() => {
                     this.losers.participants.forEach((value, index) => {
                         if (this.summonerId == value.summonerId) {
                             this.items = value.items;
@@ -229,6 +232,22 @@ export default {
                 })
                 .then(() => {
                     this.loadingData(false);
+                });
+        },
+        getRunes(runes) {
+            this.$http
+                .get(`runes`, {
+                    params: {
+                        region: this.region,
+                        locale: this.$route.params.locale,
+                        runes: runes
+                    }
+                })
+                .then(response => {
+                    this.runes = response.data;
+                })
+                .then(() => {
+                    this.$vs.loading.close("#runesLoading > .con-vs-loading");
                 });
         },
         loadingData(boolean) {
@@ -265,7 +284,6 @@ export default {
                     "#summonerSpellsLoading > .con-vs-loading"
                 );
                 this.$vs.loading.close("#durationLoading > .con-vs-loading");
-                this.$vs.loading.close("#runesLoading > .con-vs-loading");
             }
         }
     },

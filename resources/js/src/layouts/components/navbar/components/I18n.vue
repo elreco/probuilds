@@ -47,6 +47,8 @@ export default {
     methods: {
         updateLocale(locale) {
             this.$vs.loading({
+                container: "html",
+                background: "#10163A",
                 type: "default"
             });
             moment.locale(locale);

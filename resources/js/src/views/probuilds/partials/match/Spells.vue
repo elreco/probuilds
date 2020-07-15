@@ -1,7 +1,7 @@
 <template>
     <vx-card class="vs-con-loading__container" id="spellsLoading">
         <div class="text-center mb-base">
-            <h4>{{ $t('Spell.abilities') }}</h4>
+            <h4 class="text-white">{{ $t('Spell.abilities') }}</h4>
             <p class="text-grey">{{ $t('Spell.abilitiesOrder') }}</p>
         </div>
         <div class="overflow-auto">
@@ -18,13 +18,13 @@
                                 class="inline w-10 h-10 rounded border-solid border-2 border-white"
                                 :alt="spell.name"
                             />-->
-                            <!-- <popover-avatar
+                            <popover-avatar
                                 :border="'white'"
                                 :src="spell.src"
-                                :id="spell.id"
-                                type="spells"
-                            />-->
-                            <span class="pl-2">{{spellName}}</span>
+                                :forceTitle="spell.name"
+                                :forceDescription="spell.description"
+                            />
+                            <span class="pl-2">{{spell.name}}</span>
                             <span class="pl-2 pr-2 ml-auto">{{$t('Spell.' + indexSpell)}}</span>
                         </div>
                     </td>
@@ -58,7 +58,12 @@ export default {
         return {
             spells: [],
             timeline: [],
-            spellName: null
+            spellName: {
+                0: {},
+                0: {},
+                0: {},
+                0: {}
+            }
         };
     },
     mounted() {
@@ -82,30 +87,10 @@ export default {
                     this.timeline = response.data.timeline;
                 })
                 .then(() => {
-                    this.getLocaleSpellNames();
-                })
-                .then(() => {
                     this.loadingData(false);
                 });
 
             // UPDATE this.users après avoir fait la requête axios
-        },
-        getLocaleSpellNames() {
-            var $this = this;
-            console.log(this.spells);
-            /* Object.keys(this.spells).forEach((index, value) => {
-                console.log(value);
-
-                $this.$http
-                    .get(`spells/${value.id}`, {
-                        params: {
-                            locale: this.$route.params.locale
-                        }
-                    })
-                    .then(response => {
-                        this.spellName = response.data.name;
-                    });
-            }); */
         },
         loadingData(boolean) {
             if (boolean) {
