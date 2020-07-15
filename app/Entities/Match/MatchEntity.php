@@ -348,7 +348,7 @@ class MatchEntity
             $response[$i]['champion'] = $championEntity->getChampionDetailsByName($match->participants[0]->staticData->id);
             $response[$i]['date'] = $match->gameStartTime;
 
-            $response[$i]['url'] = Storage::url('spectate/' . $request->region . '/' . $match->gameId . '.bat');
+            $response[$i]['url'] = Storage::url('public/spectate/' . $request->region . '/' . $match->gameId . '.bat');
 
             $this->createBatchFile($match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
 
@@ -368,7 +368,7 @@ class MatchEntity
         $fileContents .= "CD %LocalRootFolder%\%ver%\deploy\ \n";
         $fileContents .= "START \"\" \"League of Legends.exe\" \"8394\" \"LoLLauncher.exe\" \"\" \"spectator spectator." . strtolower($region) . ".lol.riotgames.com:80 " . $encryptionKey . " " . $matchId . " " . $platformId . "\" \"-UseRads\"\n";
 
-        return Storage::put('spectate/' . $region . '/' . $matchId . '.bat', $fileContents);
+        return Storage::put('public/spectate/' . $region . '/' . $matchId . '.bat', $fileContents);
     }
 
     public function initMatchArray()
