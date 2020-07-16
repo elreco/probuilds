@@ -47,7 +47,7 @@ class RiotEntity
             LeagueAPI::SET_STATICDATA_LINKING => true,
             /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
             LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
-            LeagueAPI::SET_INTERIM          => true,
+            LeagueAPI::SET_INTERIM          => false,
             LeagueAPI::SET_CACHE_RATELIMIT  => true,
             LeagueAPI::SET_CACHE_CALLS      => true,
             LeagueAPI::SET_CACHE_CALLS_LENGTH  => [
@@ -73,7 +73,7 @@ class RiotEntity
                 LeagueAPI::SET_STATICDATA_LINKING => true,
                 /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
                 LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
-                LeagueAPI::SET_INTERIM          => true,
+                LeagueAPI::SET_INTERIM          => false,
                 LeagueAPI::SET_CACHE_RATELIMIT  => true,
                 LeagueAPI::SET_CACHE_CALLS      => true,
                 LeagueAPI::SET_CACHE_CALLS_LENGTH  => [

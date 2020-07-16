@@ -23,7 +23,7 @@ class ChallengerEntity
         try {
             $challengers = collect($this->riot->getLeagueChallenger("RANKED_SOLO_5x5"))->sortByDesc('leaguePoints')->take($numbers);
         } catch (\Exception $e) {
-            return null;
+            return [];
         }
         return $challengers;
     }

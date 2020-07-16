@@ -65,7 +65,7 @@ class Livefeed extends Command
         $requests = [
             'locale' => $lang,
             'lane' => $lane,
-            'force' => true,
+            'force' => env("APP_KEY"),
         ];
         if (!empty($champion)) {
             $requests['champion'] = $champion;

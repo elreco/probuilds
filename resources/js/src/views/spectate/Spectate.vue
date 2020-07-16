@@ -43,6 +43,7 @@
                                     <feather-icon icon="VideoIcon" svgClasses="h-4 w-4" />
                                     <span class="text-sm ml-1">{{ago[index]}}</span>
                                 </div>
+
                                 <h6 class="font-bold">
                                     <router-link
                                         class="hover:text-primary text-white"
@@ -60,7 +61,7 @@
                                     <a
                                         class="hover:text-primary text-white"
                                         target="_blank"
-                                        :href="'https://'+activeRegion+'.op.gg/summoner/userName=' + match.summonerName"
+                                        :href="'https://'+match.region+'.op.gg/summoner/userName=' + match.summonerName"
                                     >
                                         {{match.summonerName}}
                                         <i class="fas fa-external-link-alt"></i>
@@ -70,6 +71,14 @@
                                     class="item-description truncate text-sm"
                                     v-html="setQueue(match.queueID)"
                                 ></p>
+
+                                <div
+                                    class="con-vs-chip vs-chip-primary con-color w-12 mx-auto mt-2 mb-5 rounded-sm float-none"
+                                >
+                                    <span
+                                        class="text-chip vs-chip--text"
+                                    >{{match.region.toUpperCase()}}</span>
+                                </div>
                             </div>
                         </div>
                         <!-- SLOT: ACTION BUTTONS -->
@@ -130,7 +139,7 @@ export default {
             queueLoading: true,
             queueType: [],
             isFetching: true,
-            activeRegion: null,
+            activeRegion: this.$route.params.region,
             matches: [],
             polling: null,
             ago: [],
@@ -143,7 +152,6 @@ export default {
     },
     mounted() {
         this.getRegions();
-        this.setActiveRegion();
         this.getLiveMatches();
         this.pollLiveMatches();
     },
@@ -184,7 +192,14 @@ export default {
             });
         },
         pollLiveMatches() {
-            this.polling = setInterval(() => this.liveMatches(), 10000);
+            this.polling = setInterval(
+                function() {
+                    if (this.matches.length) {
+                        this.liveMatches();
+                    }
+                }.bind(this),
+                10000
+            );
         },
         liveMatches() {
             return this.$http
@@ -196,6 +211,7 @@ export default {
                 })
                 .then(response => {
                     this.matches = response.data.matches;
+                    console.log(this.matches);
                     this.queueIDs = response.data.queueIDs;
                 })
                 .then(response => {
@@ -221,9 +237,9 @@ export default {
             });
         },
         getRegions() {
-            this.$http
-                .get("regions", { cache: true })
-                .then(response => (this.regions = response.data));
+            this.$http.get("regions", { cache: true }).then(response => {
+                this.regions = response.data;
+            });
         },
         setQueue(queueID) {
             return !this.queueLoading
@@ -243,11 +259,6 @@ export default {
                         this.queueType = response.data;
                         this.queueLoading = false;
                     });
-        },
-        setActiveRegion() {
-            this.activeRegion = this.$route.params.region
-                ? this.$route.params.region
-                : "EUW";
         },
         loadingData(boolean, id) {
             if (boolean) {

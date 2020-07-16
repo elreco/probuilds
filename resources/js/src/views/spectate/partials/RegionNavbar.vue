@@ -10,7 +10,9 @@
         <div slot="title">
             <vs-navbar-title class="font-semibold uppercase text-white">{{$t('Global.Regions')}}</vs-navbar-title>
         </div>
-
+        <vs-navbar-item>
+            <router-link :to="{name: 'spectate'}">{{$t('LiveFeed.allRegion')}}</router-link>
+        </vs-navbar-item>
         <vs-navbar-item :index="data" :data="data" :key="index" v-for="(data, index) in regions">
             <router-link
                 :to="{name: 'spectate', params: {

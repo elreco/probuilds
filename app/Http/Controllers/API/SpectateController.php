@@ -22,19 +22,33 @@ class SpectateController extends Controller
      */
     public function index(SpectateRequest $request)
     {
-        return CacheEntity::useCache('SpectateController', $request, 'getLiveMatches');
-        /* return $this->getLiveMatches($request); */
+        /* return CacheEntity::useCache('SpectateController', $request, 'getLiveMatches'); */
+        return $this->getLiveMatches($request);
     }
 
     public function getLiveMatches($request)
     {
-        $riotEntity = new RiotEntity($request->locale);
-        if (empty($request->region)) {
-            $request->merge(['region' => 'EUW']);
-        }
-        $riot = $riotEntity->initApi($request->region);
+        $regions = RegionEntity::getSelectedRegions($request);
 
-        $matchEntity = new MatchEntity($riot, $request->locale);
-        return $matchEntity->getLiveMatches($request);
+        $riotEntity = new RiotEntity($request->locale);
+        $riots = $riotEntity->initApiMulti($regions);
+
+        $response = [
+            'matches' => [],
+            'queueIDs' => []
+        ];
+
+        foreach ($riots as $region => $riot) {
+            $request->merge([
+                'region' => $region
+            ]);
+
+            /* $matchEntity = new MatchEntity($riot, $request->locale);
+            $matches = $matchEntity->getLiveMatches($request); */
+            $matches = CacheEntity::useEntityCache('Match\MatchEntity', 'getLiveMatches', $riot, $request);
+            $response['matches'] = !empty($matches['matches']) ? array_merge($response['matches'], $matches['matches']) : $response['matches'];
+            $response['queueIDs'] = !empty($matches['queueIDs']) ? array_merge($response['queueIDs'], $matches['queueIDs']) : $response['queueIDs'];
+        }
+        return $response;
     }
 }

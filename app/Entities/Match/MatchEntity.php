@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 
-use RiotAPI\DataDragonAPI\DataDragonAPI;
-
-
 class MatchEntity
 {
     //
@@ -47,6 +44,8 @@ class MatchEntity
         // Get Challengers
         $requestChallenger = new Request();
         $requestChallenger->replace([
+            'region' => $request->region,
+            'numbers' => 25,
             'force' => false,
         ]);
         $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $requestChallenger);
@@ -76,7 +75,7 @@ class MatchEntity
             $requestMatch->replace([
                 'locale' => $this->locale,
                 'id' => $m[0]->gameId,
-                'force' => !empty($request->force) ? true : false,
+                'force' => !empty($request->force) ? env("APP_KEY") : false,
             ]);
             $matchApi = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatch', $this->riot, $requestMatch);
 
@@ -126,7 +125,7 @@ class MatchEntity
                 $requestSummoner = new Request();
                 $requestSummoner->replace([
                     'id' => $m['summoner']->id,
-                    'force' => !empty($request->force) ? true : false,
+                    /* 'force' => !empty($request->force) ? env("APP_KEY") : false, */
                 ]);
                 $response[$i]['player'] = CacheEntity::useEntityCache('Summoner\SummonerEntity', 'getSummonerDetails', $this->riot, $requestSummoner);
                 ////////////////////////
@@ -179,7 +178,7 @@ class MatchEntity
                             'summonerId' => $participantIdentities[$participant->participantId]->player->summonerId,
                             'champion' => $participant->staticData->name,
                             'participantId' => $participant->participantId,
-                            'force' => true,
+                            'force' => env("APP_KEY"),
                         ]);
                         CacheEntity::useCache('MatchController', $matchRequest, 'getMatchDetails');
                     }
@@ -324,7 +323,8 @@ class MatchEntity
         $matches = [];
         $requestChallenger = new Request();
         $requestChallenger->replace([
-            'numbers' => 100,
+            'region' => $request->region,
+            'numbers' => 25,
             'force' => false,
         ]);
         $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $requestChallenger);
@@ -346,10 +346,11 @@ class MatchEntity
         /* $matches = $this->riot->getFeaturedGames(); */
         $championEntity = new ChampionEntity($this->locale);
 
-
         $i = 0;
-
+        $matchExists = [];
         foreach ($matches as $match) {
+            $filename = 'public/spectate/' . $request->region . '/' . $match->gameId . '.bat';
+            $matchExists[] = $filename;
             $response['matches'][$i] = $this->initLiveMatchArray();
             $response['matches'][$i]['region'] = $request->region;
             $response['matches'][$i]['matchId'] = $match->gameId;
@@ -357,20 +358,27 @@ class MatchEntity
             $response['matches'][$i]['summonerName'] = $match->participants[0]->summonerName;
             $response['matches'][$i]['champion'] = $championEntity->getChampionDetailsByName($match->participants[0]->staticData->id);
             $response['matches'][$i]['date'] = $match->gameStartTime;
-            $response['matches'][$i]['url'] = Storage::url('public/spectate/' . $request->region . '/' . $match->gameId . '.bat');
+            $response['matches'][$i]['url'] = Storage::url($filename);
             $response['matches'][$i]['queueID'] = $match->gameQueueConfigId;
             if (!in_array($match->gameQueueConfigId, $response['queueIDs'])) {
                 $response['queueIDs'][] = $match->gameQueueConfigId;
             }
-            $this->createBatchFile($match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
+            $this->createBatchFile($filename, $match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
 
             $i++;
+        }
+        // DELETE ALL OTHERS MATCH FILES
+        $files = Storage::allFiles('public/spectate/' . $request->region);
+        foreach ($files as $file) {
+            if (!in_array($file, $matchExists)) {
+                Storage::delete($file);
+            }
         }
 
         return $response;
     }
 
-    public function createBatchFile($matchId, $encryptionKey, $platformId, $region)
+    public function createBatchFile($filename, $matchId, $encryptionKey, $platformId)
     {
         $leaguePath = "C:\Riot Games\League of Legends";
         $search = array(
@@ -390,7 +398,7 @@ class MatchEntity
 
         $replaced_string = str_replace($search, $replace, Storage::get('public/batchSpectate.bat'));
 
-        return Storage::put('public/spectate/' . $region . '/' . $matchId . '.bat', $replaced_string);
+        return Storage::put($filename, $replaced_string);
     }
 
     public function initMatchArray()

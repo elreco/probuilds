@@ -6,7 +6,7 @@ use Illuminate\Console\Command;
 use Illuminate\Http\Request;
 
 use App\Entities\CacheEntity;
-use App\Entities\RegionEntity;
+
 
 class Spectate extends Command
 {
@@ -42,7 +42,15 @@ class Spectate extends Command
     public function handle()
     {
         //
-        foreach (RegionEntity::$list as $region) {
+        $request = new Request();
+        $requests = [
+            'locale' => app()->getLocale(),
+            'force' => env("APP_KEY"),
+        ];
+        $request->replace($requests);
+
+        CacheEntity::useCache('SpectateController', $request, 'getLiveMatches');
+        /* foreach (RegionEntity::$list as $region) {
             $request = new Request();
             $requests = [
                 'locale' => app()->getLocale(),
@@ -52,6 +60,6 @@ class Spectate extends Command
             $request->replace($requests);
 
             CacheEntity::useCache('SpectateController', $request, 'getLiveMatches');
-        }
+        } */
     }
 }

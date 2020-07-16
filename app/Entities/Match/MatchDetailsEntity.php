@@ -54,7 +54,7 @@ class MatchDetailsEntity
         $requestMatch->replace([
             'locale' => $request->locale,
             'id' => $request->id,
-            'force' => !empty($request->force) ? true : false,
+            'force' => !empty($request->force) ? env("APP_KEY") : false,
         ]);
         $match = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatch', $this->riot, $requestMatch);
         if (!empty($match)) {
@@ -165,7 +165,7 @@ class MatchDetailsEntity
             if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
                 // Verif du champion
                 $championDetails = $championEntity->getChampionDetails($participant->staticData);
-                if (!empty($request->champion) && !empty($championDetails['id']) && $championDetails['id'] != $request->champion) {
+                if (!empty($request->champion) && (!empty($championDetails['id']) && $championDetails['id'] != $request->champion)) {
                     throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong champion for this summoner');
                 }
                 // Verif du participantId

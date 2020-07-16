@@ -16,9 +16,9 @@ class CacheEntity
         $key = self::keyGenerator($resource, $method, $request);
 
         if (Cache::has($key)) {
-            if (!empty($request->force)) {
+            if (!empty($request->force) && $request->force == env("APP_KEY")) {
                 // force delete cache (from cron job)
-                Cache::forget($key);
+                /* Cache::forget($key); */
                 $response = app($namespace)->$method($request);
                 if (!empty($response)) {
                     Cache::forever($key, $response);
@@ -62,9 +62,9 @@ class CacheEntity
         $key = self::keyGenerator($resource, $method, $request);
 
         if (Cache::has($key)) {
-            if (!empty($request->force)) {
+            if (!empty($request->force) && $request->force == env("APP_KEY")) {
                 // force delete cache (from cron job)
-                Cache::forget($key);
+                /* Cache::forget($key); */
                 if (empty($othersArray)) {
                     $response = $entity->$method($request);
                 } else {
