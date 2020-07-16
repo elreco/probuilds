@@ -45,7 +45,7 @@ class MatchEntity
         $requestChallenger = new Request();
         $requestChallenger->replace([
             'region' => $request->region,
-            'numbers' => 25,
+            'numbers' => 10,
             'force' => false,
         ]);
         $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $requestChallenger);
@@ -176,7 +176,7 @@ class MatchEntity
                             'locale' => $this->locale,
                             'region' => $request->region,
                             'summonerId' => $participantIdentities[$participant->participantId]->player->summonerId,
-                            'champion' => $participant->staticData->name,
+                            'champion' => $participant->staticData->id,
                             'participantId' => $participant->participantId,
                             'force' => env("APP_KEY"),
                         ]);

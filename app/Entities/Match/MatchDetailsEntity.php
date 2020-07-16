@@ -165,6 +165,7 @@ class MatchDetailsEntity
             if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
                 // Verif du champion
                 $championDetails = $championEntity->getChampionDetails($participant->staticData);
+
                 if (!empty($request->champion) && (!empty($championDetails['id']) && $championDetails['id'] != $request->champion)) {
                     throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong champion for this summoner');
                 }
