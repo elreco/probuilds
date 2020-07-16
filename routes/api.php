@@ -32,9 +32,9 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API'], function ($api)
     $api->get('/matches/{id}', 'MatchController@show');
     $api->get('/matches/{id}/items-timeline/{summonerId}', 'MatchController@itemsTimeline');
     $api->get('/matches/{id}/spells/{summonerId}', 'MatchController@spells');
+    $api->get('/queues-types', 'MatchController@getQueuesTypes');
     // SUMMONER CONTROLLER
     $api->get('/summoners/{id}', 'SummonerController@show');
-
     // REGIONS CONTROLLER
     $api->get('/regions', 'RegionController@index');
     // CHAMPIONS CONTROLLER

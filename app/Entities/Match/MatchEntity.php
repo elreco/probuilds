@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 
+use RiotAPI\DataDragonAPI\DataDragonAPI;
+
+
 class MatchEntity
 {
     //
@@ -314,12 +317,14 @@ class MatchEntity
 
     public function getLiveMatches($request)
     {
-        $response = [];
+        $response = [
+            'matches' => [],
+            'queueIDs' => []
+        ];
         $matches = [];
-
         $requestChallenger = new Request();
         $requestChallenger->replace([
-            'numbers' => 50,
+            'numbers' => 100,
             'force' => false,
         ]);
         $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $requestChallenger);
@@ -330,26 +335,33 @@ class MatchEntity
                 $matches[$match->gameId] = $match;
             }
         }
-        $featuredGames = $this->riot->getFeaturedGames();
+        ////////// FEATURED GAMES //////////////
+
+        /* $featuredGames = $this->riot->getFeaturedGames();
         foreach ($featuredGames as $game) {
             if (empty($matches[$game->gameId])) {
                 $matches[$game->gameId] = $game;
             }
-        }
+        } */
         /* $matches = $this->riot->getFeaturedGames(); */
         $championEntity = new ChampionEntity($this->locale);
+
+
         $i = 0;
+
         foreach ($matches as $match) {
-            $response[$i] = $this->initLiveMatchArray();
-            $response[$i]['region'] = $request->region;
-            $response[$i]['matchId'] = $match->gameId;
-            $response[$i]['gameMode'] = $match->gameMode;
-            $response[$i]['summonerName'] = $match->participants[0]->summonerName;
-            $response[$i]['champion'] = $championEntity->getChampionDetailsByName($match->participants[0]->staticData->id);
-            $response[$i]['date'] = $match->gameStartTime;
-
-            $response[$i]['url'] = Storage::url('public/spectate/' . $request->region . '/' . $match->gameId . '.bat');
-
+            $response['matches'][$i] = $this->initLiveMatchArray();
+            $response['matches'][$i]['region'] = $request->region;
+            $response['matches'][$i]['matchId'] = $match->gameId;
+            $response['matches'][$i]['gameMode'] = $match->gameMode;
+            $response['matches'][$i]['summonerName'] = $match->participants[0]->summonerName;
+            $response['matches'][$i]['champion'] = $championEntity->getChampionDetailsByName($match->participants[0]->staticData->id);
+            $response['matches'][$i]['date'] = $match->gameStartTime;
+            $response['matches'][$i]['url'] = Storage::url('public/spectate/' . $request->region . '/' . $match->gameId . '.bat');
+            $response['matches'][$i]['queueID'] = $match->gameQueueConfigId;
+            if (!in_array($match->gameQueueConfigId, $response['queueIDs'])) {
+                $response['queueIDs'][] = $match->gameQueueConfigId;
+            }
             $this->createBatchFile($match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
 
             $i++;

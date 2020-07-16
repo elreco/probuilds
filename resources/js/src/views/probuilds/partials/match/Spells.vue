@@ -89,8 +89,6 @@ export default {
                 .then(() => {
                     this.loadingData(false);
                 });
-
-            // UPDATE this.users après avoir fait la requête axios
         },
         loadingData(boolean) {
             if (boolean) {

@@ -198,6 +198,12 @@
     padding-top: 0.05rem;
 }
 
+@media only screen and (max-width: 1280px) {
+    .pt-custom {
+        padding-top: 0.15rem;
+    }
+}
+
 @keyframes blinkdanger {
     0% {
         color: rgba(234, 84, 85, 1)
@@ -214,15 +220,15 @@
 
 @-webkit-keyframes blinkdanger {
     0% {
-        color: rgba(234, 84, 85, 1)
+        color: rgba(233, 25, 22, 1)
     }
 
     50% {
-        color: rgba(234, 84, 85, 0.5)
+        color: rgba(233, 25, 22, 0.5)
     }
 
     100% {
-        color: rgba(234, 84, 85, 1)
+        color: rgba(233, 25, 22, 1)
     }
 }
 

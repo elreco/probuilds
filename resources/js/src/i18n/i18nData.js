@@ -91,7 +91,7 @@ export default {
         Message: {
             noData: "No Data",
             noLivefeedData: "Livefeed is not available yet for the requested criteria.",
-            noMatchesData: "No match available for the requested criteria.",
+            noMatchesData: "No match available for the requested region.",
             loginWaitTitle: "Please wait",
             loginWaitMessage: "We are login you to the plateform...",
             loginTitle: "Successful logged in",
@@ -119,7 +119,7 @@ export default {
         nav: {
             home: "Home",
             probuilds: "Probuilds",
-            spectate: "Pros en direct",
+            spectate: "Regarder des parties",
             community: "Communauté"
         },
         home: {
@@ -196,7 +196,7 @@ export default {
         Message: {
             noData: "Aucune donnée",
             noLivefeedData: "Le livefeed n'est pas encore disponible pour les critères demandés.",
-            noMatchesData: "Aucun match disponible pour les critères demandés.",
+            noMatchesData: "Aucun match disponible pour la région demandée.",
             loginWaitTitle: "Veuillez patienter",
             loginWaitMessage: "Nous vous connectons à la plateforme...",
             loginTitle: "Connexion réussie",

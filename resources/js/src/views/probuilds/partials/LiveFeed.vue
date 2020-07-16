@@ -241,7 +241,7 @@ export default {
             // UPDATE this.matches après avoir fait la requête axios
         },
         formatDate() {
-            if (this.matches.data) {
+            if (this.matches.data.length) {
                 this.matches.data = this.matches.data.map(m => {
                     m.ago = moment(m.date).fromNow();
                     return m;

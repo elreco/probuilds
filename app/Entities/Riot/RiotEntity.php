@@ -50,7 +50,9 @@ class RiotEntity
             LeagueAPI::SET_INTERIM          => true,
             LeagueAPI::SET_CACHE_RATELIMIT  => true,
             LeagueAPI::SET_CACHE_CALLS      => true,
-            LeagueAPI::SET_CACHE_CALLS_LENGTH => 99999999999
+            LeagueAPI::SET_CACHE_CALLS_LENGTH  => [
+                LeagueAPI::RESOURCE_STATICDATA => 9999,
+            ]
         ]);
 
 
@@ -74,13 +76,44 @@ class RiotEntity
                 LeagueAPI::SET_INTERIM          => true,
                 LeagueAPI::SET_CACHE_RATELIMIT  => true,
                 LeagueAPI::SET_CACHE_CALLS      => true,
-                LeagueAPI::SET_CACHE_CALLS_LENGTH => 99999999999
+                LeagueAPI::SET_CACHE_CALLS_LENGTH  => [
+                    LeagueAPI::RESOURCE_STATICDATA => 9999,
+                ]
             ]);
         }
 
         return $api;
     }
 
+    public function getQueuesTypes($queues)
+    {
+        $queuesArray = $queues;
+        self::initDataDragonAPI();
+        $response = [];
+        $queuesDragon = DataDragonAPI::getQueues($this->localeMutator());
+        if (is_array($queuesArray)) {
+            foreach ($queuesArray as $queue) {
+                $response[$queue] = $this->initQueueArray();
+                $response[$queue]['name'] = $queuesDragon[$queue]['name'];
+                $response[$queue]['description'] = $queuesDragon[$queue]['description'];
+            }
+        } else {
+            $response[$queuesArray] = $this->initQueueArray();
+            $response[$queuesArray]['name'] = $queuesDragon[$queuesArray]['name'];
+            $response[$queuesArray]['description'] = $queuesDragon[$queuesArray]['description'];
+        }
+
+
+        return $response;
+    }
+
+    public function initQueueArray()
+    {
+        return [
+            'name' => null,
+            'description' => null
+        ];
+    }
 
     // locale normal to locale for riot api (by territory)
     public function localeMutator()

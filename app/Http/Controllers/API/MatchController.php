@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Match\ShowRequest;
 use App\Http\Requests\Match\TimelineRequest;
 use App\Http\Requests\Match\SpellsRequest;
+use App\Http\Requests\Match\QueueTypeRequest;
 // ENTITY
 use App\Entities\Match\MatchDetailsEntity;
 use App\Entities\Riot\RiotEntity;
@@ -15,8 +16,6 @@ use App\Entities\Match\TimelineEntity;
 
 class MatchController extends Controller
 {
-
-    //
     public function show(ShowRequest $request)
     {
         $match = CacheEntity::useCache('MatchController', $request, 'getMatchDetails');
@@ -60,5 +59,11 @@ class MatchController extends Controller
 
         $timelineEntity = new TimelineEntity($riot, $request->locale);
         return $timelineEntity->getMatchTimeline($request->id);
+    }
+
+    public function getQueuesTypes(QueueTypeRequest $request)
+    {
+        $riotEntity = new RiotEntity($request->locale);
+        return $riotEntity->getQueuesTypes($request->queues);
     }
 }

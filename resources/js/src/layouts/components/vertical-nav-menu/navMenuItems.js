@@ -22,13 +22,13 @@ export default [{
     },
     {
         url: '/' + i18n.locale + '/spectate',
-        name: i18n.t('nav.spectate') + " <i class='pl-1 fas fa-circle text-md blink pt-custom'></i>",
+        name: i18n.t('nav.spectate'),
         slug: 'spectate',
         icon: 'MonitorIcon'
     },
     {
         url: '/' + i18n.locale + '/community',
-        name: i18n.t('nav.community'),
+        name: i18n.t('nav.community') + " <i class='pl-1 pt-custom fas fa-circle text-md blink pt-custom'></i>",
         slug: 'community',
         icon: 'UsersIcon'
     }

@@ -66,7 +66,10 @@
                                         <i class="fas fa-external-link-alt"></i>
                                     </a>
                                 </h6>
-                                <p class="item-description truncate text-sm">{{match.gameMode}}</p>
+                                <p
+                                    class="item-description truncate text-sm"
+                                    v-html="setQueue(match.queueID)"
+                                ></p>
                             </div>
                         </div>
                         <!-- SLOT: ACTION BUTTONS -->
@@ -123,6 +126,9 @@ export default {
         return {
             title: this.$i18n.t("meta.title.home"),
             regions: [],
+            queueIDs: [],
+            queueLoading: true,
+            queueType: [],
             isFetching: true,
             activeRegion: null,
             matches: [],
@@ -162,7 +168,6 @@ export default {
             link.click();
         },
         download(url, matchId) {
-            alert(process.env.MIX_APP_URL + url);
             axios({
                 method: "get",
                 url: process.env.MIX_APP_URL + url,
@@ -190,7 +195,11 @@ export default {
                     }
                 })
                 .then(response => {
-                    this.matches = response.data;
+                    this.matches = response.data.matches;
+                    this.queueIDs = response.data.queueIDs;
+                })
+                .then(response => {
+                    this.getQueuesTypes();
                 })
                 .then(response => {
                     clearInterval(this.agoInterval);
@@ -208,11 +217,6 @@ export default {
                     .utc(a.diff(b, "seconds") * 1000)
                     .add(1, "seconds")
                     .format("mm:ss");
-
-                /* moment({})
-                    .seconds(a.diff(b, "seconds"))
-                    .add(1, "seconds")
-                    .format("mm:ss"); */
                 return m;
             });
         },
@@ -220,6 +224,25 @@ export default {
             this.$http
                 .get("regions", { cache: true })
                 .then(response => (this.regions = response.data));
+        },
+        setQueue(queueID) {
+            return !this.queueLoading
+                ? this.queueType[queueID].name
+                : '<i class="fas fa-spinner fa-spin"></i>';
+        },
+        getQueuesTypes() {
+            if (this.matches.length)
+                this.$http
+                    .get(`queues-types`, {
+                        params: {
+                            queues: this.queueIDs,
+                            locale: this.$route.params.locale
+                        }
+                    })
+                    .then(response => {
+                        this.queueType = response.data;
+                        this.queueLoading = false;
+                    });
         },
         setActiveRegion() {
             this.activeRegion = this.$route.params.region
