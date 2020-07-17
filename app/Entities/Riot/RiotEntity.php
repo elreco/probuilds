@@ -44,6 +44,8 @@ class RiotEntity
             LeagueAPI::SET_REGION           => Region::$list[strtolower($region)],
             LeagueAPI::SET_VERIFY_SSL       => false,
             LeagueAPI::SET_DATADRAGON_INIT  => true,
+            LeagueAPI::SET_PER_MINUTE_REQUESTS => 30,
+            LeagueAPI::SET_PER_SECOND_REQUESTS => 15,
             LeagueAPI::SET_STATICDATA_LINKING => true,
             /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
             LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
@@ -70,6 +72,8 @@ class RiotEntity
                 LeagueAPI::SET_REGION           => Region::$list[strtolower($region)],
                 LeagueAPI::SET_VERIFY_SSL       => false,
                 LeagueAPI::SET_DATADRAGON_INIT  => true,
+                LeagueAPI::SET_PER_MINUTE_REQUESTS => 30,
+                LeagueAPI::SET_PER_SECOND_REQUESTS => 15,
                 LeagueAPI::SET_STATICDATA_LINKING => true,
                 /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
                 LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
@@ -91,17 +95,15 @@ class RiotEntity
         self::initDataDragonAPI();
         $response = [];
         $queuesDragon = DataDragonAPI::getQueues($this->localeMutator());
-        if (is_array($queuesArray)) {
-            foreach ($queuesArray as $queue) {
-                $response[$queue] = $this->initQueueArray();
+        foreach ($queuesArray as $queue) {
+
+            $response[$queue] = $this->initQueueArray();
+            if (!empty($queue) && $queue != 'null') {
                 $response[$queue]['name'] = $queuesDragon[$queue]['name'];
                 $response[$queue]['description'] = $queuesDragon[$queue]['description'];
             }
-        } else {
-            $response[$queuesArray] = $this->initQueueArray();
-            $response[$queuesArray]['name'] = $queuesDragon[$queuesArray]['name'];
-            $response[$queuesArray]['description'] = $queuesDragon[$queuesArray]['description'];
         }
+
 
 
         return $response;

@@ -37,7 +37,7 @@ export default {
         redirectToChampion(champion) {
             if (champion) {
                 this.$router.push({
-                    name: "champions",
+                    name: "probuilds.champions",
                     params: {
                         champion: champion
                     }

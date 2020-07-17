@@ -32,7 +32,7 @@ class ChampionEntity
             $riotEntity = new RiotEntity($this->locale);
             $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
             foreach ($champions['data'] as $champ) {
-                if ($champ['name'] ==  $championName) {
+                if ($champ['id'] ==  $championName) {
                     $champion = intval($champ['key']);
                 }
             }
@@ -61,7 +61,7 @@ class ChampionEntity
         foreach ($champions['data'] as $c) {
             if (Str::startsWith(strtoupper($c['id']), strtoupper($request->query('name'))) or Str::startsWith(strtoupper($c['name']), strtoupper($request->query('name')))) {
                 $return[intval($c['key'])] = [
-                    'id' => intval($c['key']),
+                    'id' => $c['id'],
                     'name' => $c['name'],
                     'title' => Str::ucfirst($c['title']),
                     'src' => DataDragonAPI::getChampionIconUrl($c['id'])
@@ -93,14 +93,14 @@ class ChampionEntity
      *
      * @return array
      */
-    public function getAllChampionsName()
+    public function getAllChampionsID()
     {
         // init data dragon
         $response = [];
         $riotEntity = new RiotEntity($this->locale);
         $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
         foreach ($champions['data'] as $c) {
-            $response[] = $c['name'];
+            $response[] = $c['id'];
         }
         return $response;
     }

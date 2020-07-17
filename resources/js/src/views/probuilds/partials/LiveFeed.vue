@@ -14,21 +14,45 @@
                 </div>
                 <vs-navbar-item index="all">
                     <a href="#" class="all">{{ $t("LiveFeed.all") }}</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'all', region: selectedRegion}}"
+                        class="all"
+                    >{{ $t("LiveFeed.all") }}</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="top">
                     <a href="#" class="top">Top</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'top', region: selectedRegion}}"
+                        class="top"
+                    >Top</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="jungle">
                     <a href="#" class="jungle">Jungle</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'jungle', region: selectedRegion}}"
+                        class="jungle"
+                    >Jungle</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="mid">
                     <a href="#" class="mid">Mid</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'mid', region: selectedRegion}}"
+                        class="Mid"
+                    >Jungle</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="adc">
                     <a href="#" class="bot">Bot</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'adc', region: selectedRegion}}"
+                        class="bot"
+                    >Bot</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="support">
                     <a href="#" class="support">Support</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'support', region: selectedRegion}}"
+                        class="support"
+                    >Support</router-link>-->
                 </vs-navbar-item>
                 <v-select
                     :clearable="true"
@@ -36,7 +60,6 @@
                     :placeholder="$t('LiveFeed.allRegion')"
                     class="w-48"
                     v-model="selectedRegion"
-                    @input="setSelectedRegion"
                 />
             </vs-navbar>
 
@@ -179,7 +202,6 @@ export default {
     mounted() {
         this.getFeed();
         this.getRegions();
-        this.setActiveRegion();
     },
     methods: {
         handleSelected(tr) {
@@ -191,19 +213,6 @@ export default {
                     matchId: tr.matchId,
                     champion: tr.champion.id,
                     participantId: tr.participantId
-                }
-            });
-        },
-        setActiveRegion() {
-            this.selectedRegion = this.$route.params.region
-                ? this.$route.params.region
-                : null;
-        },
-        setSelectedRegion(region) {
-            this.$router.push({
-                name: "probuilds",
-                params: {
-                    region: region
                 }
             });
         },

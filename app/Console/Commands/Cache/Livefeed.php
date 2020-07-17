@@ -46,7 +46,7 @@ class Livefeed extends Command
         $championEntity = new ChampionEntity($lang);
         if (!empty($this->argument('champion')) && $this->argument('champion') == 'all') {
             // get all champions
-            $champions = $championEntity->getAllChampionsName();
+            $champions = $championEntity->getAllChampionsID();
             foreach ($champions as $champion) {
                 $this->livefeed($lang, $this->argument('lane'), $champion);
             }

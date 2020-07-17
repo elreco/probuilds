@@ -84,7 +84,7 @@
                         <!-- SLOT: ACTION BUTTONS -->
                         <div class="flex flex-wrap">
                             <div
-                                @click="download(match.url, match.matchId)"
+                                @click="download(match.url, match.matchId);openPopup(match)"
                                 class="item-view-secondary-action-btn bg-primary p-3 flex flex-grow items-center justify-center text-white cursor-pointer"
                             >
                                 <feather-icon icon="EyeIcon" svgClasses="h-4 w-4" />
@@ -98,6 +98,7 @@
                 </vx-card>
             </div>
         </div>
+
         <div
             v-if="matches && matches.length==0 && isFetching==false"
             class="bg-primary text-white px-4 py-3 shadow-md"
@@ -121,6 +122,68 @@
                 </div>
             </div>
         </div>
+        <vs-popup
+            class="holamundo"
+            :title="popupMatch.summonerName + ' - ' + popupMatch.champion.name"
+            :active.sync="popupActive"
+        >
+            <vs-navbar
+                v-model="activeItem"
+                color="#0091EA"
+                text-color="rgba(255,255,255,.6)"
+                active-text-color="rgba(255,255,255,1)"
+                class="vx-navbar rounded-sm px-5 myNavbar text-white mb-4"
+            >
+                <div slot="title">
+                    <vs-navbar-title class="font-semibold text-sm text-white">{{$t('Spectate.OS')}}</vs-navbar-title>
+                </div>
+                <vs-navbar-item index="0">
+                    <a href="#" class="text-base" @click="changeOS('windows')">
+                        <i class="fab fa-windows pr-1"></i> Windows
+                    </a>
+                </vs-navbar-item>
+                <vs-navbar-item index="1">
+                    <a href="#" class="text-base" @click="changeOS('mac')">
+                        <i class="fab fa-apple pr-1"></i> Mac
+                    </a>
+                </vs-navbar-item>
+            </vs-navbar>
+
+            <vx-card>
+                <div class="w-full" :class="os == 'windows' ? 'block' : 'hidden'">
+                    <p class="text-white text-sm mb-4">
+                        {{$t('Spectate.restartDownload1')}}
+                        {{$t('Spectate.restartDownload2')}}
+                        <a
+                            href="#"
+                            class="text-gold hover:text-primary"
+                            @click="download(popupMatch.url, popupMatch.matchId)"
+                        >{{$t('Spectate.restartDownload3')}}</a>
+                    </p>
+                    <hr />
+                    <img
+                        src="@assets/images/match/tuto.gif"
+                        class="border-2 border-primary border-solid w-full mt-4"
+                        icon="windows"
+                    />
+                </div>
+                <div class="w-full" :class="os == 'mac' ? 'block' : 'hidden'">
+                    <p class="text-white text-sm mb-4" v-html="$t('Spectate.macMessage')"></p>
+                    <hr />
+                    <div
+                        class="vs-component vs-con-textarea mt-4 vs-textarea-primary"
+                        style="border: 1px solid rgba(0, 0, 0, 0.08); height: 295px;"
+                    >
+                        <textarea
+                            @focus="$event.target.select()"
+                            class="vs-textarea"
+                            readonly
+                            v-model="popupMatch.mac"
+                        ></textarea>
+                    </div>
+                </div>
+            </vx-card>
+        </vs-popup>
     </section>
 </template>
 
@@ -143,7 +206,13 @@ export default {
             matches: [],
             polling: null,
             ago: [],
-            agoInterval: null
+            agoInterval: null,
+            popupActive: false,
+            popupMatch: {
+                champion: []
+            },
+            activeItem: 0,
+            os: "windows"
         };
     },
     components: {
@@ -181,14 +250,14 @@ export default {
                 url: process.env.MIX_APP_URL + url,
                 responseType: "blob"
             }).then(response => {
-                this.forceFileDownload(
+                /* this.forceFileDownload(
                     response,
                     "EvilSpartan_lol_spectate_" +
                         this.activeRegion +
                         "_" +
                         matchId +
                         ".bat"
-                );
+                ); */
             });
         },
         pollLiveMatches() {
@@ -201,6 +270,10 @@ export default {
                 10000
             );
         },
+        openPopup(match) {
+            this.popupActive = true;
+            this.popupMatch = match;
+        },
         liveMatches() {
             return this.$http
                 .get(`spectate`, {
@@ -211,7 +284,6 @@ export default {
                 })
                 .then(response => {
                     this.matches = response.data.matches;
-                    console.log(this.matches);
                     this.queueIDs = response.data.queueIDs;
                 })
                 .then(response => {
@@ -260,6 +332,9 @@ export default {
                         this.queueLoading = false;
                     });
         },
+        changeOS(os) {
+            this.os = os;
+        },
         loadingData(boolean, id) {
             if (boolean) {
                 this.$vs.loading({
@@ -285,3 +360,8 @@ export default {
     }
 };
 </script>
+<style>
+.vs-textarea {
+    height: 100%;
+}
+</style>

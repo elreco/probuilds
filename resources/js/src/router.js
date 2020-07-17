@@ -71,7 +71,7 @@ const router = new Router({
             path: '/:locale/probuilds',
             component: () => import('./layouts/main/Main.vue'),
             children: [{
-                path: ':region?',
+                path: ':lane?/:region?',
                 name: 'probuilds',
                 meta: {
                     middleware: [checkAuth, locale],

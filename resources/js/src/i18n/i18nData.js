@@ -62,7 +62,7 @@ export default {
             description: 'Description'
         },
         SearchBanner: {
-            loading: 'Loading',
+            loading: 'Loading...',
             searchInput: 'Search champion...'
         },
         Spell: {
@@ -100,7 +100,12 @@ export default {
             logoutMessage: "You are logged out to the platform, See you soon!",
         },
         Spectate: {
-            watch: "Watch"
+            watch: "Watch",
+            OS: "Your OS",
+            restartDownload1: "Your download will begin in a moment.",
+            restartDownload2: "If it doesn't,",
+            restartDownload3: "restart the download",
+            macMessage: "After running <strong class='text-primary'>[Terminal]</strong>, copy and paste the message below.",
         }
     },
     de: {},
@@ -167,7 +172,7 @@ export default {
             description: 'Description'
         },
         SearchBanner: {
-            loading: 'Chargement',
+            loading: 'Chargement...',
             searchInput: 'Rechercher un champion...'
         },
         Spell: {
@@ -205,7 +210,12 @@ export default {
             logoutMessage: "Vous êtes maintenant déconnecté de la plateforme, à bientôt !",
         },
         Spectate: {
-            watch: "Regarder"
+            watch: "Regarder",
+            OS: "Votre système d'exploitation",
+            restartDownload1: "Votre téléchargement commencera dans un instant.",
+            restartDownload2: "Si ce n'est pas le cas,",
+            restartDownload3: "recommencez le téléchargement",
+            macMessage: "Après avoir exécuté <strong class='text-primary'>[Terminal]</strong>, copiez et collez le texte ci-dessous.",
         }
 
     },

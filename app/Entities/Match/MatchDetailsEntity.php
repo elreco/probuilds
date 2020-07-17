@@ -84,7 +84,7 @@ class MatchDetailsEntity
                         return ($var->teamId == $team->teamId);
                     });
 
-                    $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity);
+                    $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity, $request);
                 } else {
 
                     $response['losers']['bans'] = $this->bans($team);
@@ -95,7 +95,7 @@ class MatchDetailsEntity
                     });
 
 
-                    $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity);
+                    $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity, $request);
                 }
             }
         }
@@ -122,7 +122,7 @@ class MatchDetailsEntity
         return $response;
     }
 
-    public function participants($participants, $participantIdentities, $matchEntity)
+    public function participants($participants, $participantIdentities, $matchEntity, $request)
     {
         $i = 0;
         $response = [];
@@ -143,6 +143,7 @@ class MatchDetailsEntity
             $requestSummoner = new Request();
             $requestSummoner->replace([
                 'id' => $summonerId,
+                'force' => !empty($request->force) ? env("APP_KEY") : false,
             ]);
             $response[$i]['player'] = CacheEntity::useEntityCache('Summoner\SummonerEntity', 'getSummonerDetails', $this->riot, $requestSummoner);
 

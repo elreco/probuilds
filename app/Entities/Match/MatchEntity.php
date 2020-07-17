@@ -125,7 +125,7 @@ class MatchEntity
                 $requestSummoner = new Request();
                 $requestSummoner->replace([
                     'id' => $m['summoner']->id,
-                    /* 'force' => !empty($request->force) ? env("APP_KEY") : false, */
+                    'force' => !empty($request->force) ? env("APP_KEY") : false,
                 ]);
                 $response[$i]['player'] = CacheEntity::useEntityCache('Summoner\SummonerEntity', 'getSummonerDetails', $this->riot, $requestSummoner);
                 ////////////////////////
@@ -168,7 +168,7 @@ class MatchEntity
                 }
 
                 // cache the entire match
-                if (!empty($request->force)) {
+                /* if (!empty($request->force)) {
                     foreach ($participantsAPI as $participant) {
                         $matchRequest = new Request();
                         $matchRequest->replace([
@@ -178,11 +178,11 @@ class MatchEntity
                             'summonerId' => $participantIdentities[$participant->participantId]->player->summonerId,
                             'champion' => $participant->staticData->id,
                             'participantId' => $participant->participantId,
-                            'force' => env("APP_KEY"),
+                            //'force' => env("APP_KEY"), 
                         ]);
                         CacheEntity::useCache('MatchController', $matchRequest, 'getMatchDetails');
                     }
-                }
+                } */
             }
 
             $i++;
@@ -360,6 +360,7 @@ class MatchEntity
             $response['matches'][$i]['date'] = $match->gameStartTime;
             $response['matches'][$i]['url'] = Storage::url($filename);
             $response['matches'][$i]['queueID'] = $match->gameQueueConfigId;
+            $response['matches'][$i]['mac'] = $this->createMacText($match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
             if (!in_array($match->gameQueueConfigId, $response['queueIDs'])) {
                 $response['queueIDs'][] = $match->gameQueueConfigId;
             }
@@ -401,6 +402,26 @@ class MatchEntity
         return Storage::put($filename, $replaced_string);
     }
 
+    public function createMacText($matchId, $encryptionKey, $platformId)
+    {
+        $search = array(
+            '{$region}',
+            '{$matchId}',
+            '{$encryptionKey}',
+            '{$platformId}'
+        );
+        $replace = array(
+            strtolower($platformId),
+            $matchId,
+            $encryptionKey,
+            $platformId
+        );
+
+        $replaced_string = str_replace($search, $replace, Storage::get('public/spectateMac.txt'));
+
+        return $replaced_string;
+    }
+
     public function initMatchArray()
     {
         return [
@@ -432,7 +453,8 @@ class MatchEntity
             'gameMode' => null,
             'champion' => [],
             'date' => null,
-            'url' => null
+            'url' => null,
+            'mac' => null
         ];
     }
 }
