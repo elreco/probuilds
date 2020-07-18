@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use App\Entities\CacheEntity;
 use App\Entities\ChampionEntity;
 
+use SebastianBergmann\Timer\Timer;
+
 class Livefeed extends Command
 {
     /**
@@ -42,6 +44,8 @@ class Livefeed extends Command
     public function handle()
     {
         //
+        Timer::start();
+
         $lang = app()->getLocale();
         $championEntity = new ChampionEntity($lang);
         if (!empty($this->argument('champion')) && $this->argument('champion') == 'all') {
@@ -57,6 +61,8 @@ class Livefeed extends Command
             }
             $this->livefeed($lang, $this->argument('lane'), $champion);
         }
+        $time = Timer::stop();
+        print Timer::secondsToTimeString($time);
     }
 
     public function livefeed($lang, $lane, $champion)
