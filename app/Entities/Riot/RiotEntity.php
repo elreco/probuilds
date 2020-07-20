@@ -45,7 +45,7 @@ class RiotEntity
             LeagueAPI::SET_VERIFY_SSL       => false,
             LeagueAPI::SET_DATADRAGON_INIT  => true,
             LeagueAPI::SET_PER_MINUTE_REQUESTS => 30,
-            LeagueAPI::SET_PER_SECOND_REQUESTS => 15,
+            LeagueAPI::SET_PER_SECOND_REQUESTS => 1,
             LeagueAPI::SET_STATICDATA_LINKING => true,
             /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
             LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
@@ -73,7 +73,7 @@ class RiotEntity
                 LeagueAPI::SET_VERIFY_SSL       => false,
                 LeagueAPI::SET_DATADRAGON_INIT  => true,
                 LeagueAPI::SET_PER_MINUTE_REQUESTS => 30,
-                LeagueAPI::SET_PER_SECOND_REQUESTS => 15,
+                LeagueAPI::SET_PER_SECOND_REQUESTS => 1,
                 LeagueAPI::SET_STATICDATA_LINKING => true,
                 /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
                 LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
