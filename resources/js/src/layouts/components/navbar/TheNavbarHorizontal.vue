@@ -11,7 +11,7 @@
 
 <template>
     <div class="relative">
-        <div class="vx-navbar-wrapper navbar-full p-0">
+        <div class="vx-navbar-wrapper navbar-full p-0 vx-navbar-custom">
             <vs-navbar
                 class="navbar-custom navbar-skelton"
                 :class="navbarClasses"
@@ -109,7 +109,7 @@ export default {
         navbarClasses() {
             return this.scrollY > 5 && this.navbarType === "static"
                 ? null
-                : "d-theme-dark-light-bg shadow-none";
+                : "d-theme-dark-light-bg shadow-none vx-navbar-custom";
         },
         scrollY() {
             return this.$store.state.scrollY;

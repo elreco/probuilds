@@ -27,8 +27,10 @@ class Kernel extends ConsoleKernel
     {
         // $schedule->command('inspire')
         //          ->hourly();
-        $schedule->call('cache:livefeed 1 fr all')->dailyAt(env("CRON_TIME", '00:00'));
-        $schedule->call('cache:livefeed 1 en all')->dailyAt(env("CRON_TIME", '00:00'));
+
+        $schedule->call('cache:livefeed all all')->withoutOverlapping()->dailyAt(env("CRON_TIME", '00:00'));
+        $schedule->call('cache:livefeed all')->withoutOverlapping()->dailyAt(env("CRON_TIME", '01:00'));
+        $schedule->call('cache:spectate')->withoutOverlapping()->dailyAt(env("CRON_TIME", '00:00'));
     }
 
     /**

@@ -24,8 +24,8 @@
                         :win="tr.win"
                         :default="false"
                         :src="tr.champion.src"
-                        :title="tr.champion.title"
-                        :description="tr.champion.description"
+                        :id="tr.champion.id"
+                        type="champions"
                     />
                 </vs-td>
                 <vs-td class="text-center" :data="tr.player">
@@ -48,8 +48,8 @@
                         v-for="(item, index) in tr.items"
                         :key="index"
                         :src="item.src"
-                        :title="item.title"
-                        :description="item.description"
+                        :id="item.id"
+                        type="items"
                     />
 
                     <div
@@ -63,8 +63,8 @@
                         v-for="(spell, index) in tr.summonerSpells"
                         :key="index"
                         :src="spell.src"
-                        :title="spell.title"
-                        :description="spell.description"
+                        :id="spell.id"
+                        type="spells"
                     />
                 </vs-td>
             </vs-tr>
@@ -85,12 +85,12 @@ export default {
     methods: {
         handleSelected(tr) {
             this.$router.push({
-                name: "matches",
+                name: "probuilds.matches",
                 params: {
                     region: this.region,
                     summonerId: tr.summonerId,
                     matchId: this.matchId,
-                    champion: tr.champion.title,
+                    champion: tr.champion.id,
                     participantId: tr.participantId
                 }
             });

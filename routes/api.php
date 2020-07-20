@@ -24,19 +24,28 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API'], function ($api)
         // USER CONTROLLER
         $api->get('/user', 'Auth\UserController@current');
     });
+    // SPECTATE CONTROLLER
+    $api->get('/spectate', 'SpectateController@index');
     // LIVEFEED CONTROLLER
     $api->get('/livefeed', 'LiveFeedController@index');
     // MATCH CONTROLLER
     $api->get('/matches/{id}', 'MatchController@show');
     $api->get('/matches/{id}/items-timeline/{summonerId}', 'MatchController@itemsTimeline');
     $api->get('/matches/{id}/spells/{summonerId}', 'MatchController@spells');
+    $api->get('/queues-types', 'MatchController@getQueuesTypes');
     // SUMMONER CONTROLLER
     $api->get('/summoners/{id}', 'SummonerController@show');
-
     // REGIONS CONTROLLER
     $api->get('/regions', 'RegionController@index');
     // CHAMPIONS CONTROLLER
     $api->get('/champions', 'ChampionController@index');
     $api->get('/champions/{name}', 'ChampionController@show');
+    $api->get('/champions/{name}/spells/{id}', 'ChampionController@spells');
     $api->get('/champions-check', 'ChampionController@checkIfChampionExists');
+    // ITEMS CONTROLLER
+    $api->get('/items/{id}', 'ItemController@show');
+    // SPELLS CONTROLLER
+    $api->get('/spells/{id}', 'SpellController@show');
+    // SPELLS CONTROLLER
+    $api->get('/runes', 'RuneController@index');
 });

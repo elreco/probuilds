@@ -7,7 +7,6 @@ use App\Http\Traits\CommonTrait;
 // DATADRAGON
 use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
-use App\Entities\Summoner\SummonerEntity;
 use App\Entities\Match\MatchEntity;
 use App\Entities\ChampionEntity;
 use App\Entities\RegionEntity;
@@ -54,7 +53,8 @@ class MatchDetailsEntity
         $requestMatch = new Request();
         $requestMatch->replace([
             'locale' => $request->locale,
-            'id' => $request->id
+            'id' => $request->id,
+            'force' => !empty($request->force) ? env("APP_KEY") : false,
         ]);
         $match = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatch', $this->riot, $requestMatch);
         if (!empty($match)) {
@@ -84,7 +84,7 @@ class MatchDetailsEntity
                         return ($var->teamId == $team->teamId);
                     });
 
-                    $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity);
+                    $response['winners']['participants'] = $this->participants($winners, $participantIdentities, $matchEntity, $request);
                 } else {
 
                     $response['losers']['bans'] = $this->bans($team);
@@ -95,7 +95,7 @@ class MatchDetailsEntity
                     });
 
 
-                    $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity);
+                    $response['losers']['participants'] = $this->participants($losers, $participantIdentities, $matchEntity, $request);
                 }
             }
         }
@@ -122,14 +122,13 @@ class MatchDetailsEntity
         return $response;
     }
 
-    public function participants($participants, $participantIdentities, $matchEntity)
+    public function participants($participants, $participantIdentities, $matchEntity, $request)
     {
         $i = 0;
         $response = [];
 
         // init entity
         $championEntity = new ChampionEntity($this->locale);
-        $summonerEntity = new SummonerEntity($this->riot);
 
         foreach ($participants as $participant) {
             $response[$i]['participantId'] = $participant->participantId;
@@ -140,7 +139,13 @@ class MatchDetailsEntity
             $response[$i]['champion'] = $championEntity->getChampionDetails($participant->staticData);
 
             // player
-            $response[$i]['player'] = $summonerEntity->getSummonerDetails($summonerId);
+            /* $summonerEntity->getSummonerDetails($requestSummoner) */
+            $requestSummoner = new Request();
+            $requestSummoner->replace([
+                'id' => $summonerId,
+                'force' => !empty($request->force) ? env("APP_KEY") : false,
+            ]);
+            $response[$i]['player'] = CacheEntity::useEntityCache('Summoner\SummonerEntity', 'getSummonerDetails', $this->riot, $requestSummoner);
 
             $response[$i]['level'] = $participant->stats->champLevel;
 
@@ -154,12 +159,15 @@ class MatchDetailsEntity
     {
         $response = [];
         $runeEntity = new RuneEntity($this->riot, $this->locale);
+        $championEntity = new ChampionEntity($this->locale);
 
         // selected summoner champion data and participant Id
         foreach ($match->participants as $participant) {
             if ($participantIdentities[$participant->participantId]->summonerId == $request->summonerId) {
                 // Verif du champion
-                if (!empty($request->champion) && $participant->staticData->name != $request->champion) {
+                $championDetails = $championEntity->getChampionDetails($participant->staticData);
+
+                if (!empty($request->champion) && (!empty($championDetails['id']) && $championDetails['id'] != $request->champion)) {
                     throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong champion for this summoner');
                 }
                 // Verif du participantId
@@ -167,7 +175,7 @@ class MatchDetailsEntity
                     throw new \Symfony\Component\HttpKernel\Exception\NotAcceptableHttpException('Wrong participant');
                 }
 
-                $response['runes'] = $runeEntity->getRunes($participant);
+                $response['runes'] = $runeEntity->getRunesIDs($participant);
                 $response['champion'] = $participant->staticData->name;
                 $response['participantId'] = $participant->participantId;
             }

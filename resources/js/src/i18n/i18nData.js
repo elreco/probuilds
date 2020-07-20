@@ -14,8 +14,13 @@ export default {
         404: {
             backToHome: "Back to Home"
         },
+        nav: {
+            home: "Home",
+            probuilds: "Probuilds",
+            spectate: "Spectate",
+            community: "Community"
+        },
         home: {
-            nav: 'Home',
             welcome: 'Welcome to Probuilds',
             welcomeText: "League of Legends professional player's <strong class='text-gold'>builds</strong> across all regions"
         },
@@ -57,7 +62,7 @@ export default {
             description: 'Description'
         },
         SearchBanner: {
-            loading: 'Loading',
+            loading: 'Loading...',
             searchInput: 'Search champion...'
         },
         Spell: {
@@ -72,7 +77,8 @@ export default {
             runes: "Reforged Runes"
         },
         Global: {
-            sold: "Sold"
+            sold: "Sold",
+            Regions: "Regions"
         },
         Special: {
             AttackSpeed: "Attack Speed",
@@ -85,12 +91,21 @@ export default {
         Message: {
             noData: "No Data",
             noLivefeedData: "Livefeed is not available yet for the requested criteria.",
+            noMatchesData: "No match available for the requested region.",
             loginWaitTitle: "Please wait",
             loginWaitMessage: "We are login you to the plateform...",
             loginTitle: "Successful logged in",
             loginMessage: "You are logged in to the platform!",
             logoutTitle: "Successful logged out",
             logoutMessage: "You are logged out to the platform, See you soon!",
+        },
+        Spectate: {
+            watch: "Watch",
+            OS: "Your OS",
+            restartDownload1: "Your download will begin in a moment.",
+            restartDownload2: "If it doesn't,",
+            restartDownload3: "restart the download",
+            macMessage: "After running <strong class='text-primary'>[Terminal]</strong>, copy and paste the message below.",
         }
     },
     de: {},
@@ -106,8 +121,13 @@ export default {
         404: {
             backToHome: "Revenir à l'accueil"
         },
+        nav: {
+            home: "Home",
+            probuilds: "Probuilds",
+            spectate: "Regarder des parties",
+            community: "Communauté"
+        },
         home: {
-            nav: 'Accueil',
             welcome: 'Bienvenue sur Probuilds',
             welcomeText: "<strong class='text-gold'>Builds</strong> des joueurs professionnels sur League of Legends dans toutes les régions"
         },
@@ -152,7 +172,7 @@ export default {
             description: 'Description'
         },
         SearchBanner: {
-            loading: 'Chargement',
+            loading: 'Chargement...',
             searchInput: 'Rechercher un champion...'
         },
         Spell: {
@@ -167,7 +187,8 @@ export default {
             runes: "Runes reforgées"
         },
         Global: {
-            sold: "Vendu"
+            sold: "Vendu",
+            Regions: "Regions"
         },
         Special: {
             AttackSpeed: "Vitesse d'attaque",
@@ -180,12 +201,21 @@ export default {
         Message: {
             noData: "Aucune donnée",
             noLivefeedData: "Le livefeed n'est pas encore disponible pour les critères demandés.",
+            noMatchesData: "Aucun match disponible pour la région demandée.",
             loginWaitTitle: "Veuillez patienter",
             loginWaitMessage: "Nous vous connectons à la plateforme...",
             loginTitle: "Connexion réussie",
             loginMessage: "Vous êtes maintenant connecté à la plateforme !",
             logoutTitle: "Déconnexion réussie",
             logoutMessage: "Vous êtes maintenant déconnecté de la plateforme, à bientôt !",
+        },
+        Spectate: {
+            watch: "Regarder",
+            OS: "Votre système d'exploitation",
+            restartDownload1: "Votre téléchargement commencera dans un instant.",
+            restartDownload2: "Si ce n'est pas le cas,",
+            restartDownload3: "recommencez le téléchargement",
+            macMessage: "Après avoir exécuté <strong class='text-primary'>[Terminal]</strong>, copiez et collez le texte ci-dessous.",
         }
 
     },

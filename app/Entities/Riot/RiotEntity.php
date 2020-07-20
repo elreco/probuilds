@@ -44,13 +44,17 @@ class RiotEntity
             LeagueAPI::SET_REGION           => Region::$list[strtolower($region)],
             LeagueAPI::SET_VERIFY_SSL       => false,
             LeagueAPI::SET_DATADRAGON_INIT  => true,
+            LeagueAPI::SET_MAX_REQUESTS => 95,
+            LeagueAPI::SET_DURATION_IN_SECONDS => 120,
             LeagueAPI::SET_STATICDATA_LINKING => true,
             /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
             LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
-            LeagueAPI::SET_INTERIM          => true,
-            LeagueAPI::SET_CACHE_RATELIMIT  => true,
+            LeagueAPI::SET_INTERIM          => false,
+            LeagueAPI::SET_CACHE_RATELIMIT  => false,
             LeagueAPI::SET_CACHE_CALLS      => true,
-            LeagueAPI::SET_CACHE_CALLS_LENGTH => 9999
+            LeagueAPI::SET_CACHE_CALLS_LENGTH  => [
+                LeagueAPI::RESOURCE_STATICDATA => 9999,
+            ]
         ]);
 
 
@@ -68,19 +72,50 @@ class RiotEntity
                 LeagueAPI::SET_REGION           => Region::$list[strtolower($region)],
                 LeagueAPI::SET_VERIFY_SSL       => false,
                 LeagueAPI::SET_DATADRAGON_INIT  => true,
+                LeagueAPI::SET_MAX_REQUESTS => 100,
+                LeagueAPI::SET_DURATION_IN_SECONDS => 120,
                 LeagueAPI::SET_STATICDATA_LINKING => true,
                 /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
                 LeagueAPI::SET_STATICDATA_LOCALE => $this->localeMutator(),
-                LeagueAPI::SET_INTERIM          => true,
-                LeagueAPI::SET_CACHE_RATELIMIT  => true,
+                LeagueAPI::SET_INTERIM          => false,
+                LeagueAPI::SET_CACHE_RATELIMIT  => false,
                 LeagueAPI::SET_CACHE_CALLS      => true,
-                LeagueAPI::SET_CACHE_CALLS_LENGTH => 9999
+                LeagueAPI::SET_CACHE_CALLS_LENGTH  => [
+                    LeagueAPI::RESOURCE_STATICDATA => 9999,
+                ]
             ]);
         }
 
         return $api;
     }
 
+    public function getQueuesTypes($queues)
+    {
+        $queuesArray = $queues;
+        self::initDataDragonAPI();
+        $response = [];
+        $queuesDragon = DataDragonAPI::getQueues($this->localeMutator());
+        foreach ($queuesArray as $queue) {
+
+            $response[$queue] = $this->initQueueArray();
+            if (!empty($queue) && $queue != 'null') {
+                $response[$queue]['name'] = $queuesDragon[$queue]['name'];
+                $response[$queue]['description'] = $queuesDragon[$queue]['description'];
+            }
+        }
+
+
+
+        return $response;
+    }
+
+    public function initQueueArray()
+    {
+        return [
+            'name' => null,
+            'description' => null
+        ];
+    }
 
     // locale normal to locale for riot api (by territory)
     public function localeMutator()

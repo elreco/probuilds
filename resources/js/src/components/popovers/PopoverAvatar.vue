@@ -1,12 +1,14 @@
 <template>
+    <!-- $t('SearchBanner.loading') -->
     <v-popover
         container="body"
         boundariesElement="body"
         trigger="hover"
         placement="auto"
         offset="5"
-        class="inline"
+        class="inline text-white"
         v-if="src"
+        :content="getData(type, id)"
     >
         <div class="relative inline">
             <img
@@ -33,8 +35,11 @@
                 >{{$t('Global.sold')}}</div>
             </div>
         </div>
-        <template slot="popover" v-if="title">
-            <vx-card class="mb-0 bg-primary" :title="title">
+        <template slot="popover">
+            <vx-card class="mb-0 bg-primary">
+                <div class="text-left mb-5">
+                    <h4 class="text-white">{{ title ? title : ' ' }}</h4>
+                </div>
                 <div class="vx-row">
                     <div class="vx-col w-1/5">
                         <img
@@ -42,7 +47,7 @@
                             class="w-12 h-12 rounded border-solid border-2 border-white mx-auto text-center"
                         />
                     </div>
-                    <div class="vx-col w-4/5 text-left">
+                    <div class="vx-col w-4/5 text-left" :class="{'lds-dual-ring ': isLoading }">
                         <p class="text-white text-xs font-light text-shadow" v-html="description"></p>
                     </div>
                 </div>
@@ -56,7 +61,7 @@
             height="32"
             alt="None"
             :src="srcIfNull"
-            class="tooltip-target mx-auto w-10 h-10 rounded tooltip-target border-solid border-2 border-theme-dark"
+            class="inline tooltip-target w-10 h-10 rounded tooltip-target border-solid border-2 border-theme-dark"
         />
     </div>
 </template>
@@ -65,23 +70,27 @@
 export default {
     name: "popover-avatar",
     props: {
-        title: {
-            type: String,
-            required: false
-        },
-        src: {
-            type: String,
-            required: false,
-            default: require("@assets/images/livefeed/unknown.png")
-        },
-        description: {
-            type: String,
-            required: false,
-            default: ""
-        },
         default: {
             type: Boolean,
             default: true,
+            required: false
+        },
+        src: {
+            required: false
+        },
+        id: {
+            required: false
+        },
+        type: {
+            type: String,
+            required: false
+        },
+        forceTitle: {
+            type: String,
+            required: false
+        },
+        forceDescription: {
+            type: String,
             required: false
         },
         border: {
@@ -102,8 +111,32 @@ export default {
     },
     data() {
         return {
-            srcIfNull: require("@assets/images/livefeed/unknown.png")
+            srcIfNull: require("@assets/images/livefeed/unknown.png"),
+            title: "",
+            description: "",
+            isLoading: true
         };
+    },
+    methods: {
+        getData(type, id) {
+            if (type && id) {
+                this.$http
+                    .get(`${type}/${id}`, {
+                        params: {
+                            locale: this.$route.params.locale
+                        }
+                    })
+                    .then(response => {
+                        this.title = response.data.name;
+                        this.description = response.data.description;
+                        this.isLoading = false;
+                    });
+            } else {
+                this.description = this.forceDescription;
+                this.title = this.forceTitle;
+                this.isLoading = false;
+            }
+        }
     },
     computed: {
         classImg: function() {

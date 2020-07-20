@@ -41,7 +41,7 @@ class TimelineEntity
         $i = 0;
         $response = [];
 
-        $itemEntity = new ItemEntity($this->riot, $this->locale);
+        $itemEntity = new ItemEntity($this->locale);
 
         foreach ($frames as $frame) {
             $response[$i] = $this->initItemsTimelineArray();
@@ -50,6 +50,7 @@ class TimelineEntity
             foreach ($frame->events as $event) {
                 if ($event->participantId == $participantId && ($event->type == "ITEM_PURCHASED" or $event->type == "ITEM_SOLD")) {
                     $response[$i]['items'][$i2] = $itemEntity->getItem($event->itemId);
+                    $response[$i]['items'][$i2]['id'] = $event->itemId;
                     $response[$i]['items'][$i2]['time'] = Carbon::createFromTimestampMs($event->timestamp)->format('i:s');
                     $response[$i]['items'][$i2]['type'] = $event->type;
                     $i2++;
@@ -92,6 +93,8 @@ class TimelineEntity
     {
         $array = [
             'time' => null,
+            'type' => null,
+            'id' => null,
             'items' => [],
         ];
         return $array;

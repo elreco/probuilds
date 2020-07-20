@@ -33,7 +33,7 @@ class RuneEntity
         return $response;
     }
 
-    public function getRunes($participant)
+    public function getRunesIDs($participant)
     {
         $response = $this->initRunesArray();
         $riotEntity = new RiotEntity($this->locale);
@@ -42,47 +42,69 @@ class RuneEntity
         //dd($runes);
         $player_stats = $participant->stats;
 
-        $response['first']['principal'] =
-            [
-                'src' => !empty($rune_paths[$player_stats->perkPrimaryStyle]) ? DataDragonAPI::getReforgedRunePathIconO($rune_paths[$player_stats->perkPrimaryStyle])->src : '',
-                'name' => !empty($rune_paths[$player_stats->perkPrimaryStyle]) ? $rune_paths[$player_stats->perkPrimaryStyle]->name : ''
-            ];
+        $response['first']['principal']['id'] = $player_stats->perkPrimaryStyle;
 
         for ($i = 0; $i < 4; $i++) {
             $iname = "perk" . $i;
-            $response['first']['rune'][$i] =
-                [
-                    'src' => !empty($runes[$player_stats->$iname]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->$iname])->src : '',
-                    'name' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->name : '',
-                    'description' => !empty($runes[$player_stats->$iname]) ? strip_tags($runes[$player_stats->$iname]->shortDesc) : '',
-                ];
+            $response['first']['rune'][$i]['id'] = $player_stats->$iname;
         }
-        $response['second']['principal'] =
-            [
-                'src' => !empty($rune_paths[$player_stats->perkSubStyle]) ? DataDragonAPI::getReforgedRunePathIconO($rune_paths[$player_stats->perkSubStyle])->src : '',
-                'name' => !empty($rune_paths[$player_stats->perkSubStyle]) ? $rune_paths[$player_stats->perkSubStyle]->name : ''
-            ];
+        $response['second']['principal']['id'] = $player_stats->perkSubStyle;
+
         for ($i = 4; $i < 6; $i++) {
             $iname = "perk" . $i;
-            $response['second']['rune'][$i] =
-                [
-                    'src' => !empty($runes[$player_stats->$iname]) ? DataDragonAPI::getReforgedRuneIconO($runes[$player_stats->$iname])->src : '',
-                    'name' => !empty($runes[$player_stats->$iname]) ? $runes[$player_stats->$iname]->name : '',
-                    'description' => !empty($runes[$player_stats->$iname]) ? strip_tags($runes[$player_stats->$iname]->shortDesc) : '',
-                ];
+            $response['second']['rune'][$i]['id'] = $player_stats->$iname;
         }
 
         for ($i = 0; $i < 3; $i++) {
             $iname = "statPerk" . $i;
-            $perks = $this->riot->getStaticPerks($riotEntity->localeMutator())->runes;
-            $response['third'][$i] =
+            $response['third'][$i]['id'] = $player_stats->$iname;
+        }
+
+        return $response;
+    }
+
+    public function getRunesDetails($runesJson)
+    {
+        $runesArray = json_decode($runesJson, true);
+
+        $response = $this->initRunesArray();
+
+        $riotEntity = new RiotEntity($this->locale);
+
+        $runes = $this->riot->getStaticReforgedRunes($riotEntity->localeMutator())->runes;
+        $rune_paths = $this->riot->getStaticReforgedRunePaths($riotEntity->localeMutator())->paths;
+        $perks = $this->riot->getStaticPerks($riotEntity->localeMutator())->runes;
+
+        $response['first']['principal']['name'] = !empty($rune_paths[$runesArray['first']['principal']['id']]) ? $rune_paths[$runesArray['first']['principal']['id']]->name : '';
+        $response['first']['principal']['src'] = !empty($rune_paths[$runesArray['first']['principal']['id']]) ? DataDragonAPI::getReforgedRunePathIconO($rune_paths[$runesArray['first']['principal']['id']])->src : '';
+        for ($i = 0; $i < 4; $i++) {
+            $response['first']['rune'][$i] =
                 [
-                    'src' => !empty($perks[$player_stats->$iname]) ? DataDragonAPI::getPerkPathIconO($perks[$player_stats->$iname])->src : '',
-                    'name' => !empty($perks[$player_stats->$iname]) ? $perks[$player_stats->$iname]->name : '',
-                    'description' => !empty($perks[$player_stats->$iname]) ? strip_tags($perks[$player_stats->$iname]->shortDesc) : '',
+                    'src' => !empty($runes[$runesArray['first']['rune'][$i]['id']]) ? DataDragonAPI::getReforgedRuneIconO($runes[$runesArray['first']['rune'][$i]['id']])->src : '',
+                    'name' => !empty($runes[$runesArray['first']['rune'][$i]['id']]) ? $runes[$runesArray['first']['rune'][$i]['id']]->name : '',
+                    'description' => !empty($runes[$runesArray['first']['rune'][$i]['id']]) ? strip_tags($runes[$runesArray['first']['rune'][$i]['id']]->shortDesc) : '',
+                ];
+        }
+        $response['second']['principal']['name'] = !empty($rune_paths[$runesArray['second']['principal']['id']]) ? $rune_paths[$runesArray['second']['principal']['id']]->name : '';
+        $response['second']['principal']['src'] = !empty($rune_paths[$runesArray['second']['principal']['id']]) ? DataDragonAPI::getReforgedRunePathIconO($rune_paths[$runesArray['second']['principal']['id']])->src : '';
+        for ($i = 4; $i < 6; $i++) {
+            $response['second']['rune'][$i] =
+                [
+                    'src' => !empty($runes[$runesArray['second']['rune'][$i]['id']]) ? DataDragonAPI::getReforgedRuneIconO($runes[$runesArray['second']['rune'][$i]['id']])->src : '',
+                    'name' => !empty($runes[$runesArray['second']['rune'][$i]['id']]) ? $runes[$runesArray['second']['rune'][$i]['id']]->name : '',
+                    'description' => !empty($runes[$runesArray['second']['rune'][$i]['id']]) ? strip_tags($runes[$runesArray['second']['rune'][$i]['id']]->shortDesc) : '',
                 ];
         }
 
+        for ($i = 0; $i < 3; $i++) {
+            $perks = $this->riot->getStaticPerks($riotEntity->localeMutator())->runes;
+            $response['third'][$i] =
+                [
+                    'src' => !empty($perks[$runesArray['third'][$i]['id']]) ? DataDragonAPI::getPerkPathIconO($perks[$runesArray['third'][$i]['id']])->src : '',
+                    'name' => !empty($perks[$runesArray['third'][$i]['id']]) ? $perks[$runesArray['third'][$i]['id']]->name : '',
+                    'description' => !empty($perks[$runesArray['third'][$i]['id']]) ? strip_tags($perks[$runesArray['third'][$i]['id']]->shortDesc) : '',
+                ];
+        }
         return $response;
     }
 
@@ -93,31 +115,45 @@ class RuneEntity
             'subkeystone' => null
         ];
     }
+
+    public function initRuneArray()
+    {
+        return [
+            'name' => null,
+            'description' => null
+        ];
+    }
+
     public function initRunesArray()
     {
         return [
             'first' => [
                 'principal' => [
+                    'id' => null,
                     'src' => null,
                     'name' => null
                 ],
                 'rune' => [
                     0 => [
+                        'id' => null,
                         'src' => null,
                         'name' => null,
                         'description' => null
                     ],
                     1 => [
+                        'id' => null,
                         'src' => null,
                         'name' => null,
                         'description' => null
                     ],
                     2 => [
+                        'id' => null,
                         'src' => null,
                         'name' => null,
                         'description' => null
                     ],
                     3 => [
+                        'id' => null,
                         'src' => null,
                         'name' => null,
                         'description' => null
@@ -126,16 +162,19 @@ class RuneEntity
             ],
             'second' => [
                 'principal' => [
+                    'id' => null,
                     'src' => null,
                     'name' => null
                 ],
                 'rune' => [
                     4 => [
+                        'id' => null,
                         'src' => null,
                         'name' => null,
                         'description' => null
                     ],
                     5 => [
+                        'id' => null,
                         'src' => null,
                         'name' => null,
                         'description' => null
@@ -144,16 +183,19 @@ class RuneEntity
             ],
             'third' => [
                 0 => [
+                    'id' => null,
                     'src' => null,
                     'name' => null,
                     'description' => null
                 ],
                 1 => [
+                    'id' => null,
                     'src' => null,
                     'name' => null,
                     'description' => null
                 ],
                 2 => [
+                    'id' => null,
                     'src' => null,
                     'name' => null,
                     'description' => null

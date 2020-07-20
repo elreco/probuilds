@@ -7,6 +7,7 @@
         offset="5"
         class="inline"
         v-if="src"
+        :content="getData(type, id)"
     >
         <img
             loading="lazy"
@@ -18,8 +19,11 @@
             :src="src"
         />
 
-        <template slot="popover" v-if="title">
-            <vx-card class="mb-0 bg-primary" :title="title">
+        <template slot="popover">
+            <vx-card class="mb-0 bg-primary">
+                <div class="text-left mb-5">
+                    <h4 class="text-white">{{ title ? title : ' ' }}</h4>
+                </div>
                 <div class="vx-row">
                     <div class="vx-col w-1/5">
                         <img
@@ -27,7 +31,7 @@
                             class="w-12 h-12 border-solid border-2 rounded border-white mx-auto text-center"
                         />
                     </div>
-                    <div class="vx-col w-4/5 text-left">
+                    <div class="vx-col w-4/5 text-left" :class="{'lds-dual-ring ': isLoading }">
                         <p class="text-white text-xs font-light text-shadow" v-html="description"></p>
                     </div>
                 </div>
@@ -50,17 +54,14 @@
 export default {
     name: "popover-avatar-lg",
     props: {
-        title: {
-            type: String,
-            required: false
+        id: {
+            required: true
         },
-        description: {
+        type: {
             type: String,
-            required: false,
-            default: ""
+            required: true
         },
         src: {
-            type: String,
             required: false,
             default: require("@assets/images/livefeed/unknown.png")
         },
@@ -77,8 +78,27 @@ export default {
     },
     data() {
         return {
-            srcIfNull: require("@assets/images/livefeed/unknown.png")
+            srcIfNull: require("@assets/images/livefeed/unknown.png"),
+            title: "",
+            description: "",
+            isLoading: true
         };
+    },
+    methods: {
+        getData(type, id) {
+            if (type && id)
+                this.$http
+                    .get(`${type}/${id}`, {
+                        params: {
+                            locale: this.$route.params.locale
+                        }
+                    })
+                    .then(response => {
+                        this.title = response.data.name;
+                        this.description = response.data.description;
+                        this.isLoading = false;
+                    });
+        }
     },
     computed: {
         classImg: function() {

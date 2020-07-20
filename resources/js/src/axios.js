@@ -1,10 +1,17 @@
 // axios
 import axios from 'axios'
+import {
+    cacheAdapterEnhancer
+} from 'axios-extensions';
 import router from './router'
 import store from './store/store'
 
 const domain = process.env.MIX_API_DOMAIN;
 axios.defaults.baseURL = domain;
+axios.defaults.adapter = cacheAdapterEnhancer(axios.defaults.adapter, {
+    enabledByDefault: false,
+});
+
 
 axios.interceptors.response.use(function (response) {
     // Do something with response data

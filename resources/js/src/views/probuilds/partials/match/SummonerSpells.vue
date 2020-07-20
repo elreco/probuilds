@@ -1,7 +1,7 @@
 <template>
     <vx-card>
         <div class="text-center mb-custom">
-            <h4>{{ $t('Summoner.summoners') }}</h4>
+            <h4 class="text-white">{{ $t('Summoner.summoners') }}</h4>
         </div>
         <!-- Avatar -->
         <div class="vx-row ml-auto mr-auto w-full">
@@ -11,11 +11,7 @@
                 v-for="(item, index) in data"
                 :key="index"
             >
-                <popover-avatar-lg
-                    :src="item.src"
-                    :title="item.title"
-                    :description="item.description"
-                />
+                <popover-avatar-lg :src="item.src" :id="item.id" type="items" />
 
                 <p class="text-center text-xs text-white mt-1">{{item.title}}</p>
             </div>

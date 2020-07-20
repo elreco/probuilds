@@ -1,7 +1,7 @@
 <template>
     <vx-card class="vs-con-loading__container" id="timelineLoading">
         <div class="text-center">
-            <h4>{{ $t('Item.timeline') }}</h4>
+            <h4 class="text-white">{{ $t('Item.timeline') }}</h4>
             <p class="text-grey">{{ $t('Item.buildOrder') }}</p>
         </div>
         <div class="vx-row flex items-center">
@@ -19,8 +19,8 @@
                                 :sold="item.type == 'ITEM_SOLD' ? true : false"
                                 :border="'primary'"
                                 :src="item.src"
-                                :title="item.title"
-                                :description="item.description"
+                                :id="item.id"
+                                type="items"
                             />
                         </div>
                         <p class="text-center text-xs text-white mt-1">{{item.time}}</p>

@@ -1,36 +1,60 @@
 <template>
-    <vx-card class="z-0 vs-con-loading__container" content-color="#fff" id="loadingFeed">
+    <vx-card content-color="#fff">
         <div class="vx-col w-full">
             <vs-navbar
                 active-text-color="rgba(255,255,255,1)"
                 text-color
                 v-model="selectedLane"
-                class="nabarx mb-base lane-selection p-2 z-0"
+                class="nabarx mb-base lane-selection p-2"
                 type="flat"
+                id="loadingRegions"
             >
                 <div slot="title">
                     <vs-navbar-title>{{ $t("LiveFeed.title") }}</vs-navbar-title>
                 </div>
                 <vs-navbar-item index="all">
                     <a href="#" class="all">{{ $t("LiveFeed.all") }}</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'all', region: selectedRegion}}"
+                        class="all"
+                    >{{ $t("LiveFeed.all") }}</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="top">
                     <a href="#" class="top">Top</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'top', region: selectedRegion}}"
+                        class="top"
+                    >Top</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="jungle">
                     <a href="#" class="jungle">Jungle</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'jungle', region: selectedRegion}}"
+                        class="jungle"
+                    >Jungle</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="mid">
                     <a href="#" class="mid">Mid</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'mid', region: selectedRegion}}"
+                        class="Mid"
+                    >Jungle</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="adc">
                     <a href="#" class="bot">Bot</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'adc', region: selectedRegion}}"
+                        class="bot"
+                    >Bot</router-link>-->
                 </vs-navbar-item>
                 <vs-navbar-item index="support">
                     <a href="#" class="support">Support</a>
+                    <!-- <router-link
+                        :to="{name: 'probuilds',params:{lane: 'support', region: selectedRegion}}"
+                        class="support"
+                    >Support</router-link>-->
                 </vs-navbar-item>
                 <v-select
-                    id="loadingSelect"
                     :clearable="true"
                     :options="regions"
                     :placeholder="$t('LiveFeed.allRegion')"
@@ -38,8 +62,9 @@
                     v-model="selectedRegion"
                 />
             </vs-navbar>
+
             <vs-table
-                v-if="matches.data"
+                v-if="Object.keys(matches.data).length != 0 || isFetching==true"
                 noDataText
                 :currentPage="page"
                 :sst="true"
@@ -49,6 +74,8 @@
                 pagination
                 :data="matches.data"
                 @selected="handleSelected"
+                class="vs-con-loading__container"
+                id="loadingFeed"
             >
                 <template slot="thead">
                     <vs-th></vs-th>
@@ -75,9 +102,9 @@
                             <popover-avatar
                                 :win="tr.win"
                                 :default="false"
+                                type="champions"
+                                :id="tr.champion.id"
                                 :src="tr.champion.src"
-                                :title="tr.champion.title"
-                                :description="tr.champion.description"
                             />
                         </vs-td>
                         <vs-td :data="tr.player">
@@ -87,11 +114,7 @@
                             </vs-chip>
                         </vs-td>
                         <vs-td class="text-center" :data="tr.vs">
-                            <popover-avatar
-                                :src="tr.vs.src"
-                                :title="tr.vs.title"
-                                :description="tr.vs.description"
-                            />
+                            <popover-avatar :src="tr.vs.src" type="champions" :id="tr.vs.id" />
                         </vs-td>
                         <vs-td class="text-center" :data="tr.kda">{{ tr.kda }}</vs-td>
                         <vs-td class="text-center" :data="tr.gold">{{ tr.gold }}</vs-td>
@@ -106,8 +129,8 @@
                                 v-for="(item, index) in tr.items"
                                 :key="index"
                                 :src="item.src"
-                                :title="item.title"
-                                :description="item.description"
+                                :id="item.id"
+                                type="items"
                             />
 
                             <div
@@ -121,8 +144,8 @@
                                 v-for="(spell, index) in tr.summonerSpells"
                                 :key="index"
                                 :src="spell.src"
-                                :title="spell.title"
-                                :description="spell.description"
+                                :id="spell.id"
+                                type="spells"
                             />
                         </vs-td>
                         <vs-td class="text-center" :data="tr.region">{{tr.region.toUpperCase()}}</vs-td>
@@ -162,9 +185,9 @@ export default {
         return {
             selectedLane: "all",
             selectedRegion: null,
+            isFetching: true,
             page: 1,
             regions: [],
-            activeLoading: false,
             totalItems: 0,
             get_feed_is_running: false,
             matches: {
@@ -176,10 +199,9 @@ export default {
             request: null
         };
     },
-
     mounted() {
-        this.getRegions();
         this.getFeed();
+        this.getRegions();
     },
     methods: {
         handleSelected(tr) {
@@ -189,7 +211,7 @@ export default {
                     region: tr.region,
                     summonerId: tr.summonerId,
                     matchId: tr.matchId,
-                    champion: tr.champion.title,
+                    champion: tr.champion.id,
                     participantId: tr.participantId
                 }
             });
@@ -200,8 +222,7 @@ export default {
         },
         getFeed() {
             // loading
-
-            this.loadingData(true);
+            this.loadingData(true, "#loadingFeed");
             this.$http
                 .get("livefeed", {
                     params: {
@@ -213,6 +234,7 @@ export default {
                     }
                 })
                 .then(response => {
+                    this.isFetching = false;
                     this.matches = response.data;
                     this.formatDate();
                 })
@@ -222,13 +244,13 @@ export default {
                     }, 1000);
                 })
                 .then(() => {
-                    this.loadingData(false);
+                    this.loadingData(false, "#loadingFeed");
                 });
 
             // UPDATE this.matches après avoir fait la requête axios
         },
         formatDate() {
-            if (this.matches.data) {
+            if (this.matches.data.length) {
                 this.matches.data = this.matches.data.map(m => {
                     m.ago = moment(m.date).fromNow();
                     return m;
@@ -236,18 +258,24 @@ export default {
             }
         },
         getRegions() {
+            this.loadingData(true, "#loadingRegions");
             this.$http
                 .get("regions")
-                .then(response => (this.regions = response.data));
+                .then(response => {
+                    this.regions = response.data;
+                })
+                .then(() => {
+                    this.loadingData(false, "#loadingRegions");
+                });
         },
-        loadingData(boolean) {
+        loadingData(boolean, id) {
             if (boolean) {
                 this.$vs.loading({
                     type: "default",
-                    container: "#loadingFeed"
+                    container: id
                 });
             } else {
-                this.$vs.loading.close("#loadingFeed > .con-vs-loading");
+                this.$vs.loading.close(id + " > .con-vs-loading");
             }
         }
     },
@@ -291,5 +319,8 @@ export default {
     .con-select .vs-select {
         width: 100%;
     }
+}
+.vs__dropdown-menu {
+    z-index: 9999 !important;
 }
 </style>

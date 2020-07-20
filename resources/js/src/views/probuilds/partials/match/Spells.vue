@@ -1,7 +1,7 @@
 <template>
     <vx-card class="vs-con-loading__container" id="spellsLoading">
         <div class="text-center mb-base">
-            <h4>{{ $t('Spell.abilities') }}</h4>
+            <h4 class="text-white">{{ $t('Spell.abilities') }}</h4>
             <p class="text-grey">{{ $t('Spell.abilitiesOrder') }}</p>
         </div>
         <div class="overflow-auto">
@@ -21,8 +21,8 @@
                             <popover-avatar
                                 :border="'white'"
                                 :src="spell.src"
-                                :title="spell.name"
-                                :description="spell.description"
+                                :forceTitle="spell.name"
+                                :forceDescription="spell.description"
                             />
                             <span class="pl-2">{{spell.name}}</span>
                             <span class="pl-2 pr-2 ml-auto">{{$t('Spell.' + indexSpell)}}</span>
@@ -57,7 +57,13 @@ export default {
     data() {
         return {
             spells: [],
-            timeline: []
+            timeline: [],
+            spellName: {
+                0: {},
+                0: {},
+                0: {},
+                0: {}
+            }
         };
     },
     mounted() {
@@ -83,8 +89,6 @@ export default {
                 .then(() => {
                     this.loadingData(false);
                 });
-
-            // UPDATE this.users après avoir fait la requête axios
         },
         loadingData(boolean) {
             if (boolean) {

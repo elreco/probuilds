@@ -51,6 +51,17 @@ const router = new Router({
                     },
                     component: () => import('./views/main/Home.vue')
                 },
+                // =============================================================================
+                // Spectate Route
+                // =============================================================================
+                {
+                    path: 'spectate/:region?',
+                    name: 'spectate',
+                    meta: {
+                        middleware: [checkAuth, locale],
+                    },
+                    component: () => import('./views/spectate/Spectate.vue')
+                },
             ]
         },
         {
@@ -60,12 +71,12 @@ const router = new Router({
             path: '/:locale/probuilds',
             component: () => import('./layouts/main/Main.vue'),
             children: [{
-                path: '',
+                path: ':lane?/:region?',
                 name: 'probuilds',
                 meta: {
                     middleware: [checkAuth, locale],
                 },
-                component: () => import('./views/probuilds/Home.vue')
+                component: () => import('./views/probuilds/Probuilds.vue')
             }, {
                 path: 'matches/:region/:summonerId/:matchId/:champion/:participantId',
                 name: 'probuilds.matches',
@@ -192,33 +203,5 @@ function nextFactory(context, middleware, index) {
         });
     };
 }
-
-/* function checkChampion(champion, locale) {
-    axiosRouter.get("champions-check", {
-            params: {
-                name: champion,
-                locale: locale
-            }
-        })
-        .then(function (response) {
-            if (response.data == false) {
-                next({
-                    name: "page-error",
-                    params: {
-                        code: "404",
-                        message: "Champion not found"
-                    }
-                });
-            }
-        }).catch(function (error) {
-            next({
-                name: "page-error",
-                params: {
-                    code: error.response.status,
-                    message: error.response.data.message
-                }
-            });
-        });
-} */
 
 export default router

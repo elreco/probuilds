@@ -44,6 +44,9 @@
                 </div>
             </div>
         </div>
+        <div slot="misc-item-below" slot-scope="scope" v-if="loading" class="misc-item py-5">
+            <span v-html="loadingText()"></span>
+        </div>
     </vue-simple-suggest>
 </template>
 
@@ -66,7 +69,14 @@ export default {
         this.setChampion();
     },
     methods: {
+        loadingText() {
+            return (
+                '<i class="fas fa-spinner fa-spin"></i> ' +
+                this.$i18n.t("SearchBanner.loading")
+            );
+        },
         simpleSuggestionList(q) {
+            this.loading = true;
             return this.$http
                 .get("champions", {
                     params: {
@@ -75,22 +85,23 @@ export default {
                     }
                 })
                 .then(response => {
+                    this.loading = false;
                     return response.data;
                 });
         },
         onSuggestSelect(suggest) {
             if (suggest.name != this.championInput)
                 return this.$router.push({
-                    name: "champions",
+                    name: "probuilds.champions",
                     params: {
-                        champion: suggest.name
+                        champion: suggest.id
                     }
                 });
         },
         setChampion() {
             if (
                 this.$route.params.champion &&
-                this.$route.name == "champions"
+                this.$route.name == "probuilds.champions"
             ) {
                 this.championInput = this.$route.params.champion;
             } else {

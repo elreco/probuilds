@@ -9,20 +9,17 @@ use RiotAPI\DataDragonAPI\DataDragonAPI;
 // ENTITY
 use App\Entities\Riot\RiotEntity;
 
-use Carbon\Carbon;
 
 class ItemEntity
 {
     //
     use CommonTrait;
 
-    protected $riot;
     protected $locale;
 
-    public function __construct($riot, $locale)
+    public function __construct($locale)
     {
         $this->locale = $locale;
-        $this->riot = $riot;
         app()->setLocale($locale);
         RiotEntity::initDataDragonAPI();
     }
@@ -33,15 +30,12 @@ class ItemEntity
 
         $response = [];
         // ITEMS
-        $riotEnitity = new RiotEntity($this->locale);
-        $items = DataDragonAPI::getStaticItems($riotEnitity->localeMutator());
-
         for ($u = 1; $u <= $itemsNumber; $u++) {
             $item_name = "item" . $u;
             if (!empty($participantStats->$item_name)) {
+                $response[$u] = $this->initItemArray();
+                $response[$u]['id'] = $participantStats->$item_name;
                 $response[$u]['src'] = DataDragonAPI::getItemIconUrl($participantStats->$item_name);
-                $response[$u]['title'] = !empty($items['data'][$participantStats->$item_name]) ? $items['data'][$participantStats->$item_name]['name'] : '';
-                $response[$u]['description'] = !empty($items['data'][$participantStats->$item_name]) ? $items['data'][$participantStats->$item_name]['description'] : '';
             }
         }
 
@@ -56,7 +50,7 @@ class ItemEntity
         $items = DataDragonAPI::getStaticItems($riotEnitity->localeMutator());
 
         $response['src'] = DataDragonAPI::getItemIconUrl($itemId);
-        $response['title'] = !empty($items['data'][$itemId]) ? $items['data'][$itemId]['name'] : '';
+        $response['name'] = !empty($items['data'][$itemId]) ? $items['data'][$itemId]['name'] : '';
         $response['description'] = !empty($items['data'][$itemId]) ? $items['data'][$itemId]['description'] : '';
 
         return $response;
@@ -65,8 +59,9 @@ class ItemEntity
     public function initItemArray()
     {
         $array = [
+            'id' => null,
             'src' => null,
-            'title' => null,
+            'name' => null,
             'description' => null,
             'time' => null,
             'type' => null

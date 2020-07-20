@@ -1,7 +1,7 @@
 <template>
     <vx-card class="vs-con-loading__container" id="spellsLoading">
         <div class="text-center mb-custom">
-            <h4>{{ $t('Rune.runes') }}</h4>
+            <h4 class="text-white">{{ $t('Rune.runes') }}</h4>
         </div>
         <div class="vx-row w-full xl:w-2/3 mx-auto flex items-stretch text-white">
             <div class="vx-col w-full lg:w-1/2">

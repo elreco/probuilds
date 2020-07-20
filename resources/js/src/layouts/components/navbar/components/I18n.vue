@@ -5,10 +5,10 @@
             <span class="hidden sm:block mr-2">{{ getCurrentLocaleData.lang }}</span>
         </span>
         <vs-dropdown-menu class="w-48 i18n-dropdown vx-navbar-dropdown">
-            <vs-dropdown-item @click="updateLocale('en')">
+            <vs-dropdown-item @click.native.stop="updateLocale('en')">
                 <img class="h-4 w-5 mr-1" src="@assets/images/flags/en.png" alt="en" /> &nbsp;English
             </vs-dropdown-item>
-            <vs-dropdown-item @click="updateLocale('fr')">
+            <vs-dropdown-item @click.native.stop="updateLocale('fr')">
                 <img class="h-4 w-5 mr-1" src="@assets/images/flags/fr.png" alt="fr" /> &nbsp;French
             </vs-dropdown-item>
             <!-- <vs-dropdown-item @click="updateLocale('de')">
@@ -47,6 +47,8 @@ export default {
     methods: {
         updateLocale(locale) {
             this.$vs.loading({
+                container: "html",
+                background: "#10163A",
                 type: "default"
             });
             moment.locale(locale);
@@ -63,7 +65,9 @@ export default {
                 name: this.$route.name,
                 params: query
             }); */
-            return (window.location.href = window.location.origin + path);
+            /* alert(); */
+            window.location.href = window.location.origin + path;
+            /* return window.location.replace(window.location.origin + path); */
         }
     }
 };

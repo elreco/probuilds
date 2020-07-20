@@ -12,12 +12,13 @@ class CacheEntity
     public static function useCache($resource, $request, $method)
     {
         $namespace = "App\\Http\\Controllers\\API\\" . $resource;
-        $key = CacheEntity::keyGenerator($resource, $method, $request);
+        $response = [];
+        $key = self::keyGenerator($resource, $method, $request);
 
         if (Cache::has($key)) {
-            if (!empty($request->force)) {
+            if (!empty($request->force) && $request->force == env("APP_KEY")) {
                 // force delete cache (from cron job)
-                Cache::forget($key);
+                /* Cache::forget($key); */
                 $response = app($namespace)->$method($request);
                 if (!empty($response)) {
                     Cache::forever($key, $response);
@@ -29,14 +30,16 @@ class CacheEntity
             $response = app($namespace)->$method($request);
             Cache::forever($key, $response);
         }
+
         return $response;
     }
 
     public static function keyGenerator($resource, $method, $request)
     {
         $key = $resource . "@" .  $method;
+
         if (!empty($request)) {
-            $requestArray = $request->except(['force', 'page']);
+            $requestArray = $request->except(['force', 'page', 'locale']);
             krsort($requestArray);
             foreach ($requestArray as $r) {
                 $key .= "." . strtolower($r);
@@ -49,17 +52,19 @@ class CacheEntity
     public static function useEntityCache($resource, $method, $riot, $request, $othersArray = [])
     {
         $namespace = "\App\\Entities\\" . $resource;
+        $response = [];
         if ($request->locale) {
             $entity = new $namespace($riot, $request->locale);
         } else {
             $entity = new $namespace($riot);
         }
 
-        $key = CacheEntity::keyGenerator($resource, $method, $request);
+        $key = self::keyGenerator($resource, $method, $request);
+
         if (Cache::has($key)) {
-            if (!empty($request->force)) {
+            if (!empty($request->force) && $request->force == env("APP_KEY")) {
                 // force delete cache (from cron job)
-                Cache::forget($key);
+                /* Cache::forget($key); */
                 if (empty($othersArray)) {
                     $response = $entity->$method($request);
                 } else {
