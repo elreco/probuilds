@@ -615,12 +615,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/elreco/riot-api.git",
-                "reference": "9cc594097222f73a7a4059756c3814e8dd3626e5"
+                "reference": "210d4f1e85860ea249405f6eec356402173be424"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/elreco/riot-api/zipball/9cc594097222f73a7a4059756c3814e8dd3626e5",
-                "reference": "9cc594097222f73a7a4059756c3814e8dd3626e5",
+                "url": "https://api.github.com/repos/elreco/riot-api/zipball/210d4f1e85860ea249405f6eec356402173be424",
+                "reference": "210d4f1e85860ea249405f6eec356402173be424",
                 "shasum": ""
             },
             "require": {
@@ -681,7 +681,7 @@
                     "url": "https://www.paypal.me/dolejskad"
                 }
             ],
-            "time": "2020-07-20T11:31:24+00:00"
+            "time": "2020-07-20T13:58:49+00:00"
         },
         {
             "name": "dragonmantank/cron-expression",
