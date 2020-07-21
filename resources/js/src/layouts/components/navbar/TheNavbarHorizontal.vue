@@ -36,10 +36,10 @@
                 <i18n />
                 <template v-if="user">
                     <notification-drop-down />
-                    <profile-drop-down :user="user" />
+                    <profile-drop-down :user="user" id="btnLogin" />
                 </template>
 
-                <login-with-twitch v-else />
+                <login-with-twitch id="btnLogin" v-else />
             </vs-navbar>
         </div>
     </div>

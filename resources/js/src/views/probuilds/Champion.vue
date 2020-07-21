@@ -20,7 +20,9 @@
         <div class="vx-row">
             <!-- CARD 1: CONGRATS -->
             <div class="vx-col w-full">
-                <live-feed :champion="champion" />
+                <vx-card content-color="#fff">
+                    <live-feed :champion="champion" />
+                </vx-card>
             </div>
         </div>
     </section>

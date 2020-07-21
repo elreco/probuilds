@@ -45,6 +45,11 @@ import store from './store/store'
 // i18n
 import i18n from './i18n/i18n'
 
+//vue tour
+import VueTour from 'vue-tour'
+Vue.use(VueTour)
+require('vue-tour/dist/vue-tour.css')
+
 // vue tooltip
 import VTooltip from 'v-tooltip'
 Vue.use(VTooltip)

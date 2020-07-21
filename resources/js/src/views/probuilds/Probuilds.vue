@@ -15,9 +15,10 @@
             </div>
         </div>
         <div class="vx-row">
-            <!-- CARD 1: CONGRATS -->
             <div class="vx-col w-full">
-                <live-feed />
+                <vx-card content-color="#fff">
+                    <live-feed />
+                </vx-card>
             </div>
         </div>
     </section>

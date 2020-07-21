@@ -8,8 +8,13 @@
         <!-- Avatar -->
         <div class="vx-row mb-8">
             <div class="vx-col">
-                <h4 class="text-white">{{ data.name }}</h4>
-                <p>{{ data.title }}</p>
+                <h4 class="text-white">
+                    <router-link
+                        class="text-white hover:text-primary"
+                        :to="{name: 'probuilds.champions', params: {champion: data.id}}"
+                    >{{ data.name }}</router-link>
+                </h4>
+                <p class="text-gold font-light">{{ data.title }}</p>
             </div>
         </div>
         <div class="vx-row mb-2">
@@ -28,7 +33,7 @@
                 <table>
                     <tr>
                         <td class="font-semibold text-white">{{$t('Champion.name')}}</td>
-                        <td class="font-light">{{data.title}}</td>
+                        <td class="font-light">{{data.name}}</td>
                     </tr>
 
                     <tr>

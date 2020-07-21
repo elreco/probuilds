@@ -2,7 +2,7 @@
     <vx-card class="vs-con-loading__container" id="timelineLoading">
         <div class="text-center">
             <h4 class="text-white">{{ $t('Item.timeline') }}</h4>
-            <p class="text-grey">{{ $t('Item.buildOrder') }}</p>
+            <p class="text-gold font-light">{{ $t('Item.buildOrder') }}</p>
         </div>
         <div class="vx-row flex items-center">
             <template v-for="(group, index) in data">

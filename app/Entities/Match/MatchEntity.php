@@ -45,7 +45,7 @@ class MatchEntity
         $requestChallenger = new Request();
         $requestChallenger->replace([
             'region' => $request->region,
-            'numbers' => 10,
+            'numbers' => 3,
             'force' => false,
         ]);
         $challengers = CacheEntity::useEntityCache('Summoner\ChallengerEntity', 'getChallengers', $this->riot, $requestChallenger);
@@ -75,7 +75,7 @@ class MatchEntity
             $requestMatch->replace([
                 'locale' => $this->locale,
                 'id' => $m[0]->gameId,
-                'force' => !empty($request->force) ? env("APP_KEY") : false,
+                'force' => false,
             ]);
             $matchApi = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatch', $this->riot, $requestMatch);
 
@@ -107,6 +107,10 @@ class MatchEntity
                         }
                     }
                 }
+                $championDetails = $championEntity->getChampionDetails($m[0]->staticData);
+                /* if (!empty($request->champion) && $championDetails['id'] != $request->champion) {
+                    continue;
+                } */
                 // init array
                 $response[$i] = $this->initMatchArray();
                 // GAME ID
@@ -116,8 +120,7 @@ class MatchEntity
                 // summonerId
                 $response[$i]['summonerId'] = $summonerId;
                 // champion
-                $response[$i]['champion'] = $championEntity->getChampionDetails($m[0]->staticData);
-
+                $response[$i]['champion'] = $championDetails;
                 // DATE
                 $response[$i]['date'] = $m[0]->timestamp;
 
@@ -178,7 +181,7 @@ class MatchEntity
                             'summonerId' => $participantIdentities[$participant->participantId]->player->summonerId,
                             'champion' => $participant->staticData->id,
                             'participantId' => $participant->participantId,
-                            //'force' => env("APP_KEY"), 
+                            'force' => false,
                         ]);
                         CacheEntity::useCache('MatchController', $matchRequest, 'getMatchDetails');
                     }
@@ -234,9 +237,9 @@ class MatchEntity
 
                 // GET CHAMPION KEY
                 $championKey = $championEntity->getChampionKey($request->champion);
-
-                // get last match
                 $lastMatch = $this->getLastMatch($accountId, $championKey);
+                // get last match
+                /* $lastMatch = $this->getLastMatch($accountId); */
 
                 if (!empty($lastMatch)) {
                     $matches[$c->summonerId] = $lastMatch;

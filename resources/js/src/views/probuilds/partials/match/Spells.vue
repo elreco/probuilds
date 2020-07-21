@@ -2,7 +2,7 @@
     <vx-card class="vs-con-loading__container" id="spellsLoading">
         <div class="text-center mb-base">
             <h4 class="text-white">{{ $t('Spell.abilities') }}</h4>
-            <p class="text-grey">{{ $t('Spell.abilitiesOrder') }}</p>
+            <p class="text-gold font-light">{{ $t('Spell.abilitiesOrder') }}</p>
         </div>
         <div class="overflow-auto">
             <table class="border-collapse w-full text-white" id="spellsTable" cellspacing="0">

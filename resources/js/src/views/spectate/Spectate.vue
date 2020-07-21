@@ -38,7 +38,7 @@
                             <!-- RATING & PRICE -->
                             <div class="flex justify-between items-center">
                                 <div
-                                    class="text-warning border border-solid border-warning flex py-1 px-2 rounded"
+                                    class="text-gold border border-solid border-gold flex py-1 px-2 rounded"
                                 >
                                     <feather-icon icon="VideoIcon" svgClasses="h-4 w-4" />
                                     <span class="text-sm ml-1">{{ago[index]}}</span>
@@ -68,7 +68,7 @@
                                     </a>
                                 </h6>
                                 <p
-                                    class="item-description truncate text-sm"
+                                    class="item-description truncate text-sm text-gold font-light"
                                     v-html="setQueue(match.queueID)"
                                 ></p>
 

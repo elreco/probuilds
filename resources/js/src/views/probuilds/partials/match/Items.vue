@@ -2,7 +2,7 @@
     <vx-card>
         <div class="text-center mb-base">
             <h4 class="text-white">{{ $t('Summoner.items') }}</h4>
-            <p class="text-grey">{{ $t('Summoner.finalItems') }}</p>
+            <p class="text-gold font-light">{{ $t('Summoner.finalItems') }}</p>
         </div>
         <!-- Avatar -->
         <div class="vx-row ml-auto mr-auto w-full" id="items">

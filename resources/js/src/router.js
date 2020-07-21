@@ -71,27 +71,29 @@ const router = new Router({
             path: '/:locale/probuilds',
             component: () => import('./layouts/main/Main.vue'),
             children: [{
-                path: ':lane?/:region?',
-                name: 'probuilds',
-                meta: {
-                    middleware: [checkAuth, locale],
+                    path: 'matches/:region/:summonerId/:matchId/:champion/:participantId',
+                    name: 'probuilds.matches',
+                    meta: {
+                        middleware: [checkAuth, locale],
+                    },
+                    component: () => import('./views/probuilds/Match.vue'),
+                }, {
+                    path: 'champions/:champion',
+                    name: 'probuilds.champions',
+                    meta: {
+                        middleware: [checkAuth, locale],
+                    },
+                    component: () => import('./views/probuilds/Champion.vue')
                 },
-                component: () => import('./views/probuilds/Probuilds.vue')
-            }, {
-                path: 'matches/:region/:summonerId/:matchId/:champion/:participantId',
-                name: 'probuilds.matches',
-                meta: {
-                    middleware: [checkAuth, locale],
+                {
+                    path: ':lane?/:region?',
+                    name: 'probuilds',
+                    meta: {
+                        middleware: [checkAuth, locale],
+                    },
+                    component: () => import('./views/probuilds/Probuilds.vue')
                 },
-                component: () => import('./views/probuilds/Match.vue'),
-            }, {
-                path: 'champions/:champion',
-                name: 'probuilds.champions',
-                meta: {
-                    middleware: [checkAuth, locale],
-                },
-                component: () => import('./views/probuilds/Champion.vue')
-            }],
+            ],
         },
         // =============================================================================
         // Community Routes

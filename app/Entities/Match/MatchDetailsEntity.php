@@ -54,7 +54,7 @@ class MatchDetailsEntity
         $requestMatch->replace([
             'locale' => $request->locale,
             'id' => $request->id,
-            'force' => !empty($request->force) ? env("APP_KEY") : false,
+            'force' => false,
         ]);
         $match = CacheEntity::useEntityCache('Match\MatchEntity', 'getMatch', $this->riot, $requestMatch);
         if (!empty($match)) {

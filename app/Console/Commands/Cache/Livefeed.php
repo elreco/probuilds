@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 use App\Entities\CacheEntity;
 use App\Entities\ChampionEntity;
+use App\Entities\Riot\RiotEntity;
 
 use SebastianBergmann\Timer\Timer;
 
@@ -17,7 +18,7 @@ class Livefeed extends Command
      *
      * @var string
      */
-    protected $signature = 'cache:livefeed {lane} {champion?}';
+    protected $signature = 'cache:livefeed {champion?}';
 
     /**
      * The console command description.
@@ -45,7 +46,6 @@ class Livefeed extends Command
     {
         //
         Timer::start();
-
         $lang = app()->getLocale();
         $championEntity = new ChampionEntity($lang);
         if (!empty($this->argument('champion')) && $this->argument('champion') == 'all') {
@@ -53,15 +53,23 @@ class Livefeed extends Command
             $champions = $championEntity->getAllChampionsID();
             foreach ($champions as $champion) {
                 echo $champion . "\n";
-                $this->livefeed($lang, $this->argument('lane'), $champion);
+                /* foreach (RiotEntity::$lanes as $lane) {
+                    echo  " " . $lane; */
+                $lane = "all";
+                $this->livefeed($lang, $lane, $champion);
+                /* } */
             }
         } else {
             $champion = "";
             if (!empty($this->argument('champion'))) {
                 $champion = $this->argument('champion');
             }
-            $this->livefeed($lang, $this->argument('lane'), $champion);
+            foreach (RiotEntity::$lanes as $lane) {
+                echo $lane . "\n";
+                $this->livefeed($lang, $lane, $champion);
+            }
         }
+
         $time = Timer::stop();
         print Timer::secondsToTimeString($time);
     }
