@@ -22,7 +22,9 @@ export default {
         },
         home: {
             welcome: 'Welcome to Probuilds',
-            welcomeText: "League of Legends professional player's <strong class='text-gold'>builds</strong> across all regions"
+            welcomeText: "League of Legends professional player's <strong class='text-gold'>builds</strong> across all regions",
+            welcomeBrand: "Welcome to Evil Spartan",
+            welcomeTextBrand: "League of Legends <strong class='text-gold'>french community</strong>"
         },
         LiveFeed: {
             title: 'Live Feed',
@@ -36,7 +38,9 @@ export default {
             build: 'Build',
             all: 'All',
             allRegion: 'All Regions',
-            region: 'Region'
+            region: 'Region',
+            probuilds: "Probuilds",
+            probuildsTitle: "Best players builds"
         },
         Match: {
             winningTeam: "Winning Team",
@@ -129,7 +133,9 @@ export default {
         },
         home: {
             welcome: 'Bienvenue sur Probuilds',
-            welcomeText: "<strong class='text-gold'>Builds</strong> des joueurs professionnels sur League of Legends dans toutes les régions"
+            welcomeText: "<strong class='text-gold'>Builds</strong> des joueurs professionnels sur League of Legends dans toutes les régions",
+            welcomeBrand: "Bienvenue sur Evil Spartan",
+            welcomeTextBrand: "<strong class='text-gold'>Communauté française</strong> sur League of Legends"
         },
         LiveFeed: {
             title: "Flux en direct",
@@ -143,7 +149,9 @@ export default {
             build: 'Build',
             all: 'Tout',
             allRegion: 'Toutes les régions',
-            region: 'Region'
+            region: 'Region',
+            probuilds: "Probuilds",
+            probuildsTitle: "Builds des meilleurs joueurs"
         },
         Match: {
             winningTeam: "Équipe Gagnante",

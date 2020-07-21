@@ -7,7 +7,7 @@
         <div class="vx-row mb-8">
             <div class="vx-col">
                 <h4 class="text-white">{{ data.name }}</h4>
-                <p>{{ regionName }}</p>
+                <p class="text-gold font-light">{{ regionName }}</p>
             </div>
             <div class="vx-col xl:ml-2 ml-auto" id="account-manage-buttons">
                 <vs-button

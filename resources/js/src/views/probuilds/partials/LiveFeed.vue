@@ -1,5 +1,5 @@
 <template>
-    <vx-card content-color="#fff">
+    <div class="vx-row">
         <div class="vx-col w-full">
             <vs-navbar
                 active-text-color="rgba(255,255,255,1)"
@@ -172,7 +172,7 @@
                 </div>
             </div>
         </div>
-    </vx-card>
+    </div>
 </template>
 <script>
 import PopoverAvatar from "../../../components/popovers/PopoverAvatar";
