@@ -44,7 +44,7 @@ class RiotEntity
             LeagueAPI::SET_REGION           => Region::$list[strtolower($region)],
             LeagueAPI::SET_VERIFY_SSL       => false,
             LeagueAPI::SET_DATADRAGON_INIT  => true,
-            LeagueAPI::SET_MAX_REQUESTS => 95,
+            LeagueAPI::SET_MAX_REQUESTS => 90,
             LeagueAPI::SET_DURATION_IN_SECONDS => 120,
             LeagueAPI::SET_STATICDATA_LINKING => true,
             /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
@@ -72,7 +72,7 @@ class RiotEntity
                 LeagueAPI::SET_REGION           => Region::$list[strtolower($region)],
                 LeagueAPI::SET_VERIFY_SSL       => false,
                 LeagueAPI::SET_DATADRAGON_INIT  => true,
-                LeagueAPI::SET_MAX_REQUESTS => 100,
+                LeagueAPI::SET_MAX_REQUESTS => 90,
                 LeagueAPI::SET_DURATION_IN_SECONDS => 120,
                 LeagueAPI::SET_STATICDATA_LINKING => true,
                 /* LeagueAPI::SET_STATICDATA_VERSION => '10.10.3216176', */
