@@ -74,6 +74,25 @@ Vue.use(VueMoment, {
 import 'prismjs'
 import 'prismjs/themes/prism-tomorrow.css'
 
+// ECHO
+
+import Echo from "laravel-echo"
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    wsHost: 'api.moi.elreco.fr',
+    wsPort: 6001,
+    wssHost: 'api.moi.elreco.fr',
+    wssPort: 6001,
+    disableStats: true,
+    encrypted: false,
+    enabledTransports: ['ws', 'wss'], // <-- only use ws and wss as valid transports
+});
+
 
 Vue.config.productionTip = false
 

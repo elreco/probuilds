@@ -13,7 +13,7 @@
 //
 
 $appRoutes = function () {
-
+    Route::get('spectate/store', 'API\SpectateController@store');
     Route::get('login/twitch', 'Auth\LoginController@redirectToProvider');
     Route::get('login/twitch/callback', 'Auth\LoginController@handleProviderCallback');
 
