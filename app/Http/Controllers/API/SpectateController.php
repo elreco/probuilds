@@ -51,4 +51,9 @@ class SpectateController extends Controller
         }
         return $response;
     }
+
+    public function store()
+    {
+        event(new \App\Events\Spectate("ok"));
+    }
 }

@@ -50,6 +50,8 @@ class Spectate extends Command
         $request->replace($requests);
 
         CacheEntity::useCache('SpectateController', $request, 'getLiveMatches');
+
+        event(new \App\Events\Spectate());
         /* foreach (RegionEntity::$list as $region) {
             $request = new Request();
             $requests = [

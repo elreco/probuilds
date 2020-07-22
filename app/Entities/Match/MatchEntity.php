@@ -352,24 +352,26 @@ class MatchEntity
         $i = 0;
         $matchExists = [];
         foreach ($matches as $match) {
-            $filename = 'public/spectate/' . $request->region . '/' . $match->gameId . '.bat';
-            $matchExists[] = $filename;
-            $response['matches'][$i] = $this->initLiveMatchArray();
-            $response['matches'][$i]['region'] = $request->region;
-            $response['matches'][$i]['matchId'] = $match->gameId;
-            $response['matches'][$i]['gameMode'] = $match->gameMode;
-            $response['matches'][$i]['summonerName'] = $match->participants[0]->summonerName;
-            $response['matches'][$i]['champion'] = $championEntity->getChampionDetailsByName($match->participants[0]->staticData->id);
-            $response['matches'][$i]['date'] = $match->gameStartTime;
-            $response['matches'][$i]['url'] = Storage::url($filename);
-            $response['matches'][$i]['queueID'] = $match->gameQueueConfigId;
-            $response['matches'][$i]['mac'] = $this->createMacText($match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
-            if (!in_array($match->gameQueueConfigId, $response['queueIDs'])) {
-                $response['queueIDs'][] = $match->gameQueueConfigId;
-            }
-            $this->createBatchFile($filename, $match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
+            if (!empty($match->gameQueueConfigId)) {
+                $filename = 'public/spectate/' . $request->region . '/' . $match->gameId . '.bat';
+                $matchExists[] = $filename;
+                $response['matches'][$i] = $this->initLiveMatchArray();
+                $response['matches'][$i]['region'] = $request->region;
+                $response['matches'][$i]['matchId'] = $match->gameId;
+                $response['matches'][$i]['gameMode'] = $match->gameMode;
+                $response['matches'][$i]['summonerName'] = $match->participants[0]->summonerName;
+                $response['matches'][$i]['champion'] = $championEntity->getChampionDetailsByName($match->participants[0]->staticData->id);
+                $response['matches'][$i]['date'] = $match->gameStartTime;
+                $response['matches'][$i]['url'] = Storage::url($filename);
+                $response['matches'][$i]['queueID'] = $match->gameQueueConfigId;
+                $response['matches'][$i]['mac'] = $this->createMacText($match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
+                if (!in_array($match->gameQueueConfigId, $response['queueIDs'])) {
+                    $response['queueIDs'][] = $match->gameQueueConfigId;
+                }
+                $this->createBatchFile($filename, $match->gameId, $match->observers->encryptionKey, $match->platformId, $request->region);
 
-            $i++;
+                $i++;
+            }
         }
         // DELETE ALL OTHERS MATCH FILES
         $files = Storage::allFiles('public/spectate/' . $request->region);

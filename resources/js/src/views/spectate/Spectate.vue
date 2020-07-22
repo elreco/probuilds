@@ -250,25 +250,30 @@ export default {
                 url: process.env.MIX_APP_URL + url,
                 responseType: "blob"
             }).then(response => {
-                /* this.forceFileDownload(
+                this.forceFileDownload(
                     response,
                     "EvilSpartan_lol_spectate_" +
                         this.activeRegion +
                         "_" +
                         matchId +
                         ".bat"
-                ); */
+                );
             });
         },
         pollLiveMatches() {
-            this.polling = setInterval(
+            window.Echo.channel("probuilds").listen(".spectate", e => {
+                if (this.matches.length) {
+                    this.liveMatches();
+                }
+            });
+            /* this.polling = setInterval(
                 function() {
                     if (this.matches.length) {
                         this.liveMatches();
                     }
                 }.bind(this),
                 10000
-            );
+            ); */
         },
         openPopup(match) {
             this.popupActive = true;

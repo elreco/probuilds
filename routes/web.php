@@ -12,13 +12,8 @@
 */
 //
 
-$appRoutes = function () {
+Route::get('spectate/store', 'API\SpectateController@store');
+Route::get('login/twitch', 'Auth\LoginController@redirectToProvider');
+Route::get('login/twitch/callback', 'Auth\LoginController@handleProviderCallback');
 
-    Route::get('login/twitch', 'Auth\LoginController@redirectToProvider');
-    Route::get('login/twitch/callback', 'Auth\LoginController@handleProviderCallback');
-
-    Route::get('/{any}', 'ApplicationController')->where('any', '.*');
-    // auth 
-};
-Route::group(['domain' => env('APP_WEB_URL')], $appRoutes);
-Route::group(['domain' => env('APP_WEB_URL_LOCAL')], $appRoutes);
+Route::get('/{any}', 'ApplicationController')->where('any', '.*');

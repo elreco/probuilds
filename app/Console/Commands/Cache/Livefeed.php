@@ -57,6 +57,7 @@ class Livefeed extends Command
                     echo  " " . $lane; */
                 $lane = "all";
                 $this->livefeed($lang, $lane, $champion);
+                event(new \App\Events\LiveFeed($lane, $champion));
                 /* } */
             }
         } else {
@@ -67,6 +68,7 @@ class Livefeed extends Command
             foreach (RiotEntity::$lanes as $lane) {
                 echo $lane . "\n";
                 $this->livefeed($lang, $lane, $champion);
+                event(new \App\Events\LiveFeed($lane, $champion));
             }
         }
 
