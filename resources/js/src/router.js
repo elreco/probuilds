@@ -107,7 +107,7 @@ const router = new Router({
                 meta: {
                     middleware: [checkAuth, locale],
                 },
-                component: () => import('./views/community/Home.vue')
+                component: () => import('./views/community/Community.vue')
             }]
         },
         // =============================================================================

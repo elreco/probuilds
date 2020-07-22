@@ -31,7 +31,8 @@ import SearchBanner from "@/views/main/partials/SearchBanner";
 export default {
     data() {
         return {
-            title: this.$i18n.t("meta.title.home")
+            title: this.$i18n.t("meta.title.probuilds"),
+            description: this.$i18n.t("meta.description.probuilds")
         };
     },
     components: {
@@ -43,7 +44,17 @@ export default {
         return {
             title: `${this.title}`,
             // all titles will be injected into this template
-            titleTemplate: "EvilSpartan.com – %s"
+            titleTemplate: "EvilSpartan.com – %s",
+            meta: [
+                { name: "description", content: `${this.description}` },
+                {
+                    property: "og:title",
+                    content: `${this.title}`
+                },
+                { property: "og:site_name", content: "EvilSpartan.com" },
+                { property: "og:type", content: "website" },
+                { name: "robots", content: "index,follow" }
+            ]
         };
     }
 };

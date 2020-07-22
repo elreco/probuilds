@@ -21,8 +21,8 @@
                     :stop="tour.stop"
                     :is-first="tour.isFirst"
                     :is-last="tour.isLast"
-                    :labels="tour.labels">
-
+                    :labels="tour.labels"
+                >
                     <div slot="actions" class="flex justify-center">
                         <vs-button
                             size="small"
@@ -33,9 +33,8 @@
                             icon-after
                             color="#fff"
                             type="border"
-                            v-if="tour.currentStep != tour.steps.length - 1">
-                            Skip
-                        </vs-button>
+                            v-if="tour.currentStep != tour.steps.length - 1"
+                        >{{$t('Global.skip')}}</vs-button>
 
                         <vs-button
                             size="small"
@@ -45,9 +44,8 @@
                             color="#fff"
                             type="border"
                             class="mr-3"
-                            v-if="tour.currentStep">
-                            Previous
-                        </vs-button>
+                            v-if="tour.currentStep"
+                        >{{$t('Global.previous')}}</vs-button>
 
                         <vs-button
                             size="small"
@@ -58,9 +56,8 @@
                             color="#fff"
                             type="border"
                             class="btn-tour-next"
-                            v-if="tour.currentStep != tour.steps.length - 1">
-                            Next
-                        </vs-button>
+                            v-if="tour.currentStep != tour.steps.length - 1"
+                        >{{$t('Global.next')}}</vs-button>
 
                         <vs-button
                             size="small"
@@ -71,11 +68,9 @@
                             color="#fff"
                             type="border"
                             class="btn-tour-finish"
-                            v-if="tour.currentStep == tour.steps.length - 1">
-                            Finish
-                        </vs-button>
+                            v-if="tour.currentStep == tour.steps.length - 1"
+                        >{{$t('Global.understood')}}</vs-button>
                     </div>
-
                 </v-step>
             </transition>
         </template>
@@ -83,40 +78,40 @@
 </template>
 
 <script>
-export default{
-  name: 'vx-tour',
-  props: {
-    steps: {
-      required: true,
-      type: Array
+export default {
+    name: "vx-tour",
+    props: {
+        steps: {
+            required: true,
+            type: Array
+        }
+    },
+    watch: {
+        "$route.path"() {
+            this.$tours["vuexyTour"].stop();
+        }
+    },
+    mounted() {
+        this.$tours["vuexyTour"].start();
     }
-  },
-  watch: {
-    '$route.path' () {
-      this.$tours['vuexyTour'].stop()
-    }
-  },
-  mounted () {
-    this.$tours['vuexyTour'].start()
-  }
-}
+};
 </script>
 
 <style lang="scss">
 .v-tour {
     .v-step {
         z-index: 55000;
-        background-color: rgba(var(--vs-primary),1);
-        border-radius: .5rem;
+        background-color: rgba(var(--vs-primary), 1);
+        border-radius: 0.5rem;
         padding: 1.5rem;
-        filter: drop-shadow(0 0 7px rgba(0,0,0,.5));
+        filter: drop-shadow(0 0 7px rgba(0, 0, 0, 0.5));
 
         .v-step__arrow {
-            border-color: rgba(var(--vs-primary),1);
+            border-color: rgba(var(--vs-primary), 1);
         }
 
         .vs-button-border:not(.btn-tour-next):not(.btn-tour-finish) {
-            border-color: rgba(255, 255, 255, .5) !important;
+            border-color: rgba(255, 255, 255, 0.5) !important;
         }
     }
 }

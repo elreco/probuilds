@@ -97,6 +97,8 @@ import Runes from "./partials/match/Runes";
 export default {
     data() {
         return {
+            title: this.$i18n.t("meta.title.match"),
+            description: this.$route.params.champion,
             summonerId: this.$route.params.summonerId,
             region: this.$route.params.region,
             matchId: this.$route.params.matchId,
@@ -290,9 +292,19 @@ export default {
     metaInfo() {
         // if no subcomponents specify a metaInfo.title, this title will be used
         return {
-            title: this.champion,
+            title: `${this.title}`,
             // all titles will be injected into this template
-            titleTemplate: "EvilSpartan.com – %s"
+            titleTemplate: "EvilSpartan.com – %s",
+            meta: [
+                { name: "description", content: `${this.description}` },
+                {
+                    property: "og:title",
+                    content: `${this.title}`
+                },
+                { property: "og:site_name", content: "EvilSpartan.com" },
+                { property: "og:type", content: "website" },
+                { name: "robots", content: "index,follow" }
+            ]
         };
     }
 };
