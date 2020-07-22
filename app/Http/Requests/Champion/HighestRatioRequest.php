@@ -4,7 +4,7 @@ namespace App\Http\Requests\Champion;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ShowRequest extends FormRequest
+class HighestRatioRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,7 @@ class ShowRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|string|max:30',
+            'id' => 'nullable|string|max:30',
             'locale' => 'required|string'
         ];
     }

@@ -107,6 +107,14 @@ export default {
                 this.$vs.loading.close("#championLoading > .con-vs-loading");
             }
         }
+    },
+    metaInfo() {
+        // if no subcomponents specify a metaInfo.title, this title will be used
+        return {
+            title: `${this.data.name}`,
+            // all titles will be injected into this template
+            titleTemplate: "EvilSpartan.com – %s"
+        };
     }
 };
 </script>

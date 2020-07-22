@@ -97,8 +97,10 @@ import Runes from "./partials/match/Runes";
 export default {
     data() {
         return {
-            title: this.$i18n.t("meta.title.match"),
-            description: this.$route.params.champion,
+            title: this.$route.params.champion,
+            description: this.$i18n.t("meta.title.match", {
+                champion: this.$route.params.champion
+            }),
             summonerId: this.$route.params.summonerId,
             region: this.$route.params.region,
             matchId: this.$route.params.matchId,

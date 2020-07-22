@@ -24,7 +24,7 @@ class ChampionRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'nullable|string|max:30',
+            'id' => 'nullable|string|max:30',
             'locale' => 'required|string'
         ];
     }

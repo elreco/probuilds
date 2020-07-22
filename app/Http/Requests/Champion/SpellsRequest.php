@@ -24,17 +24,17 @@ class SpellsRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|string|max:30',
+            'id' => 'required|string|max:30',
             'locale' => 'required|string',
-            'id' => 'required|string'
+            'spellId' => 'required|string'
         ];
     }
 
     public function all($keys = null)
     {
         $data = parent::all($keys);
-        $data['name'] = $this->route('name');
         $data['id'] = $this->route('id');
+        $data['spellId'] = $this->route('spellId');
         return $data;
     }
 }

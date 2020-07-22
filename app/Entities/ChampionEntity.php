@@ -82,7 +82,7 @@ class ChampionEntity
         $riotEntity = new RiotEntity($this->locale);
         $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
         foreach ($champions['data'] as $c) {
-            if ($c['name'] == $request->query('name')) {
+            if ($c['id'] == $request->id) {
                 return $c['name'];
             }
         }
@@ -199,7 +199,7 @@ class ChampionEntity
         $champions = DataDragonAPI::getStaticChampions($riotEntity->localeMutator());
 
         foreach ($champions['data'] as $c) {
-            if ($c['name'] == $champion) {
+            if ($c['id'] == $champion) {
                 $champion = DataDragonAPI::getStaticChampionDetails($c['id'], $riotEntity->localeMutator());
                 foreach ($champion['data'][$c['id']]['spells'] as $key => $spell) {
                     $key = $key + 1;

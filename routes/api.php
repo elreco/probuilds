@@ -40,8 +40,8 @@ $api->version('v1', ['namespace' => 'App\Http\Controllers\API'], function ($api)
     $api->get('/regions', 'RegionController@index');
     // CHAMPIONS CONTROLLER
     $api->get('/champions', 'ChampionController@index');
-    $api->get('/champions/{name}', 'ChampionController@show');
-    $api->get('/champions/{name}/spells/{id}', 'ChampionController@spells');
+    $api->get('/champions/{id}', 'ChampionController@show');
+    $api->get('/champions/{id}/spells/{spellId}', 'ChampionController@spells');
     $api->get('/champions-check', 'ChampionController@checkIfChampionExists');
     // ITEMS CONTROLLER
     $api->get('/items/{id}', 'ItemController@show');
