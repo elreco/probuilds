@@ -13,7 +13,6 @@
     }],
     "require": {
         "php": "^7.2",
-        "beyondcode/laravel-websockets": "^1.4",
         "dingo/api": "^3.0",
         "dolejska-daniel/riot-api": "dev-master",
         "fideloper/proxy": "^4.0",
@@ -22,7 +21,7 @@
         "laravel/socialite": "^4.4",
         "laravel/tinker": "^2.0",
         "nesbot/carbon": "^2.31",
-        "pusher/pusher-php-server": "~4.0",
+        "predis/predis": "^1.1",
         "socialiteproviders/twitch": "^5.2",
         "tymon/jwt-auth": "^1.0"
     },

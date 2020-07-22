@@ -54,6 +54,6 @@ class SpectateController extends Controller
 
     public function store()
     {
-        dd(event(new \App\Events\Spectate()));
+        event(new \App\Events\Spectate("ok"));
     }
 }

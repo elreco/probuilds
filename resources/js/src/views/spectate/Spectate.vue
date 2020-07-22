@@ -261,8 +261,7 @@ export default {
             });
         },
         pollLiveMatches() {
-            Echo.channel("spectate").listen("Spectate", e => {
-                alert();
+            window.Echo.channel("probuilds").listen(".spectate", e => {
                 if (this.matches.length) {
                     this.liveMatches();
                 }

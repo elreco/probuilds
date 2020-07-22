@@ -89,7 +89,7 @@
         "js-cookie": "^2.2.1",
         "laravel-echo": "^1.8.0",
         "moment": "2.24.0",
-        "pusher-js": "^6.0.3",
+        "socket.io-client": "^2.3.0",
         "v-tooltip": "^2.0.3",
         "vue-axios": "^2.1.5",
         "vue-meta": "^2.4.0",

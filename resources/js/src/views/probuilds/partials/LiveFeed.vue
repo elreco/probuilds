@@ -202,6 +202,7 @@ export default {
     mounted() {
         this.getFeed();
         this.getRegions();
+        this.pollLiveMatches();
     },
     methods: {
         handleSelected(tr) {
@@ -223,7 +224,13 @@ export default {
         getFeed() {
             // loading
             this.loadingData(true, "#loadingFeed");
-            this.$http
+            this.livefeed().then(() => {
+                this.loadingData(false, "#loadingFeed");
+            });
+            // UPDATE this.matches après avoir fait la requête axios
+        },
+        livefeed() {
+            return this.$http
                 .get("livefeed", {
                     params: {
                         page: this.page,
@@ -242,12 +249,7 @@ export default {
                     setInterval(() => {
                         this.formatDate();
                     }, 1000);
-                })
-                .then(() => {
-                    this.loadingData(false, "#loadingFeed");
                 });
-
-            // UPDATE this.matches après avoir fait la requête axios
         },
         formatDate() {
             if (this.matches.data.length) {
@@ -267,6 +269,17 @@ export default {
                 .then(() => {
                     this.loadingData(false, "#loadingRegions");
                 });
+        },
+        pollLiveMatches() {
+            var channelName = ".livefeed." + this.selectedLane;
+            if (this.champion) {
+                channelName += "." + this.champion;
+            }
+            window.Echo.channel("probuilds").listen(channelName, e => {
+                if (this.matches.data.length) {
+                    this.livefeed();
+                }
+            });
         },
         loadingData(boolean, id) {
             if (boolean) {

@@ -78,19 +78,10 @@ import 'prismjs/themes/prism-tomorrow.css'
 
 import Echo from "laravel-echo"
 
-window.Pusher = require('pusher-js');
-
+window.io = require('socket.io-client');
 window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: process.env.MIX_PUSHER_APP_KEY,
-    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
-    wsHost: 'api.moi.elreco.fr',
-    wsPort: 6001,
-    wssHost: 'api.moi.elreco.fr',
-    wssPort: 6001,
-    disableStats: true,
-    encrypted: false,
-    enabledTransports: ['ws', 'wss'], // <-- only use ws and wss as valid transports
+    broadcaster: 'socket.io',
+    host: window.location.hostname + ':6001'
 });
 
 
