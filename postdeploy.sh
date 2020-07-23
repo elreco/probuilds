@@ -9,5 +9,4 @@ mkdir -p storage/logs
 
 # Link already created in predeploy.
 # Run for a confirmation message that it was created successfully.
-php artisan storage:link
 npm run prod
