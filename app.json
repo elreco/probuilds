@@ -8,8 +8,13 @@
     ],
     "scripts": {
         "dokku": {
-            "predeploy": "/predeploy.sh",
-            "postdeploy": "/postdeploy.sh"
+            "predeploy": [
+                "composer update",
+                "npm update"
+            ],
+            "postdeploy": [
+                "npm run prod"
+            ]
         }
     }
 }
