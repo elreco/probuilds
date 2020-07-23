@@ -2,6 +2,17 @@
 
 use Illuminate\Support\Str;
 
+if (getenv('DATABASE_URL')) {
+    $url = parse_url(env("DATABASE_URL"));
+    // Laravel's env() uses getenv(), not $_ENV[]
+    putenv('DB_CONNECTION=' . ($url['scheme'] == 'postgres' ? 'pgsql' : $url['scheme']));
+    putenv("DB_HOST={$url['host']}");
+    putenv("DB_PORT={$url['port']}");
+    putenv("DB_USERNAME={$url['user']}");
+    putenv("DB_PASSWORD={$url['pass']}");
+    putenv('DB_DATABASE=' . substr($url['path'], 1)); // Remove leading slash from path
+}
+
 return [
 
     /*
