@@ -1,0 +1,15 @@
+{
+    "name": "evilspartan",
+    "description": "A League of Legends french community.",
+    "keywords": [
+        "laravel",
+        "dokku",
+        "heroku"
+    ],
+    "scripts": {
+        "dokku": {
+            "predeploy": "/predeploy.sh",
+            "postdeploy": "/postdeploy.sh"
+        }
+    }
+}
