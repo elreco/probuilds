@@ -8,8 +8,8 @@
     ],
     "scripts": {
         "dokku": {
-            "predeploy": ".dokku/predeploy.sh",
-            "postdeploy": ".dokku/postdeploy.sh"
+            "predeploy": "/predeploy.sh",
+            "postdeploy": "/postdeploy.sh"
         }
     }
 }
