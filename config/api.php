@@ -68,7 +68,6 @@ return [
     | specify it for each group.
     |
     */
-
     'domain' => env('API_HOSTNAME', null),
 
     /*
