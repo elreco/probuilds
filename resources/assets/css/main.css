@@ -13,7 +13,7 @@
  */
 /*NOTE: 'preflight' IS RENAMED TO 'base'*/
 /*@tailwind base;*/
-/* @import "./tailwind-preflight.css"; */
+
 /**
  * Here you would add any of your custom component classes; stuff that you'd
  * want loaded *before* the utilities so that the utilities could still
@@ -29,9 +29,8 @@
  * @import "components/buttons";
  * @import "components/forms";
  */
-/* @tailwind components; */
-/* @import "components/buttons";
-@import "components/forms"; */
+@tailwind components;
+
 /**
  * This injects all of Tailwind's utility classes, generated based on your
  * config file.
@@ -42,8 +41,8 @@
  *
  * See: https://github.com/tailwindcss/tailwindcss/issues/53#issuecomment-341413622
  */
-/* @tailwind utilities; */
-/* @import "./tailwind-utilities.css"; */
+@tailwind utilities;
+
 /**
  * Here you would add any custom utilities you need that don't come out of the
  * box with Tailwind.
