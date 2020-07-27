@@ -24,12 +24,12 @@ mix.js('resources/js/app.js', 'public/js')
             }
         }
     })
-    /* .sass('resources/sass/app.scss', 'public/css').options({
+    .sass('resources/sass/app.scss', 'public/css').options({
         postCss: [require('autoprefixer'), require('postcss-rtl')]
-    }) */
-    /* .postCss('resources/assets/css/main.css', 'public/css', [
+    })
+    .postCss('resources/assets/css/main.css', 'public/css', [
         tailwindcss('tailwind.js'), require('postcss-rtl')()
-    ]) */
+    ])
     .copy('node_modules/vuesax/dist/vuesax.css', 'public/css/vuesax.css') // Vuesax framework css
     .copy('resources/assets/css/iconfont.css', 'public/css/iconfont.css') // Feather Icon Font css
     .copyDirectory('resources/assets/fonts', 'public/fonts') // Feather Icon fonts
