@@ -1,5 +1,5 @@
 {
-    "authHost": "http://moi.elreco.fr",
+    "authHost": "https://api.evilspartan.com",
     "authEndpoint": "/broadcasting/auth",
     "clients": [],
     "database": "redis",
@@ -25,7 +25,7 @@
     },
     "apiOriginAllow": {
         "allowCors": true,
-        "allowOrigin": "https://api.moi.elreco.fr",
+        "allowOrigin": "https://api.evilspartan.com",
         "allowMethods": "GET, POST",
         "allowHeaders": "Origin, Content-Type, X-Auth-Token, X-Requested-With, Accept, Authorization, X-CSRF-TOKEN, X-Socket-Id"
     }
