@@ -1,8 +1,4 @@
 /node_modules
-/public/hot/*
-/public/js/*
-/public/css/*
-/public/fonts/*
 /public/storage/*
 /public/storage/spectate/*
 /storage/*.key
