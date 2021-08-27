@@ -139,7 +139,7 @@ export default {
             backToHome: "Revenir à l'accueil"
         },
         nav: {
-            home: "Home",
+            home: "Accueil",
             probuilds: "Probuilds",
             spectate: "Regarder des parties",
             community: "Communauté"
